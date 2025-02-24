@@ -5,16 +5,21 @@ import { ShoppingBag, Search, User, AlignJustify } from "lucide-react";
 
 import { usePathname } from "next/navigation";
 import HeaderLinks from "./HeaderLinks";
-import IconLinkGroup from "../icons/IconLinkGroup";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Dropdowns from "./Dropdowns";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import MobileMenu from "./MobileMenu";
+import CartDrawer from "../cartDrawer/CartDrawer";
 
-const Header = () => {
+const NavBar = () => {
   const [isScrolledDown, setIsScrolledDown] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const router = useRouter();
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const pathname = usePathname();
   const isHomePage = pathname === "/";
@@ -249,38 +254,6 @@ const Header = () => {
     },
   ];
 
-  const leftIconLinks = [
-    {
-      href: "/menu",
-      Icon: AlignJustify,
-      label: "Menu",
-      extraClasses: "focus:outline-none block lg:hidden",
-    },
-    {
-      href: "/search",
-      Icon: Search,
-      label: "Search",
-      extraClasses: "flex items-end lg:hidden",
-    },
-  ];
-
-  const rightIconLinks = [
-    {
-      href: "/search",
-      label: "Search",
-      Icon: Search,
-      extraClasses: "hidden lg:inline-flex",
-    },
-    { href: "/account/login", label: "Account", Icon: User },
-
-    {
-      href: "/cart",
-      label: "Cart",
-      Icon: ShoppingBag,
-      extraClasses: "sm:ml-0 mr-0",
-    },
-  ];
-
   return (
     <div
       className={`${
@@ -299,9 +272,10 @@ const Header = () => {
       <div className="relative mx-auto flex lg:flex-row md:flex-col-reverse md:gap-2 items-center justify-between px-4 py-2">
         {/* Left Section */}
 
-        <div className="flex items-center space-x-4">
-          <div className="flex md:hidden items-center ">
-            <IconLinkGroup links={leftIconLinks} />
+        <div className="flex items-center ">
+          <div className="flex md:hidden items-center space-x-1 md:space-x-4">
+            <AlignJustify onClick={() => setIsMobileMenuOpen(true)} />
+            <Search onClick={() => console.log("open search menu")} />
           </div>
           {/* Left Section */}
           <div>
@@ -318,15 +292,41 @@ const Header = () => {
         </div>
 
         {/* Right Section */}
-        <div className="z-2 flex items-center space-x-4 md:w-full md:justify-end lg:w-auto">
-          <IconLinkGroup links={rightIconLinks} />
+
+        <div className="z-2 flex items-center space-x-1 md:space-x-4 md:w-full md:justify-end lg:w-auto">
+          <Search
+            onClick={() => console.log("open search menu")}
+            className="hidden lg:inline-flex"
+          />
+          {/* <ShoppingBag onClick={() => console.log("open cart menu")} /> */}
+
+          <button onClick={() => setIsCartOpen(true)} className="relative">
+            <ShoppingBag size={24} />
+            <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+              1
+            </span>
+          </button>
+
+          <div
+            onClick={() => router.push("/account/login")}
+            className="cursor-pointer"
+          >
+            <User />
+          </div>
         </div>
       </div>
       {activeIndex !== null && (
         <Dropdowns dropdown={links[activeIndex].dropdown} />
       )}
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+      />
+
+      {/* Cart Drawer */}
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </div>
   );
 };
 
-export default Header;
+export default NavBar;

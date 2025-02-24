@@ -1,7 +1,7 @@
 "use client";
 import Footer from "@/components/shared/footer/Footer";
 import Announcement from "@/components/shared/header/Announcement";
-import Header from "@/components/shared/header/Header";
+import NavBar from "@/components/shared/header/NavBar";
 
 export default function RootLayout({
   children,
@@ -11,7 +11,7 @@ export default function RootLayout({
   return (
     <>
       <Announcement />
-      <Header />
+      <NavBar />
       <div className="flex flex-col">
         <main className="flex-1">{children}</main>
       </div>
