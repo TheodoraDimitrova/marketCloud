@@ -60,7 +60,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
     <div
       className={`fixed top-0 right-0 h-screen w-3/4 max-w-sm p-4 bg-white shadow-lg transform ${
         isOpen ? "translate-x-0" : "translate-x-full"
-      } transition-transform duration-300 ease-in-out text-gray-600`}
+      } transition-transform duration-300 ease-in-out text-gray-600 z-50`}
     >
       {/* Header */}
       <div className="flex items-center p-4">

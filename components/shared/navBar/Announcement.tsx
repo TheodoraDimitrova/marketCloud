@@ -10,17 +10,17 @@ const Announcement = () => {
   const announcements = [
     {
       text: "New eco-friendly arrivals. ",
-      linkText: "Shop the capsule.",
+      linkText: "Shop the capsule. ",
       linkHref: "/collections/new-in",
     },
     {
       text: "Free shipping on orders over $50. ",
-      linkText: "Check out our offers!",
+      linkText: "Check out our offers! ",
       linkHref: "/collections",
     },
     {
       text: "Get 20% off your first purchase. ",
-      linkText: "Join our newsletter.",
+      linkText: "Join our newsletter. ",
       linkHref: "/newsletter",
     },
   ];
@@ -36,7 +36,7 @@ const Announcement = () => {
   }, []);
 
   return (
-    <div className="bg-yellow-500 text-black py-2 text-center flex p-10 ">
+    <div className="bg-yellow-500 text-black py-2 text-center flex p-10 items-center justify-between">
       <div className="hidden lg:block">
         <SocialIcons />
       </div>
@@ -50,8 +50,8 @@ const Announcement = () => {
             exit={{ opacity: 0, y: -50 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="announcement__text">
-              {currentAnnouncement.text}
+            <div className="announcement__text flex flex-col md:flex-row items-center justify-center">
+              <p>{currentAnnouncement.text} </p>
               <Link
                 href={currentAnnouncement.linkHref}
                 className="font-bold text-black underline"

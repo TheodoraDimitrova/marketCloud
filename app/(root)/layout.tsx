@@ -1,7 +1,7 @@
 "use client";
 import Footer from "@/components/shared/footer/Footer";
-import Announcement from "@/components/shared/header/Announcement";
-import NavBar from "@/components/shared/header/NavBar";
+import Announcement from "@/components/shared/navBar/Announcement";
+import NavBar from "@/components/shared/navBar/NavBar";
 
 export default function RootLayout({
   children,

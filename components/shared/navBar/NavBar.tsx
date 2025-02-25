@@ -275,7 +275,7 @@ const NavBar = () => {
         <div className="flex items-center ">
           <div className="flex md:hidden items-center space-x-1 md:space-x-4">
             <AlignJustify onClick={() => setIsMobileMenuOpen(true)} />
-            <Search onClick={() => console.log("open search menu")} />
+            <Search onClick={() => router.push("/search")} />
           </div>
           {/* Left Section */}
           <div>
@@ -295,7 +295,7 @@ const NavBar = () => {
 
         <div className="z-2 flex items-center space-x-1 md:space-x-4 md:w-full md:justify-end lg:w-auto">
           <Search
-            onClick={() => console.log("open search menu")}
+            onClick={() => router.push("/search")}
             className="hidden lg:inline-flex"
           />
           {/* <ShoppingBag onClick={() => console.log("open cart menu")} /> */}
@@ -324,6 +324,10 @@ const NavBar = () => {
       />
 
       {/* Cart Drawer */}
+      {isCartOpen && (
+        <div className="fixed inset-0 w-full lg:relative min-h-screen bg-black opacity-50 z-40 lg:hidden" />
+      )}
+
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </div>
   );

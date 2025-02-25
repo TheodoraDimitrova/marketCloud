@@ -15,9 +15,14 @@ import UtilityBar from "@/components/shared/utilityBar/UtilityBar";
 const SearchPage = () => {
   const swiperRef = useRef<SwiperType | null>(null);
   const [showFilters, setShowFilters] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const toggleFilters = () => {
     setShowFilters((prev) => !prev);
+  };
+
+  const handleSearch = () => {
+    console.log("Search For:", searchTerm);
   };
 
   const arrayCategories = [
@@ -69,26 +74,33 @@ const SearchPage = () => {
     <>
       <Banner title="Search Adora" backgroundImage="/images/bg1.png" />
 
-      <div className="container w-[80%] md:max-w-[650px] md:w-full mx-auto my-20">
+      {/* Search bar */}
+      <div className="container w-[80%] md:max-w-[650px] md:w-full mx-auto my-10 md:my-20">
         <div className="relative mt-4">
           <Input
             className="p-2 pl-10 bg-gray-200 w-full placeholder:text-gray-500 placeholder:text-lg border-none"
             placeholder="Search our Store"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Search className="absolute inset-y-0 right-3 w-6 h-6 top-2 text-gray-500" />
+          <Search
+            className="absolute inset-y-0 right-3 w-6 h-6 top-2 text-gray-500"
+            onClick={handleSearch}
+          />
         </div>
       </div>
+      {/* Search bar */}
 
       <UtilityBar toggleFilters={toggleFilters} />
 
       <div className="container w-full h-full flex mx-auto ">
         {showFilters && (
           <>
-            <div className="fixed inset-0 w-full lg:relative min-h-screen bg-black opacity-50 z-40 lg:hidden" />
-
-            <div className="fixed inset-0 w-[80%] px-10 py-10 lg:px-2 lg:py-2 lg:relative lg:w-[280px] min-h-screen bg-white z-50 overflow-auto ">
-              <SectionFilters toggleFilters={toggleFilters} />
-            </div>
+            <div className="fixed inset-0 w-full lg:relative min-h-screen bg-black opacity-50 z-50 lg:hidden" />
+            <SectionFilters
+              toggleFilters={toggleFilters}
+              showFilter={showFilters}
+            />
           </>
         )}
         <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-8 lg:gap-4 p-10 lg:gap-y-8  justify-items-center items-center">
@@ -101,14 +113,14 @@ const SearchPage = () => {
         </div>
       </div>
 
-      <div className="container  flex items-center justify-center my-12 mx-10">
+      <div className="container mx-auto flex items-center justify-center mb-10">
         <button
           className="mr-2"
           onClick={() => swiperRef.current && swiperRef.current.slidePrev()}
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
-        <h2 className="mx-4 text-2xl">Explore our collections</h2>
+        <h2 className="mx-4 text-md md:text-2xl">Explore our collections</h2>
         <button
           className="ml-2"
           onClick={() => swiperRef.current && swiperRef.current.slideNext()}

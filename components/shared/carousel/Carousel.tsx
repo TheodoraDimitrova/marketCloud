@@ -54,6 +54,10 @@ const Carousel: React.FC<CarouselProps> = ({
           slidesPerView: 1.3,
           spaceBetween: 10,
         },
+        425: {
+          slidesPerView: 2.3,
+          spaceBetween: 10,
+        },
 
         767: {
           slidesPerView: adjustedSlidesPerView,

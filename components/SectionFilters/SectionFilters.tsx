@@ -13,6 +13,7 @@ interface SelectedFilters {
 }
 type SectionFilterProps = {
   toggleFilters: () => void;
+  showFilter: boolean;
 };
 
 type Action =
@@ -86,88 +87,103 @@ const FilterSection: React.FC<{ title: string; children: React.ReactNode }> = ({
   </div>
 );
 
-const SectionFilter: React.FC<SectionFilterProps> = ({ toggleFilters }) => {
+const SectionFilter: React.FC<SectionFilterProps> = ({
+  toggleFilters,
+  showFilter,
+}) => {
   const [state, dispatch] = useReducer(filterReducer, initialState);
 
   return (
-    <div className="px-4 py-2 flex flex-col ">
-      <header className="lg:hidden flex justify-between items-center ">
-        <h3 className="text-lg mb-3">Filters</h3>
-        <button className="text-gray-500 hover:text-red-500 transition">
-          <X size={20} onClick={toggleFilters} />
-        </button>
-      </header>
+    <div
+      className={`fixed top-0 left-0 h-screen w-3/4 max-w-sm p-4 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-[9999] overflow-auto              
+      ${showFilter ? "translate-x-0" : "-translate-x-full"}
+      lg:relative lg:w-[280px] lg:translate-x-0 lg:shadow-none lg:h-auto text-gray-600 `}
+    >
+      <div className="flex flex-col ">
+        {/* Mobile version   */}
+        <header className="lg:hidden flex justify-between items-center ">
+          <h3 className="text-lg mb-3">Filters</h3>
 
-      {/* Applied Filters */}
-      <div>
-        {Object.values(state).some((filters) => filters.length > 0) && (
-          <h3 className="mb-3">Applied Filters</h3>
-        )}
-        <div className="flex flex-wrap gap-2">
-          {Object.keys(state).map((type) =>
-            (state[type as keyof SelectedFilters] as string[]).map((filter) => (
-              <div
-                key={`${type}-${filter}`}
-                className="flex items-center bg-gray-200 text-gray-700 px-2 py-1 rounded-sm shadow-sm"
-              >
-                <span className="text-sm">{filter}</span>
-                <button
-                  className="ml-2 text-gray-500 hover:text-red-500"
-                  onClick={() =>
-                    dispatch({
-                      type: "REMOVE_FILTER",
-                      filterType: type as FilterType,
-                      value: filter,
-                    })
-                  }
-                >
-                  <X size={14} />
-                </button>
-              </div>
-            ))
+          <X
+            size={24}
+            onClick={toggleFilters}
+            className=" hover:text-red-500 transition"
+          />
+        </header>
+
+        {/* Applied Filters */}
+        <div>
+          {Object.values(state).some((filters) => filters.length > 0) && (
+            <h3 className="mb-3">Applied Filters</h3>
+          )}
+          <div className="flex flex-wrap gap-2">
+            {Object.keys(state).map((type) =>
+              (state[type as keyof SelectedFilters] as string[]).map(
+                (filter) => (
+                  <div
+                    key={`${type}-${filter}`}
+                    className="flex items-center bg-gray-200 text-gray-700 px-2 py-1 rounded-sm shadow-sm"
+                  >
+                    <span className="text-sm">{filter}</span>
+                    <button
+                      className="ml-2 text-gray-500 hover:text-red-500"
+                      onClick={() =>
+                        dispatch({
+                          type: "REMOVE_FILTER",
+                          filterType: type as FilterType,
+                          value: filter,
+                        })
+                      }
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                )
+              )
+            )}
+          </div>
+          {Object.values(state).some((filters) => filters.length > 0) && (
+            <button
+              onClick={() => dispatch({ type: "CLEAR_FILTERS" })}
+              className="text-red-600 mt-3 hover:underline text-sm"
+            >
+              Clear all
+            </button>
           )}
         </div>
-        {Object.values(state).some((filters) => filters.length > 0) && (
-          <button
-            onClick={() => dispatch({ type: "CLEAR_FILTERS" })}
-            className="text-red-600 mt-3 hover:underline text-sm"
-          >
-            Clear all
-          </button>
-        )}
+
+        {/* Filter Sections */}
+        <FilterSection title="Price">
+          <FilterPrice
+            onChange={(values: [number, number]) =>
+              dispatch({
+                type: "SET_FILTER",
+                filterType: "priceRange",
+                value: values,
+              })
+            }
+            priceRange={state.priceRange}
+          />
+        </FilterSection>
+
+        <FilterSection title="Brands">
+          <FilterBrands
+            onChange={(value: string[]) =>
+              dispatch({ type: "SET_FILTER", filterType: "brands", value })
+            }
+            selectedBrands={state.brands}
+          />
+        </FilterSection>
+
+        <FilterSection title="Discounts">
+          <FilterDiscounts
+            onChange={(value: string[]) =>
+              dispatch({ type: "SET_FILTER", filterType: "discounts", value })
+            }
+            selectedDiscounts={state.discounts}
+          />
+        </FilterSection>
       </div>
-
-      {/* Filter Sections */}
-      <FilterSection title="Price">
-        <FilterPrice
-          onChange={(values: [number, number]) =>
-            dispatch({
-              type: "SET_FILTER",
-              filterType: "priceRange",
-              value: values,
-            })
-          }
-          priceRange={state.priceRange}
-        />
-      </FilterSection>
-
-      <FilterSection title="Brands">
-        <FilterBrands
-          onChange={(value: string[]) =>
-            dispatch({ type: "SET_FILTER", filterType: "brands", value })
-          }
-          selectedBrands={state.brands}
-        />
-      </FilterSection>
-
-      <FilterSection title="Discounts">
-        <FilterDiscounts
-          onChange={(value: string[]) =>
-            dispatch({ type: "SET_FILTER", filterType: "discounts", value })
-          }
-          selectedDiscounts={state.discounts}
-        />
-      </FilterSection>
     </div>
   );
 };
