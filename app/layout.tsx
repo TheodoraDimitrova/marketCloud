@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   },
   description: APP_DESCRIPTION,
   metadataBase: new URL(SERVER_URL),
+  icons: {
+    icon: "/favicond.ico", // Основна икона (трябва да е в `public/`)
+  },
 };
 
 export default function RootLayout({
