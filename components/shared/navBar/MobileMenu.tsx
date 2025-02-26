@@ -1,119 +1,84 @@
 "use client";
 
-import { useState } from "react";
+import { useState, JSX } from "react";
 import { X, ChevronLeft } from "lucide-react";
-import Link from "next/link";
 
+import { ChevronRight } from "lucide-react";
+
+interface Links {
+  href: string;
+  label: string;
+  dropdown: JSX.Element;
+}
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
+  links: Links[];
 }
 
-const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, links }) => {
+  const [activeDropdownIndex, setActiveDropdownIndex] = useState<number | null>(
+    null
+  );
 
-  const openDropdown = (label: string) => {
-    setActiveDropdown(label);
+  const openDropdown = (index: number) => {
+    setActiveDropdownIndex(index);
   };
 
   const closeDropdown = () => {
-    setActiveDropdown(null);
+    setActiveDropdownIndex(null);
   };
 
   return (
-    <div
-      className={`fixed top-0 left-0 h-screen w-3/4 max-w-sm bg-white shadow-lg transform ${
-        isOpen ? "translate-x-0" : "-translate-x-full"
-      } transition-transform duration-300 ease-in-out lg:hidden`}
-    >
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b">
-        {activeDropdown ? (
-          <button
-            onClick={closeDropdown}
-            className="flex items-center space-x-2"
-          >
-            <ChevronLeft size={24} />
-            <span className="text-lg font-semibold">Back</span>
-          </button>
-        ) : (
-          <button onClick={onClose}>
-            <X size={24} />
-          </button>
-        )}
-      </div>
+    <>
+      <div
+        className={`fixed top-0 left-0 h-screen w-3/4 max-w-sm bg-white shadow-lg transform ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out text-gray-600 z-50`}
+      >
+        {/* Header */}
+        <div className="flex justify-between p-4 border-b h-16 items-center">
+          {activeDropdownIndex !== null ? (
+            <div className="flex justify-between w-full space-x-2">
+              <div
+                onClick={closeDropdown}
+                className="flex items-center space-x-2"
+              >
+                <ChevronLeft size={24} />
+                <span className=" font-semibold ">Back</span>
+              </div>
+              <div>
+                <span>{links[activeDropdownIndex].label}</span>
+              </div>
+            </div>
+          ) : (
+            <X size={24} onClick={onClose} className="ml-auto" />
+          )}
+        </div>
 
-      {/* Menu Content */}
-      <div className="flex flex-col p-4 space-y-4">
-        {!activeDropdown ? (
-          <>
-            <button
-              onClick={() => openDropdown("SHOP")}
-              className="text-lg text-left"
-            >
-              SHOP
-            </button>
-            <button
-              onClick={() => openDropdown("BRANDS")}
-              className="text-lg text-left"
-            >
-              BRANDS
-            </button>
-            <Link href="/pages/our-world" className="text-lg" onClick={onClose}>
-              OUR WORLD
-            </Link>
-            <Link href="/demos" className="text-lg" onClick={onClose}>
-              DEMOS
-            </Link>
-          </>
-        ) : (
-          <div className="space-y-3">
-            {activeDropdown === "SHOP" && (
-              <>
-                <Link
-                  href="/collections/all"
-                  onClick={onClose}
-                  className="block"
-                >
-                  All Collections
-                </Link>
-                <Link
-                  href="/collections/category1"
-                  onClick={onClose}
-                  className="block"
-                >
-                  Technics & Styles
-                </Link>
-                <Link
-                  href="/collections/category2"
-                  onClick={onClose}
-                  className="block"
-                >
-                  Our Blog
-                </Link>
-              </>
-            )}
-            {activeDropdown === "BRANDS" && (
-              <>
-                <Link href="/brands/nike" onClick={onClose} className="block">
-                  La Mer
-                </Link>
-                <Link href="/brands/adidas" onClick={onClose} className="block">
-                  Dermalogica
-                </Link>
-                <Link
-                  href="/brands/EstéeLauder"
-                  onClick={onClose}
-                  className="block"
-                >
-                  Sisley
-                </Link>
-              </>
-            )}
-          </div>
-        )}
+        {/* Menu Content */}
+        <div className="flex flex-col p-4 space-y-4">
+          {activeDropdownIndex === null ? (
+            <>
+              {links.map((link, index) => {
+                return (
+                  <div
+                    key={index}
+                    onClick={() => openDropdown(index)}
+                    className="flex justify-between cursor-pointer"
+                  >
+                    <span> {link.label}</span>
+                    <ChevronRight className="ml-2" />
+                  </div>
+                );
+              })}
+            </>
+          ) : (
+            links[activeDropdownIndex]?.dropdown || null
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

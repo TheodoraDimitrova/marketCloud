@@ -2,16 +2,17 @@
 
 import { useState, useEffect } from "react";
 import { ShoppingBag, Search, User, AlignJustify } from "lucide-react";
-
 import { usePathname } from "next/navigation";
 import HeaderLinks from "./HeaderLinks";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Dropdowns from "./Dropdowns";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import MobileMenu from "./MobileMenu";
 import CartDrawer from "../cartDrawer/CartDrawer";
+import ShopDropdown from "./ShopDropdown";
+import BrandsDropdown from "./BrandsDropdown";
+import OurWorldDropdown from "./OurWorldDropdown";
+import DemosDropdown from "./DemosDropdown";
 
 const NavBar = () => {
   const [isScrolledDown, setIsScrolledDown] = useState(false);
@@ -20,7 +21,6 @@ const NavBar = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const router = useRouter();
   const [isCartOpen, setIsCartOpen] = useState(false);
-
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
@@ -44,213 +44,22 @@ const NavBar = () => {
     {
       href: "/collections/all",
       label: "SHOP",
-      dropdown: (
-        <div className="container flex justify-around items-center p-6 mx-auto">
-          <div>
-            <Image
-              src="/images/Technics&Styles.png"
-              alt="Technics & Styles"
-              className="rounded"
-              width={100}
-              height={150}
-              style={{ width: "100%", height: "auto" }}
-              sizes="(min-width: 1600px) 13vw, (min-width: 768px) 8vw , 13vw"
-            />
-            <Link
-              href="/collections/category1"
-              className="block mt-2 text-center"
-            >
-              Technics & Styles
-            </Link>
-          </div>
-          <div>
-            <Image
-              src="/images/OurBlog.png"
-              alt="Blog"
-              className="rounded"
-              width={100}
-              height={150}
-              style={{ width: "100%", height: "auto" }}
-              sizes="(min-width: 1600px) 13vw, (min-width: 768px) 10vw , 13vw"
-            />
-            <Link
-              href="/collections/category2"
-              className="block mt-2 text-center"
-            >
-              Our Blog
-            </Link>
-          </div>
-          <div>
-            <Image
-              src="/images/Products.png"
-              alt="Products "
-              className="rounded"
-              width={100}
-              height={150}
-              style={{ width: "auto", height: "auto" }}
-              sizes="(min-width: 1600px) 13vw, (min-width: 768px) 10vw , 13vw"
-            />
-            <Link
-              href="/collections/category3"
-              className="block mt-2 text-center"
-            >
-              Products
-            </Link>
-          </div>
-          <div>
-            <Image
-              src="/images/Brands.png"
-              alt="Brands"
-              className="rounded"
-              width={100}
-              height={150}
-              style={{ width: "100%", height: "auto" }}
-              sizes="(min-width: 1600px) 13vw, (min-width: 768px) 10vw , 13vw"
-            />
-            <Link href="/collections/brands" className="block mt-2 text-center">
-              Brands
-            </Link>
-          </div>
-        </div>
-      ),
+      dropdown: <ShopDropdown />,
     },
     {
       href: "#",
       label: "BRANDS",
-      dropdown: (
-        <div className="lg:container mx-auto flex justify-around  p-6 ">
-          <div>
-            <h3 className="font-bold">Professional Cosmetic Brands</h3>
-            <ul>
-              <li>
-                <Link href="/brands/nike">La Mer</Link>
-              </li>
-              <li>
-                <Link href="/brands/adidas">MDermalogica</Link>
-              </li>
-              <li>
-                <Link href="/brands/EstéeLauder">Sisley</Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-bold">Skincare</h3>
-            <ul>
-              <li>
-                <Link href="/brands/nike">L&apos;Oréal</Link>
-              </li>
-              <li>
-                <Link href="/brands/adidas">Maybelline</Link>
-              </li>
-              <li>
-                <Link href="/brands/EstéeLauder">Estée Lauder</Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-bold">Haircare</h3>
-            <ul>
-              <li>
-                <Link href="/brands/nike">Pantene</Link>
-              </li>
-              <li>
-                <Link href="/brands/nike">L&apos;Oréal</Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-bold">Makeup</h3>
-            <ul>
-              <li>
-                <Link href="/brands/mac">MAC Cosmetics</Link>
-              </li>
-              <li>
-                <Link href="/brands/EstéeLauder">Fenty Beauty</Link>
-              </li>
-              <li>
-                <Link href="/brands/EstéeLauder">Adora Cosmetics</Link>
-              </li>
-            </ul>
-          </div>
-          <div className="flex justify-between gap-4">
-            <div>
-              <Image
-                src="/images/Products.png"
-                alt="Brand Ad"
-                width={100}
-                height={200}
-                style={{ width: "100%", height: "auto" }}
-                sizes="(min-width: 1600px) 13vw, (min-width: 768px) 10vw , 13vw"
-              />
-            </div>
-            <div>
-              <Image
-                src="/images/Brands.png"
-                alt="Brand Ad"
-                width={100}
-                height={200}
-                style={{ width: "100%", height: "auto" }}
-                sizes="(min-width: 1600px) 13vw, (min-width: 768px) 10vw , 13vw"
-              />
-            </div>
-          </div>
-        </div>
-      ),
+      dropdown: <BrandsDropdown />,
     },
     {
-      href: "/pages/our-world",
+      href: "/about-us",
       label: "OUR WORLD",
-      dropdown: (
-        <div className="relative flex items-center bg-white h-[50vh] max-h-[60vh] ">
-          <div className="w-1/2  p-10 flex flex-col z-20 ">
-            <div className="m-9 w-4/5 mx-auto text-center">
-              <h1 className="mb-6">Amazing Experience</h1>
-              <p className="text-lg">
-                Discover how we blend visuals with text to create a seamless and
-                engaging design. The transition effect brings harmony between
-                sections.
-              </p>
-              <div className="flex space-x-4 mt-4 justify-center">
-                <Button asChild>
-                  <Link href="/collections/best">Best Sellers</Link>
-                </Button>
-                <Button asChild>
-                  <Link href="/collections/new">New arrivals</Link>
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-[#f2979c] to-transparent  transition-all duration-700 ease-in-out "></div>
-
-          <div
-            className="w-1/2 bg-cover bg-center h-full"
-            style={{
-              backgroundImage: "url('/images/makeup.png')",
-            }}
-          ></div>
-        </div>
-      ),
+      dropdown: <OurWorldDropdown />,
     },
     {
       href: "#",
       label: "DEMOS",
-      dropdown: (
-        <div className="p-4 w-auto">
-          <div className="mt-4 text-center">
-            <Image
-              src="/images/img2.png"
-              alt="Demo Slide"
-              width={250}
-              height={250}
-              className="rounded"
-            />
-            <button className="px-4 py-2 bg-green-600 text-white rounded">
-              View Demo
-            </button>
-          </div>
-        </div>
-      ),
+      dropdown: <DemosDropdown />,
     },
   ];
 
@@ -318,14 +127,25 @@ const NavBar = () => {
       {activeIndex !== null && (
         <Dropdowns dropdown={links[activeIndex].dropdown} />
       )}
+
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 w-full h-full bg-black opacity-50 z-40"
+          onClick={() => setIsMobileMenuOpen(false)} // Кликвайки върху сянката, затваряме менюто
+        />
+      )}
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
+        links={links}
       />
 
       {/* Cart Drawer */}
       {isCartOpen && (
-        <div className="fixed inset-0 w-full lg:relative min-h-screen bg-black opacity-50 z-40 lg:hidden" />
+        <div
+          className="fixed inset-0 w-full lg:relative min-h-screen bg-black opacity-50 z-40 lg:hidden"
+          onClick={() => setIsCartOpen(false)}
+        />
       )}
 
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
