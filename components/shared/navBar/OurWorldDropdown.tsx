@@ -4,16 +4,18 @@ import Link from "next/link";
 
 const OurWorldDropdown = () => {
   return (
-    <div className="relative flex items-center bg-white h-[50vh] max-h-[60vh] ">
-      <div className="w-1/2  p-10 flex flex-col z-20 ">
-        <div className="m-9 w-4/5 mx-auto text-center">
-          <h1 className="mb-6">Amazing Experience</h1>
-          <p className="text-lg">
+    <div className="relative flex flex-col md:flex-row items-center bg-white h-auto md:h-[50vh] max-h-[60vh]">
+      <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col z-20 text-center">
+        <div className="m-6 md:m-9 w-full md:w-4/5 mx-auto">
+          <h1 className="mb-4 md:mb-6 text-lg md:text-xl">
+            Amazing Experience
+          </h1>
+          <p className="text-base md:text-lg">
             Discover how we blend visuals with text to create a seamless and
             engaging design. The transition effect brings harmony between
             sections.
           </p>
-          <div className="flex space-x-4 mt-4 justify-center">
+          <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4 mt-4 justify-center">
             <Button asChild>
               <Link href="/collections/best">Best Sellers</Link>
             </Button>
@@ -24,10 +26,10 @@ const OurWorldDropdown = () => {
         </div>
       </div>
 
-      <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-[#f2979c] to-transparent  transition-all duration-700 ease-in-out "></div>
+      <div className="hidden md:block absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-[#f2979c] to-transparent transition-all duration-700 ease-in-out"></div>
 
       <div
-        className="w-1/2 bg-cover bg-center h-full"
+        className="w-full md:w-1/2 bg-cover bg-center h-64 md:h-full"
         style={{
           backgroundImage: "url('/images/makeup.png')",
         }}
