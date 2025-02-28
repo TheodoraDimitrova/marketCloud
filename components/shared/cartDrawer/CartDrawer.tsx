@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import QuantitySelector from "./QuantitySelector";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -148,9 +149,14 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
             <p className="py-4">
               Tax included, shipping and discounts calculated at checkout.
             </p>
-            <button className="w-full bg-black text-white py-2 mt-3 rounded-md">
-              Checkout
-            </button>
+            <Button asChild className="w-60">
+              <Link
+                href="/cart"
+                className="w-full bg-black text-white py-2 mt-3 rounded-md"
+              >
+                Checkout
+              </Link>
+            </Button>
           </div>
         </>
       )}
