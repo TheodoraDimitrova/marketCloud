@@ -128,12 +128,6 @@ const NavBar = () => {
         <Dropdowns dropdown={links[activeIndex].dropdown} />
       )}
 
-      {isMobileMenuOpen && (
-        <div
-          className="fixed inset-0 w-full h-full bg-black opacity-50 z-40"
-          onClick={() => setIsMobileMenuOpen(false)} // Кликвайки върху сянката, затваряме менюто
-        />
-      )}
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
@@ -141,13 +135,6 @@ const NavBar = () => {
       />
 
       {/* Cart Drawer */}
-      {isCartOpen && (
-        <div
-          className="fixed inset-0 w-full lg:relative min-h-screen bg-black opacity-50 z-40 lg:hidden"
-          onClick={() => setIsCartOpen(false)}
-        />
-      )}
-
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </div>
   );

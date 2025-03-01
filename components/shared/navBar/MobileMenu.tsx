@@ -78,6 +78,13 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, links }) => {
           )}
         </div>
       </div>
+
+      {isOpen && (
+        <div
+          className="fixed inset-0 w-full h-full bg-black opacity-50 z-40"
+          onClick={onClose}
+        />
+      )}
     </>
   );
 };

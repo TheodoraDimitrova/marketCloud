@@ -8,11 +8,11 @@ const AboutUsSection = () => {
       <h3 className="text-xl font-semibold mb-4">About the Store</h3>
 
       <p className="text-wrap ">
-        Best Swimwear is a bikini boutique, in sunny Hermosa Beach, California.
-        They designed the store with the female in mind.A warm environment where
-        instead of feeling self-conscious she feels secure in her own body, not
-        limited by age, size or shape, wearing swimwear that fits and feels
-        good.
+        At Adora, we believe beauty has no boundaries, and our mission is to
+        provide high-quality, skin-loving products that make you feel radiant
+        and beautiful at any age or stage. Whether you're looking for skincare,
+        makeup, or haircare, Adora offers products that fit and enhance your
+        natural beauty, all while prioritizing comfort and self-expression.
       </p>
       <div className="flex items-center space-x-2 my-8">
         <Logo />

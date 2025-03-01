@@ -19,7 +19,7 @@
   }
 
   .title {
-    @apply text-3xl sm:text-4xl  text-red-500 mb-5 font-light;
+    @apply text-3xl sm:text-4xl  text-gray-600 mb-5 font-light;
   }
 
   .h2-bold {
@@ -54,8 +54,6 @@
     --radius: 4px;
   }
 }
-
-
 
 @layer base {
   * {
