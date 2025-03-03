@@ -71,7 +71,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
   };
 
   const pathname = usePathname();
-  if (pathname === "/cart") return null;
+  if (pathname === "/cart" || pathname === "/checkout") return null;
 
   return (
     <>
