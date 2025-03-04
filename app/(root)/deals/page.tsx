@@ -1,0 +1,95 @@
+import React from "react";
+import Image from "next/image";
+import Banner from "@/components/shared/banner/Benner";
+
+const DealsPage = () => {
+  const offers = [
+    {
+      title: "50% Off on Lipsticks",
+      description:
+        "Get the best lipsticks at half the price! Limited time only.",
+      image: "/images/bg1.png",
+      link: "/products/lipstick-red-rose",
+      discount: "50% Off",
+    },
+    {
+      title: "Buy 1 Get 1 Free on Skincare",
+      description: "Buy any skincare product and get one for free. Hurry up!",
+      image: "/images/bg2.png",
+      link: "/products/skincare",
+      discount: "Buy 1 Get 1 Free",
+    },
+    {
+      title: "Free Shipping on Orders Over €60",
+      description: "Enjoy free shipping on all orders above €60. Shop now!",
+      image: "/images/bg3.png",
+      link: "/products",
+      discount: "Free Shipping",
+    },
+  ];
+
+  return (
+    <>
+      <Banner
+        title="Exclusive Offers"
+        backgroundImage="/images/bg4.png"
+        subtitle="   Don't miss out on our best deals! Grab them before they're gone."
+      />
+      <div className="container mx-auto p-8">
+        {/* Deals Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {offers.map((offer, index) => (
+            <div
+              key={index}
+              className=" rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105"
+            >
+              {/* Image Section */}
+              <Image
+                src={offer.image}
+                width={400}
+                height={250}
+                alt={offer.title}
+                className="w-full h-64 object-cover"
+              />
+
+              {/* Info Section */}
+              <div className="p-6">
+                <h3 className="text-2xl font-semibold text-gray-800">
+                  {offer.title}
+                </h3>
+                <p className="mt-2 text-lg text-gray-600">
+                  {offer.description}
+                </p>
+
+                {/* Discount Badge */}
+                <span className="inline-block mt-4 bg-red-500 text-white py-1 px-4 rounded-full text-sm">
+                  {offer.discount}
+                </span>
+
+                {/* CTA Button */}
+                <a
+                  href={offer.link}
+                  className="block mt-6 text-center bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition"
+                >
+                  Shop Now
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Footer with limited time offers */}
+        <div className="mt-12 text-center">
+          <h2 className="text-3xl font-semibold text-gray-800">
+            Hurry, These Offers Won't Last!
+          </h2>
+          <p className="mt-2 text-lg text-gray-600">
+            Act fast, the clock is ticking!
+          </p>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default DealsPage;

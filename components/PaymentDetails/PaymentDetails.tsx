@@ -1,8 +1,7 @@
 import React from "react";
 
 const PaymentDetails = () => {
-  const stripeEnabled = false; // Смени на `true`, когато конфигурираш Stripe
-
+  const stripeEnabled = false;
   if (!stripeEnabled) {
     return <p>Payment system is not available at the moment.</p>;
   }

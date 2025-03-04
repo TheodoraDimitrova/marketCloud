@@ -8,13 +8,17 @@ import {
   calculateSubtotal,
 } from "@/lib/calculateCheckout";
 
-const OrderSummary = ({ cartItems, shippingFee, onUpdateOrderData }) => {
+const OrderSummary = ({
+  cartItems,
+  shippingFee,
+  onUpdateOrderData: onUpdateOrderData = () => {},
+}) => {
   const subtotal = calculateSubtotal(cartItems);
   const effectiveShippingFee = subtotal >= 60 ? 0 : shippingFee;
   const totalSavings = calculateTotalSavings(cartItems);
   const totalAmount = subtotal + effectiveShippingFee;
   useEffect(() => {
-    onUpdateOrderData({
+    onUpdateOrderData?.({
       subtotal,
       shippingFee,
       totalAmount,

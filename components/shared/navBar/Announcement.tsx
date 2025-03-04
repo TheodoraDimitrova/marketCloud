@@ -9,14 +9,14 @@ const Announcement = () => {
 
   const announcements = [
     {
-      text: "New eco-friendly arrivals. ",
-      linkText: "Shop the capsule. ",
-      linkHref: "/collections/new-in",
+      text: "New arrivals. ",
+      linkText: "Shop now! ",
+      linkHref: "/category/new-arrivals",
     },
     {
-      text: "Free shipping on orders over $50. ",
+      text: "Free shipping on orders over 60 Euro. ",
       linkText: "Check out our offers! ",
-      linkHref: "/collections",
+      linkHref: "/categories",
     },
     {
       text: "Get 20% off your first purchase. ",

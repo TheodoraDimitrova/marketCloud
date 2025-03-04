@@ -7,6 +7,7 @@ const CartProductSummary = ({ item }) => {
   const pathname = usePathname();
 
   const isCheckoutPage = pathname === "/checkout";
+  const isThankYouPage = pathname === "/checkout/thank-you";
 
   return (
     <div className="flex items-center w-full ">
@@ -20,7 +21,7 @@ const CartProductSummary = ({ item }) => {
           priority
         />
         {/* Quantity Badge */}
-        {isCheckoutPage && (
+        {(isCheckoutPage || isThankYouPage) && (
           <div className="absolute top-[-7px] right-[-6px] bg-red-500 text-white text-xs rounded-full px-2 py-1 ">
             {item.quantity}
           </div>

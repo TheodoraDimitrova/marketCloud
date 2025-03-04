@@ -120,7 +120,7 @@ const SearchPage = () => {
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
-        <h2 className="mx-4 text-md md:text-2xl">Explore our collections</h2>
+        <h2 className="mx-4 text-md md:text-2xl">Explore our categories</h2>
         <button
           className="ml-2"
           onClick={() => swiperRef.current && swiperRef.current.slideNext()}

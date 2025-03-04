@@ -2,68 +2,54 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+const shopItems = [
+  {
+    src: "/images/Technics&Styles.png",
+    alt: "Exclusive Offers",
+    href: "/deals",
+    text: "Exclusive Offers",
+  },
+  {
+    src: "/images/OurBlog.png",
+    alt: "Categories",
+    href: "/categories",
+    text: "Categories",
+  },
+  {
+    src: "/images/Products.png",
+    alt: "Products",
+    href: "/products",
+    text: "Products",
+  },
+
+  {
+    src: "/images/Brands.png",
+    alt: "Best Sellers",
+    href: "/category/best-sellers",
+    text: "Best Sellers",
+  },
+];
+
 const ShopDropdown = () => {
   return (
-    <div
-      className="container flex flex-col md:flex-row justify-around items-center p-6 mx-auto overflow-auto
-     h-screen md:h-auto space-y-6 md:space-y-0 pb-28 md:pb-6 md:space-x-6"
-    >
-      <div>
-        <Image
-          src="/images/Technics&Styles.png"
-          alt="Technics & Styles"
-          className="rounded"
-          width={100}
-          height={150}
-          style={{ width: "auto", height: "auto" }}
-          sizes="(min-width: 1600px) 25vw, (min-width: 768px) 25vw , 100vw"
-        />
-        <Link href="/collections/category1" className="block mt-2 text-center">
-          Technics & Styles
-        </Link>
-      </div>
-      <div>
-        <Image
-          src="/images/OurBlog.png"
-          alt="Blog"
-          className="rounded"
-          width={100}
-          height={150}
-          style={{ width: "auto", height: "auto" }}
-          sizes="(min-width: 1600px) 25vw, (min-width: 768px) 25vw , 100vw"
-        />
-        <Link href="/collections/category2" className="block mt-2 text-center">
-          Our Blog
-        </Link>
-      </div>
-      <div>
-        <Image
-          src="/images/Products.png"
-          alt="Products "
-          className="rounded"
-          width={100}
-          height={150}
-          style={{ width: "auto", height: "auto" }}
-          sizes="(min-width: 1600px) 25vw, (min-width: 768px) 25vw , 100vw"
-        />
-        <Link href="/collections/category3" className="block mt-2 text-center">
-          Products
-        </Link>
-      </div>
-      <div>
-        <Image
-          src="/images/Brands.png"
-          alt="Brands"
-          className="rounded"
-          width={100}
-          height={150}
-          style={{ width: "auto", height: "auto" }}
-          sizes="(min-width: 1600px) 25vw, (min-width: 768px) 25vw , 100vw"
-        />
-        <Link href="/collections/brands" className="block mt-2 text-center">
-          Brands
-        </Link>
-      </div>
+    <div className="container flex flex-col md:flex-row justify-around items-center p-6 mx-auto overflow-auto h-screen md:h-auto space-y-6 md:space-y-0 pb-28 md:pb-6 md:space-x-6">
+      {shopItems.map(({ src, alt, href, text }) => (
+        <div key={alt} className="text-center">
+          <Link href={href}>
+            <Image
+              src={src}
+              alt={alt}
+              className="rounded"
+              width={100}
+              height={150}
+              style={{ height: "auto", width: "auto" }}
+              sizes="(min-width: 1600px) 25vw, (min-width: 768px) 25vw , 100vw"
+            />
+
+            <p className="block mt-2"> {text} </p>
+          </Link>
+        </div>
+      ))}
     </div>
   );
 };

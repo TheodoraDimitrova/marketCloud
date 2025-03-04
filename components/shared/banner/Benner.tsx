@@ -3,7 +3,7 @@ import React from "react";
 interface BannerProps {
   title: string;
   subtitle?: string;
-  backgroundImage?: string; // Опционален фон
+  backgroundImage?: string;
 }
 
 const Banner: React.FC<BannerProps> = ({

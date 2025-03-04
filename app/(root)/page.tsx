@@ -14,9 +14,9 @@ const HomePage = () => {
       <SectionScrollBanner />
       <SectionRichText
         icon={Heart}
-        title="Collections"
+        title="Categories"
         bgColor="bg-white"
-        text="Shop our best selling collections for a range of styles loved by you. Whether you're looking to find your perfect fit with our signature swim styles or you're looking for that perfect beachwear cover-up, we've got you covered."
+        text="Shop our best selling products for a range of styles loved by you. Whether you're looking to find your perfect fit with our signature swim styles or you're looking for that perfect beachwear cover-up, we've got you covered."
       />
       <SectionCarousel />
       <OverLapSection />

@@ -42,7 +42,7 @@ const NavBar = () => {
 
   const links = [
     {
-      href: "/collections/all",
+      href: "/categories",
       label: "SHOP",
       dropdown: <ShopDropdown />,
     },

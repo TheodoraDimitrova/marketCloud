@@ -11,17 +11,17 @@ import FooterLinkList from "./FooterLinkList";
 const Footer = () => {
   const helpLinks = [
     { href: "/contact-us", text: "Contact Us" },
-    { href: "/blogs", text: "Our blog" },
+    { href: "/our-blog", text: "Our blog" },
     { href: "/about-us", text: "About Us" },
     { href: "/customer-help", text: "FAQs" },
     { href: "/search", text: "Search" },
   ];
 
   const shopLinks = [
-    { href: "/skincare", text: "Skincare" },
-    { href: "/haircare", text: "Haircare" },
-    { href: "/makeup", text: "Makeup" },
-    { href: "/deals", text: "Exclusive Deals" },
+    { href: "/category", text: "Categories" },
+    { href: "/deals", text: "Exclusive Offers" },
+    { href: "/products", text: "Products" },
+    { href: "/brands", text: "Brands" },
   ];
 
   return (

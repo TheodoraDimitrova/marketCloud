@@ -1,7 +1,7 @@
 import React from "react";
 import BlogPostsSection from "@/components/BlogPostsSection/BlogPostsSection";
 
-const blog = () => {
+const BlogPage = () => {
   return (
     <section className="m-auto my-5 md:my-20 md:mt-10">
       <BlogPostsSection />
@@ -9,4 +9,4 @@ const blog = () => {
   );
 };
 
-export default blog;
+export default BlogPage;

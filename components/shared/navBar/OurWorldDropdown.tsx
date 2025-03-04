@@ -17,10 +17,10 @@ const OurWorldDropdown = () => {
           </p>
           <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4 mt-4 justify-center">
             <Button asChild>
-              <Link href="/collections/best">Best Sellers</Link>
+              <Link href="/categories/best-sellers">Best Sellers</Link>
             </Button>
             <Button asChild>
-              <Link href="/collections/new">New arrivals</Link>
+              <Link href="/categories/new-arrivals">New arrivals</Link>
             </Button>
           </div>
         </div>
