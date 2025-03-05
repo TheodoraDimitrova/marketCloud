@@ -1,7 +1,10 @@
+"use client";
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "@/assets/styles/globals.css";
 import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from "@/lib/constants";
+import { Provider } from "react-redux";
+import { store } from "@/store/store";
 
 const lato = Lato({
   variable: "--font-lato",
@@ -9,7 +12,7 @@ const lato = Lato({
   weight: ["400", "700"],
 });
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: {
     template: `%s | Adora Cosmetics`,
     default: APP_NAME,
@@ -44,7 +47,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${lato.variable} antialiased`}>{children}</body>
+      <body className={`${lato.variable} antialiased`}>
+        <Provider store={store}>{children} </Provider>
+      </body>
     </html>
   );
 }
