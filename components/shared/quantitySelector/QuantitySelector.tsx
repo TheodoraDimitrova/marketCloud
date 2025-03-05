@@ -3,6 +3,7 @@ import { Minus, Plus } from "lucide-react";
 interface QuantitySelectorProps {
   quantity: number;
   updateQuantity: (amount: number) => void;
+  minValue?: number;
 }
 
 const QuantitySelector: React.FC<QuantitySelectorProps> = ({

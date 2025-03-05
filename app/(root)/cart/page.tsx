@@ -1,9 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-
-import QuantitySelector from "@/components/shared/cartDrawer/QuantitySelector";
-
+import QuantitySelector from "@/components/shared/quantitySelector/QuantitySelector";
 import CartProductSummary from "@/components/shared/CartProductSummary/CartProductSummary";
 import FreeShippingBanner from "@/components/shared/FreeShippingBanner/FreeShippingBanner";
 import EmptyShopingCard from "@/components/shared/EmptyShopingCard/EmptyShopingCard";
@@ -84,7 +82,7 @@ const CartPage = () => {
 
                 <div className="single-price hidden md:block w-32 text-center ">
                   <p className="text-sm font-semibold">
-                    £{item.price.toFixed(2)}
+                    €{item.price.toFixed(2)}
                   </p>
                 </div>
 

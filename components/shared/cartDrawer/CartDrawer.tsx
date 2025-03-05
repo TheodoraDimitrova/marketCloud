@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import CartProductSummary from "../CartProductSummary/CartProductSummary";
 import FreeShippingBanner from "../FreeShippingBanner/FreeShippingBanner";
 import EmptyShopingCard from "../EmptyShopingCard/EmptyShopingCard";
-import QuantitySelector from "./QuantitySelector";
+import QuantitySelector from "@/components/shared/quantitySelector/QuantitySelector";
 
 interface CartDrawerProps {
   isOpen: boolean;

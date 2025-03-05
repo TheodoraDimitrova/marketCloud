@@ -1,15 +1,52 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import React from "react";
+import QuantitySelector from "@/components/shared/quantitySelector/QuantitySelector";
+import { useState } from "react";
+import TagsList from "@/components/shared/tags/listTags";
+import Rating from "@/components/shared/raiting/raiting";
+import DiscountBannerProduct from "@/components/shared/discountBannerProduct/discountBannerProduct";
+import { calculateDiscountedPrice } from "@/lib/calculateCheckout";
+
+const product = {
+  name: "Lipstick Red Rose",
+  description: "lipstick with matte finish",
+  price: 25,
+  image: "/images/img2.png",
+  quantity: 12,
+  package: "30ml",
+  sizes: ["30 ml", "50 ml", "75 ml"],
+  colors: ["Red", "Pink", "Nude"],
+  rating: 4.5,
+  reviews: 12,
+  category: "lipsticks",
+  brand: "Lipstick",
+  sku: "LIPSTICK-RED-ROSE",
+  stock: 10,
+  id: "1",
+  sku: "TOA01836",
+  tags: [
+    { type: "discount", label: "15% off" },
+    // { type: "fixed", label: "10€ off" },
+    // { type: "new", label: "New Arrival" },
+    // { type: "limited", label: "Limited Edition" },
+  ],
+  discount: {
+    amount: 15,
+    type: "percentage", //fixed
+    isActive: true,
+  },
+};
 
 const ProductPage = () => {
-  const product = {
-    name: "Lipstick Red Rose",
-    description:
-      "A beautiful red lipstick with a matte finish. Perfect for day and night wear. Long-lasting and vibrant color.",
-    price: "25",
-    image: "/images/img2.png",
-    quantity: 1,
+  const [quantity, setQuantity] = useState(1);
+  const handleUpdateQuantity = (value: number) => {
+    const newQuantity = quantity + value;
+    if (newQuantity < 1) {
+      setQuantity(1);
+    } else {
+      setQuantity(newQuantity);
+    }
   };
 
   return (
@@ -27,18 +64,30 @@ const ProductPage = () => {
       </div>
 
       {/* right side */}
-      <div className="flex flex-col justify-start">
-        <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
-        <p className="mt-4 text-lg text-gray-600">{product.description}</p>
+      <div className="flex flex-col justify-start max-w-md p-6 ">
+        <h1 className="text-xl m-0  font-extralight">{product.name}</h1>
+        <p className="text-sm font-sans uppercase">{product.description}</p>
 
-        <div className="mt-6 flex items-center justify-between">
-          <p className="text-2xl font-semibold text-gray-900">
-            {product.price}
-          </p>
+        <Rating rating={product.rating} />
+        <TagsList tags={product.tags} />
 
-          <div className="flex items-center">
-            <Button>Add to Cart</Button>
-          </div>
+        <div className="flex justify-between my-6">
+          <p className="">{product.package}</p>
+          <p className="">€{Number(product.price).toFixed(2)}</p>
+        </div>
+        {product.discount.isActive && (
+          <DiscountBannerProduct
+            price={product.price}
+            discount={product.discount}
+          />
+        )}
+
+        <div className="mt-6 flex  items-center justify-around">
+          <QuantitySelector
+            quantity={quantity}
+            updateQuantity={handleUpdateQuantity}
+          />
+          <Button>Add to Cart</Button>
         </div>
 
         <div className="mt-8">
@@ -49,7 +98,7 @@ const ProductPage = () => {
             <li>Long-lasting matte finish.</li>
             <li>Perfect for both day and night wear.</li>
             <li>Rich, pigmented color with full coverage.</li>
-            <li>Hydrating formula that doesn't dry out lips.</li>
+            <li>Hydrating formula that doesn&apos;t dry out lips.</li>
           </ul>
         </div>
       </div>

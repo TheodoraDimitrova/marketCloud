@@ -21,7 +21,7 @@ const UtilityBar: React.FC<UtilityBarProps> = ({ toggleFilters }) => {
     toggleFilters();
   };
   return (
-    <div className="container flex mx-auto mb-3 px-4 ">
+    <div className="container flex mx-auto m-3 px-4 ">
       {/* Left Section */}
       <div
         className="bar-left flex items-center justify-start w-full sm:w-1/3 text-gray-700"

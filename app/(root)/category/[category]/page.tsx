@@ -52,7 +52,6 @@ export default async function CollectionPage({
   params: Promise<{ category?: string }>;
 }) {
   const { category } = await params;
-
   if (!category || !(category in categories)) {
     notFound();
   }
