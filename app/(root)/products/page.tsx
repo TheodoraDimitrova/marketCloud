@@ -1,57 +1,11 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Banner from "@/components/shared/banner/Benner";
-import Carousel from "@/components/shared/carousel/Carousel";
-import ImgCarousel from "@/components/shared/imgCarousel/ImgCarousel";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProductCard from "@/components/shared/productCard/ProductCard";
 import SectionFilters from "@/components/SectionFilters/SectionFilters";
 import UtilityBar from "@/components/shared/utilityBar/UtilityBar";
+import CategoriesCarousel from "@/components/shared/categoriesCarousel/CategoriesCarousel";
 
-const arrayCategories = [
-  <ImgCarousel
-    key={1}
-    totalProducts={17}
-    title="Skincare"
-    url="/category/skincare"
-    src="/images/skincare.png"
-  />,
-  <ImgCarousel
-    key={2}
-    totalProducts={9}
-    title="Cosmetic Bags"
-    url="/category/Cosmetic-Bags"
-    src="/images/bag01.png"
-  />,
-  <ImgCarousel
-    key={3}
-    totalProducts={4}
-    title="Lipsticks"
-    url="/category/lipsticks"
-    src="/images/lipsticks.png"
-  />,
-  <ImgCarousel
-    key={4}
-    totalProducts={4}
-    title="Makeup Sets"
-    url="/category/makaup-Sets"
-    src="/images/set01.png"
-  />,
-  <ImgCarousel
-    key={5}
-    totalProducts={14}
-    title="Haircare"
-    url="/category/haircare"
-    src="/images/haircare.png"
-  />,
-  <ImgCarousel
-    key={6}
-    totalProducts={16}
-    title="Makeup"
-    url="/category/makeup"
-    src="/images/categoryMakeup.png"
-  />,
-];
 const products = [
   {
     id: 1,
@@ -105,7 +59,7 @@ const products = [
 ];
 const ProductsPage = () => {
   const [showFilters, setShowFilters] = useState(false);
-  const swiperRef = useRef(null);
+
   const toggleFilters = () => {
     setShowFilters(!showFilters);
   };
@@ -132,33 +86,7 @@ const ProductsPage = () => {
           </div>
         </div>
 
-        <div className="container mx-auto flex items-center justify-center mb-10">
-          <button
-            className="mr-2"
-            onClick={() => swiperRef.current && swiperRef.current.slidePrev()}
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-          <h2 className="mx-4 text-md md:text-2xl">Explore our categories</h2>
-          <button
-            className="ml-2"
-            onClick={() => swiperRef.current && swiperRef.current.slideNext()}
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
-        </div>
-
-        <div className="ml-4 md:ml-20 mb-20">
-          <Carousel
-            items={arrayCategories}
-            slidesPerView={3}
-            spaceBetween={20}
-            autoplay={false}
-            loop={false}
-            navigation={false}
-            swiperRef={swiperRef}
-          />
-        </div>
+        <CategoriesCarousel />
       </>
     );
   }

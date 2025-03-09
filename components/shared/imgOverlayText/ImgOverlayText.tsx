@@ -29,6 +29,7 @@ const ImgOverlayText: React.FC<ImgOverlayTextProps> = ({
           style={{ width: "100%", height: "auto" }}
           sizes="(max-width: 768px) 50vw, (min-width: 1600px) 350px, 50vw"
           className="rounded-[10px] shadow-lg h-[350px]"
+          priority
         />
 
         <div className="absolute w-full h-full  inset-0 bg-black bg-opacity-50 overflow-hidden rounded-xl">

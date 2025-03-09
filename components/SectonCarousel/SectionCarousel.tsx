@@ -1,34 +1,43 @@
+"use client";
 import React from "react";
 import ImgOverlayText from "@/components/shared/imgOverlayText/ImgOverlayText";
 import Carousel from "@/components/shared/carousel/Carousel";
+import { useSelector } from "react-redux";
+import { useFetchData } from "@/hooks/useFetchData";
+import { fetchCategories } from "@/store/slices/categorySlice";
+import { urlFor } from "@/sanity/lib/image";
+import { RootState } from "@/store/store";
+
+interface Category {
+  id: string;
+  name: string;
+  subheading?: string;
+  image: string;
+}
 
 const SectionCarousel = () => {
-  const arrayCategories = [
-    <ImgOverlayText
-      key={1}
-      subheading="Discover Your Glow"
-      title="Skincare"
-      textBtn="Shop Skincare"
-      url="/categories/skincare"
-      src="/images/skincare.png"
-    />,
-    <ImgOverlayText
-      key={2}
-      subheading="Nourish Your Hair"
-      title="Haircare"
-      textBtn="Shop Haircare"
-      url="/categories/haircare"
-      src="/images/haircare.png"
-    />,
-    <ImgOverlayText
-      key={3}
-      subheading="Enhance Your Beauty"
-      title="Makeup"
-      textBtn="Shop Makeup"
-      url="/categories/makeup"
-      src="/images/categoryMakeup.png"
-    />,
-  ];
+  const { status } = useFetchData(fetchCategories, "categories");
+  const { categories } = useSelector((state: RootState) => state.categories);
+  if (status === "loading") {
+    return <div>Loading categories...</div>;
+  }
+
+  if (status === "failed") {
+    return <div>Error loading categories</div>;
+  }
+
+  const arrayCategories = categories
+    .slice(0, 3)
+    .map((category: Category) => (
+      <ImgOverlayText
+        key={category.id}
+        subheading={category.subheading || "Discover Your Glow"}
+        title={category.name}
+        textBtn={`Shop ${category.name}`}
+        url={`/category/${category.id}`}
+        src={urlFor(category.image)}
+      />
+    ));
 
   return (
     <div className="container m-auto flex items-center justify-between y-12 p-5">

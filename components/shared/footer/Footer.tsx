@@ -18,7 +18,7 @@ const Footer = () => {
   ];
 
   const shopLinks = [
-    { href: "/category", text: "Categories" },
+    { href: "/categories", text: "Categories" },
     { href: "/deals", text: "Exclusive Offers" },
     { href: "/products", text: "Products" },
     { href: "/brands", text: "Brands" },
