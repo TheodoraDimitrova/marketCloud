@@ -12,9 +12,13 @@ import { ChevronRight } from "lucide-react";
 
 type UtilityBarProps = {
   toggleFilters: () => void;
+  tottalProducts: number;
 };
 
-const UtilityBar: React.FC<UtilityBarProps> = ({ toggleFilters }) => {
+const UtilityBar: React.FC<UtilityBarProps> = ({
+  toggleFilters,
+  totalProducts,
+}) => {
   const [isRotated, setIsRotated] = useState(false);
   const handleClick = () => {
     setIsRotated((prev) => !prev);
@@ -42,7 +46,7 @@ const UtilityBar: React.FC<UtilityBarProps> = ({ toggleFilters }) => {
 
       {/* Middle Section */}
       <div className="bar-middle flex justify-center items-center w-full sm:w-1/3 text-gray-700">
-        <p>37 products</p>
+        <p>{totalProducts} products</p>
       </div>
 
       {/* Right Section */}

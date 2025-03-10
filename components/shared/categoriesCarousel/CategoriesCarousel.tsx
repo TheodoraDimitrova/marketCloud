@@ -48,7 +48,7 @@ const CategoriesCarousel = () => {
               key={category.id}
               totalProducts={category.totalProducts || 0}
               title={category.name}
-              url={`/categories/${category.slug}`}
+              url={`/category/${category.id}`}
               src={urlFor(category.image)}
             />
           ))}

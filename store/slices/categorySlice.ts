@@ -10,6 +10,7 @@ export const fetchCategories = createAsyncThunk(
     try {
       const query = '*[_type == "category"]' 
       const categories = await sanityClient.fetch(query)
+      
       return categories
     } catch (error) {
       let errorMessage = "An unknown error occurred"; 

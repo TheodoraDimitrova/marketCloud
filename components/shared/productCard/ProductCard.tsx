@@ -1,40 +1,56 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { urlFor } from "@/sanity/lib/image";
 
 interface Product {
   id: number;
   name: string;
-  image: string;
+  images: { asset: { _ref: string } }[];
   price: string;
-  tags: string[];
+  tags?: { label: string; _key: string; type: string }[];
 }
 
 const ProductCard = ({ product }: { product: Product }) => {
+  const [hovered, setHovered] = React.useState(false);
+  const slug = product.name.toLowerCase().replace(/\s+/g, "-");
+
   return (
-    <div className="flex flex-col w-full max-w-[250px] bg-white shadow-md rounded-lg overflow-hidden">
-      <Link href={`/product/${product.name}`} className="relative">
-        {/* Image */}
+    <div
+      className="flex flex-col w-full max-w-[250px] bg-white shadow-md rounded-lg overflow-hidden"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <Link href={`/product/${slug}`} className="relative">
         <div className="relative w-[250px] h-[350px]">
           <Image
-            src={product.image}
-            alt="shop_location"
+            src={
+              hovered
+                ? product.images[1]?.asset._ref
+                  ? urlFor(product.images[1].asset._ref)
+                  : urlFor(product.images[0].asset._ref)
+                : urlFor(product.images[0].asset._ref)
+            }
+            alt={product.name}
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
 
           {/* Tags */}
-          <div className="absolute top-4 left-4 flex flex-col gap-1 text-center">
-            {product.tags.map((tag, index) => (
-              <p
-                key={index}
-                className="bg-red-400 text-xs text-white px-2 py-1 rounded-sm"
-              >
-                {tag}
-              </p>
-            ))}
-          </div>
+          {product.tags && product.tags.length > 0 && (
+            <div className="absolute top-4 left-4 flex flex-col gap-1 text-center">
+              {product.tags.map((tag) => (
+                <p
+                  key={tag._key}
+                  className="bg-red-400 text-xs text-white px-2 py-1 rounded-sm"
+                >
+                  {tag.label}
+                </p>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Price Details */}

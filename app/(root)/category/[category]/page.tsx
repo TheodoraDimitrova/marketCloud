@@ -1,62 +1,77 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { usePathname, useRouter } from "next/navigation";
 import Banner from "@/components/shared/banner/Benner";
-import { notFound } from "next/navigation";
+import { fetchCategories } from "@/store/slices/categorySlice";
+import { fetchProductsByCategory } from "@/store/slices/productsSlice";
+import { RootState, AppDispatch } from "@/store/store";
+import { urlFor } from "@/sanity/lib/image";
+import FilteredProductList from "@/components/shared/filteredProductList/FilteredProductList";
 
-const categories = {
-  skincare: {
-    title: "Skincare",
-    description: "Discover the best products for healthy and glowing skin.",
-    image: "/images/skincare.png",
-  },
-  makeup: {
-    title: "Makeup",
-    description: "Find high-quality makeup for every occasion.",
-    image: "/images/categoryMakeup.png",
-  },
-  haircare: {
-    title: "Haircare",
-    description: "Professional haircare products for strong and shiny hair.",
-    image: "/images/haircare.png",
-  },
-  "cosmetic-bags": {
-    title: "Cosmetic Bags",
-    description: "Stylish bags to keep your makeup organized.",
-    image: "/images/bag01.png",
-  },
-  lipsticks: {
-    title: "Lipsticks",
-    description: "Long-lasting lipsticks in a variety of shades.",
-    image: "/images/lipsticks.png",
-  },
-  "makeup-sets": {
-    title: "Makeup Sets",
-    description: "Complete makeup sets for a perfect look.",
-    image: "/images/set01.png",
-  },
-  "best-sellers": {
-    title: "Best Sellers",
-    description: "Our most popular products.",
-    image: "/images/bestSellers.png",
-  },
-  "new-arrivals": {
-    title: "New Arrivals",
-    description: "Discover the latest additions to our collection.",
-    image: "/images/newArrivals.png",
-  },
-};
+const CategoryPage = () => {
+  const pathname = usePathname();
+  const router = useRouter();
+  const category = pathname.split("/").pop();
 
-type Category = keyof typeof categories;
+  const dispatch = useDispatch<AppDispatch>();
 
-export default async function CollectionPage({
-  params,
-}: {
-  params: Promise<{ category?: string }>;
-}) {
-  const { category } = await params;
-  if (!category || !(category in categories)) {
-    notFound();
+  const { categories, status: categoriesStatus } = useSelector(
+    (state: RootState) => state.categories
+  );
+  const { products, status: productsStatus } = useSelector(
+    (state: RootState) => state.products
+  );
+
+  const [categoryData, setCategoryData] = useState<{
+    title: string;
+    description: string;
+    image: string;
+  } | null>(null);
+
+  const hasFetchedProducts = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (categoriesStatus === "idle") {
+      dispatch(fetchCategories());
+    }
+  }, [categoriesStatus, dispatch]);
+
+  useEffect(() => {
+    if (
+      !category ||
+      categoriesStatus !== "succeeded" ||
+      categories.length === 0
+    )
+      return;
+
+    const foundCategory = categories.find(
+      (cat) => cat.id?.toLowerCase() === category.toLowerCase()
+    );
+
+    if (!foundCategory) {
+      router.replace("/404");
+      return;
+    }
+
+    setCategoryData({
+      title: foundCategory.name,
+      description: foundCategory.description,
+      image: urlFor(foundCategory.image.asset._ref),
+    });
+
+    if (hasFetchedProducts.current !== category) {
+      hasFetchedProducts.current = category;
+      dispatch(fetchProductsByCategory(category));
+    }
+  }, [category, categoriesStatus, categories, dispatch, router]);
+
+  if (categoriesStatus === "loading" || productsStatus === "loading") {
+    return <p>Loading...</p>;
   }
 
-  const categoryData = categories[category as Category];
+  if (!categoryData) return null;
 
   return (
     <>
@@ -65,6 +80,9 @@ export default async function CollectionPage({
         subtitle={categoryData.description}
         backgroundImage={categoryData.image}
       />
+      <FilteredProductList products={products} />
     </>
   );
-}
+};
+
+export default CategoryPage;
