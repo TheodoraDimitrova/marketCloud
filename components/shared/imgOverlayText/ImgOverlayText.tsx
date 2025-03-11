@@ -40,7 +40,9 @@ const ImgOverlayText: React.FC<ImgOverlayTextProps> = ({
             <h2 className="text-white text-2xl sm:text-2xl md:text-3xl lg:text-4xl mb-6">
               {title}
             </h2>
-            <Button variant="link">{textBtn}</Button>
+            <Button variant="link">
+              <Link href={url}>{textBtn}</Link>
+            </Button>
           </div>
         </div>
       </Link>

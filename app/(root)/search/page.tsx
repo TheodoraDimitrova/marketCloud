@@ -10,6 +10,7 @@ import { fetchAllProducts } from "@/store/slices/productsSlice";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import FilteredProductList from "@/components/shared/filteredProductList/FilteredProductList";
+import Loading from "@/components/shared/loading/loading";
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -20,7 +21,7 @@ const SearchPage = () => {
     console.log("Search For:", searchTerm);
   };
   if (status === "loading") {
-    return <p>Loading products...</p>;
+    return <Loading />;
   }
 
   if (status === "failed") {
@@ -48,7 +49,10 @@ const SearchPage = () => {
       </div>
       {/* Search bar */}
 
-      <FilteredProductList products={products} />
+      <FilteredProductList
+        products={products}
+        totalProducts={products.length}
+      />
 
       <CategoriesCarousel />
     </>

@@ -1,19 +1,25 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Banner from "@/components/shared/banner/Benner";
 import CategoriesCarousel from "@/components/shared/categoriesCarousel/CategoriesCarousel";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFetchData } from "@/hooks/useFetchData";
 import { fetchAllProducts } from "@/store/slices/productsSlice";
-import { RootState } from "@/store/store";
+import { RootState, AppDispatch } from "@/store/store";
 import FilteredProductList from "@/components/shared/filteredProductList/FilteredProductList";
+import Loading from "@/components/shared/loading/loading";
 
 const ProductsPage = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const { status, error } = useFetchData(fetchAllProducts, "products");
   const products = useSelector((state: RootState) => state.products.products);
 
+  useEffect(() => {
+    dispatch(fetchAllProducts());
+  }, [dispatch]);
+
   if (status === "loading") {
-    return <p>Loading products...</p>;
+    return <Loading />;
   }
 
   if (status === "failed") {
@@ -25,7 +31,10 @@ const ProductsPage = () => {
       <>
         <Banner title="Adora Cosmetics" backgroundImage="/images/bg1.png" />
 
-        <FilteredProductList products={products} />
+        <FilteredProductList
+          products={products}
+          totalProducts={products.length}
+        />
 
         <CategoriesCarousel />
       </>

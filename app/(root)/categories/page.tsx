@@ -6,13 +6,14 @@ import { useFetchData } from "@/hooks/useFetchData";
 import { fetchCategories } from "@/store/slices/categorySlice";
 import { urlFor } from "@/sanity/lib/image";
 import { RootState } from "@/store/store";
+import Loading from "@/components/shared/loading/loading";
 
 const CategoriesPage = () => {
   const { status, error } = useFetchData(fetchCategories, "categories");
   const { categories } = useSelector((state: RootState) => state.categories);
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (status === "failed") {

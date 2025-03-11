@@ -60,15 +60,15 @@ export const fetchProductsByCategory = createAsyncThunk(
 
 export const fetchProductDetails = createAsyncThunk(
   'products/fetchProductDetails',
-  async (productId: string, { rejectWithValue }) => {
+  async (slug: string, { rejectWithValue }) => {
     try {
-      const query = `*[_type == "product" && _id == $productId][0]`;
-      const product = await sanityClient.fetch(query, { productId });
+      const query = `*[_type == "product" && slug.current == $slug][0]`;
+      const product = await sanityClient.fetch(query, { slug });
       return product;
     } catch (error) {
       let errorMessage = 'An unknown error occurred';
       if (error instanceof Error) {
-        errorMessage = error.message;
+        errorMessage = error.message; 
       }
       return rejectWithValue(errorMessage);
     }

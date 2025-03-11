@@ -7,6 +7,7 @@ import { useFetchData } from "@/hooks/useFetchData";
 import { fetchCategories } from "@/store/slices/categorySlice";
 import { urlFor } from "@/sanity/lib/image";
 import { RootState } from "@/store/store";
+import Loading from "../shared/loading/loading";
 
 interface Category {
   id: string;
@@ -19,7 +20,7 @@ const SectionCarousel = () => {
   const { status } = useFetchData(fetchCategories, "categories");
   const { categories } = useSelector((state: RootState) => state.categories);
   if (status === "loading") {
-    return <div>Loading categories...</div>;
+    return <Loading />;
   }
 
   if (status === "failed") {

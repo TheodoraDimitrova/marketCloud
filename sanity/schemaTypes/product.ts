@@ -11,6 +11,12 @@ const productSchema = {
       type: "string",
     },
     {
+      "name": "slug",
+      "type": "slug",
+      "title": "Slug",
+      "description": "unique identifier for the product url",
+    },
+    {
       name: "description",
       title: "Description",
       type: "text",

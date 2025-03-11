@@ -9,6 +9,7 @@ import { fetchProductsByCategory } from "@/store/slices/productsSlice";
 import { RootState, AppDispatch } from "@/store/store";
 import { urlFor } from "@/sanity/lib/image";
 import FilteredProductList from "@/components/shared/filteredProductList/FilteredProductList";
+import Loading from "@/components/shared/loading/loading";
 
 const CategoryPage = () => {
   const pathname = usePathname();
@@ -68,7 +69,7 @@ const CategoryPage = () => {
   }, [category, categoriesStatus, categories, dispatch, router]);
 
   if (categoriesStatus === "loading" || productsStatus === "loading") {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   if (!categoryData) return null;
@@ -80,7 +81,10 @@ const CategoryPage = () => {
         subtitle={categoryData.description}
         backgroundImage={categoryData.image}
       />
-      <FilteredProductList products={products} />
+      <FilteredProductList
+        products={products}
+        totalProducts={products.length}
+      />
     </>
   );
 };
