@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
 import Link from "next/link";
@@ -9,66 +8,22 @@ import CartProductSummary from "../CartProductSummary/CartProductSummary";
 import FreeShippingBanner from "../FreeShippingBanner/FreeShippingBanner";
 import EmptyShopingCard from "../EmptyShopingCard/EmptyShopingCard";
 import QuantitySelector from "@/components/shared/quantitySelector/QuantitySelector";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store/store";
+import { updateItemQuantity } from "@/store/slices/cartSlice";
 
 interface CartDrawerProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const CartDrawer: React.FC<CartDrawerProps> = ({
-  isOpen,
-  onClose,
-  setIsCartOpen,
-}) => {
-  //   const [cartItems, setCartItems] = useState([]);
+const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const subtotal = useSelector((state: RootState) => state.cart.subtotal);
+  const dispatch = useDispatch();
 
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Adora Red Essence",
-      description: "Lipstick",
-      color: "Red",
-      price: 50,
-      image: "/images/img2.png",
-      quantity: 1,
-    },
-
-    {
-      id: 2,
-      name: "Glow Highlighter",
-      description: "Highlighter",
-      color: "Red",
-      price: 45,
-      image: "/images/img1.png",
-      quantity: 1,
-    },
-    {
-      id: 3,
-      name: " Linpstick",
-      description: "Lipstick",
-      color: "Red",
-      price: 45,
-      image: "/images/img4.png",
-      quantity: 1,
-    },
-  ]);
-  const totalAmount = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-
-  const removeItem = (id: number) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
-  };
-
-  const updateQuantity = (id: number, change: number) => {
-    setCartItems((prevItems) =>
-      prevItems
-        .map((item) =>
-          item.id === id ? { ...item, quantity: item.quantity + change } : item
-        )
-        .filter((item) => item.quantity > 0)
-    );
+  const updateQuantity = (id: string, change: number) => {
+    dispatch(updateItemQuantity({ id, quantity: change }));
   };
 
   const pathname = usePathname();
@@ -98,10 +53,10 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
           <EmptyShopingCard />
         ) : (
           <>
-            <FreeShippingBanner totalAmount={totalAmount} />
+            <FreeShippingBanner totalAmount={subtotal} />
             {/* Cart Content */}
             {cartItems.map((item) => (
-              <div key={item.id} className="md:p-4  flex-col pb-4 mt-4 ">
+              <div key={item._id} className="md:p-4  flex-col pb-4 mt-4 ">
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col">
                     <CartProductSummary item={item} />
@@ -109,18 +64,28 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                     <div className="ml-20 w-full">
                       <QuantitySelector
                         updateQuantity={(change) =>
-                          updateQuantity(item.id, change)
+                          updateQuantity(item._id, change)
                         }
                         quantity={item.quantity}
                       />
                     </div>
                   </div>
 
-                  <div onClick={() => removeItem(item.id)}>
-                    <p className="text-sm font-semibold">
-                      {" "}
-                      €{item.price.toFixed(2)}
-                    </p>
+                  <div className="flex flex-col">
+                    {item.discount ? (
+                      <>
+                        <p className="text-sm font-semibold line-through">
+                          €{item.price.toFixed(2)}
+                        </p>
+                        <p className="text-sm font-semibold">
+                          €{item.discountedPrice.toFixed(2)}
+                        </p>
+                      </>
+                    ) : (
+                      <p className="text-sm font-semibold">
+                        €{item.price.toFixed(2)}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -132,7 +97,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({
                 <span>Subtotal:</span>
                 <span>
                   &euro;
-                  {totalAmount.toFixed(2)}
+                  {subtotal.toFixed(2)}
                 </span>
               </div>
               <p className="py-4">

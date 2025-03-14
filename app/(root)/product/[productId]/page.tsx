@@ -12,6 +12,7 @@ import { RootState, AppDispatch } from "@/store/store";
 import { fetchProductDetails } from "@/store/slices/productsSlice";
 import { urlFor } from "@/sanity/lib/image";
 import Loading from "@/components/shared/loading/loading";
+import { addToCart } from "@/store/slices/cartSlice";
 
 const ProductPage = () => {
   const [hovered, setHovered] = useState(false);
@@ -37,6 +38,12 @@ const ProductPage = () => {
       setQuantity(1);
     } else {
       setQuantity(newQuantity);
+    }
+  };
+
+  const handleAddToCart = (productDetails) => {
+    if (productDetails) {
+      dispatch(addToCart({ ...productDetails, quantity }));
     }
   };
 
@@ -101,7 +108,8 @@ const ProductPage = () => {
               />
               <Button
                 onClick={() => {
-                  console.log(productDetails);
+                  handleAddToCart(productDetails);
+                  setQuantity(1);
                 }}
               >
                 Add to Cart

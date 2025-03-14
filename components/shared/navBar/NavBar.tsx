@@ -13,6 +13,8 @@ import ShopDropdown from "./ShopDropdown";
 import BrandsDropdown from "./BrandsDropdown";
 import OurWorldDropdown from "./OurWorldDropdown";
 import DemosDropdown from "./DemosDropdown";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const NavBar = () => {
   const [isScrolledDown, setIsScrolledDown] = useState(false);
@@ -23,6 +25,8 @@ const NavBar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
+
+  const cartItems = useSelector((state: RootState) => state.cart.items);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,8 +73,8 @@ const NavBar = () => {
         isHomePage && (isScrolledDown || isHovered)
           ? " bg-white sticky top-0 text-black "
           : isHomePage
-          ? "bg-transparent absolute top-30 text-white"
-          : "bg-white sticky top-0 text-black border-b border-gray-300"
+            ? "bg-transparent absolute top-30 text-white"
+            : "bg-white sticky top-0 text-black border-b border-gray-300"
       }  w-full z-50 transition-all duration-700 `}
       onMouseEnter={() => isHomePage && setIsHovered(true)}
       onMouseLeave={() => {
@@ -111,9 +115,11 @@ const NavBar = () => {
 
           <button onClick={() => setIsCartOpen(true)} className="relative">
             <ShoppingBag size={24} />
-            <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-              1
-            </span>
+            {cartItems.length > 0 && (
+              <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                {cartItems.length}
+              </span>
+            )}
           </button>
 
           <div

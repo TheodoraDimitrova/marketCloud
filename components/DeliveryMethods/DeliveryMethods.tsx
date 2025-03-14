@@ -2,24 +2,43 @@ import React from "react";
 import { Controller } from "react-hook-form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { useDispatch } from "react-redux";
+import { setDeliveryMethod } from "@/store/slices/cartSlice";
+import { FieldErrors, Control } from "react-hook-form";
 
+interface FormValues {
+  deliveryMethod: string;
+}
 interface DeliveryMethodsProps {
-  control: any;
-  errors: any;
-  handleDeliveryMethodChange: (method: string) => void;
+  control: Control<FormValues>;
+  errors: FieldErrors<FormValues>;
 }
 
 const deliveryMethods = [
-  { value: "toAddress", label: "Delivery to Address" },
-  { value: "toCourierOffice", label: "Delivery to Courier Office" },
-  { value: "toSmartPoint", label: "Delivery to Smart Point" },
+  { value: "toAddress", label: "Delivery to Address", cost: 5.99 },
+  { value: "toCourierOffice", label: "Delivery to Courier Office", cost: 3.99 },
+  { value: "toSmartPoint", label: "Delivery to Smart Point", cost: 2.99 },
 ];
 
 const DeliveryMethods: React.FC<DeliveryMethodsProps> = ({
   control,
   errors,
-  handleDeliveryMethodChange,
 }) => {
+  const dispatch = useDispatch();
+
+  const handleDeliveryMethodChange = (value: string) => {
+    const selectedMethod = deliveryMethods.find((m) => m.value === value);
+    if (selectedMethod) {
+      dispatch(
+        setDeliveryMethod({
+          method: selectedMethod.value,
+          cost: selectedMethod.cost,
+          label: selectedMethod.label,
+        })
+      );
+    }
+  };
+
   return (
     <div className="space-y-3 mt-4 text-xs">
       <Controller

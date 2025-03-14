@@ -17,8 +17,12 @@ import DeliveryMethods from "@/components/DeliveryMethods/DeliveryMethods";
 import FormField from "../shared/formField/FormField";
 import PaymentMethod from "@/components/PaymentMethod/PaymentMethod";
 import validationRules from "@/lib/validationRulesCheckout";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
-const CheckoutForm = ({ handleFormSubmit, handleDeliveryMethodChange }) => {
+const CheckoutForm = () => {
+  const cart = useSelector((state: RootState) => state.cart);
+
   const {
     register,
     handleSubmit,
@@ -26,6 +30,10 @@ const CheckoutForm = ({ handleFormSubmit, handleDeliveryMethodChange }) => {
     watch,
     formState: { errors },
   } = useForm();
+
+  const handleFormSubmit = (data) => {
+    console.log("handleFormSubmit", { ...data, cart });
+  };
 
   return (
     <div className="col-span-2">
@@ -177,11 +185,7 @@ const CheckoutForm = ({ handleFormSubmit, handleDeliveryMethodChange }) => {
           Enter your address to see the shipping metods
         </p>
         {watch("city") && watch("postalCode") && (
-          <DeliveryMethods
-            control={control}
-            errors={errors}
-            handleDeliveryMethodChange={handleDeliveryMethodChange}
-          />
+          <DeliveryMethods control={control} errors={errors} />
         )}
 
         <PaymentMethod control={control} />

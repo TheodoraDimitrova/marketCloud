@@ -20,32 +20,30 @@ const ImgOverlayText: React.FC<ImgOverlayTextProps> = ({
 }) => {
   return (
     <div className="relative ">
-      <Link href={url}>
-        <Image
-          alt={title}
-          src={src}
-          width={200}
-          height={250}
-          style={{ width: "100%", height: "auto" }}
-          sizes="(max-width: 768px) 50vw, (min-width: 1600px) 350px, 50vw"
-          className="rounded-[10px] shadow-lg h-[350px]"
-          priority
-        />
+      <Image
+        alt={title}
+        src={src}
+        width={200}
+        height={250}
+        style={{ width: "100%", height: "auto" }}
+        sizes="(max-width: 768px) 50vw, (min-width: 1600px) 350px, 50vw"
+        className="rounded-[10px] shadow-lg h-[350px]"
+        priority
+      />
 
-        <div className="absolute w-full h-full  inset-0 bg-black bg-opacity-50 overflow-hidden rounded-xl">
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-10">
-            <span className="text-sm text-white font-light uppercase bold">
-              {subheading}
-            </span>
-            <h2 className="text-white text-2xl sm:text-2xl md:text-3xl lg:text-4xl mb-6">
-              {title}
-            </h2>
-            <Button variant="link">
-              <Link href={url}>{textBtn}</Link>
-            </Button>
-          </div>
+      <div className="absolute w-full h-full  inset-0 bg-black bg-opacity-50 overflow-hidden rounded-xl">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-10">
+          <span className="text-sm text-white font-light uppercase bold">
+            {subheading}
+          </span>
+          <h2 className="text-white text-2xl sm:text-2xl md:text-3xl lg:text-4xl mb-6">
+            {title}
+          </h2>
+          <Button asChild variant="link">
+            <Link href={url}>{textBtn}</Link>
+          </Button>
         </div>
-      </Link>
+      </div>
     </div>
   );
 };
