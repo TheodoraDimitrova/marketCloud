@@ -43,8 +43,10 @@ export const fetchProductsByCategory = createAsyncThunk(
   'products/fetchProductsByCategory',
   async (category: string, { rejectWithValue }) => {
     try {
-      const query = '*[_type == "product" && category == $category]';
+     
+      const query = '*[_type == "product" && references($category)]';
       const products = await sanityClient.fetch(query, { category });
+    
    
       return products;
     } catch (error) {

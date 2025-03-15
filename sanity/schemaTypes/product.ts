@@ -68,7 +68,7 @@ const productSchema = {
       name: "rating",
       title: "Rating",
       type: "number",
-      validation: (Rule: Rule) => Rule.min(0).max(5),  // Използвай правилния тип за Rule
+      validation: (Rule: Rule) => Rule.min(0).max(5), 
     },
     {
       name: "reviews",
@@ -78,7 +78,8 @@ const productSchema = {
     {
       name: "category",
       title: "Category",
-      type: "string",
+      type: "reference",
+      to: [{ type: "category" }]
     },
     {
       name: "brand",

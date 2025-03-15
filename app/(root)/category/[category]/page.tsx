@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
 import Banner from "@/components/shared/banner/Benner";
@@ -31,8 +31,6 @@ const CategoryPage = () => {
     image: string;
   } | null>(null);
 
-  const hasFetchedProducts = useRef<string | null>(null);
-
   useEffect(() => {
     if (categoriesStatus === "idle") {
       dispatch(fetchCategories());
@@ -62,10 +60,7 @@ const CategoryPage = () => {
       image: urlFor(foundCategory.image.asset._ref),
     });
 
-    if (hasFetchedProducts.current !== category) {
-      hasFetchedProducts.current = category;
-      dispatch(fetchProductsByCategory(category));
-    }
+    dispatch(fetchProductsByCategory(foundCategory._id));
   }, [category, categoriesStatus, categories, dispatch, router]);
 
   if (categoriesStatus === "loading" || productsStatus === "loading") {

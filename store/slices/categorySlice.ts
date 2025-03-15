@@ -8,7 +8,11 @@ export const fetchCategories = createAsyncThunk(
   'categories/fetchCategories',
   async (_, { rejectWithValue }) => {
     try {
-      const query = '*[_type == "category"]' 
+      const query = `*[_type == "category"]{
+        ...,
+        "totalProducts": count(*[_type == "product" && references(^._id)])
+      }`
+      
       const categories = await sanityClient.fetch(query)
       
       return categories
