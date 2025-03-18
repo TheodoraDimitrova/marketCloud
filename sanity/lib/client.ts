@@ -6,7 +6,7 @@ import {  dataset, projectId } from '../env'
 const client = createClient({
   projectId,
   dataset,
-  apiVersion: "2025-03-01",  
+  apiVersion: "2023-03-01",  
   useCdn: true,                
 })
 

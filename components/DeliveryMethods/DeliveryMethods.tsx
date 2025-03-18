@@ -1,10 +1,10 @@
 import React from "react";
-import { Controller } from "react-hook-form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setDeliveryMethod } from "@/store/slices/cartSlice";
-import { FieldErrors, Control } from "react-hook-form";
+import { Controller, Control, FieldErrors } from "react-hook-form";
+import { RootState } from "@/store/store";
 
 interface FormValues {
   deliveryMethod: string;
@@ -25,14 +25,17 @@ const DeliveryMethods: React.FC<DeliveryMethodsProps> = ({
   errors,
 }) => {
   const dispatch = useDispatch();
+  const cart = useSelector((state: RootState) => state.cart);
 
   const handleDeliveryMethodChange = (value: string) => {
     const selectedMethod = deliveryMethods.find((m) => m.value === value);
+
     if (selectedMethod) {
+      const deliveryCost = cart.subtotal >= 60 ? 0 : selectedMethod.cost;
       dispatch(
         setDeliveryMethod({
           method: selectedMethod.value,
-          cost: selectedMethod.cost,
+          cost: deliveryCost,
           label: selectedMethod.label,
         })
       );

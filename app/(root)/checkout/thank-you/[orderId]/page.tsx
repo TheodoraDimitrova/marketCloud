@@ -62,7 +62,6 @@ const ThankYouPage = () => {
       city: "Gabrovo",
       country: "bg",
       postalCode: "3500",
-      deliveryMethod: "toAddress",
       paymentMethod: "cod",
       cartItems: [
         { id: 1, name: "Adora Red Essence", price: 50, quantity: 1 },
@@ -120,7 +119,7 @@ const ThankYouPage = () => {
         <p>Postal Code: {orderResponse.orderData.postalCode}</p>
         <p>
           Delivery Method:{" "}
-          <strong>{orderResponse.orderData.deliveryMethod}</strong>
+          {/* <strong>{orderResponse.orderData.shipping.label}</strong> */}
         </p>
         <p>
           Payment Method:{" "}

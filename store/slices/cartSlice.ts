@@ -49,16 +49,16 @@ const cartSlice = createSlice({
     addToCart: (state, action: PayloadAction<CartItem>) => {
       const product = action.payload;
     
-      // Проверяваме дали продуктът вече съществува в кошницата
+ 
       const existingItemIndex = state.items.findIndex(
         (item) => item._id === product._id
       );
     
       if (existingItemIndex >= 0) {
-        // Ако продуктът вече съществува, увеличаваме количеството му
+     
         state.items[existingItemIndex].quantity += product.quantity;
       } else {
-        // Ако продуктът не съществува, добавяме нов продукт
+     
         const discountedPrice = calculateDiscountedPrice(product);
         const subtotalSingleProduct = discountedPrice * product.quantity; 
 
@@ -71,7 +71,7 @@ const cartSlice = createSlice({
         state.items.push(newItem);
       }
     
-      // След като добавим/актуализираме продукта, актуализираме общия subtotal за всички продукти в кошницата
+    
       state.subtotal = calculateSubtotal(state.items);
       state.totalSavings= calculateTotalSavings(state.items)
       state.totalAmount = state.subtotal + state.shipping.cost;

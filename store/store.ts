@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import categoryReducer from "./slices/categorySlice";
 import productReducer from "./slices/productsSlice";
 import cartReducer from './slices/cartSlice';
+import orderReducer from './slices/orderSlice'
 
 // Setup redux persist
 import { persistStore, persistReducer } from "redux-persist";
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   categories: categoryReducer,
   products: productReducer,
   cart: cartReducer,
+  order: orderReducer
 });
 
 
