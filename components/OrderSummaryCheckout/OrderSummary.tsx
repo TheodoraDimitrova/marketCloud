@@ -4,14 +4,8 @@ import CartProductSummary from "../shared/CartProductSummary/CartProductSummary"
 import { Tags } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-
-interface CartItem {
-  _id: string;
-  price: number;
-  discountedPrice?: number;
-  discount?: { isActive: boolean };
-  quantity: number;
-}
+import Loading from "../shared/loading/loading";
+import { CartItem } from "@/types/cart";
 
 const OrderSummary = () => {
   const cartItems: CartItem[] = useSelector(
@@ -24,21 +18,28 @@ const OrderSummary = () => {
     (state: RootState) => state.cart.totalSavings
   );
 
+  if (!cartItems || !subtotal || !shipping || !totalAmount) {
+    return <Loading />;
+  }
+
   const effectiveShippingFee = subtotal >= 60 ? 0 : shipping.cost;
 
   return (
     <div className="md:col-span-1 p-2 sm:p-4 md:p-6 bg-gray-100 rounded-md shadow-md min-w-[280px]">
       <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
       <ul className="space-y-4">
-        {cartItems.map((item) => (
-          <div key={item._id} className="flex items-center justify-between">
+        {cartItems.map((item, index) => (
+          <li
+            key={item._id || index}
+            className="flex items-center justify-between"
+          >
             <CartProductSummary item={item} />
             {item.discount?.isActive ? (
               <div className="flex flex-col">
                 <p className="text-sm  line-through">
                   €{item.price.toFixed(2)}
                 </p>
-                <p className="text-sm ">
+                <p className="text-sm font-semibold ">
                   €
                   {item.discountedPrice
                     ? item.discountedPrice.toFixed(2)
@@ -48,7 +49,7 @@ const OrderSummary = () => {
             ) : (
               <p className="text-sm font-semibold">€{item.price.toFixed(2)}</p>
             )}
-          </div>
+          </li>
         ))}
       </ul>
 

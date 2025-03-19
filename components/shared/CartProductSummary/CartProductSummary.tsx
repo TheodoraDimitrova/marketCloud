@@ -3,12 +3,20 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Tags } from "lucide-react";
 import { urlFor } from "@/sanity/lib/image";
+import { useParams } from "next/navigation";
 
-const CartProductSummary = ({ item }) => {
+import { CartItem } from "@/types/cart";
+
+interface CartProductSummaryProps {
+  item: CartItem;
+}
+
+const CartProductSummary: React.FC<CartProductSummaryProps> = ({ item }) => {
+  const params = useParams();
   const pathname = usePathname();
-
+  const orderId = params?.orderId;
   const isCheckoutPage = pathname === "/checkout";
-  const isThankYouPage = pathname === "/checkout/thank-you";
+  const isThankYouPage = pathname === `/checkout/thank-you/${orderId}`;
 
   return (
     <div className="flex items-center w-full ">
@@ -30,13 +38,8 @@ const CartProductSummary = ({ item }) => {
       </div>
       <div className="flex md:flex-1 ml-3 flex-col">
         <h3 className="text-sm font-medium">{item.name}</h3>
-        {/* <p className="text-sm">{item.description}</p> */}
-        {item.color && (
-          <p className="text-sm font-medium">Color: {item.color}</p>
-        )}
-        {item.size && <p className="text-sm font-medium">Size: {item.size}</p>}
 
-        {item.discount && (
+        {item.discount?.isActive && (
           <div className="flex items-center mt-2 w-full bg-">
             <Tags />
             <div className="text-sm w-full md:ml-2">

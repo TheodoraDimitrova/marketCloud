@@ -4,10 +4,15 @@
     type: "object", 
     fields: [
       {
-        name: "product",
-        title: "Product",
-        type: "reference",
-        to: [{ type: "product" }]
+        name: "images",
+        title: "Images",
+        type: "array",
+        of: [{ type: "image" }]
+      },
+      {
+        name: "name",
+        title: "Name",
+        type: "string",
       },
       {
         name: "quantity",
@@ -62,7 +67,6 @@
         name: "subtotalSingleProduct",
         title: "Total for Item",
         type: "number",
-    
         description: "Total price for this product (discountedPrice * quantity)."
 
       }

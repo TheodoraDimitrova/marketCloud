@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
   try {
     const orderData = await req.json(); 
+    console.log('orderData', orderData);
 
     const createdOrder = await clientBackend.create({
       _type: 'order',
@@ -20,12 +21,10 @@ export async function POST(req: NextRequest) {
       phone: orderData.phone,
       paymentMethod: orderData.paymentMethod,
       cart: orderData.cart.map((item,index) => ({
+        name: item.name,
         _key: `cartItem-${Date.now()}-${index}`, 
         _type: 'cartItem',
-        product: { 
-          _type: 'reference', 
-          _ref: item.product._ref, 
-        },
+        images: [item.images[0]], 
         quantity: item.quantity,
         price: item.price,
         discountedPrice: item.discountedPrice,

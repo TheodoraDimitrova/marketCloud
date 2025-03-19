@@ -23,7 +23,6 @@ import Loading from "@/components/shared/loading/loading";
 import { AppDispatch } from "@/store/store";
 import { useRouter } from "next/navigation";
 
-// Form Values Type
 interface FormValues {
   contact: string;
   subscribed: boolean;
@@ -70,10 +69,8 @@ const CheckoutForm = () => {
     cart: cart.items.map((item, index) => ({
       _key: `cartItem-${Date.now()}-${index}`,
       _type: "cartItem",
-      product: {
-        _type: "reference",
-        _ref: item._id,
-      },
+      images: [item.images[0]],
+      name: item.name,
       quantity: item.quantity,
       price: item.price,
       discountedPrice: item.discount ? item.discountedPrice : item.price,

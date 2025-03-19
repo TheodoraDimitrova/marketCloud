@@ -1,20 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { calculateDiscountedPrice, calculateSubtotal,calculateTotalSavings } from "@/lib/calculateCheckout";
+import { CartItem } from "@/types/cart";
 
-interface Discount {
-  isActive: boolean;
-  type: "percentage" | "fixed";
-  amount: number;
-}
-interface CartItem {
-  _id: string;
-  price: number;
-  discount?: Discount;
-  quantity: number;
-  discountedPrice?: number;
-  subtotalSingleProduct: number;
 
-}
+
+
 
 interface CartState {
   items: CartItem[];
@@ -48,8 +38,6 @@ const cartSlice = createSlice({
     
     addToCart: (state, action: PayloadAction<CartItem>) => {
       const product = action.payload;
-    
- 
       const existingItemIndex = state.items.findIndex(
         (item) => item._id === product._id
       );
@@ -113,9 +101,16 @@ const cartSlice = createSlice({
       state.shipping = action.payload;
       state.totalAmount = state.subtotal + action.payload.cost;
     },
+    setCartFromOrder: (state, action) => {
+      state.items = action.payload.cart;
+      state.subtotal = action.payload.subtotal;
+      state.shipping = action.payload.shipping;
+      state.totalAmount = action.payload.totalAmount;
+      state.totalSavings = action.payload.totalSavings;
+    }
   
   },
 });
 
-export const { addToCart, updateItemQuantity ,removeFromCart, setDeliveryMethod} = cartSlice.actions;
+export const { addToCart, updateItemQuantity ,removeFromCart, setDeliveryMethod, setCartFromOrder} = cartSlice.actions;
 export default cartSlice.reducer;

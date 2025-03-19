@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+
 export const createOrderInSanity = createAsyncThunk(
   'order/createOrder',
   async (orderData, { rejectWithValue }) => {
@@ -11,14 +12,27 @@ export const createOrderInSanity = createAsyncThunk(
       });
       if (!response.ok) {
         const errorData = await response.json();
-        
         return rejectWithValue(errorData); 
       }
       const data = await response.json();
       return data; 
     } catch (error) {
-      console.error('Network error:', error);
+     
       return rejectWithValue('Network error'); 
+    }
+  }
+);
+
+export const fetchOrder = createAsyncThunk(
+  "order/fetchOrder",
+  async (orderId: string, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`/api/orders/${orderId}`);
+      if (!res.ok) throw new Error("Failed to fetch order");
+  
+      return await res.json();
+    } catch (error) {
+      return rejectWithValue(error.message); 
     }
   }
 );
@@ -47,6 +61,17 @@ const orderSlice = createSlice({
       .addCase(createOrderInSanity.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload?.message || 'Failed to create order';
+      })
+      .addCase(fetchOrder.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchOrder.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.order = action.payload; 
+      })
+      .addCase(fetchOrder.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload || 'Failed to fetch order';
       });
   },
 });
