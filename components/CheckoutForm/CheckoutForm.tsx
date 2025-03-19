@@ -18,7 +18,7 @@ import PaymentMethod from "@/components/PaymentMethod/PaymentMethod";
 import validationRules from "@/lib/validationRulesCheckout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { createOrderInSanity } from "@/store/slices/orderSlice";
+import { createOrder } from "@/store/slices/orderSlice";
 import Loading from "@/components/shared/loading/loading";
 import { AppDispatch } from "@/store/store";
 import { useRouter } from "next/navigation";
@@ -97,7 +97,17 @@ const CheckoutForm = () => {
 
   const handleFormSubmit = async (data: FormValues) => {
     const orderData = prepareOrderData(data, cart);
-    await dispatch(createOrderInSanity(orderData));
+
+    try {
+      const res = await dispatch(createOrder(orderData));
+      if (res.error) {
+        console.error("Error creating order:", res.error);
+        return;
+      }
+      localStorage.clear();
+    } catch (error) {
+      console.error("Error creating order:", error);
+    }
   };
 
   return (

@@ -6,8 +6,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
   try {
     const orderData = await req.json(); 
-    console.log('orderData', orderData);
-
+  
     const createdOrder = await clientBackend.create({
       _type: 'order',
       contact: orderData.contact,

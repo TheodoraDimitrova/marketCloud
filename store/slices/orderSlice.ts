@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 
-export const createOrderInSanity = createAsyncThunk(
+export const createOrder = createAsyncThunk(
   'order/createOrder',
   async (orderData, { rejectWithValue }) => {
     try {
-      const response = await fetch('/api/createOrder', {
+      const response = await fetch('/api/orders/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderData),
@@ -51,14 +51,14 @@ const orderSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createOrderInSanity.pending, (state) => {
+      .addCase(createOrder.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(createOrderInSanity.fulfilled, (state, action) => {
+      .addCase(createOrder.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.order = action.payload.createdOrder;
       })
-      .addCase(createOrderInSanity.rejected, (state, action) => {
+      .addCase(createOrder.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload?.message || 'Failed to create order';
       })
