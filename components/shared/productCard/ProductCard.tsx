@@ -8,7 +8,7 @@ interface Product {
   id: number;
   name: string;
   images: { asset: { _ref: string } }[];
-  price: string;
+  price: number;
   tags?: { label: string; _key: string; type: string }[];
 }
 
@@ -17,7 +17,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
   return (
     <div
-      className="flex flex-col w-full max-w-[250px] bg-white shadow-md rounded-lg overflow-hidden"
+      className="flex flex-col w-full h-full max-w-[250px] bg-white shadow-md rounded-lg overflow-hidden"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -54,8 +54,8 @@ const ProductCard = ({ product }: { product: Product }) => {
 
         {/* Price Details */}
         <div className="flex flex-col items-center justify-between flex-grow text-center p-3">
-          <p className="text-gray-800 text-lg font-semibold">{product.name}</p>
-          <p className="text-gray-600 text-md"> € {product.price}</p>
+          <p className="text-gray-800 text-sm uppercase ">{product.name}</p>
+          <p className="text-gray-600 text-md"> € {product.price.toFixed(2)}</p>
         </div>
       </Link>
     </div>
