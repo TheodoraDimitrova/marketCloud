@@ -14,7 +14,6 @@ interface Product {
 
 const ProductCard = ({ product }: { product: Product }) => {
   const [hovered, setHovered] = React.useState(false);
-  const slug = product.name.toLowerCase().replace(/\s+/g, "-");
 
   return (
     <div
@@ -22,7 +21,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <Link href={`/product/${slug}`} className="relative">
+      <Link href={`/product/${product.slug.current}`} className="relative">
         <div className="relative w-[250px] h-[350px]">
           <Image
             src={
