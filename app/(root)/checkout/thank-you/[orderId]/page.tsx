@@ -23,6 +23,7 @@ const ThankYouPage = () => {
   useEffect(() => {
     if (status === "succeeded") {
       dispatch(setCartFromOrder(order));
+      localStorage.removeItem("cart");
     }
   }, [status, order, dispatch]);
 
