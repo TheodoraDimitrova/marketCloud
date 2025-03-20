@@ -17,7 +17,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
   return (
     <div
-      className="flex flex-col w-full h-full max-w-[250px] bg-white shadow-md rounded-lg overflow-hidden"
+      className="flex flex-col w-full h-full max-h-[450px] max-w-[250px] bg-white shadow-md rounded-lg overflow-hidden"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >

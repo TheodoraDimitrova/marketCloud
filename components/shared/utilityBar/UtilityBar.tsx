@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import {
   Select,
@@ -12,14 +13,17 @@ import { ChevronRight } from "lucide-react";
 
 type UtilityBarProps = {
   toggleFilters: () => void;
-  tottalProducts: number;
+  totalProducts: number;
+  appliedFiltersCount: number;
 };
 
 const UtilityBar: React.FC<UtilityBarProps> = ({
   toggleFilters,
   totalProducts,
+  appliedFiltersCount,
 }) => {
   const [isRotated, setIsRotated] = useState(false);
+
   const handleClick = () => {
     setIsRotated((prev) => !prev);
     toggleFilters();
@@ -34,7 +38,9 @@ const UtilityBar: React.FC<UtilityBarProps> = ({
         <SlidersHorizontal className="mr-2" />
 
         <span className="mr-2">Filters</span>
-        <span>(2)</span>
+        {appliedFiltersCount > 0 && (
+          <span className="text-sm text-red-500">({appliedFiltersCount})</span>
+        )}
         <button className="transition-transform duration-300">
           <ChevronRight
             className={`transform ${

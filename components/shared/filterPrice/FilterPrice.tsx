@@ -11,9 +11,12 @@ const FilterPrice: React.FC<FilterPriceProps> = ({ onChange, priceRange }) => {
   const [maxPrice, setMaxPrice] = useState(150);
 
   useEffect(() => {
-    if (priceRange.length === 0) {
+    if (priceRange && priceRange.length === 0) {
       setMinPrice(1);
       setMaxPrice(150);
+    } else {
+      setMinPrice(priceRange[0]);
+      setMaxPrice(priceRange[1]);
     }
   }, [priceRange]);
 
@@ -39,10 +42,10 @@ const FilterPrice: React.FC<FilterPriceProps> = ({ onChange, priceRange }) => {
 
   return (
     <div className="relative mt-4">
-      <div className="flex items-center gap-2 mb-4">
+      <div className="flex items-center justify-around gap-2 mb-4">
         <input
           type="number"
-          className="border rounded w-16 p-4 pl-2 py-1 text-gray-700"
+          className="border rounded w-16 p-1  pl-2 text-gray-700"
           min="1"
           max="150"
           value={minPrice}
@@ -51,7 +54,7 @@ const FilterPrice: React.FC<FilterPriceProps> = ({ onChange, priceRange }) => {
         <span>-</span>
         <input
           type="number"
-          className="border rounded w-16 pl-2 py-1 text-gray-700"
+          className="border rounded w-16 p-1 pl-2 text-gray-700"
           min="1"
           max="150"
           value={maxPrice}

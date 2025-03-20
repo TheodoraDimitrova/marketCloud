@@ -19,6 +19,7 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
   products,
 }) => {
   const [showFilters, setShowFilters] = useState(false);
+  const [appliedFiltersCount, setAppliedFiltersCount] = useState(0);
 
   const toggleFilters = () => setShowFilters((prev) => !prev);
 
@@ -28,6 +29,7 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
         <UtilityBar
           toggleFilters={toggleFilters}
           totalProducts={products.length}
+          appliedFiltersCount={appliedFiltersCount}
         />
       )}
 
@@ -36,6 +38,7 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
           <>
             <div className="fixed inset-0 w-full lg:relative min-h-screen bg-black opacity-50 z-50 lg:hidden" />
             <SectionFilters
+              onFiltersChange={(count) => setAppliedFiltersCount(count)}
               toggleFilters={toggleFilters}
               showFilter={showFilters}
             />

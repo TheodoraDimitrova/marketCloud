@@ -1,188 +1,166 @@
-import React, { useReducer } from "react";
-import { ChevronDown, ChevronUp, X } from "lucide-react";
+"use client";
+import React, { useState, useEffect } from "react";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { X } from "lucide-react";
 import FilterBrands from "@/components/shared/filterBrands/FilterBrands";
 import FilterDiscounts from "@/components/shared/filterDiscounts/FilterDiscounts";
 import FilterPrice from "../shared/filterPrice/FilterPrice";
+import CollapsibleFilter from "../shared/collapsibleFilter/CollapsibleFilter";
+import AppliedFilters from "../shared/appliedFilters/AppliedFilters";
 
 type FilterType = "priceRange" | "brands" | "discounts";
 
-interface SelectedFilters {
-  priceRange: [number, number] | [];
-  brands: string[];
-  discounts: string[];
-}
-type SectionFilterProps = {
+const SectionFilter: React.FC<{
   toggleFilters: () => void;
   showFilter: boolean;
-};
+  onFiltersChange: (count: number) => void;
+}> = ({ toggleFilters, showFilter, onFiltersChange }) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
 
-type Action =
-  | {
-      type: "SET_FILTER";
-      filterType: FilterType;
-      value: string[] | [number, number];
+  const [filters, setFilters] = useState<{
+    priceRange: [number, number];
+    brands: string[];
+    discounts: string[];
+  }>({
+    priceRange: [1, 150],
+    brands: [],
+    discounts: [],
+  });
+  const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(
+    null
+  );
+
+  useEffect(() => {
+    if (!searchParams) return;
+
+    const rawPriceRange = searchParams.get("priceRange");
+    const parsedPriceRange =
+      rawPriceRange && rawPriceRange.includes("-")
+        ? rawPriceRange.split("-").map(Number)
+        : [];
+
+    setFilters({
+      priceRange: parsedPriceRange as [number, number],
+      brands: searchParams.get("brands")?.split(",") || [],
+      discounts: searchParams.get("discounts")?.split(",") || [],
+    });
+  }, [searchParams]);
+
+  const appliedFiltersCount = [
+    filters.priceRange.length > 0,
+    filters.brands.length > 0,
+    filters.discounts.length > 0,
+  ].filter(Boolean).length;
+  useEffect(() => {
+    onFiltersChange(appliedFiltersCount);
+  }, [filters]);
+  const handlePriceChange = (priceRange: [number, number]) => {
+    if (debounceTimeout) clearTimeout(debounceTimeout);
+
+    const timeout = setTimeout(() => {
+      setFilters((prevFilters) => ({ ...prevFilters, priceRange }));
+      updateFilters("priceRange", priceRange.join("-"));
+    }, 500);
+    setDebounceTimeout(timeout);
+  };
+
+  const updateFilters = (filterType: FilterType, value: string | string[]) => {
+    const newParams = new URLSearchParams(searchParams.toString());
+
+    if (Array.isArray(value)) {
+      if (value.length > 0) {
+        newParams.set(filterType, value.join(","));
+      } else {
+        newParams.delete(filterType);
+      }
+    } else {
+      if (value) {
+        newParams.set(filterType, value);
+      } else {
+        newParams.delete(filterType);
+      }
     }
-  | { type: "REMOVE_FILTER"; filterType: FilterType; value: string }
-  | { type: "CLEAR_FILTERS" };
+    router.push(`${pathname}?${newParams.toString()}`, { scroll: false });
+  };
 
-const initialState: SelectedFilters = {
-  priceRange: [],
-  brands: [],
-  discounts: [],
-};
+  const removeFilter = (filterType: FilterType, value: string) => {
+    const newParams = new URLSearchParams(searchParams.toString());
 
-function filterReducer(
-  state: SelectedFilters,
-  action: Action
-): SelectedFilters {
-  switch (action.type) {
-    case "SET_FILTER":
-      return {
-        ...state,
-        [action.filterType]:
-          action.filterType === "priceRange"
-            ? [
-                `€${(action.value as [number, number])[0]} - €${
-                  (action.value as [number, number])[1]
-                }`,
-              ]
-            : action.value,
-      };
-    case "REMOVE_FILTER":
-      return {
-        ...state,
-        [action.filterType]:
-          action.filterType === "priceRange"
-            ? []
-            : (state[action.filterType] as string[]).filter(
-                (item) => item !== action.value
-              ),
-      };
-    case "CLEAR_FILTERS":
-      return initialState;
-    default:
-      return state;
-  }
-}
+    if (filterType === "priceRange") {
+      newParams.delete("priceRange");
+    } else {
+      const existingValues = newParams.get(filterType)?.split(",") || [];
+      const newValues = existingValues.filter((item) => item !== value);
 
-const FilterSection: React.FC<{ title: string; children: React.ReactNode }> = ({
-  title,
-  children,
-}) => (
-  <div>
-    <details className="group">
-      <summary className="flex justify-between items-center cursor-pointer text-md text-gray-500 py-5">
-        {title}
-        <span className="text-xl font-bold transition-all text-gray-500 duration-300 group-open:hidden">
-          <ChevronDown />
-        </span>
-        <span className="text-xl font-bold transition-all text-gray-500 duration-300 hidden group-open:block">
-          <ChevronUp />
-        </span>
-      </summary>
-      <div className="p-2 text-gray-600 max-h-0 overflow-hidden transition-all duration-500 ease-out group-open:max-h-96">
-        {children}
-      </div>
-    </details>
-  </div>
-);
+      if (newValues.length > 0) {
+        newParams.set(filterType, newValues.join(","));
+      } else {
+        newParams.delete(filterType);
+      }
+    }
 
-const SectionFilter: React.FC<SectionFilterProps> = ({
-  toggleFilters,
-  showFilter,
-}) => {
-  const [state, dispatch] = useReducer(filterReducer, initialState);
+    router.push(`${pathname}?${newParams.toString()}`, { scroll: false });
+  };
+
+  const clearFilters = () => {
+    router.push(pathname, { scroll: false });
+  };
 
   return (
     <div
-      className={`fixed top-0 left-0 h-screen w-3/4 max-w-sm p-4 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-[9999] overflow-auto              
+      className={`fixed top-0 left-0 h-screen w-3/4 max-w-sm p-4 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-[10] overflow-auto              
       ${showFilter ? "translate-x-0" : "-translate-x-full"}
       lg:relative lg:w-[280px] lg:translate-x-0 lg:shadow-none lg:h-auto text-gray-600 `}
     >
       <div className="flex flex-col ">
-        {/* Mobile version   */}
+        {/* Mobile Header */}
         <header className="lg:hidden flex justify-between items-center ">
           <h3 className="text-lg mb-3">Filters</h3>
-
           <X
             size={24}
             onClick={toggleFilters}
-            className=" hover:text-red-500 transition"
+            className="hover:text-red-500 transition"
           />
         </header>
 
         {/* Applied Filters */}
-        <div>
-          {Object.values(state).some((filters) => filters.length > 0) && (
-            <h3 className="mb-3">Applied Filters</h3>
-          )}
-          <div className="flex flex-wrap gap-2">
-            {Object.keys(state).map((type) =>
-              (state[type as keyof SelectedFilters] as string[]).map(
-                (filter) => (
-                  <div
-                    key={`${type}-${filter}`}
-                    className="flex items-center bg-gray-200 text-gray-700 px-2 py-1 rounded-sm shadow-sm"
-                  >
-                    <span className="text-sm">{filter}</span>
-                    <button
-                      className="ml-2 text-gray-500 hover:text-red-500"
-                      onClick={() =>
-                        dispatch({
-                          type: "REMOVE_FILTER",
-                          filterType: type as FilterType,
-                          value: filter,
-                        })
-                      }
-                    >
-                      <X size={14} />
-                    </button>
-                  </div>
-                )
-              )
-            )}
-          </div>
-          {Object.values(state).some((filters) => filters.length > 0) && (
-            <button
-              onClick={() => dispatch({ type: "CLEAR_FILTERS" })}
-              className="text-red-600 mt-3 hover:underline text-sm"
-            >
-              Clear all
-            </button>
-          )}
-        </div>
+        <AppliedFilters
+          initialFilters={{
+            priceRange:
+              filters.priceRange.length > 0
+                ? [`${filters.priceRange[0]} - ${filters.priceRange[1]}`]
+                : [],
+
+            brands: filters.brands,
+            discounts: filters.discounts,
+          }}
+          removeFilter={removeFilter}
+          clearFilters={clearFilters}
+        />
 
         {/* Filter Sections */}
-        <FilterSection title="Price">
+        <CollapsibleFilter title="Price">
           <FilterPrice
-            onChange={(values: [number, number]) =>
-              dispatch({
-                type: "SET_FILTER",
-                filterType: "priceRange",
-                value: values,
-              })
-            }
-            priceRange={state.priceRange}
+            onChange={handlePriceChange}
+            priceRange={filters.priceRange}
           />
-        </FilterSection>
+        </CollapsibleFilter>
 
-        <FilterSection title="Brands">
+        <CollapsibleFilter title="Brands">
           <FilterBrands
-            onChange={(value: string[]) =>
-              dispatch({ type: "SET_FILTER", filterType: "brands", value })
-            }
-            selectedBrands={state.brands}
+            onChange={(values) => updateFilters("brands", values)}
+            selectedBrands={filters.brands}
           />
-        </FilterSection>
+        </CollapsibleFilter>
 
-        <FilterSection title="Discounts">
+        <CollapsibleFilter title="Discounts">
           <FilterDiscounts
-            onChange={(value: string[]) =>
-              dispatch({ type: "SET_FILTER", filterType: "discounts", value })
-            }
-            selectedDiscounts={state.discounts}
+            onChange={(values: string[]) => updateFilters("discounts", values)}
+            selectedDiscounts={filters.discounts}
           />
-        </FilterSection>
+        </CollapsibleFilter>
       </div>
     </div>
   );
