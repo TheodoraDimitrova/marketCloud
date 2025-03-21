@@ -7,11 +7,15 @@ interface FilterBrandsProps {
   selectedBrands: string[];
 }
 const brands = [
-  "L'Oréal",
-  "Maybelline",
-  "MAC Cosmetics",
+  "Abora Cosmetics",
+  "Keratin",
+  "HairCaVe",
   "Fenty Beauty",
-  "Clinique",
+  "Bella Pouch",
+  "Glow Radiance",
+  "Mira Pouch",
+  "Moira Luxe",
+  "Batana Growth",
 ];
 
 const FilterBrands: React.FC<FilterBrandsProps> = ({

@@ -1,12 +1,12 @@
 import React from "react";
 import { Checkbox } from "@/components/ui/checkbox";
-
 const discounts: string[] = [
-  "All discounts",
-  "One piece",
-  "-10 %",
-  "-15 %",
-  "-20 %",
+  "-10%",
+  "-15%",
+  "-20%",
+  "New Arrival",
+  "Best Seller",
+  "One Piece",
 ];
 
 interface FilterDiscountsProps {

@@ -1,13 +1,20 @@
-import { useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
 import UtilityBar from "@/components/shared/utilityBar/UtilityBar";
 import SectionFilters from "@/components/SectionFilters/SectionFilters";
 import ProductCard from "@/components/shared/productCard/ProductCard";
 import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 
 interface Product {
   _id: string;
   name: string;
   description: string;
+  discount?: {
+    isActive: boolean;
+    amount: number;
+    type: string;
+  };
 }
 
 interface FilteredProductListProps {
@@ -20,8 +27,45 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
 }) => {
   const [showFilters, setShowFilters] = useState(false);
   const [appliedFiltersCount, setAppliedFiltersCount] = useState(0);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const toggleFilters = () => setShowFilters((prev) => !prev);
+
+  useEffect(() => {
+    const query = Object.fromEntries(searchParams.entries());
+    let filtered = products;
+
+    if (query.priceRange) {
+      const [minPrice, maxPrice] = query.priceRange.split("-").map(Number);
+      filtered = filtered.filter(
+        (product) => product.price >= minPrice && product.price <= maxPrice
+      );
+    }
+
+    if (query.brands) {
+      const brands = query.brands.split(",");
+      filtered = filtered.filter((product) => brands.includes(product.brand));
+    }
+    if (query.discounts) {
+      const discounts = query.discounts
+        .split(",")
+        .map((discount) => discount.trim());
+      filtered = filtered.filter((product) => {
+        const hasDiscount = discounts.some((discount) => {
+          if (product.discount?.isActive && product.discount.amount) {
+            const discountValue = `-${product.discount.amount}%`;
+            return discountValue === discount;
+          }
+          return product.tags?.some((tag) => tag.label.includes(discount));
+        });
+        return hasDiscount;
+      });
+    }
+    setFilteredProducts(filtered);
+  }, [appliedFiltersCount, searchParams, pathname, products]);
 
   return (
     <div>
@@ -46,8 +90,8 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
         )}
 
         <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:gap-4 p-10 lg:gap-y-8 justify-items-center items-center">
-          {products.length > 0 ? (
-            products.map((product) => (
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))
           ) : (
