@@ -25,7 +25,7 @@ const shopItems = [
   {
     src: "/images/Brands.png",
     alt: "Best Sellers",
-    href: "/category/best-sellers",
+    href: "/products?discounts=Best+Seller",
     text: "Best Sellers",
   },
 ];

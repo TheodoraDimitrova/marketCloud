@@ -11,6 +11,8 @@ import { urlFor } from "@/sanity/lib/image";
 import FilteredProductList from "@/components/shared/filteredProductList/FilteredProductList";
 import Loading from "@/components/shared/loading/loading";
 
+import SearchBar from "@/components/shared/searchBar/SearchBar";
+
 const CategoryPage = () => {
   const pathname = usePathname();
   const router = useRouter();
@@ -30,6 +32,8 @@ const CategoryPage = () => {
     description: string;
     image: string;
   } | null>(null);
+
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     if (categoriesStatus === "idle") {
@@ -68,6 +72,9 @@ const CategoryPage = () => {
   }
 
   if (!categoryData) return null;
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <>
@@ -76,8 +83,13 @@ const CategoryPage = () => {
         subtitle={categoryData.description}
         backgroundImage={categoryData.image}
       />
+      <SearchBar
+        onSearch={(searchTerm) => {
+          setSearchTerm(searchTerm);
+        }}
+      />
       <FilteredProductList
-        products={products}
+        products={filteredProducts}
         totalProducts={products.length}
       />
     </>

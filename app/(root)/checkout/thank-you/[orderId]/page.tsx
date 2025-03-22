@@ -1,19 +1,39 @@
 "use client";
-import Link from "next/link";
-import OrderSummary from "@/components/OrderSummaryCheckout/OrderSummary";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { format } from "date-fns";
 import { useEffect } from "react";
-import Loading from "@/components/shared/loading/loading";
+import { RootState, AppDispatch } from "@/store/store";
 import { fetchOrder } from "@/store/slices/orderSlice";
+import { setCartFromOrder, clearCart } from "@/store/slices/cartSlice";
 import { useParams } from "next/navigation";
-import { setCartFromOrder } from "@/store/slices/cartSlice";
+import Loading from "@/components/shared/loading/loading";
+import OrderSummary from "@/components/OrderSummaryCheckout/OrderSummary";
+import { format } from "date-fns";
+import { useRouter } from "next/navigation";
+
+interface Order {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  address: string;
+  city: string;
+  country: string;
+  postalCode: string;
+  shipping: { label: string };
+  paymentMethod: string;
+  status: string;
+  _updatedAt: string;
+}
 
 const ThankYouPage = () => {
-  const { order, status } = useSelector((state: RootState) => state.order);
-  const dispatch = useDispatch();
-  const { orderId } = useParams();
+  const order = useSelector(
+    (state: RootState) => state.order.order as Order | null
+  );
+  const status = useSelector((state: RootState) => state.order.status);
+  const dispatch = useDispatch<AppDispatch>();
+  const params = useParams();
+  const router = useRouter();
+  const orderId = params?.orderId as string | undefined;
 
   useEffect(() => {
     if (!order && orderId) {
@@ -26,14 +46,17 @@ const ThankYouPage = () => {
       localStorage.removeItem("cart");
     }
   }, [status, order, dispatch]);
+  const handleRedirect = () => {
+    dispatch(clearCart());
+    router.push("/products");
+  };
 
   if (status === "loading") return <Loading />;
   if (status === "failed") return <p>Error loading order.</p>;
-  if (!order) return <p>No order found.</p>;
+  if (!order) return <Loading />;
 
   return (
     <div className="max-w-4xl mx-auto p-6 text-gray-700">
-      {/* Заглавие */}
       <h1 className="text-2xl font-semibold text-center">
         Thank You, {order.firstName}!
       </h1>
@@ -41,7 +64,7 @@ const ThankYouPage = () => {
         Your order <strong>#{order._id}</strong> has been successfully placed.
       </p>
 
-      {/* Поръчка ID и статус */}
+      {/*order status*/}
       <div className="mt-6 text-center">
         <p className="text-lg uppercase">
           Order Status: <strong>{order.status}</strong>
@@ -73,9 +96,12 @@ const ThankYouPage = () => {
       </div>
 
       <div className="mt-8 text-center">
-        <Link href="/products" className="text-blue-600 underline">
+        <div
+          onClick={handleRedirect}
+          className="cursor-pointer text-accent hover:underline"
+        >
           Continue Shopping
-        </Link>
+        </div>
       </div>
     </div>
   );

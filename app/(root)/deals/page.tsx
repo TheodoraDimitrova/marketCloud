@@ -1,22 +1,24 @@
 import React from "react";
 import Image from "next/image";
 import Banner from "@/components/shared/banner/Benner";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const DealsPage = () => {
   const offers = [
     {
-      title: "50% Off on Lipsticks",
+      title: "20% Off on Lipsticks",
       description:
         "Get the best lipsticks at half the price! Limited time only.",
       image: "/images/bg1.png",
-      link: "/products/lipstick-red-rose",
-      discount: "50% Off",
+      link: "category/lipsticks",
+      discount: "20% Off",
     },
     {
       title: "Buy 1 Get 1 Free on Skincare",
       description: "Buy any skincare product and get one for free. Hurry up!",
       image: "/images/bg2.png",
-      link: "/products/skincare",
+      link: "category/skincare",
       discount: "Buy 1 Get 1 Free",
     },
     {
@@ -67,12 +69,9 @@ const DealsPage = () => {
                 </span>
 
                 {/* CTA Button */}
-                <a
-                  href={offer.link}
-                  className="block mt-6 text-center bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition"
-                >
-                  Shop Now
-                </a>
+                <Button className="mt-4 w-full" size="sm">
+                  <Link href={offer.link}>Shop Now </Link>
+                </Button>
               </div>
             </div>
           ))}

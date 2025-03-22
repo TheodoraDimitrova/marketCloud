@@ -12,7 +12,7 @@ import CartDrawer from "../cartDrawer/CartDrawer";
 import ShopDropdown from "./ShopDropdown";
 import BrandsDropdown from "./BrandsDropdown";
 import OurWorldDropdown from "./OurWorldDropdown";
-import DemosDropdown from "./DemosDropdown";
+
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 
@@ -59,11 +59,6 @@ const NavBar = () => {
       href: "/about-us",
       label: "OUR WORLD",
       dropdown: <OurWorldDropdown />,
-    },
-    {
-      href: "#",
-      label: "DEMOS",
-      dropdown: <DemosDropdown />,
     },
   ];
 
@@ -131,7 +126,10 @@ const NavBar = () => {
         </div>
       </div>
       {activeIndex !== null && (
-        <Dropdowns dropdown={links[activeIndex].dropdown} />
+        <Dropdowns
+          dropdown={links[activeIndex].dropdown}
+          setActiveIndex={setActiveIndex}
+        />
       )}
 
       <MobileMenu

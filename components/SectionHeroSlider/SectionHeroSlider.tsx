@@ -31,9 +31,8 @@ const HeroSlider = () => {
           <Image
             src="/images/slide1.png"
             alt="Slide 1"
-            fill
             className="object-cover"
-            priority
+            fill={true}
           />
 
           <div className="absolute inset-0 flex items-center justify-center">
@@ -87,14 +86,18 @@ const HeroSlider = () => {
                         variant="link"
                         className="w-full md:w-auto text-center mb-4"
                       >
-                        <Link href="/category/best-sellers">Best Sellers</Link>
+                        <Link href="/products?discounts=Best+Seller">
+                          Best Sellers
+                        </Link>
                       </Button>
                       <Button
                         asChild
                         variant="link"
                         className="w-full md:w-auto text-center"
                       >
-                        <Link href="/category/new-arrivals">New arrivals</Link>
+                        <Link href="/products?discounts=New+Arrival">
+                          New arrivals
+                        </Link>
                       </Button>
                     </div>
                   </motion.div>
