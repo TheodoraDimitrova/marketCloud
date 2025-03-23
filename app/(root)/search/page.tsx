@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Banner from "@/components/shared/banner/Benner";
+import Banner from "@/components/shared/PageBanner";
 
 import CategoriesCarousel from "@/components/shared/categoriesCarousel/CategoriesCarousel";
 import { useFetchData } from "@/hooks/useFetchData";
@@ -9,8 +9,8 @@ import { fetchAllProducts } from "@/store/slices/productsSlice";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import FilteredProductList from "@/components/shared/filteredProductList/FilteredProductList";
-import Loading from "@/components/shared/loading/loading";
-import SearchBar from "@/components/shared/searchBar/SearchBar";
+import Loading from "@/components/shared/Loading";
+import SearchBar from "@/components/shared/SearchBar";
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");

@@ -1,10 +1,10 @@
 import React from "react";
-import BlogPostsSection from "@/components/BlogPostsSection/BlogPostsSection";
+import BlogPosts from "@/components/HomeSections/BlogPosts";
 
 const BlogPage = () => {
   return (
     <section className="m-auto my-5 md:my-20 md:mt-10">
-      <BlogPostsSection />
+      <BlogPosts />
     </section>
   );
 };

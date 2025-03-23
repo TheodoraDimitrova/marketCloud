@@ -1,5 +1,5 @@
-import OrderSummary from "@/components/OrderSummaryCheckout/OrderSummary";
-import CheckoutForm from "@/components/CheckoutForm/CheckoutForm";
+import OrderSummary from "@/components/CheckoutPage/OrderSummary";
+import CheckoutForm from "@/components/CheckoutPage/CheckoutForm";
 
 const CheckoutPage = () => {
   return (

@@ -3,15 +3,15 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
-import Banner from "@/components/shared/banner/Benner";
+import Banner from "@/components/shared/PageBanner";
 import { fetchCategories } from "@/store/slices/categorySlice";
 import { fetchProductsByCategory } from "@/store/slices/productsSlice";
 import { RootState, AppDispatch } from "@/store/store";
 import { urlFor } from "@/sanity/lib/image";
 import FilteredProductList from "@/components/shared/filteredProductList/FilteredProductList";
-import Loading from "@/components/shared/loading/loading";
+import Loading from "@/components/shared/Loading";
 
-import SearchBar from "@/components/shared/searchBar/SearchBar";
+import SearchBar from "@/components/shared/SearchBar";
 
 const CategoryPage = () => {
   const pathname = usePathname();

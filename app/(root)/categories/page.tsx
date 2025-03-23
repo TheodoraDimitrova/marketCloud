@@ -6,7 +6,7 @@ import { useFetchData } from "@/hooks/useFetchData";
 import { fetchCategories } from "@/store/slices/categorySlice";
 import { urlFor } from "@/sanity/lib/image";
 import { RootState } from "@/store/store";
-import Loading from "@/components/shared/loading/loading";
+import Loading from "@/components/shared/Loading";
 
 const CategoriesPage = () => {
   const { status, error } = useFetchData(fetchCategories, "categories");

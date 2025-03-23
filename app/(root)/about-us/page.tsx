@@ -1,4 +1,4 @@
-import Banner from "@/components/shared/banner/Benner";
+import Banner from "@/components/shared/PageBanner";
 import Image from "next/image";
 
 export default function AboutPage() {

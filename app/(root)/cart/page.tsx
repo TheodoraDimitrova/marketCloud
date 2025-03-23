@@ -2,10 +2,10 @@
 import { RootState } from "@/store/store";
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
-import QuantitySelector from "@/components/shared/quantitySelector/QuantitySelector";
-import CartProductSummary from "@/components/shared/CartProductSummary/CartProductSummary";
-import FreeShippingBanner from "@/components/shared/FreeShippingBanner/FreeShippingBanner";
-import EmptyShopingCard from "@/components/shared/EmptyShopingCard/EmptyShopingCard";
+import QuantitySelector from "@/components/shared/QuantitySelector";
+import CartProductSummary from "@/components/shared/CartProductSummary";
+import FreeShippingBanner from "@/components/shared/FreeShippingBanner";
+import EmptyShopingCard from "@/components/cartDrawer/EmptyShoppingCart";
 import { updateItemQuantity, removeFromCart } from "@/store/slices/cartSlice";
 
 const CartPage = () => {

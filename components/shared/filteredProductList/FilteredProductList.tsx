@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import UtilityBar from "@/components/shared/utilityBar/UtilityBar";
-import SectionFilters from "@/components/SectionFilters/SectionFilters";
-import ProductCard from "@/components/shared/productCard/ProductCard";
+import UtilityBar from "@/components/shared/UtilityBar";
+import SectionFilters from "@/components/filters";
+import ProductCard from "@/components/shared/filteredProductList/ProductCard";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 

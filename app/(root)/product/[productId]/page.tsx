@@ -1,17 +1,17 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import QuantitySelector from "@/components/shared/quantitySelector/QuantitySelector";
+import QuantitySelector from "@/components/shared/QuantitySelector";
 import { useState, useEffect } from "react";
 import TagsList from "@/components/shared/tags/listTags";
-import Rating from "@/components/shared/raiting/raiting";
-import DiscountBannerProduct from "@/components/shared/discountBannerProduct/discountBannerProduct";
+import Rating from "@/components/shared/Rating";
+import DiscountBannerProduct from "@/components/shared/discountBannerProduct";
 import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/store/store";
 import { fetchProductDetails } from "@/store/slices/productsSlice";
 import { urlFor } from "@/sanity/lib/image";
-import Loading from "@/components/shared/loading/loading";
+import Loading from "@/components/shared/Loading";
 import { addToCart } from "@/store/slices/cartSlice";
 
 const ProductPage = () => {

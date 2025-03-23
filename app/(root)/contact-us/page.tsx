@@ -2,8 +2,8 @@
 import React from "react";
 import Image from "next/image";
 import Head from "next/head";
-import Banner from "@/components/shared/banner/Benner";
-import Marquee from "@/components/shared/marquee/Marquee";
+import Banner from "@/components/shared/PageBanner";
+import Marquee from "@/components/ContactPage/Marquee";
 import StoreInfo from "@/components/ContactPage/StoreInfo";
 import ContactForm from "@/components/ContactPage/ContactForm";
 

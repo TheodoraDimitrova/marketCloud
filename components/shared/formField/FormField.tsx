@@ -1,4 +1,4 @@
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/forms/input";
 import React from "react";
 
 const FormField = ({

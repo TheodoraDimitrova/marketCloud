@@ -1,8 +1,8 @@
 "use client";
 import React, { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Carousel from "@/components/shared/carousel/Carousel"; // Ако не е импортирано
-import ImgCarousel from "@/components/shared/imgCarousel/ImgCarousel"; // Ако не е импортирано
+import Carousel from "@/components/shared/Carousel";
+import ImgCarousel from "@/components/shared/categoriesCarousel/ImgCarousel";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useFetchData } from "@/hooks/useFetchData";

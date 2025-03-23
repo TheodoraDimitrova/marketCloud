@@ -1,12 +1,12 @@
 import React from "react";
-import Banner from "@/components/shared/banner/Benner";
+import Banner from "@/components/shared/PageBanner";
 import Link from "next/link";
 import { Search } from "lucide-react";
 import { ChevronDown } from "lucide-react";
 import { ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MessageCircleMore } from "lucide-react";
-import SectionRichText from "@/components/SectionRichText/SectionRichText";
+import SectionRichText from "@/components/HomeSections/RichText";
 
 const CostomerHepl = () => {
   const topics = [

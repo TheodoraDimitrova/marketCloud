@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Banner from "@/components/shared/banner/Benner";
+import Banner from "@/components/shared/PageBanner";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 

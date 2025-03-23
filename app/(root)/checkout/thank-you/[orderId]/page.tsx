@@ -5,8 +5,8 @@ import { RootState, AppDispatch } from "@/store/store";
 import { fetchOrder } from "@/store/slices/orderSlice";
 import { setCartFromOrder, clearCart } from "@/store/slices/cartSlice";
 import { useParams } from "next/navigation";
-import Loading from "@/components/shared/loading/loading";
-import OrderSummary from "@/components/OrderSummaryCheckout/OrderSummary";
+import Loading from "@/components/shared/Loading";
+import OrderSummary from "@/components/CheckoutPage/OrderSummary";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 
