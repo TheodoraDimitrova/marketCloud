@@ -26,7 +26,7 @@ const CartPage = () => {
 
           {/* Header of the list products */}
           <div className="hidden md:block w-full p-4 rounded-lg ">
-            <div className="flex items-center justify-between text-sm md:text-lg text-gray-700 font-medium">
+            <div className="flex-between text-sm md:text-lg text-gray-700 font-medium">
               <div className="flex-1 text-left ">Product</div>
               <div className="w-32 text-center">Price</div>
               <div className="w-32 text-center ">Quantity</div>
@@ -36,7 +36,7 @@ const CartPage = () => {
 
           {cartItems.map((item) => (
             <div key={item._id} className="md:p-4 flex-col pb-4 mt-4">
-              <div className="flex items-center justify-between">
+              <div className="flex-between">
                 <div className="flex flex-1 flex-col">
                   <CartProductSummary item={item} />
                   <div className="quantity md:hidden flex w-24 ml-20">
@@ -66,7 +66,7 @@ const CartPage = () => {
                   )}
                 </div>
 
-                <div className="quantity hidden md:flex flex-col text-center justify-center items-center w-32">
+                <div className="quantity hidden md:flex flex-col text-center flex-center w-32">
                   <QuantitySelector
                     updateQuantity={(change) =>
                       updateQuantity(item._id, change)

@@ -1,20 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Banner from "@/components/shared/PageBanner";
 import CategoriesCarousel from "@/components/shared/categoriesCarousel/CategoriesCarousel";
 import { useFetchData } from "@/hooks/useFetchData";
 import { fetchAllProducts } from "@/store/slices/productsSlice";
-import { RootState } from "@/store/store";
-import { useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { useSelector, useDispatch } from "react-redux";
 import FilteredProductList from "@/components/shared/filteredProductList/FilteredProductList";
 import Loading from "@/components/shared/Loading";
 import SearchBar from "@/components/shared/SearchBar";
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const dispatch = useDispatch<AppDispatch>();
   const { status, error } = useFetchData(fetchAllProducts, "products");
   const products = useSelector((state: RootState) => state.products.products);
+
+  useEffect(() => {
+    if (status === "idle" || status === "failed") {
+      if (products.length === 0) {
+        dispatch(fetchAllProducts());
+      }
+    }
+  }, [dispatch, status, products.length]);
 
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())

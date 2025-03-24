@@ -8,13 +8,7 @@ import { fetchCategories } from "@/store/slices/categorySlice";
 import { urlFor } from "@/sanity/lib/image";
 import { RootState } from "@/store/store";
 import Loading from "../shared/Loading";
-
-interface Category {
-  id: string;
-  name: string;
-  subheading?: string;
-  image: string;
-}
+import { Category } from "@/types/category";
 
 const CarouselHome = () => {
   const { status } = useFetchData(fetchCategories, "categories");
@@ -31,11 +25,11 @@ const CarouselHome = () => {
     .slice(0, 3)
     .map((category: Category) => (
       <ImgOverlayText
-        key={category.id}
+        key={category._id}
         subheading={category.subheading || "Discover Your Glow"}
         title={category.name}
         textBtn={`Shop ${category.name}`}
-        url={`/category/${category.id}`}
+        url={`/category/${category.slug.current}`}
         src={urlFor(category.image)}
       />
     ));

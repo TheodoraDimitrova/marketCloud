@@ -51,7 +51,7 @@ const UtilityBar: React.FC<UtilityBarProps> = ({
       </div>
 
       {/* Middle Section */}
-      <div className="bar-middle flex justify-center items-center w-full sm:w-1/3 text-gray-700">
+      <div className="bar-middle flex-center w-full sm:w-1/3 text-gray-700">
         <p>{totalProducts} products</p>
       </div>
 

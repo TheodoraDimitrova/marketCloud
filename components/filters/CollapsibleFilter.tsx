@@ -7,7 +7,7 @@ const CollapsibleFilter: React.FC<{
 }> = ({ title, children }) => (
   <div>
     <details className="group">
-      <summary className="flex justify-between items-center cursor-pointer text-md text-gray-500 py-5">
+      <summary className="flex-between cursor-pointer text-md text-gray-500 py-5">
         {title}
         <span className="text-xl font-bold transition-all text-gray-500 duration-300 group-open:hidden">
           <ChevronDown />

@@ -34,7 +34,7 @@ const BlogPosts = () => {
   ];
 
   return (
-    <div className="container m-auto flex flex-col h-auto items-center justify-between pb-0 md:pb-12 ">
+    <div className="container m-auto  flex-col h-auto flex-between pb-0 md:pb-12 ">
       <h1>Blog Posts</h1>
       <div className="flex flex-col gap-3 md:flex-row items-stretch justify-center h-full mx-5">
         {posts.map((post, index) => (

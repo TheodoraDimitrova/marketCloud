@@ -49,7 +49,7 @@ const Footer = () => {
             <FooterNewsLetter />
           </div>
           {/* Divider and Legal Links */}
-          <div className="border-t border-gray-600 pt-4 flex justify-between items-center">
+          <div className="border-t border-gray-600 pt-4 flex-between">
             <div className="relative text-gray-400">
               <CurrencySelect />
             </div>

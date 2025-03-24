@@ -169,7 +169,7 @@ const CostomerHepl = () => {
                   {section.questions.map((item, qIndex) => (
                     <div key={qIndex} className="border-b border-gray-300 ">
                       <details className="group  ">
-                        <summary className="flex justify-between items-center cursor-pointer  text-xl  text-gray-500 py-5">
+                        <summary className="flex-between cursor-pointer  text-xl  text-gray-500 py-5">
                           {item.question}
                           <span className="text-3xl font-bold transition-all  text-gray-500 duration-300 group-open:hidden">
                             <ChevronUp />

@@ -4,5 +4,6 @@ export interface Category {
     slug: { current: string };
     image: { _type: string; asset: { _ref: string } }; 
     description: string;
-    totalProducts: number
+    totalProducts: number;
+    subheading?: string;
 }

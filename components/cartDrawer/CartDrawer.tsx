@@ -59,7 +59,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                 key={item._id || index}
                 className="md:p-4  flex-col pb-4 mt-4 "
               >
-                <div className="flex items-center justify-between">
+                <div className="flex-between">
                   <div className="flex flex-col">
                     <CartProductSummary item={item} />
 
