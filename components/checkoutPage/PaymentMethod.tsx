@@ -1,6 +1,6 @@
 import React from "react";
 import { Controller } from "react-hook-form";
-import PaymentDetails from "@/components/CheckoutPage/PaymentDetails";
+import PaymentDetails from "@/components/checkoutPage/PaymentDetails";
 
 import { Control } from "react-hook-form";
 

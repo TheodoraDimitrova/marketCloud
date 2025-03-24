@@ -11,6 +11,15 @@ export default defineType({
       type: 'string',
       description: 'Unique identifier for the category',
     }),
+    {
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {
+        source: 'name', 
+        maxLength: 200, 
+      },
+    },
     defineField({
       name: 'name',
       title: 'Category Name',

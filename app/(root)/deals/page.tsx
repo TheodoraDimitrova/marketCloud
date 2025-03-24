@@ -80,7 +80,7 @@ const DealsPage = () => {
         {/* Footer with limited time offers */}
         <div className="mt-12 text-center">
           <h2 className="text-3xl font-semibold text-gray-800">
-            Hurry, These Offers Won't Last!
+            Hurry, These Offers Won&apos;t Last!
           </h2>
           <p className="mt-2 text-lg text-gray-600">
             Act fast, the clock is ticking!

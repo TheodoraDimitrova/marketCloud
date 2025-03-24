@@ -1,5 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+interface ErrorPayload {
+  message: string;
+}
+
+const handleError = (error: unknown): string => {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return 'An unknown error occurred';
+};
 
 export const createOrder = createAsyncThunk(
   'order/createOrder',
@@ -17,8 +27,7 @@ export const createOrder = createAsyncThunk(
       const data = await response.json();
       return data; 
     } catch (error) {
-     
-      return rejectWithValue('Network error'); 
+      return rejectWithValue(handleError(error));
     }
   }
 );
@@ -32,7 +41,7 @@ export const fetchOrder = createAsyncThunk(
   
       return await res.json();
     } catch (error) {
-      return rejectWithValue(error.message); 
+      return rejectWithValue(handleError(error));;
     }
   }
 );
@@ -46,9 +55,7 @@ const orderSlice = createSlice({
     error: "",
  
   },
-  reducers: {
-
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(createOrder.pending, (state) => {
@@ -60,7 +67,8 @@ const orderSlice = createSlice({
       })
       .addCase(createOrder.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.payload?.message || 'Failed to create order';
+        const errorPayload = action.payload as ErrorPayload; 
+        state.error = errorPayload?.message || 'Failed to create order'; 
       })
       .addCase(fetchOrder.pending, (state) => {
         state.status = 'loading';
@@ -71,7 +79,9 @@ const orderSlice = createSlice({
       })
       .addCase(fetchOrder.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.payload || 'Failed to fetch order';
+        const errorPayload = action.payload as ErrorPayload; 
+        state.error = errorPayload?.message || 'Failed to fetch order'; 
+       
       });
   },
 });

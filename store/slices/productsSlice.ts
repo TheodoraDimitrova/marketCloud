@@ -1,24 +1,30 @@
 'use client'
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'; 
 import sanityClient from '@/lib/sanityClient';
-
-
-type Product = {
-  _id: string;
-  name: string;
-  description: string;
-  price: number;
-  image: { asset: { url: string } };
-  category: string;
-};
+import { Product } from '@/types/product';
 
 type ProductState = {
   products: Product[];
+  filteredProducts: Product[];
   productDetails: Product | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 };
 
+const initialState: ProductState = {
+  products: [],
+  filteredProducts:[],
+  productDetails: null,
+  status: 'idle',
+  error: null,
+};
+
+const handleError = (error: unknown): string => {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return 'An unknown error occurred';
+};
 
 export const fetchAllProducts = createAsyncThunk(
   'products/fetchAllProducts',
@@ -29,36 +35,23 @@ export const fetchAllProducts = createAsyncThunk(
     
       return products;
     } catch (error) {
-      let errorMessage = 'An unknown error occurred';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      return rejectWithValue(errorMessage);
+      return rejectWithValue(handleError(error));
     }
   }
 );
-
 
 export const fetchProductsByCategory = createAsyncThunk(
   'products/fetchProductsByCategory',
   async (category: string, { rejectWithValue }) => {
     try {
-     
       const query = '*[_type == "product" && references($category)]';
-      const products = await sanityClient.fetch(query, { category });
-    
-   
-      return products;
+      const filteredProducts = await sanityClient.fetch(query, { category });
+      return filteredProducts;
     } catch (error) {
-      let errorMessage = 'An unknown error occurred';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      return rejectWithValue(errorMessage);
+      return rejectWithValue(handleError(error));
     }
   }
 );
-
 
 export const fetchProductDetails = createAsyncThunk(
   'products/fetchProductDetails',
@@ -68,39 +61,12 @@ export const fetchProductDetails = createAsyncThunk(
       const product = await sanityClient.fetch(query, { slug });
       return product;
     } catch (error) {
-      let errorMessage = 'An unknown error occurred';
-      if (error instanceof Error) {
-        errorMessage = error.message; 
-      }
-      return rejectWithValue(errorMessage);
-    }
-  }
-);
-
-export const fetchProductsByTag = createAsyncThunk(
-  "products/fetchProductsByTag",
-  async (tag: string, { rejectWithValue }) => {
-    try {
-      const query = '*[_type == "product" && tags[].label match $tag]';
-      const products = await sanityClient.fetch(query, { tag });
-      return products;
-    } catch (error) {
-      let errorMessage = "An unknown error occurred";
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      return rejectWithValue(errorMessage);
+      return rejectWithValue(handleError(error));
     }
   }
 );
 
 
-const initialState: ProductState = {
-  products: [],
-  productDetails: null,
-  status: 'idle',
-  error: null,
-};
 
 
 const productSlice = createSlice({
@@ -115,6 +81,7 @@ const productSlice = createSlice({
       .addCase(fetchAllProducts.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.products = action.payload;
+        state.filteredProducts = action.payload; 
       })
       .addCase(fetchAllProducts.rejected, (state, action) => {
         state.status = 'failed';
@@ -125,7 +92,7 @@ const productSlice = createSlice({
       })
       .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.products = action.payload;
+        state.filteredProducts = action.payload;
       })
       .addCase(fetchProductsByCategory.rejected, (state, action) => {
         state.status = 'failed';
@@ -142,14 +109,6 @@ const productSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload as string;
       })
-      .addCase(fetchProductsByTag.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.products  = action.payload;
-      })
-      .addCase(fetchProductsByTag.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload as string;
-      });
   },
 });
 

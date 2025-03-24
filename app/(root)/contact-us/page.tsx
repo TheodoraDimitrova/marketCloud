@@ -3,9 +3,9 @@ import React from "react";
 import Image from "next/image";
 import Head from "next/head";
 import Banner from "@/components/shared/PageBanner";
-import Marquee from "@/components/ContactPage/Marquee";
-import StoreInfo from "@/components/ContactPage/StoreInfo";
-import ContactForm from "@/components/ContactPage/ContactForm";
+import Marquee from "@/components/contactPage/Marquee";
+import StoreInfo from "@/components/contactPage/StoreInfo";
+import ContactForm from "@/components/contactPage/ContactForm";
 
 const ContactPage = () => {
   return (

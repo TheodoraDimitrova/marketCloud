@@ -12,9 +12,9 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/forms/select";
-import DeliveryMethods from "@/components/CheckoutPage/DeliveryMethods";
+import DeliveryMethods from "@/components/checkoutPage/DeliveryMethods";
 import FormField from "../shared/formField/FormField";
-import PaymentMethod from "@/components/CheckoutPage/PaymentMethod";
+import PaymentMethod from "@/components/checkoutPage/PaymentMethod";
 import validationRules from "@/lib/validationRulesCheckout";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";

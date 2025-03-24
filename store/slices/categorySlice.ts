@@ -2,6 +2,19 @@
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import sanityClient from '../../lib/sanityClient'
+import { Category } from "@/types/category";
+
+interface CategoryState {
+  categories: Category[]; 
+  status: "idle" | "loading" | "succeeded" | "failed";
+  error: string | null;
+}
+
+const initialState: CategoryState = {
+  categories: [], 
+  status: "idle",
+  error: null,
+};
 
 
 export const fetchCategories = createAsyncThunk(
@@ -29,11 +42,7 @@ export const fetchCategories = createAsyncThunk(
 
 const categorySlice = createSlice({
   name: 'categories',
-  initialState: {
-    categories: [] ,
-    status: 'idle',
-    error: null as string | null,
-  },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder

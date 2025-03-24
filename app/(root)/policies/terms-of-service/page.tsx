@@ -1,4 +1,4 @@
-const TermsOfService = () => {
+const TermsOfServicePage = () => {
   return (
     <div>
       <h1>Terms of Service</h1>
@@ -7,4 +7,4 @@ const TermsOfService = () => {
   );
 };
 
-export default TermsOfService;
+export default TermsOfServicePage;

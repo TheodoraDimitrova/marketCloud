@@ -6,7 +6,7 @@ import { ChevronDown } from "lucide-react";
 import { ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MessageCircleMore } from "lucide-react";
-import SectionRichText from "@/components/HomeSections/RichText";
+import RichText from "@/components/homeSections/RichText";
 
 const CostomerHepl = () => {
   const topics = [
@@ -197,7 +197,7 @@ const CostomerHepl = () => {
           </div>
         </div>
       </section>
-      <SectionRichText
+      <RichText
         icon={MessageCircleMore}
         title="Get in touch"
         text="Have questions about your order, or a general enquiry?"

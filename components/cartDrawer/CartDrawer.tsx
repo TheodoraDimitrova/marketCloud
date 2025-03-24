@@ -80,7 +80,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                           €{item.price.toFixed(2)}
                         </p>
                         <p className="text-sm font-semibold">
-                          €{item.discountedPrice.toFixed(2)}
+                          € €{item.discountedPrice?.toFixed(2) ?? "0.00"}
                         </p>
                       </>
                     ) : (

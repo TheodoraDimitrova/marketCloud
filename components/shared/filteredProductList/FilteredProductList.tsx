@@ -5,17 +5,7 @@ import SectionFilters from "@/components/filters";
 import ProductCard from "@/components/shared/filteredProductList/ProductCard";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-
-interface Product {
-  _id: string;
-  name: string;
-  description: string;
-  discount?: {
-    isActive: boolean;
-    amount: number;
-    type: string;
-  };
-}
+import { Product } from "@/types/product";
 
 interface FilteredProductListProps {
   products: Product[];
@@ -47,7 +37,9 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
 
     if (query.brands) {
       const brands = query.brands.split(",");
-      filtered = filtered.filter((product) => brands.includes(product.brand));
+      filtered = filtered.filter((product) => {
+        return brands.includes(product.brand || "");
+      });
     }
     if (query.discounts) {
       const discounts = query.discounts
@@ -72,7 +64,7 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
       {products.length > 0 && (
         <UtilityBar
           toggleFilters={toggleFilters}
-          totalProducts={products.length}
+          totalProducts={filteredProducts.length}
           appliedFiltersCount={appliedFiltersCount}
         />
       )}

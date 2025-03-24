@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Banner from "@/components/shared/PageBanner";
-
 import CategoriesCarousel from "@/components/shared/categoriesCarousel/CategoriesCarousel";
 import { useFetchData } from "@/hooks/useFetchData";
 import { fetchAllProducts } from "@/store/slices/productsSlice";

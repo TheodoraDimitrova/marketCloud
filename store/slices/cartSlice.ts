@@ -1,48 +1,25 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { calculateDiscountedPrice, calculateSubtotal, calculateTotalSavings } from "@/lib/calculateCheckout";
-import { CartItem } from "@/types/cart";
+import { CartItem ,CartState } from "@/types/cart";
+import {saveToLocalStorage,loadFromLocalStorage } from '@/lib/localStorage'
 
-
-const saveToLocalStorage = (cart: CartState) => {
-  if (typeof window !== "undefined") {  // Проверка за наличност на window (за да не се изпълнява на сървъра)
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }
-};
-
-// Четене на данни от Local Storage
-const loadFromLocalStorage = (): CartState => {
-  if (typeof window !== "undefined") {
-    const cartData = localStorage.getItem("cart");
-    if (cartData) {
-      return JSON.parse(cartData);
-    }
-  }
-  return { 
-    items: [],
-    subtotal: 0,
-    totalSavings: 0,
-    totalAmount: 0,
-    shipping: {
-      method: null,
-      cost: 0,
-      label: "",
-    },
-  };
-};
-
-interface CartState {
-  items: CartItem[];
-  subtotal: number; 
-  totalSavings: number;
-  totalAmount: number;
-  shipping: {
-    method: string | null,
-    cost: number,
-    label: string,
-  };
-}
 
 const initialState: CartState = loadFromLocalStorage();  
+
+type DeliveryMethodPayload = { method: string; cost: number; label: string };
+type SetCartFromOrderPayload = { cart: CartItem[]; shipping: { 
+  method: string | null; 
+  cost: number; 
+  label: string; 
+};  totalAmount: number; totalSavings: number };
+
+
+
+const recalculateCartTotals = (state: CartState) => {
+  state.subtotal = calculateSubtotal(state.items);
+  state.totalSavings = calculateTotalSavings(state.items);
+  state.totalAmount = state.subtotal + state.shipping.cost;
+};
 
 const cartSlice = createSlice({
   name: "cart",
@@ -68,23 +45,16 @@ const cartSlice = createSlice({
         state.items.push(newItem);
       }
 
-      state.subtotal = calculateSubtotal(state.items);
-      state.totalSavings = calculateTotalSavings(state.items);
-      state.totalAmount = state.subtotal  + state.shipping.cost  ;
-
+      recalculateCartTotals(state)
       saveToLocalStorage(state);  
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter(item => item._id !== action.payload);
-      state.subtotal = calculateSubtotal(state.items);
-      state.totalSavings = calculateTotalSavings(state.items);
-      state.totalAmount = state.subtotal  + state.shipping.cost  ;
-
+      recalculateCartTotals(state)
       saveToLocalStorage(state);  
     },
     updateItemQuantity: (state, action: PayloadAction<{ id: string; quantity: number }>) => {
       const item = state.items.find(item => item._id === action.payload.id);
-
       if (item) {
         const newQuantity = item.quantity + action.payload.quantity;
         if (newQuantity <= 0) {
@@ -97,11 +67,7 @@ const cartSlice = createSlice({
           item.subtotalSingleProduct = subtotalSingleProduct;
         }
       }
-
-      state.subtotal = calculateSubtotal(state.items);
-      state.totalSavings = calculateTotalSavings(state.items);
-      state.totalAmount = state.subtotal  + state.shipping.cost ;
-
+      recalculateCartTotals(state)
       saveToLocalStorage(state);  
     },
     clearCart: (state) => {
@@ -112,19 +78,16 @@ const cartSlice = createSlice({
 
       saveToLocalStorage(state); 
     },
-    setDeliveryMethod: (state, action: PayloadAction<{ method: string; cost: number; label: string }>) => {
+    setDeliveryMethod: (state, action: PayloadAction<DeliveryMethodPayload>) => {
       state.shipping = action.payload;
       state.totalAmount = state.subtotal + action.payload.cost;
 
       saveToLocalStorage(state); 
     },
-    setCartFromOrder: (state, action) => {
+    setCartFromOrder: (state, action: PayloadAction<SetCartFromOrderPayload>) => {
       state.items = action.payload.cart;
-      state.subtotal = action.payload.subtotal;
       state.shipping = action.payload.shipping;
-      state.totalAmount = action.payload.totalAmount;
-      state.totalSavings = action.payload.totalSavings;
-
+      recalculateCartTotals(state)
       saveToLocalStorage(state);  
     },
   },

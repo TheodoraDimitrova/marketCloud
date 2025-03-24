@@ -10,7 +10,6 @@ import { RootState, AppDispatch } from "@/store/store";
 import { urlFor } from "@/sanity/lib/image";
 import FilteredProductList from "@/components/shared/filteredProductList/FilteredProductList";
 import Loading from "@/components/shared/Loading";
-
 import SearchBar from "@/components/shared/SearchBar";
 
 const CategoryPage = () => {
@@ -23,7 +22,7 @@ const CategoryPage = () => {
   const { categories, status: categoriesStatus } = useSelector(
     (state: RootState) => state.categories
   );
-  const { products, status: productsStatus } = useSelector(
+  const { filteredProducts, status: ProductState } = useSelector(
     (state: RootState) => state.products
   );
 
@@ -50,7 +49,7 @@ const CategoryPage = () => {
       return;
 
     const foundCategory = categories.find(
-      (cat) => cat.id?.toLowerCase() === category.toLowerCase()
+      (cat) => cat.slug.current === category.toLowerCase()
     );
 
     if (!foundCategory) {
@@ -67,12 +66,12 @@ const CategoryPage = () => {
     dispatch(fetchProductsByCategory(foundCategory._id));
   }, [category, categoriesStatus, categories, dispatch, router]);
 
-  if (categoriesStatus === "loading" || productsStatus === "loading") {
+  if (categoriesStatus === "loading" || ProductState === "loading") {
     return <Loading />;
   }
 
   if (!categoryData) return null;
-  const filteredProducts = products.filter((product) =>
+  const filterProducts = filteredProducts.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -89,8 +88,8 @@ const CategoryPage = () => {
         }}
       />
       <FilteredProductList
-        products={filteredProducts}
-        totalProducts={products.length}
+        products={filterProducts}
+        totalProducts={filterProducts.length}
       />
     </>
   );

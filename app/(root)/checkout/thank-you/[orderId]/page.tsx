@@ -6,24 +6,10 @@ import { fetchOrder } from "@/store/slices/orderSlice";
 import { setCartFromOrder, clearCart } from "@/store/slices/cartSlice";
 import { useParams } from "next/navigation";
 import Loading from "@/components/shared/Loading";
-import OrderSummary from "@/components/CheckoutPage/OrderSummary";
+import OrderSummary from "@/components//checkoutPage/OrderSummary";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
-
-interface Order {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  address: string;
-  city: string;
-  country: string;
-  postalCode: string;
-  shipping: { label: string };
-  paymentMethod: string;
-  status: string;
-  _updatedAt: string;
-}
+import { Order } from "@/types/order";
 
 const ThankYouPage = () => {
   const order = useSelector(

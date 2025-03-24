@@ -1,6 +1,4 @@
-import React from "react";
-
-const privacyPolicy = () => {
+const PrivacyPolicyPage = () => {
   return (
     <div>
       <h1 className="title">privacyPolicy</h1>
@@ -8,4 +6,4 @@ const privacyPolicy = () => {
   );
 };
 
-export default privacyPolicy;
+export default PrivacyPolicyPage;

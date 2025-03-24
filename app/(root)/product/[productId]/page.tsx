@@ -13,6 +13,7 @@ import { fetchProductDetails } from "@/store/slices/productsSlice";
 import { urlFor } from "@/sanity/lib/image";
 import Loading from "@/components/shared/Loading";
 import { addToCart } from "@/store/slices/cartSlice";
+import { Product } from "@/types/product";
 
 const ProductPage = () => {
   const [hovered, setHovered] = useState(false);
@@ -41,7 +42,8 @@ const ProductPage = () => {
     }
   };
 
-  const handleAddToCart = (productDetails) => {
+  const handleAddToCart = (productDetails: Product) => {
+    console.log(productDetails);
     if (productDetails) {
       dispatch(addToCart({ ...productDetails, quantity }));
     }

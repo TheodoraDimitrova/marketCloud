@@ -45,10 +45,10 @@ const CategoriesCarousel = () => {
         <Carousel
           items={categories.map((category) => (
             <ImgCarousel
-              key={category.id}
+              key={category._id}
               totalProducts={category.totalProducts || 0}
               title={category.name}
-              url={`/category/${category.id}`}
+              url={`/category/${category.slug.current}`}
               src={urlFor(category.image)}
             />
           ))}

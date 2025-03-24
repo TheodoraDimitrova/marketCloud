@@ -7,6 +7,7 @@ import { fetchCategories } from "@/store/slices/categorySlice";
 import { urlFor } from "@/sanity/lib/image";
 import { RootState } from "@/store/store";
 import Loading from "@/components/shared/Loading";
+import { Category } from "@/types/category";
 
 const CategoriesPage = () => {
   const { status, error } = useFetchData(fetchCategories, "categories");
@@ -24,10 +25,10 @@ const CategoriesPage = () => {
     <div className="container mx-auto p-6 text-center">
       <h1 className="text-3xl  mb-6">All Categories</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
-        {categories.map((category) => (
+        {categories.map((category: Category) => (
           <Link
-            key={category.id}
-            href={`/category/${category.id}`}
+            key={category._id}
+            href={`/category/${category.slug.current}`}
             className="block py-4  rounded-lg shadow-lg hover:shadow-xl transition"
           >
             <Image

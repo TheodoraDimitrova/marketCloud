@@ -42,7 +42,7 @@ const CartPage = () => {
                   <div className="quantity md:hidden flex w-24 ml-20">
                     <QuantitySelector
                       updateQuantity={(quantity) =>
-                        updateQuantity(item.id, quantity)
+                        updateQuantity(item._id, quantity)
                       }
                       quantity={item.quantity}
                     />
