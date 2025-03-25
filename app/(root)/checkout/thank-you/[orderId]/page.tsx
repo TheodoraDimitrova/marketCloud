@@ -10,6 +10,7 @@ import OrderSummary from "@/components//checkoutPage/OrderSummary";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { Order } from "@/types/order";
+import { clearOrder } from "@/store/slices/orderSlice";
 
 const ThankYouPage = () => {
   const order = useSelector(
@@ -27,12 +28,14 @@ const ThankYouPage = () => {
     }
   }, [orderId, order, dispatch]);
   useEffect(() => {
-    if (status === "succeeded") {
+    if (status === "succeeded" && order) {
       dispatch(setCartFromOrder(order));
       localStorage.removeItem("cart");
     }
   }, [status, order, dispatch]);
+
   const handleRedirect = () => {
+    dispatch(clearOrder());
     dispatch(clearCart());
     router.push("/products");
   };

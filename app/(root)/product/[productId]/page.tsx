@@ -43,7 +43,6 @@ const ProductPage = () => {
   };
 
   const handleAddToCart = (productDetails: Product) => {
-    console.log(productDetails);
     if (productDetails) {
       dispatch(addToCart({ ...productDetails, quantity }));
     }

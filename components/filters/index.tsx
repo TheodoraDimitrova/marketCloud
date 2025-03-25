@@ -53,9 +53,11 @@ const SectionFilter: React.FC<{
     filters.brands.length > 0,
     filters.discounts.length > 0,
   ].filter(Boolean).length;
+
   useEffect(() => {
     onFiltersChange(appliedFiltersCount);
-  }, [filters]);
+  }, [filters, onFiltersChange, appliedFiltersCount]);
+
   const handlePriceChange = (priceRange: [number, number]) => {
     if (debounceTimeout) clearTimeout(debounceTimeout);
 

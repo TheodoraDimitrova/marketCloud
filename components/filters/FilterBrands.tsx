@@ -22,10 +22,6 @@ const FilterBrands: React.FC<FilterBrandsProps> = ({
   onChange,
   selectedBrands,
 }) => {
-  // useEffect(() => {
-  //   console.log(selectedBrands);
-  // }, [selectedBrands]);
-
   const toggleBrand = (brand: string) => {
     const newBrands = selectedBrands.includes(brand)
       ? selectedBrands.filter((b) => b !== brand)

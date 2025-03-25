@@ -22,20 +22,8 @@ import { createOrder } from "@/store/slices/orderSlice";
 import Loading from "@/components/shared/Loading";
 import { AppDispatch } from "@/store/store";
 import { useRouter } from "next/navigation";
-
-interface FormValues {
-  contact: string;
-  subscribed: boolean;
-  country: string;
-  firstName: string;
-  lastName: string;
-  address: string;
-  postalCode: string;
-  city: string;
-  phone: string;
-  deliveryMethod: string;
-  paymentMethod: string;
-}
+import { CartState } from "@/types/cart";
+import { FormValues } from "@/types/formValues";
 
 const CheckoutForm = () => {
   const router = useRouter();
@@ -64,7 +52,7 @@ const CheckoutForm = () => {
     }
   }, [orderStatus, order, router]);
 
-  const prepareOrderData = (data: FormValues, cart) => ({
+  const prepareOrderData = (data: FormValues, cart: CartState) => ({
     ...data,
     cart: cart.items.map((item, index) => ({
       _key: `cartItem-${Date.now()}-${index}`,
@@ -128,7 +116,7 @@ const CheckoutForm = () => {
                 register={register}
                 errors={errors}
                 placeholder="Enter your email or phone"
-                validationRules={validationRules}
+                validationRules={validationRules.contact}
               />
               <div className="flex items-center space-x-2">
                 <Controller
@@ -210,7 +198,7 @@ const CheckoutForm = () => {
                 register={register}
                 errors={errors}
                 placeholder="First Name"
-                validationRules={validationRules}
+                validationRules={validationRules.firstName}
               />
               <FormField
                 label="Last Name"
@@ -218,7 +206,7 @@ const CheckoutForm = () => {
                 register={register}
                 errors={errors}
                 placeholder="Last Name"
-                validationRules={validationRules}
+                validationRules={validationRules.lastName}
               />
             </div>
 
@@ -228,7 +216,7 @@ const CheckoutForm = () => {
               register={register}
               errors={errors}
               placeholder="Address"
-              validationRules={validationRules}
+              validationRules={validationRules.address}
             />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -238,7 +226,7 @@ const CheckoutForm = () => {
                 register={register}
                 errors={errors}
                 placeholder="Postal Code"
-                validationRules={validationRules}
+                validationRules={validationRules.postalCode}
               />
               <FormField
                 label="City"
@@ -246,7 +234,7 @@ const CheckoutForm = () => {
                 register={register}
                 errors={errors}
                 placeholder="City"
-                validationRules={validationRules}
+                validationRules={validationRules.city}
               />
             </div>
 
@@ -256,7 +244,7 @@ const CheckoutForm = () => {
               register={register}
               errors={errors}
               placeholder="Phone"
-              validationRules={validationRules}
+              validationRules={validationRules.phone}
             />
 
             <h2 className="text-xl font-semibold mb-4">Shipping Information</h2>

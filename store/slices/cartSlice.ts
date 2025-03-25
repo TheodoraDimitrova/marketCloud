@@ -71,6 +71,7 @@ const cartSlice = createSlice({
       saveToLocalStorage(state);  
     },
     clearCart: (state) => {
+     
       state.items = [];
       state.subtotal = 0;
       state.totalSavings = 0;

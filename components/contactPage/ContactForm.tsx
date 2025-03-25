@@ -33,7 +33,7 @@ const ContactForm = () => {
   } = useForm<IFormInput>();
 
   const onSubmit = (data: IFormInput) => {
-    console.log(data);
+    // console.log(data);
     reset();
   };
 

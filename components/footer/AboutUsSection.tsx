@@ -10,9 +10,10 @@ const AboutUsSection = () => {
       <p className="text-wrap ">
         At Adora, we believe beauty has no boundaries, and our mission is to
         provide high-quality, skin-loving products that make you feel radiant
-        and beautiful at any age or stage. Whether you're looking for skincare,
-        makeup, or haircare, Adora offers products that fit and enhance your
-        natural beauty, all while prioritizing comfort and self-expression.
+        and beautiful at any age or stage. Whether you&apos;re looking for
+        skincare, makeup, or haircare, Adora offers products that fit and
+        enhance your natural beauty, all while prioritizing comfort and
+        self-expression.
       </p>
       <div className="flex items-center space-x-2 my-8">
         <Logo />
