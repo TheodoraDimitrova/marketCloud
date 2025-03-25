@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, { params }: { params: { orderId: string } }) {
     try {
-      const { orderId } = await params; 
+      const { orderId } =  params; 
       const order = await clientBackend.fetch(
         `*[_type == "order" && _id == $orderId][0]`,
         { orderId }
