@@ -15,7 +15,7 @@ const FooterNewsLetter = () => {
   } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    // console.log("Form submitted with:", data);
+    console.log("Form submitted with:", data);
     alert("You have successfully subscribed!");
     reset();
   };
