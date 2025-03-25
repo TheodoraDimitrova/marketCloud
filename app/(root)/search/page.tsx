@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Banner from "@/components/shared/PageBanner";
 import CategoriesCarousel from "@/components/shared/categoriesCarousel/CategoriesCarousel";
-import { useFetchData } from "@/hooks/useFetchData";
 import { fetchAllProducts } from "@/store/slices/productsSlice";
 import { AppDispatch, RootState } from "@/store/store";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,16 +13,16 @@ import SearchBar from "@/components/shared/SearchBar";
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch<AppDispatch>();
-  const { status, error } = useFetchData(fetchAllProducts, "products");
-  const products = useSelector((state: RootState) => state.products.products);
+
+  const { products, status } = useSelector(
+    (state: RootState) => state.products
+  );
 
   useEffect(() => {
-    if (status === "idle" || status === "failed") {
-      if (products.length === 0) {
-        dispatch(fetchAllProducts());
-      }
+    if (!products || products.length === 0) {
+      dispatch(fetchAllProducts());
     }
-  }, [dispatch, status, products.length]);
+  }, [dispatch, products]);
 
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())

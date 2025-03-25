@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import Banner from "@/components/shared/PageBanner";
 import CategoriesCarousel from "@/components/shared/categoriesCarousel/CategoriesCarousel";
 import { useDispatch, useSelector } from "react-redux";
-import { useFetchData } from "@/hooks/useFetchData";
+
 import { fetchAllProducts } from "@/store/slices/productsSlice";
 import { RootState, AppDispatch } from "@/store/store";
 import FilteredProductList from "@/components/shared/filteredProductList/FilteredProductList";
@@ -11,12 +11,16 @@ import Loading from "@/components/shared/Loading";
 
 const ProductsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { status, error } = useFetchData(fetchAllProducts, "products");
-  const products = useSelector((state: RootState) => state.products.products);
+
+  const { products, status } = useSelector(
+    (state: RootState) => state.products
+  );
 
   useEffect(() => {
-    dispatch(fetchAllProducts());
-  }, [dispatch]);
+    if (!products || products.length === 0) {
+      dispatch(fetchAllProducts());
+    }
+  }, [dispatch, products]);
 
   if (status === "loading") {
     return <Loading />;

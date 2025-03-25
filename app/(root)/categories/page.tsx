@@ -1,17 +1,26 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useSelector } from "react-redux";
-import { useFetchData } from "@/hooks/useFetchData";
+import { useSelector, useDispatch } from "react-redux";
 import { fetchCategories } from "@/store/slices/categorySlice";
 import { urlFor } from "@/sanity/lib/image";
 import { RootState } from "@/store/store";
 import Loading from "@/components/shared/Loading";
 import { Category } from "@/types/category";
+import { useEffect } from "react";
+import { AppDispatch } from "@/store/store";
 
 const CategoriesPage = () => {
-  const { status, error } = useFetchData(fetchCategories, "categories");
-  const { categories } = useSelector((state: RootState) => state.categories);
+  const dispatch = useDispatch<AppDispatch>();
+  const { categories, status } = useSelector(
+    (state: RootState) => state.categories
+  );
+
+  useEffect(() => {
+    if (!categories || categories.length === 0) {
+      dispatch(fetchCategories());
+    }
+  }, [dispatch, categories]);
 
   if (status === "loading") {
     return <Loading />;

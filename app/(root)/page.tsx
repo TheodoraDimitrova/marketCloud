@@ -6,10 +6,35 @@ import BlogPosts from "@/components/homeSections/BlogPosts";
 import RichText from "@/components/homeSections/RichText";
 import CarouselHome from "@/components/homeSections/CarouselHome";
 import { Heart } from "lucide-react";
+import HydrateProductsAndCategories from "@/components/HydrateProductsAndCategories";
 
-const HomePage = () => {
+const getProducts = async () => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/products`,
+    {
+      cache: "no-store",
+    }
+  );
+  return res.json();
+};
+
+const getCategories = async () => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/categories`,
+    { cache: "no-store" }
+  );
+  return res.json();
+};
+
+const HomePage = async () => {
+  const products = await getProducts();
+  const categories = await getCategories();
   return (
     <>
+      <HydrateProductsAndCategories
+        products={products}
+        categories={categories}
+      />
       <Heroslider />
       <ScrollBanner />
       <RichText

@@ -3,16 +3,15 @@ import React from "react";
 import ImgOverlayText from "@/components/homeSections/ImgOverlayText";
 import Carousel from "@/components/shared/Carousel";
 import { useSelector } from "react-redux";
-import { useFetchData } from "@/hooks/useFetchData";
-import { fetchCategories } from "@/store/slices/categorySlice";
 import { urlFor } from "@/sanity/lib/image";
 import { RootState } from "@/store/store";
 import Loading from "../shared/Loading";
 import { Category } from "@/types/category";
 
 const CarouselHome = () => {
-  const { status } = useFetchData(fetchCategories, "categories");
-  const { categories } = useSelector((state: RootState) => state.categories);
+  const { categories, status } = useSelector(
+    (state: RootState) => state.categories
+  );
   if (status === "loading") {
     return <Loading />;
   }
