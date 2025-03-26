@@ -84,7 +84,9 @@ const CartPage = () => {
 
                 <div className="subtotal w-32 text-right">
                   <p className="text-sm font-semibold">
-                    €{item.subtotalSingleProduct.toFixed(2)}
+                    €
+                    {item.subtotalSingleProduct?.toFixed(2) ??
+                      item.price.toFixed(2)}
                   </p>
                 </div>
               </div>
