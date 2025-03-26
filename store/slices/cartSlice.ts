@@ -54,6 +54,7 @@ const cartSlice = createSlice({
       saveToLocalStorage(state);  
     },
     updateItemQuantity: (state, action: PayloadAction<{ id: string; quantity: number }>) => {
+    
       const item = state.items.find(item => item._id === action.payload.id);
       if (item) {
         const newQuantity = item.quantity + action.payload.quantity;

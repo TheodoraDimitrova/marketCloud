@@ -22,7 +22,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
 
   const updateQuantity = (id: string | undefined, change: number) => {
-    if (id && change >= 0) {
+    if (id) {
       dispatch(updateItemQuantity({ id, quantity: change }));
     }
   };
@@ -82,7 +82,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                           €{item.price.toFixed(2)}
                         </p>
                         <p className="text-sm font-semibold">
-                          € €{item.discountedPrice?.toFixed(2) ?? "0.00"}
+                          €{item.discountedPrice?.toFixed(2) ?? "0.00"}
                         </p>
                       </>
                     ) : (

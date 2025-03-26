@@ -14,7 +14,7 @@ const CartPage = () => {
   const dispatch = useDispatch();
 
   const updateQuantity = (id: string | undefined, change: number) => {
-    if (id && change >= 0) {
+    if (id) {
       dispatch(updateItemQuantity({ id, quantity: change }));
     }
   };
@@ -117,12 +117,12 @@ const CartPage = () => {
               </Link>
             </div>
 
-            <Link
+            {/* <Link
               href="/shop"
-              className="underline text-red-500 w-full flex justify-end"
+              className="underline text-red-500 w-full flex justify-end my-4"
             >
               <p>Continue Shopping</p>
-            </Link>
+            </Link> */}
           </div>
         </>
       ) : (
