@@ -12,7 +12,7 @@ import { AppDispatch } from "@/store/store";
 
 const CategoriesPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { categories, status } = useSelector(
+  const { categories, status, error } = useSelector(
     (state: RootState) => state.categories
   );
 
