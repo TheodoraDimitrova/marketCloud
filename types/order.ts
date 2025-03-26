@@ -1,7 +1,7 @@
 import {CartItem} from './cart';
 
 interface Shipping {
-  method: string;
+  method: string | null;
   cost: number;
   label: string;
 }
@@ -24,8 +24,8 @@ export interface Order {
     phone: string;
     deliveryMethod: string;
     paymentMethod: string;
-    _id: string;
-    _updatedAt: string;
+    _id?: string;
+    _updatedAt?: string;
 
   }
   

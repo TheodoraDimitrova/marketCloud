@@ -1,11 +1,20 @@
 import React from "react";
 import Tag from "./tag";
+import { Tag as TagType } from "@/types/product";
 
-const listTags = ({ tags }) => {
+interface ListTagsProps {
+  tags: TagType[];
+}
+
+const listTags: React.FC<ListTagsProps> = ({ tags }) => {
   return (
     <div className="flex gap-2">
-      {tags.map((tag, index) => (
-        <Tag key={index} type={tag.type} label={tag.label} />
+      {tags.map((tag) => (
+        <Tag
+          key={tag._key}
+          type={tag.type as "discount" | "new" | "limited" | "default"}
+          label={tag.label}
+        />
       ))}
     </div>
   );

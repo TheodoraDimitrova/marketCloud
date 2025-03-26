@@ -59,10 +59,10 @@ const ProductPage = () => {
             <Image
               src={
                 hovered
-                  ? productDetails.images[1]?.asset._ref
-                    ? urlFor(productDetails.images[1].asset._ref)
-                    : urlFor(productDetails.images[0].asset._ref)
-                  : urlFor(productDetails.images[0].asset._ref)
+                  ? productDetails.images[1]
+                    ? urlFor(productDetails.images[1])
+                    : urlFor(productDetails.images[0])
+                  : urlFor(productDetails.images[0])
               }
               alt={productDetails.name}
               width={200}

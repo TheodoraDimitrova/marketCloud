@@ -13,8 +13,10 @@ const CartPage = () => {
   const subtotal = useSelector((state: RootState) => state.cart.subtotal);
   const dispatch = useDispatch();
 
-  const updateQuantity = (id: string, change: number) => {
-    dispatch(updateItemQuantity({ id, quantity: change }));
+  const updateQuantity = (id: string | undefined, change: number) => {
+    if (id && change >= 0) {
+      dispatch(updateItemQuantity({ id, quantity: change }));
+    }
   };
 
   return (
@@ -75,7 +77,13 @@ const CartPage = () => {
                   />
 
                   <div
-                    onClick={() => dispatch(removeFromCart(item._id))}
+                    onClick={() => {
+                      if (item._id) {
+                        dispatch(removeFromCart(item._id));
+                      } else {
+                        console.error("Product ID is missing.");
+                      }
+                    }}
                     className="text-center cursor-pointer text-red-500 underline"
                   >
                     <p className="text-sm ">Remove</p>

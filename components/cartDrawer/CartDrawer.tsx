@@ -21,8 +21,10 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
   const subtotal = useSelector((state: RootState) => state.cart.subtotal);
   const dispatch = useDispatch();
 
-  const updateQuantity = (id: string, change: number) => {
-    dispatch(updateItemQuantity({ id, quantity: change }));
+  const updateQuantity = (id: string | undefined, change: number) => {
+    if (id && change >= 0) {
+      dispatch(updateItemQuantity({ id, quantity: change }));
+    }
   };
 
   const pathname = usePathname();

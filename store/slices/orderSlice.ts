@@ -1,7 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { Order } from '@/types/order';
 
 interface ErrorPayload {
   message: string;
+}
+interface OrderState {
+  order: Order | null;
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  error: string;
 }
 
 const handleError = (error: unknown): string => {
@@ -13,7 +19,7 @@ const handleError = (error: unknown): string => {
 
 export const createOrder = createAsyncThunk(
   'order/createOrder',
-  async (orderData, { rejectWithValue }) => {
+  async (orderData: Order, { rejectWithValue }) => {
     try {
       const response = await fetch('/api/orders/create', {
         method: 'POST',
@@ -54,7 +60,7 @@ const orderSlice = createSlice({
     status: 'idle',
     error: "",
  
-  },
+  } as OrderState,
   reducers: {
     clearOrder: (state) => {
       state.order = null;

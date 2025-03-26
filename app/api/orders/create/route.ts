@@ -1,6 +1,6 @@
 import clientBackend from '@/sanity/lib/clientBackend'
 import { NextRequest, NextResponse } from 'next/server';
-
+import { CartItem } from '@/types/cart';
 
 
 export async function POST(req: NextRequest) {
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       city: orderData.city,
       phone: orderData.phone,
       paymentMethod: orderData.paymentMethod,
-      cart: orderData.cart.map((item,index) => ({
+      cart: orderData.cart.map((item: CartItem, index: number) => ({
         name: item.name,
         _key: `cartItem-${Date.now()}-${index}`, 
         _type: 'cartItem',
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
         discountedPrice: item.discountedPrice,
         subtotalSingleProduct: item.subtotalSingleProduct,
         totalPrice: item.totalPrice,
-        discount: item.discount, 
+        discount: item.discount,  
       })),
       subtotal: orderData.subtotal,
       totalSavings: orderData.totalSavings,

@@ -22,12 +22,12 @@ import { createOrder } from "@/store/slices/orderSlice";
 import Loading from "@/components/shared/Loading";
 import { AppDispatch } from "@/store/store";
 import { useRouter } from "next/navigation";
-import { CartState } from "@/types/cart";
+import { CartItem, CartState } from "@/types/cart";
 import { FormValues } from "@/types/formValues";
 
 const CheckoutForm = () => {
   const router = useRouter();
-  const cart = useSelector((state: RootState) => state.cart);
+  const cart = useSelector((state: RootState) => state.cart) as CartState;
   const dispatch = useDispatch<AppDispatch>();
   const order = useSelector((state: RootState) => state.order.order);
   const orderStatus = useSelector(
@@ -54,7 +54,7 @@ const CheckoutForm = () => {
 
   const prepareOrderData = (data: FormValues, cart: CartState) => ({
     ...data,
-    cart: cart.items.map((item, index) => ({
+    cart: cart.items.map((item: CartItem, index: number) => ({
       _key: `cartItem-${Date.now()}-${index}`,
       _type: "cartItem",
       images: [item.images[0]],
@@ -79,19 +79,18 @@ const CheckoutForm = () => {
     subtotal: cart.subtotal,
     totalSavings: cart.totalSavings,
     totalAmount: cart.totalAmount,
-    shipping: cart.shipping,
+    shipping: {
+      method: cart.shipping.method,
+      cost: cart.shipping.cost,
+      label: cart.shipping.label,
+    },
     status: "confirm",
   });
 
   const handleFormSubmit = async (data: FormValues) => {
     const orderData = prepareOrderData(data, cart);
-
     try {
-      const res = await dispatch(createOrder(orderData));
-      if (res.error) {
-        console.error("Error creating order:", res.error);
-        return;
-      }
+      await dispatch(createOrder(orderData));
       localStorage.clear();
     } catch (error) {
       console.error("Error creating order:", error);
@@ -126,10 +125,8 @@ const CheckoutForm = () => {
                   render={({ field }) => (
                     <Checkbox
                       id="subscribed"
-                      checked={field.value === "on" || false}
-                      onCheckedChange={(e) =>
-                        field.onChange(e ? "on" : "false")
-                      }
+                      checked={field.value === true}
+                      onCheckedChange={(e) => field.onChange(e ? true : false)}
                       disabled={!!errors.contact}
                     />
                   )}

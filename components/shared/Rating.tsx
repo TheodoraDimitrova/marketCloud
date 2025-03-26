@@ -1,7 +1,10 @@
 import React from "react";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+interface RatingProps {
+  rating: number;
+}
 
-const Rating = ({ rating }) => {
+const Rating: React.FC<RatingProps> = ({ rating }) => {
   const fullStars = Math.floor(rating);
   const halfStar = rating % 1 >= 0.5 ? 1 : 0;
   const emptyStars = 5 - fullStars - halfStar;

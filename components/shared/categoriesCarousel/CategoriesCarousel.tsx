@@ -7,8 +7,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { urlFor } from "@/sanity/lib/image";
 
+import Swiper from "swiper";
+
 const CategoriesCarousel = () => {
-  const swiperRef = useRef(null);
+  const swiperRef = useRef<Swiper | null>(null);
 
   const { categories, status } = useSelector(
     (state: RootState) => state.categories

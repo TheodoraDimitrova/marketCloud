@@ -1,5 +1,5 @@
 export interface CartItem {
-    _id: string;
+    _id?: string | undefined;
     name: string;
     images: { _type?: string; asset: { _ref: string } }[]; 
     quantity: number;
@@ -7,6 +7,8 @@ export interface CartItem {
     discountedPrice?: number;
     discount?: { isActive: boolean; amount: number; type: string }; 
     subtotalSingleProduct?: number;
+    totalPrice?: number,
+
   }
 
   export interface CartState {

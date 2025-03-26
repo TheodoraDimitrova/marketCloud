@@ -59,7 +59,14 @@ const ThankYouPage = () => {
           Order Status: <strong>{order.status}</strong>
         </p>
         <p className="text-sm text-gray-500">
-          Expected Delivery: {format(new Date(order._updatedAt), "yyyy-MM-dd")}
+          {order._updatedAt ? (
+            <span>
+              Expected Delivery:{" "}
+              {format(new Date(order._updatedAt), "yyyy-MM-dd")}
+            </span>
+          ) : (
+            <span>Expected Delivery: Date not available</span>
+          )}
         </p>
       </div>
       <div className="mt-8">

@@ -1,11 +1,11 @@
 import React from "react";
 import { Controller } from "react-hook-form";
 import PaymentDetails from "@/components/checkoutPage/PaymentDetails";
-
+import { FormValues } from "@/types/formValues";
 import { Control } from "react-hook-form";
 
 interface PaymentMethodProps {
-  control: Control;
+  control: Control<FormValues>;
 }
 
 const PaymentMethod: React.FC<PaymentMethodProps> = ({ control }) => {

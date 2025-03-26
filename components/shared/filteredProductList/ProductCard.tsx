@@ -4,14 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "@/sanity/lib/image";
 import { useState } from "react";
-
-interface Product {
-  id: number;
-  name: string;
-  images: { asset: { _ref: string } }[];
-  price: number;
-  tags?: { label: string; _key: string; type: string }[];
-}
+import { Product } from "@/types/product";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const [hovered, setHovered] = useState(false);
@@ -27,10 +20,10 @@ const ProductCard = ({ product }: { product: Product }) => {
           <Image
             src={
               hovered
-                ? product.images[1]?.asset._ref
-                  ? urlFor(product.images[1].asset._ref)
-                  : urlFor(product.images[0].asset._ref)
-                : urlFor(product.images[0].asset._ref)
+                ? product.images[1]
+                  ? urlFor(product.images[1])
+                  : urlFor(product.images[0])
+                : urlFor(product.images[0])
             }
             alt={product.name}
             fill

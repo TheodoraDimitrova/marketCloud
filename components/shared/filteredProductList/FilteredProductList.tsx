@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+
 import UtilityBar from "@/components/shared/UtilityBar";
 import SectionFilters from "@/components/filters";
 import ProductCard from "@/components/shared/filteredProductList/ProductCard";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
 import { Product } from "@/types/product";
 
 interface FilteredProductListProps {
@@ -19,13 +19,19 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
   const [appliedFiltersCount, setAppliedFiltersCount] = useState(0);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
 
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const searchParams = useMemo(() => {
+    if (typeof window !== "undefined") {
+      return new URLSearchParams(window.location.search);
+    }
+    return new URLSearchParams();
+  }, []);
 
   const toggleFilters = () => setShowFilters((prev) => !prev);
 
   useEffect(() => {
-    const query = Object.fromEntries(searchParams.entries());
+    const query: Record<string, string> = Object.fromEntries(
+      searchParams.entries()
+    );
     let filtered = products;
 
     if (query.priceRange) {
@@ -37,27 +43,27 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
 
     if (query.brands) {
       const brands = query.brands.split(",");
-      filtered = filtered.filter((product) => {
-        return brands.includes(product.brand || "");
-      });
+      filtered = filtered.filter((product) =>
+        brands.includes(product.brand || "")
+      );
     }
+
     if (query.discounts) {
       const discounts = query.discounts
         .split(",")
         .map((discount) => discount.trim());
       filtered = filtered.filter((product) => {
-        const hasDiscount = discounts.some((discount) => {
+        return discounts.some((discount) => {
           if (product.discount?.isActive && product.discount.amount) {
-            const discountValue = `-${product.discount.amount}%`;
-            return discountValue === discount;
+            return `-${product.discount.amount}%` === discount;
           }
           return product.tags?.some((tag) => tag.label.includes(discount));
         });
-        return hasDiscount;
       });
     }
+
     setFilteredProducts(filtered);
-  }, [appliedFiltersCount, searchParams, pathname, products]);
+  }, [appliedFiltersCount, searchParams, products]);
 
   return (
     <div>
@@ -91,8 +97,7 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
               <p className="text-lg text-gray-700">
                 Sorry, no products are available right now.
               </p>
-
-              <Link href="/" className="underline text-red-500 w-full flex ">
+              <Link href="/" className="underline text-red-500 w-full flex">
                 <p>Go To Home Page</p>
               </Link>
             </div>

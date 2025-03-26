@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import FilterBrands from "@/components/filters/FilterBrands";
@@ -7,6 +7,7 @@ import FilterDiscounts from "@/components/filters/FilterDiscounts";
 import FilterPrice from "./FilterPrice";
 import CollapsibleFilter from "./CollapsibleFilter";
 import AppliedFilters from "./AppliedFilters";
+import Loading from "@/components/shared/Loading";
 
 type FilterType = "priceRange" | "brands" | "discounts";
 
@@ -111,60 +112,64 @@ const SectionFilter: React.FC<{
   };
 
   return (
-    <div
-      className={`fixed top-0 left-0 h-screen w-3/4 max-w-sm p-4 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-[10] overflow-auto              
+    <Suspense fallback={<Loading />}>
+      <div
+        className={`fixed top-0 left-0 h-screen w-3/4 max-w-sm p-4 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-[10] overflow-auto              
       ${showFilter ? "translate-x-0" : "-translate-x-full"}
       lg:relative lg:w-[280px] lg:translate-x-0 lg:shadow-none lg:h-auto text-gray-600 `}
-    >
-      <div className="flex flex-col ">
-        {/* Mobile Header */}
-        <header className="lg:hidden flex-between ">
-          <h3 className="text-lg mb-3">Filters</h3>
-          <X
-            size={24}
-            onClick={toggleFilters}
-            className="hover:text-red-500 transition"
+      >
+        <div className="flex flex-col ">
+          {/* Mobile Header */}
+          <header className="lg:hidden flex-between ">
+            <h3 className="text-lg mb-3">Filters</h3>
+            <X
+              size={24}
+              onClick={toggleFilters}
+              className="hover:text-red-500 transition"
+            />
+          </header>
+
+          {/* Applied Filters */}
+          <AppliedFilters
+            initialFilters={{
+              priceRange:
+                filters.priceRange.length > 0
+                  ? [`${filters.priceRange[0]} - ${filters.priceRange[1]}`]
+                  : [],
+
+              brands: filters.brands,
+              discounts: filters.discounts,
+            }}
+            removeFilter={removeFilter}
+            clearFilters={clearFilters}
           />
-        </header>
 
-        {/* Applied Filters */}
-        <AppliedFilters
-          initialFilters={{
-            priceRange:
-              filters.priceRange.length > 0
-                ? [`${filters.priceRange[0]} - ${filters.priceRange[1]}`]
-                : [],
+          {/* Filter Sections */}
+          <CollapsibleFilter title="Price">
+            <FilterPrice
+              onChange={handlePriceChange}
+              priceRange={filters.priceRange}
+            />
+          </CollapsibleFilter>
 
-            brands: filters.brands,
-            discounts: filters.discounts,
-          }}
-          removeFilter={removeFilter}
-          clearFilters={clearFilters}
-        />
+          <CollapsibleFilter title="Brands">
+            <FilterBrands
+              onChange={(values) => updateFilters("brands", values)}
+              selectedBrands={filters.brands}
+            />
+          </CollapsibleFilter>
 
-        {/* Filter Sections */}
-        <CollapsibleFilter title="Price">
-          <FilterPrice
-            onChange={handlePriceChange}
-            priceRange={filters.priceRange}
-          />
-        </CollapsibleFilter>
-
-        <CollapsibleFilter title="Brands">
-          <FilterBrands
-            onChange={(values) => updateFilters("brands", values)}
-            selectedBrands={filters.brands}
-          />
-        </CollapsibleFilter>
-
-        <CollapsibleFilter title="Discounts">
-          <FilterDiscounts
-            onChange={(values: string[]) => updateFilters("discounts", values)}
-            selectedDiscounts={filters.discounts}
-          />
-        </CollapsibleFilter>
+          <CollapsibleFilter title="Discounts">
+            <FilterDiscounts
+              onChange={(values: string[]) =>
+                updateFilters("discounts", values)
+              }
+              selectedDiscounts={filters.discounts}
+            />
+          </CollapsibleFilter>
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 };
 

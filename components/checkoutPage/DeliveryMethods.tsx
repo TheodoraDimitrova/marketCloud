@@ -5,10 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setDeliveryMethod } from "@/store/slices/cartSlice";
 import { Controller, Control, FieldErrors } from "react-hook-form";
 import { RootState } from "@/store/store";
+import { FormValues } from "@/types/formValues";
 
-interface FormValues {
-  deliveryMethod: string;
-}
 interface DeliveryMethodsProps {
   control: Control<FormValues>;
   errors: FieldErrors<FormValues>;

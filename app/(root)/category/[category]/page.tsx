@@ -60,7 +60,7 @@ const CategoryPage = () => {
     setCategoryData({
       title: foundCategory.name,
       description: foundCategory.description,
-      image: urlFor(foundCategory.image.asset._ref),
+      image: urlFor(foundCategory.image),
     });
 
     dispatch(fetchProductsByCategory(foundCategory._id));

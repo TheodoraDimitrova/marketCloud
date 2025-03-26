@@ -1,7 +1,21 @@
 "use client";
 import { useState, useEffect } from "react";
 
-const DiscountBannerProduct = ({ price, discount }) => {
+interface Discount {
+  isActive: boolean;
+  type: string;
+  amount: number;
+}
+
+interface DiscountBannerProductProps {
+  price: number;
+  discount?: Discount;
+}
+
+const DiscountBannerProduct: React.FC<DiscountBannerProductProps> = ({
+  price,
+  discount,
+}) => {
   const [discountedPrice, setDiscountedPrice] = useState(price);
 
   useEffect(() => {
