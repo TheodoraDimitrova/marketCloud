@@ -12,7 +12,7 @@ import Loading from "@/components/shared/Loading";
 const ProductsPage = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { products, status } = useSelector(
+  const { products, status, error } = useSelector(
     (state: RootState) => state.products
   );
 
