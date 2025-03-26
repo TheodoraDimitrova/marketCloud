@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
 import Banner from "@/components/shared/PageBanner";
@@ -87,10 +87,12 @@ const CategoryPage = () => {
           setSearchTerm(searchTerm);
         }}
       />
-      <FilteredProductList
-        products={filterProducts}
-        totalProducts={filterProducts.length}
-      />
+      <Suspense fallback={<Loading />}>
+        <FilteredProductList
+          products={filterProducts}
+          totalProducts={filterProducts.length}
+        />
+      </Suspense>
     </>
   );
 };
