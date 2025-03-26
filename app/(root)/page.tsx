@@ -19,6 +19,7 @@ const getProducts = async () => {
 };
 
 const getCategories = async () => {
+  console.log("Fetching categories... componet index page");
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/api/categories`,
     { cache: "no-store" }
