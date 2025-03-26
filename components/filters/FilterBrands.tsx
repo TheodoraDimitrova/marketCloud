@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+
 import { Checkbox } from "@/components/ui/forms/checkbox";
 
 interface FilterBrandsProps {

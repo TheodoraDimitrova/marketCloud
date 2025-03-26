@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState, useMemo } from "react";
-
+import { useEffect, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import UtilityBar from "@/components/shared/UtilityBar";
 import SectionFilters from "@/components/filters";
 import ProductCard from "@/components/shared/filteredProductList/ProductCard";
@@ -19,16 +19,13 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
   const [appliedFiltersCount, setAppliedFiltersCount] = useState(0);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
 
-  const searchParams = useMemo(() => {
-    if (typeof window !== "undefined") {
-      return new URLSearchParams(window.location.search);
-    }
-    return new URLSearchParams();
-  }, []);
+  const pathname = usePathname(); // Засича промени в URL пътя
+  const searchParams = useSearchParams(); // Засича промени в параметрите
 
   const toggleFilters = () => setShowFilters((prev) => !prev);
 
   useEffect(() => {
+    console.log("useEffect triggered", searchParams);
     const query: Record<string, string> = Object.fromEntries(
       searchParams.entries()
     );
@@ -63,7 +60,7 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
     }
 
     setFilteredProducts(filtered);
-  }, [appliedFiltersCount, searchParams, products]);
+  }, [pathname, searchParams, products]);
 
   return (
     <div>

@@ -1,4 +1,3 @@
-import React from "react";
 import { Checkbox } from "@/components/ui/forms/checkbox";
 const discounts: string[] = [
   "-10%",
