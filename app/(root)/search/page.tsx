@@ -14,7 +14,7 @@ const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch<AppDispatch>();
 
-  const { products, status } = useSelector(
+  const { products, status, error } = useSelector(
     (state: RootState) => state.products
   );
 
