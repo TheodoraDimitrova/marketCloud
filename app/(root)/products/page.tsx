@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import Banner from "@/components/shared/PageBanner";
 import CategoriesCarousel from "@/components/shared/categoriesCarousel/CategoriesCarousel";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,10 +35,12 @@ const ProductsPage = () => {
       <>
         <Banner title="Adora Cosmetics" backgroundImage="/images/bg1.png" />
 
-        <FilteredProductList
-          products={products}
-          totalProducts={products.length}
-        />
+        <Suspense fallback={<Loading />}>
+          <FilteredProductList
+            products={products}
+            totalProducts={products.length}
+          />
+        </Suspense>
 
         <CategoriesCarousel />
       </>
