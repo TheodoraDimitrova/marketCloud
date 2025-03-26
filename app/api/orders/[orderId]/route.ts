@@ -1,9 +1,10 @@
 import clientBackend from "@/sanity/lib/clientBackend";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, { params }: { params: { orderId: string } }) {
+export async function GET(req: NextRequest) {
     try {
-      const { orderId } =  params; 
+    const orderId = req.nextUrl.pathname.split("/").pop();
+  
       const order = await clientBackend.fetch(
         `*[_type == "order" && _id == $orderId][0]`,
         { orderId }
