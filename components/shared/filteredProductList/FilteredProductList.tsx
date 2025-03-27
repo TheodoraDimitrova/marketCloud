@@ -19,13 +19,12 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
   const [appliedFiltersCount, setAppliedFiltersCount] = useState(0);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
 
-  const pathname = usePathname(); // Засича промени в URL пътя
-  const searchParams = useSearchParams(); // Засича промени в параметрите
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const toggleFilters = () => setShowFilters((prev) => !prev);
 
   useEffect(() => {
-    console.log("useEffect triggered", searchParams);
     const query: Record<string, string> = Object.fromEntries(
       searchParams.entries()
     );
@@ -75,7 +74,7 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
       <div className="container w-full h-full flex mx-auto">
         {showFilters && (
           <>
-            <div className="fixed inset-0 w-full lg:relative min-h-screen bg-black opacity-50 z-50 lg:hidden" />
+            <div className="fixed inset-0 w-full lg:relative min-h-screen bg-black opacity-50 z-10 lg:hidden" />
             <SectionFilters
               onFiltersChange={(count) => setAppliedFiltersCount(count)}
               toggleFilters={toggleFilters}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, JSX } from "react";
+import { useState, JSX, useEffect } from "react";
 import { X, ChevronLeft } from "lucide-react";
 
 import { ChevronRight } from "lucide-react";
@@ -21,6 +21,18 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, links }) => {
     null
   );
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   const openDropdown = (index: number) => {
     setActiveDropdownIndex(index);
   };
@@ -34,7 +46,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, links }) => {
       <div
         className={`fixed top-0 left-0 h-screen w-3/4 max-w-sm bg-white shadow-lg transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out text-gray-600 z-50`}
+        } transition-transform duration-300 ease-in-out text-gray-600 z-20`}
       >
         {/* Header */}
         <div className="flex justify-between p-4 border-b h-16 items-center">
@@ -81,7 +93,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, links }) => {
 
       {isOpen && (
         <div
-          className="fixed inset-0 w-full h-full bg-black opacity-50 z-40"
+          className="fixed inset-0 w-full h-full bg-black opacity-50 z-10"
           onClick={onClose}
         />
       )}

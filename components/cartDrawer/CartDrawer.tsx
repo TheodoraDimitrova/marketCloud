@@ -10,6 +10,7 @@ import QuantitySelector from "@/components/shared/QuantitySelector";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
 import { updateItemQuantity } from "@/store/slices/cartSlice";
+import { useEffect } from "react";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -20,6 +21,18 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const subtotal = useSelector((state: RootState) => state.cart.subtotal);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
   const updateQuantity = (id: string | undefined, change: number) => {
     if (id) {
@@ -34,7 +47,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          className="fixed inset-0 bg-black bg-opacity-50 z-10"
           onClick={onClose}
         ></div>
       )}
@@ -42,7 +55,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
       <div
         className={`fixed top-0 right-0 h-screen w-3/4 max-w-sm p-4 bg-white shadow-lg transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
-        } transition-transform duration-300 ease-in-out text-gray-600 z-50 overflow-y-auto`}
+        } transition-transform duration-300 ease-in-out text-gray-600 z-20 overflow-y-auto`}
       >
         {/* Header */}
         <div className="flex items-center p-4">

@@ -53,9 +53,9 @@ const ProductPage = () => {
       {status === "loading" && <Loading />}
       {status === "failed" && <p className="text-red-500">Error: {error}</p>}
       {productDetails && (
-        <div className="container mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="container mx-auto p-2 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* left side */}
-          <div className="flex justify-center place-items-start">
+          <div className="flex justify-center place-items-start p-4 md:p-0">
             <Image
               src={
                 hovered
@@ -77,7 +77,7 @@ const ProductPage = () => {
           </div>
 
           {/* right side */}
-          <div className="flex flex-col justify-start max-w-md p-6 ">
+          <div className="flex flex-col justify-start max-w-md p-2 md:p-6 ">
             <h1 className="text-xl m-0 font-extralight">
               {productDetails.name}
             </h1>

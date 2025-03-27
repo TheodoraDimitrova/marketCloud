@@ -39,7 +39,7 @@ const CartPage = () => {
           {cartItems.map((item) => (
             <div key={item._id} className="md:p-4 flex-col pb-4 mt-4">
               <div className="flex-between">
-                <div className="flex flex-1 flex-col">
+                <div className="flex md:flex-1 flex-2 flex-col">
                   <CartProductSummary item={item} />
                   <div className="quantity md:hidden flex w-24 ml-20">
                     <QuantitySelector
@@ -68,7 +68,7 @@ const CartPage = () => {
                   )}
                 </div>
 
-                <div className="quantity hidden md:flex flex-col text-center flex-center w-32">
+                <div className="quantity hidden md:flex md:flex-col md:text-center md:flex-center md:w-32 ">
                   <QuantitySelector
                     updateQuantity={(change) =>
                       updateQuantity(item._id, change)

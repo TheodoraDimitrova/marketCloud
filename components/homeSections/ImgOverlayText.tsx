@@ -32,7 +32,7 @@ const ImgOverlayText: React.FC<ImgOverlayTextProps> = ({
       />
 
       <div className="absolute w-full h-full  inset-0 bg-black bg-opacity-50 overflow-hidden rounded-xl">
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-10">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-20">
           <span className="text-sm text-white font-light uppercase bold">
             {subheading}
           </span>

@@ -70,7 +70,7 @@ const NavBar = () => {
           : isHomePage
             ? "bg-transparent absolute top-30 text-white"
             : "bg-white sticky top-0 text-black border-b border-gray-300"
-      }  w-full z-50 transition-all duration-700 `}
+      }  w-full z-20 transition-all duration-700 `}
       onMouseEnter={() => isHomePage && setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
@@ -106,7 +106,6 @@ const NavBar = () => {
             onClick={() => router.push("/search")}
             className="hidden lg:inline-flex"
           />
-          {/* <ShoppingBag onClick={() => console.log("open cart menu")} /> */}
 
           <button onClick={() => setIsCartOpen(true)} className="relative">
             <ShoppingBag size={24} />

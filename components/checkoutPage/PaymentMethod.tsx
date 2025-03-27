@@ -10,15 +10,15 @@ interface PaymentMethodProps {
 
 const PaymentMethod: React.FC<PaymentMethodProps> = ({ control }) => {
   return (
-    <div className="space-y-4">
-      <h2 className="text-xl font-semibold">Payment Method</h2>
+    <div className="space-y-4 text-sm">
+      <p className=" font-semibold">Payment Method</p>
 
       <Controller
         name="paymentMethod"
         control={control}
         defaultValue="cod"
         render={({ field }) => (
-          <div className="flex items-center space-x-4">
+          <div className="flex flex-col space-y-4 md:flex-row md:items-center md:space-x-4 md:space-y-0 md:py-2">
             {/* Credit / Debit Card */}
             <label className="flex items-center space-x-2">
               <input

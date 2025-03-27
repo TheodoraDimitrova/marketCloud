@@ -38,7 +38,7 @@ const brands = [
 
 const BrandsDropdown = () => {
   return (
-    <div className="lg:container flex-col md:flex-row space-y-6 mx-auto flex h-screen overflow-auto md:justify-between md:p-6  md:h-auto md:align-middle md:space-y-0 md:gap-4">
+    <div className="lg:container flex-col md:flex-row space-y-4 pb-[100px] mx-auto flex h-screen overflow-scroll md:justify-between md:p-6  md:h-auto md:align-middle md:space-y-0 md:gap-4">
       {brands.map((brand, index) => (
         <div key={index}>
           <h3 className="font-bold">{brand.category}</h3>
