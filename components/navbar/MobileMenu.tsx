@@ -86,7 +86,9 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, links }) => {
               })}
             </>
           ) : (
-            links[activeDropdownIndex]?.dropdown || null
+            <div onClick={onClose}>
+              {links[activeDropdownIndex]?.dropdown || null}
+            </div>
           )}
         </div>
       </div>
