@@ -114,7 +114,7 @@ const SectionFilter: React.FC<{
   return (
     <Suspense fallback={<Loading />}>
       <div
-        className={`fixed top-0 left-0 h-screen w-3/4 max-w-sm p-4 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-[15] overflow-auto              
+        className={`fixed top-0 left-0 h-screen w-3/4 max-w-sm p-4 bg-white shadow-lg transform transition-transform duration-300 ease-in-out  overflow-auto              
       ${showFilter ? "translate-x-0" : "-translate-x-full"}
       lg:relative lg:w-[280px] lg:translate-x-0 lg:shadow-none lg:h-auto text-gray-600 lg:z-10 z-30`}
       >
