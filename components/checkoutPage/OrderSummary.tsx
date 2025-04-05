@@ -26,13 +26,10 @@ const OrderSummary = () => {
 
   return (
     <div className=" md:min-w-[280px] md:w-auto p-2 sm:p-4 md:p-6 bg-gray-100 rounded-md shadow-md mt-10 md:mt-0">
-      <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+      <h2>Order Summary</h2>
       <ul className="space-y-4">
         {cartItems.map((item, index) => (
-          <li
-            key={item._id || index}
-            className="flex items-center justify-between"
-          >
+          <li key={item._id || index} className="flex-between">
             <CartProductSummary item={item} />
             {item.discount?.isActive ? (
               <div className="flex flex-col">

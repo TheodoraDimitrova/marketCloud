@@ -61,7 +61,7 @@ const Reviews = () => {
       <div className="container mx-auto px-4 text-center">
         {/* Review */}
         <div className="bg-white p-8 rounded-lg shadow-lg">
-          <div className="flex flex-col md:flex-row items-center justify-between">
+          <div className="flex-between flex-col md:flex-row">
             <div className="md:w-1/2 md:pl-8 mt-4 md:mt-0 text-left">
               <p className=" text-xs font-medium tracking-wider leading-5 uppercase mb-8">
                 Customer reviews

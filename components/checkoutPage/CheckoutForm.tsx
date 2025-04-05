@@ -104,7 +104,7 @@ const CheckoutForm = () => {
 
       {orderStatus !== "loading" && orderError !== "failed" && (
         <div className="col-span-2">
-          <h1 className="title">Checkout</h1>
+          <h1>Checkout</h1>
 
           <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
             {/* Contact Section */}
@@ -137,7 +137,7 @@ const CheckoutForm = () => {
               </div>
             </div>
 
-            <h2 className="text-xl font-semibold mb-4">Billing Information</h2>
+            <h3>Billing Information</h3>
             <div className="space-y-2">
               <div className="flex flex-col">
                 <label
@@ -244,7 +244,7 @@ const CheckoutForm = () => {
               validationRules={validationRules.phone}
             />
 
-            <h2 className="text-xl font-semibold mb-4">Shipping Information</h2>
+            <h3>Shipping Information</h3>
 
             <p className="text-sm font-semibold">Delivery Method</p>
             <p className="text-sm">

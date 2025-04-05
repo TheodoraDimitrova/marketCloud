@@ -32,7 +32,7 @@ const CategoriesPage = () => {
 
   return (
     <div className="container mx-auto p-6 text-center">
-      <h1 className="text-3xl  mb-6">All Categories</h1>
+      <h1>All Categories</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
         {categories.map((category: Category) => (
           <Link
@@ -47,7 +47,7 @@ const CategoriesPage = () => {
               height={200}
               className="w-full rounded-md h-40 object-cover"
             />
-            <h2 className="mt-2 text-xl ">{category.name}</h2>
+            <h3 className="mt-2 text-center">{category.name}</h3>
           </Link>
         ))}
       </div>

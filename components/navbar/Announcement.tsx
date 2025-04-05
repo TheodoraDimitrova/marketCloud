@@ -36,7 +36,7 @@ const Announcement = () => {
   }, []);
 
   return (
-    <div className="bg-yellow-500 text-black py-2 text-center flex p-10 items-center justify-between">
+    <div className="bg-yellow-500 text-black py-2 text-center flex-between p-10 ">
       <div className="hidden lg:block">
         <SocialIcons />
       </div>

@@ -35,7 +35,7 @@ const BlogPosts = () => {
 
   return (
     <div className="container m-auto  flex-col h-auto flex-between pb-0 md:pb-12 ">
-      <h1>Blog Posts</h1>
+      <h2>Blog Posts</h2>
       <div className="flex flex-col gap-3 md:flex-row items-stretch justify-center h-full mx-5">
         {posts.map((post, index) => (
           <div
@@ -51,7 +51,7 @@ const BlogPosts = () => {
               className="object-cover rounded-lg shadow-lg mb-1"
             />
             <Link href={post.link}>
-              <h3 className="text-2xl font-thin mb-4">{post.title}</h3>
+              <h3 className="font-light">{post.title}</h3>
             </Link>
             <p className="mb-auto text-justify">{post.text}</p>
             <p className="mt-2">

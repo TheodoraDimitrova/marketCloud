@@ -49,7 +49,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, links }) => {
         } transition-transform duration-300 ease-in-out text-gray-600 z-20`}
       >
         {/* Header */}
-        <div className="flex justify-between p-4 border-b h-16 items-center">
+        <div className="flex-between p-4 border-b h-16">
           {activeDropdownIndex !== null ? (
             <div className="flex justify-between w-full space-x-2">
               <div

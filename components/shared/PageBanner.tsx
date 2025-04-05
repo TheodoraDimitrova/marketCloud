@@ -16,7 +16,7 @@ const Banner: React.FC<BannerProps> = ({
 
   return (
     <div
-      className={`relative flex flex-col items-center justify-center w-full ${containerHeight} text-white text-center p-5 ${
+      className={`relative flex-center flex-col w-full ${containerHeight} text-white text-center p-5 ${
         backgroundImage ? "bg-cover bg-center" : "bg-white"
       }`}
       style={

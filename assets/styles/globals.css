@@ -10,49 +10,16 @@
   .flex-between {
     @apply flex justify-between items-center;
   }
-
-  .title {
-    @apply text-3xl sm:text-4xl  text-gray-600 mb-5 font-light;
-  }
-
-  .h2-bold {
-    @apply font-bold text-2xl lg:text-3xl;
-  }
-
-  .h3-bold {
-    @apply font-bold text-xl lg:text-2xl;
-  }
 }
 
 @layer base {
   h1 {
-    @apply text-3xl sm:text-4xl  mb-5 font-light;
+    @apply text-3xl sm:text-4xl mb-5 font-light;
   }
-}
-
-@layer base {
-  body {
-    @apply bg-background text-foreground;
+  h2 {
+    @apply text-2xl sm:text-3xl mb-5 text-gray-600;
   }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-  :root {
-    --radius: 4px;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
+  h3 {
+    @apply text-xl sm:text-2xl mb-5 text-gray-600;
   }
 }

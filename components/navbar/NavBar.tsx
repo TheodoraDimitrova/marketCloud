@@ -77,7 +77,7 @@ const NavBar = () => {
         setActiveIndex(null);
       }}
     >
-      <div className="relative mx-auto flex lg:flex-row md:flex-col-reverse md:gap-2 items-center justify-between px-4 py-2">
+      <div className="relative mx-auto flex-between lg:flex-row md:flex-col-reverse md:gap-2 px-4 py-2">
         {/* Left Section */}
 
         <div className="flex items-center ">

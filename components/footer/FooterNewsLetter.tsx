@@ -22,12 +22,12 @@ const FooterNewsLetter = () => {
 
   return (
     <div className="px-5  pb-5  w-full sm:w-1/2 sm:pb-5  lg:basis-1/4 lg:pb-0 overflow-hidden">
-      <h3 className="text-xl font-semibold mb-4">Join Our Email List</h3>
+      <h3 className="text-white h3-bold">Join Our Email List</h3>
       <p className="text-white mb-4">
         Get 20% off your first purchase! Plus, be the first to know about sales,
         new product launches, and exclusive offers!
       </p>
-      <div className="flex flex-col space-y-2 w-full ">
+      <div className="flex flex-col space-y-2 w-full">
         <form onSubmit={handleSubmit(onSubmit)}>
           <input
             type="email"

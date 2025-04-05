@@ -115,7 +115,7 @@ const CostomerHepl = () => {
         <div className="flex justify-between py-16 px-4 lg:py-16 lg:px-32">
           <div className="hidden md:block md:relative md:min-h-screen w-1/4">
             <div className="sticky top-14">
-              <h3 className="text-xl mb-2">How can we help?</h3>
+              <h3>How can we help?</h3>
               {topics.map((topic, index) => {
                 return (
                   <div className="faq-index-item mb-2" key={index}>

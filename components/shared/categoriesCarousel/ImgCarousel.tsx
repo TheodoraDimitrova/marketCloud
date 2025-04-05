@@ -29,7 +29,7 @@ const ImgCarousel: React.FC<ImgCarouselProps> = ({
         />
 
         <div className="absolute bottom-2 left-5">
-          <h2 className="text-white text-md uppercase lg:text-xl">{title}</h2>
+          <p className="text-white text-md uppercase lg:text-xl ">{title}</p>
           <span className="text-sm text-white">{totalProducts} products</span>
         </div>
       </Link>

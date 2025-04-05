@@ -11,7 +11,7 @@ const QuantitySelector: React.FC<QuantitySelectorProps> = ({
   updateQuantity,
 }) => {
   return (
-    <div className="flex border items-center justify-center rounded-sm border-gray-300 w-24 bg-gray-200 mt-2 ">
+    <div className="flex-center border rounded-sm border-gray-300 w-24 bg-gray-200 mt-2 ">
       <div>
         {" "}
         <Minus size={20} onClick={() => updateQuantity(-1)} />

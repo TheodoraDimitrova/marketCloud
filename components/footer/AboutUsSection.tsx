@@ -5,7 +5,7 @@ import SocialIcons from "@/components/shared/icons/SocialIcons";
 const AboutUsSection = () => {
   return (
     <div className="px-5  pb-5  w-full sm:w-1/2 sm:pb-5 lg:basis-1/4 lg:pb-0">
-      <h3 className="text-xl font-semibold mb-4">About the Store</h3>
+      <h3 className="text-white h3-bold">About the Store</h3>
 
       <p className="text-wrap ">
         At Adora, we believe beauty has no boundaries, and our mission is to

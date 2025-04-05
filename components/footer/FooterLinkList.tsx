@@ -13,7 +13,7 @@ interface FooterLinkListProps {
 const FooterLinkList: React.FC<FooterLinkListProps> = ({ title, links }) => {
   return (
     <div className="px-5 lg:mr-20 sm:mr-0 sm:w-1/2 pb-5 lg:w-auto lg:pb-0 ">
-      <h3 className="text-xl font-semibold mb-4">{title}</h3>
+      <h3 className="text-white h3-bold">{title}</h3>
       <ul>
         {links.map((link) => (
           <li key={link.href}>

@@ -74,7 +74,7 @@ const ThankYouPage = () => {
       </div>
 
       <div className="mt-8 p-4 bg-gray-100 rounded-lg">
-        <h2 className="text-xl font-semibold">Shipping Information</h2>
+        <h3>Shipping Information</h3>
         <p>
           {order.firstName} {order.lastName}
         </p>

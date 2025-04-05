@@ -121,7 +121,7 @@ const SectionFilter: React.FC<{
         <div className="flex flex-col ">
           {/* Mobile Header */}
           <header className="lg:hidden flex-between ">
-            <h3 className="text-lg mb-3">Filters</h3>
+            <h3>Filters</h3>
             <X
               size={24}
               onClick={toggleFilters}

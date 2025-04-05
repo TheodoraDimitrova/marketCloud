@@ -89,7 +89,7 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
               <ProductCard key={product._id} product={product} />
             ))
           ) : (
-            <div className="flex flex-col justify-center items-center space-y-4">
+            <div className="flex-center flex-col space-y-4">
               <p className="text-lg text-gray-700">
                 Sorry, no products are available right now.
               </p>

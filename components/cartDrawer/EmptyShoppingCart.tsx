@@ -4,9 +4,9 @@ import Link from "next/link";
 
 const EmptyShoppingCard = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-full text-center px-6 md:px-8 md:py-12">
+    <div className="flex-center flex-col  h-full text-center px-6 md:px-8 md:py-12">
       <ShoppingCart size={48} className="text-gray-400 mb-4" />
-      <h3 className="text-lg font-semibold">Your cart is empty</h3>
+      <h3>Your cart is empty</h3>
       <p className="text-gray-500 mb-4">
         Discover our new arrivals and bestsellers!
       </p>

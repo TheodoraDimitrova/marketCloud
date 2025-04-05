@@ -47,7 +47,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         </div>
 
         {/* Price Details */}
-        <div className="flex flex-col items-center justify-between flex-grow text-center p-3">
+        <div className="flex-between flex-col flex-grow text-center p-3">
           <p className="text-gray-800 text-sm uppercase ">{product.name}</p>
           <p className="text-gray-600 text-md"> € {product.price.toFixed(2)}</p>
         </div>

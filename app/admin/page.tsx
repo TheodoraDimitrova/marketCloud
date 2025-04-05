@@ -5,11 +5,9 @@ const page = () => {
     <div className="flex">
       {/* <Sidebar /> */}
       <div className="flex-1 p-8">
-        <h1 className="text-3xl font-bold text-gray-800">
-          Welcome to the Admin Panel
-        </h1>
+        <h1>Welcome to the Admin Panel</h1>
         <div className="mt-8">
-          <h2 className="text-xl font-semibold text-gray-700">Recent Orders</h2>
+          <h2>Recent Orders</h2>
           <table className="min-w-full mt-4 bg-white border border-gray-200 rounded-lg">
             <thead>
               <tr>

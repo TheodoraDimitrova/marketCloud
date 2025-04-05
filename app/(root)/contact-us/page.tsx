@@ -33,7 +33,7 @@ const ContactPage = () => {
 
       <div className="flex flex-col md:flex-row h-[360]">
         <div className="flex flex-1 flex-col md:flex-row md:w-1/2">
-          <div className="flex flex-col w-full md:w-1/2 h-[300px] md:h-[350px] m-auto items-center justify-center text-left space-y-3 lg:p-8  bg-slate-200">
+          <div className="flex-center flex-col w-full md:w-1/2 h-[300px] md:h-[350px] m-auto text-left space-y-3 lg:p-8 bg-slate-200">
             <h1>Our store</h1>
             <p className="mb-3 text-lg">
               123 Fake St. <br />

@@ -78,10 +78,8 @@ const ProductPage = () => {
 
           {/* right side */}
           <div className="flex flex-col justify-start max-w-md p-2 md:p-6 ">
-            <h1 className="text-xl m-0 font-extralight">
-              {productDetails.name}
-            </h1>
-            <p className="text-sm font-sans uppercase">
+            <h1 className="text-xl m-0 ">{productDetails.name}</h1>
+            <p className="text-sm font-light uppercase">
               {productDetails.description}
             </p>
 
@@ -118,9 +116,7 @@ const ProductPage = () => {
             </div>
 
             <div className="mt-8">
-              <h2 className="text-xl font-semibold text-gray-800">
-                Product Details
-              </h2>
+              <h2 className="text-xl  text-gray-600">Product Details</h2>
               <ul className="mt-4 list-disc pl-5 space-y-2 text-gray-700">
                 {productDetails.productDetails.map((detail, index) => (
                   <li key={index}>{detail}</li>
