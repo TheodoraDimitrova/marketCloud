@@ -1,11 +1,11 @@
 import React from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/forms/radio-group";
 import { Label } from "@/components/ui/label";
-import { useDispatch, useSelector } from "react-redux";
 import { setDeliveryMethod } from "@/store/slices/cartSlice";
 import { Controller, Control, FieldErrors } from "react-hook-form";
-import { RootState } from "@/store/store";
 import { FormValues } from "@/types/formValues";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { useAppSelector } from "@/hooks/useAppSelector";
 
 interface DeliveryMethodsProps {
   control: Control<FormValues>;
@@ -22,8 +22,8 @@ const DeliveryMethods: React.FC<DeliveryMethodsProps> = ({
   control,
   errors,
 }) => {
-  const dispatch = useDispatch();
-  const cart = useSelector((state: RootState) => state.cart);
+  const dispatch = useAppDispatch();
+  const cart = useAppSelector((state) => state.cart);
 
   const handleDeliveryMethodChange = (value: string) => {
     const selectedMethod = deliveryMethods.find((m) => m.value === value);

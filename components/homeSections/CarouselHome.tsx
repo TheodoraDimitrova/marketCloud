@@ -2,16 +2,13 @@
 import React from "react";
 import ImgOverlayText from "@/components/homeSections/ImgOverlayText";
 import Carousel from "@/components/shared/Carousel";
-import { useSelector } from "react-redux";
 import { urlFor } from "@/sanity/lib/image";
-import { RootState } from "@/store/store";
 import Loading from "../shared/Loading";
 import { Category } from "@/types/category";
+import { useAppSelector } from "@/hooks/useAppSelector";
 
 const CarouselHome = () => {
-  const { categories, status } = useSelector(
-    (state: RootState) => state.categories
-  );
+  const { categories, status } = useAppSelector((state) => state.categories);
   if (status === "loading") {
     return <Loading />;
   }

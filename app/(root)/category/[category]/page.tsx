@@ -1,29 +1,29 @@
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { usePathname, useRouter } from "next/navigation";
 import Banner from "@/components/shared/PageBanner";
 import { fetchCategories } from "@/store/slices/categorySlice";
 import { fetchProductsByCategory } from "@/store/slices/productsSlice";
-import { RootState, AppDispatch } from "@/store/store";
 import { urlFor } from "@/sanity/lib/image";
 import FilteredProductList from "@/components/shared/filteredProductList/FilteredProductList";
 import Loading from "@/components/shared/Loading";
 import SearchBar from "@/components/shared/SearchBar";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 
 const CategoryPage = () => {
   const pathname = usePathname();
   const router = useRouter();
   const category = pathname.split("/").pop();
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
-  const { categories, status: categoriesStatus } = useSelector(
-    (state: RootState) => state.categories
+  const { categories, status: categoriesStatus } = useAppSelector(
+    (state) => state.categories
   );
-  const { filteredProducts, status: ProductState } = useSelector(
-    (state: RootState) => state.products
+  const { filteredProducts, status: ProductState } = useAppSelector(
+    (state) => state.products
   );
 
   const [categoryData, setCategoryData] = useState<{

@@ -1,19 +1,18 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useSelector, useDispatch } from "react-redux";
 import { fetchCategories } from "@/store/slices/categorySlice";
 import { urlFor } from "@/sanity/lib/image";
-import { RootState } from "@/store/store";
 import Loading from "@/components/shared/Loading";
 import { Category } from "@/types/category";
 import { useEffect } from "react";
-import { AppDispatch } from "@/store/store";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 
 const CategoriesPage = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { categories, status, error } = useSelector(
-    (state: RootState) => state.categories
+  const dispatch = useAppDispatch();
+  const { categories, status, error } = useAppSelector(
+    (state) => state.categories
   );
 
   useEffect(() => {

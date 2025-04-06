@@ -1,7 +1,6 @@
 "use client";
-import { useDispatch, useSelector } from "react-redux";
+
 import { useEffect } from "react";
-import { RootState, AppDispatch } from "@/store/store";
 import { fetchOrder } from "@/store/slices/orderSlice";
 import { setCartFromOrder, clearCart } from "@/store/slices/cartSlice";
 import { useParams } from "next/navigation";
@@ -11,13 +10,13 @@ import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { Order } from "@/types/order";
 import { clearOrder } from "@/store/slices/orderSlice";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 
 const ThankYouPage = () => {
-  const order = useSelector(
-    (state: RootState) => state.order.order as Order | null
-  );
-  const status = useSelector((state: RootState) => state.order.status);
-  const dispatch = useDispatch<AppDispatch>();
+  const order = useAppSelector((state) => state.order.order as Order | null);
+  const status = useAppSelector((state) => state.order.status);
+  const dispatch = useAppDispatch();
   const params = useParams();
   const router = useRouter();
   const orderId = params?.orderId as string | undefined;

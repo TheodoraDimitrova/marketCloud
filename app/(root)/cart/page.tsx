@@ -1,23 +1,34 @@
 "use client";
-import { RootState } from "@/store/store";
-import { useSelector, useDispatch } from "react-redux";
+
 import Link from "next/link";
 import QuantitySelector from "@/components/shared/QuantitySelector";
 import CartProductSummary from "@/components/shared/CartProductSummary";
 import FreeShippingBanner from "@/components/shared/FreeShippingBanner";
 import EmptyShopingCard from "@/components/cartDrawer/EmptyShoppingCart";
 import { updateItemQuantity, removeFromCart } from "@/store/slices/cartSlice";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { useEffect, useState } from "react";
+import Loading from "@/components/shared/Loading";
 
 const CartPage = () => {
-  const cartItems = useSelector((state: RootState) => state.cart.items);
-  const subtotal = useSelector((state: RootState) => state.cart.subtotal);
-  const dispatch = useDispatch();
+  const [isClient, setIsClient] = useState(false);
+  const cartItems = useAppSelector((state) => state.cart.items);
+  const subtotal = useAppSelector((state) => state.cart.subtotal);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const updateQuantity = (id: string | undefined, change: number) => {
     if (id) {
       dispatch(updateItemQuantity({ id, quantity: change }));
     }
   };
+  if (!isClient) {
+    return <Loading />;
+  }
 
   return (
     <div className="container max-w-3xl m-auto p-4 my-20">

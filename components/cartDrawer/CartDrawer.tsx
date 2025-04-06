@@ -7,10 +7,10 @@ import CartProductSummary from "../shared/CartProductSummary";
 import FreeShippingBanner from "../shared/FreeShippingBanner";
 import EmptyShopingCard from "./EmptyShoppingCart";
 import QuantitySelector from "@/components/shared/QuantitySelector";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/store/store";
 import { updateItemQuantity } from "@/store/slices/cartSlice";
 import { useEffect } from "react";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -18,9 +18,9 @@ interface CartDrawerProps {
 }
 
 const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
-  const cartItems = useSelector((state: RootState) => state.cart.items);
-  const subtotal = useSelector((state: RootState) => state.cart.subtotal);
-  const dispatch = useDispatch();
+  const cartItems = useAppSelector((state) => state.cart.items);
+  const subtotal = useAppSelector((state) => state.cart.subtotal);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (isOpen) {

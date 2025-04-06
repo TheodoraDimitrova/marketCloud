@@ -16,26 +16,21 @@ import DeliveryMethods from "@/components/checkoutPage/DeliveryMethods";
 import FormField from "../shared/formField/FormField";
 import PaymentMethod from "@/components/checkoutPage/PaymentMethod";
 import validationRules from "@/lib/validationRulesCheckout";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
 import { createOrder } from "@/store/slices/orderSlice";
 import Loading from "@/components/shared/Loading";
-import { AppDispatch } from "@/store/store";
 import { useRouter } from "next/navigation";
 import { CartItem, CartState } from "@/types/cart";
 import { FormValues } from "@/types/formValues";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 
 const CheckoutForm = () => {
   const router = useRouter();
-  const cart = useSelector((state: RootState) => state.cart) as CartState;
-  const dispatch = useDispatch<AppDispatch>();
-  const order = useSelector((state: RootState) => state.order.order);
-  const orderStatus = useSelector(
-    (state: RootState) => state.order?.status || "idle"
-  );
-  const orderError = useSelector(
-    (state: RootState) => state.order?.error || null
-  );
+  const cart = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
+  const order = useAppSelector((state) => state.order.order);
+  const orderStatus = useAppSelector((state) => state.order?.status || "idle");
+  const orderError = useAppSelector((state) => state.order?.error || null);
 
   const {
     register,

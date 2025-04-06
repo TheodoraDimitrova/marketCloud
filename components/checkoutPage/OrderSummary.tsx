@@ -2,21 +2,16 @@
 
 import CartProductSummary from "../shared/CartProductSummary";
 import { Tags } from "lucide-react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
 import Loading from "../shared/Loading";
 import { CartItem } from "@/types/cart";
+import { useAppSelector } from "@/hooks/useAppSelector";
 
 const OrderSummary = () => {
-  const cartItems: CartItem[] = useSelector(
-    (state: RootState) => state.cart.items
-  );
-  const subtotal = useSelector((state: RootState) => state.cart.subtotal);
-  const shipping = useSelector((state: RootState) => state.cart.shipping);
-  const totalAmount = useSelector((state: RootState) => state.cart.totalAmount);
-  const totalSavings = useSelector(
-    (state: RootState) => state.cart.totalSavings
-  );
+  const cartItems: CartItem[] = useAppSelector((state) => state.cart.items);
+  const subtotal = useAppSelector((state) => state.cart.subtotal);
+  const shipping = useAppSelector((state) => state.cart.shipping);
+  const totalAmount = useAppSelector((state) => state.cart.totalAmount);
+  const totalSavings = useAppSelector((state) => state.cart.totalSavings);
 
   if (!cartItems || !subtotal || !shipping || !totalAmount) {
     return <Loading />;

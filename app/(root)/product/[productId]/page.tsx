@@ -7,21 +7,21 @@ import TagsList from "@/components/shared/tags/listTags";
 import Rating from "@/components/shared/Rating";
 import DiscountBannerProduct from "@/components/shared/discountBannerProduct";
 import { usePathname } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState, AppDispatch } from "@/store/store";
 import { fetchProductDetails } from "@/store/slices/productsSlice";
 import { urlFor } from "@/sanity/lib/image";
 import Loading from "@/components/shared/Loading";
 import { addToCart } from "@/store/slices/cartSlice";
 import { Product } from "@/types/product";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 
 const ProductPage = () => {
   const [hovered, setHovered] = useState(false);
-  const dispatch = useDispatch<AppDispatch>();
   const [quantity, setQuantity] = useState(1);
+  const dispatch = useAppDispatch();
 
-  const { productDetails, status, error } = useSelector(
-    (state: RootState) => state.products
+  const { productDetails, status, error } = useAppSelector(
+    (state) => state.products
   );
 
   const pathname = usePathname();

@@ -4,19 +4,16 @@ import { useEffect, useState, Suspense } from "react";
 import Banner from "@/components/shared/PageBanner";
 import CategoriesCarousel from "@/components/shared/categoriesCarousel/CategoriesCarousel";
 import { fetchAllProducts } from "@/store/slices/productsSlice";
-import { AppDispatch, RootState } from "@/store/store";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { useAppSelector } from "@/hooks/useAppSelector";
 import FilteredProductList from "@/components/shared/filteredProductList/FilteredProductList";
 import Loading from "@/components/shared/Loading";
 import SearchBar from "@/components/shared/SearchBar";
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const dispatch = useDispatch<AppDispatch>();
-
-  const { products, status, error } = useSelector(
-    (state: RootState) => state.products
-  );
+  const dispatch = useAppDispatch();
+  const { products, status, error } = useAppSelector((state) => state.products);
 
   useEffect(() => {
     if (!products || products.length === 0) {

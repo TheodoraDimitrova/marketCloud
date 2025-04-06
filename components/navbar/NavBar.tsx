@@ -12,11 +12,10 @@ import CartDrawer from "@/components/cartDrawer/CartDrawer";
 import ShopDropdown from "./dropdowns/ShopDropdown";
 import BrandsDropdown from "./dropdowns/BrandsDropdown";
 import OurWorldDropdown from "./dropdowns/OurWorldDropdown";
-
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { useAppSelector } from "@/hooks/useAppSelector";
 
 const NavBar = () => {
+  const [isClient, setIsClient] = useState(false);
   const [isScrolledDown, setIsScrolledDown] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -26,7 +25,7 @@ const NavBar = () => {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
-  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const cartItems = useAppSelector((state) => state.cart.items);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,6 +60,14 @@ const NavBar = () => {
       dropdown: <OurWorldDropdown />,
     },
   ];
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <div

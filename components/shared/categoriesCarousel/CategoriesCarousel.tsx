@@ -1,20 +1,15 @@
 "use client";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Carousel from "@/components/shared/Carousel";
 import ImgCarousel from "@/components/shared/categoriesCarousel/ImgCarousel";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
 import { urlFor } from "@/sanity/lib/image";
-
+import { useAppSelector } from "@/hooks/useAppSelector";
 import Swiper from "swiper";
 
 const CategoriesCarousel = () => {
   const swiperRef = useRef<Swiper | null>(null);
-
-  const { categories, status } = useSelector(
-    (state: RootState) => state.categories
-  );
+  const { categories, status } = useAppSelector((state) => state.categories);
 
   if (status === "loading") {
     return <div>Loading categories...</div>;
