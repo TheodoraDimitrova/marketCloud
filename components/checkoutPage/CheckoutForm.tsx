@@ -23,6 +23,7 @@ import { CartItem, CartState } from "@/types/cart";
 import { FormValues } from "@/types/formValues";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { clearOrder } from "@/store/slices/orderSlice";
 
 const CheckoutForm = () => {
   const router = useRouter();
@@ -43,9 +44,10 @@ const CheckoutForm = () => {
   useEffect(() => {
     if (orderStatus === "succeeded" && order?._id) {
       localStorage.clear();
+      dispatch(clearOrder());
       router.push(`/checkout/thank-you/${order._id}`);
     }
-  }, [orderStatus, order, router]);
+  }, [orderStatus, order, router, dispatch]);
 
   const prepareOrderData = (data: FormValues, cart: CartState) => ({
     ...data,

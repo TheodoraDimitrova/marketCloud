@@ -25,15 +25,17 @@ const ThankYouPage = () => {
     if (!order && orderId) {
       dispatch(fetchOrder(orderId));
     }
-  }, [orderId, order, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
-    if (status === "succeeded" && order) {
+    if (status === "succeeded" && order?._id) {
       dispatch(setCartFromOrder(order));
       localStorage.removeItem("cart");
     }
   }, [status, order, dispatch]);
 
   const handleRedirect = () => {
+    console.log("да изчисти стейта");
     dispatch(clearOrder());
     dispatch(clearCart());
     router.push("/products");
