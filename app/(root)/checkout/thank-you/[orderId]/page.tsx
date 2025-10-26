@@ -42,7 +42,10 @@ const ThankYouPage = () => {
   };
 
   if (status === "loading") return <Loading />;
-  if (status === "failed") return <p>Error loading order.</p>;
+
+  if (status === "failed") {
+    throw new Error("Error loading order.");
+  }
   if (!order) return <Loading />;
 
   return (

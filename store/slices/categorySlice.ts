@@ -1,70 +1,64 @@
-
-
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import sanityClient from '../../lib/sanityClient'
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Category } from "@/types/category";
 
 interface CategoryState {
-  categories: Category[]; 
+  categories: Category[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
 
 const initialState: CategoryState = {
-  categories: [], 
+  categories: [],
   status: "idle",
   error: null,
 };
 
-
 export const fetchCategories = createAsyncThunk(
-  'categories/fetchCategories',
+  "categories/fetchCategories",
   async (_, { rejectWithValue }) => {
     try {
-      const query = `*[_type == "category"]{
-        ...,
-        "totalProducts": count(*[_type == "product" && references(^._id)])
-      }`
-      
-      const categories = await sanityClient.fetch(query)
-      
-      return categories
-    } catch (error) {
-      let errorMessage = "An unknown error occurred"; 
-      if (error instanceof Error) {
-        errorMessage = error.message; 
+      const res = await fetch("/api/categories");
+      if (!res.ok) {
+        const errorData = await res.json();
+        return rejectWithValue(
+          errorData.message || "Failed to fetch categories"
+        );
       }
-      return rejectWithValue(errorMessage);
-
+      const categories = await res.json();
+      return categories;
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : String(error)
+      );
     }
   }
-)
+);
 
 const categorySlice = createSlice({
-  name: 'categories',
+  name: "categories",
   initialState,
   reducers: {
     setCategories: (state, action) => {
       state.categories = action.payload;
-      state.status="succeeded"
+      state.status = "succeeded";
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCategories.pending, (state) => {
-        state.status = 'loading'
+        state.status = "loading";
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
-        state.status = 'succeeded'
-        state.categories = action.payload
+        state.status = "succeeded";
+        state.categories = action.payload;
       })
       .addCase(fetchCategories.rejected, (state, action) => {
-        state.status = 'failed'
+        state.status = "failed";
         state.error = action.payload as string;
-      })
+      });
   },
-})
+});
 
 export const { setCategories } = categorySlice.actions;
 
-export default categorySlice.reducer
+export default categorySlice.reducer;

@@ -9,7 +9,10 @@ export async function GET() {
   } catch (error) {
     console.error("Error fetching products:", error);
     return NextResponse.json(
-      { message: "Failed to fetch products", error },
+      {
+        message: "Failed to fetch products",
+        error: error instanceof Error ? error.message : String(error),
+      },
       { status: 500 }
     );
   }

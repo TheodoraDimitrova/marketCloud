@@ -1,21 +1,19 @@
-'use client'
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'; 
-import sanityClient from '@/lib/sanityClient';
-import { Product } from '@/types/product';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { Product } from "@/types/product";
 
 type ProductState = {
   products: Product[];
   filteredProducts: Product[];
   productDetails: Product | null;
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 };
 
 const initialState: ProductState = {
   products: [],
-  filteredProducts:[],
+  filteredProducts: [],
   productDetails: null,
-  status: 'idle',
+  status: "idle",
   error: null,
 };
 
@@ -23,16 +21,21 @@ const handleError = (error: unknown): string => {
   if (error instanceof Error) {
     return error.message;
   }
-  return 'An unknown error occurred';
+  return "An unknown error occurred";
 };
 
 export const fetchAllProducts = createAsyncThunk(
-  'products/fetchAllProducts',
+  "products/fetchAllProducts",
   async (_, { rejectWithValue }) => {
     try {
-      const query = '*[_type == "product"]'; 
-      const products = await sanityClient.fetch(query);
-    
+      const res = await fetch("/api/products");
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        return rejectWithValue(errorData.message || "Failed to fetch products");
+      }
+
+      const products = await res.json();
       return products;
     } catch (error) {
       return rejectWithValue(handleError(error));
@@ -41,11 +44,19 @@ export const fetchAllProducts = createAsyncThunk(
 );
 
 export const fetchProductsByCategory = createAsyncThunk(
-  'products/fetchProductsByCategory',
+  "products/fetchProductsByCategory",
   async (category: string, { rejectWithValue }) => {
     try {
-      const query = '*[_type == "product" && references($category)]';
-      const filteredProducts = await sanityClient.fetch(query, { category });
+      const res = await fetch(`/api/products/category/${category}`);
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        return rejectWithValue(
+          errorData.message || "Failed to fetch products by category"
+        );
+      }
+
+      const filteredProducts = await res.json();
       return filteredProducts;
     } catch (error) {
       return rejectWithValue(handleError(error));
@@ -54,11 +65,19 @@ export const fetchProductsByCategory = createAsyncThunk(
 );
 
 export const fetchProductDetails = createAsyncThunk(
-  'products/fetchProductDetails',
-  async (slug: string, { rejectWithValue }) => {
+  "products/fetchProductDetails",
+  async (productId: string, { rejectWithValue }) => {
     try {
-      const query = `*[_type == "product" && slug.current == $slug][0]`;
-      const product = await sanityClient.fetch(query, { slug });
+      const res = await fetch(`/api/products/${productId}`);
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        return rejectWithValue(
+          errorData.message || "Failed to fetch product details"
+        );
+      }
+
+      const product = await res.json();
       return product;
     } catch (error) {
       return rejectWithValue(handleError(error));
@@ -66,55 +85,53 @@ export const fetchProductDetails = createAsyncThunk(
   }
 );
 
-
-
-
 const productSlice = createSlice({
-  name: 'products',
+  name: "products",
   initialState,
   reducers: {
     setProducts: (state, action) => {
       state.products = action.payload;
-      state.status="succeeded"
+      state.status = "succeeded";
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllProducts.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchAllProducts.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.products = action.payload;
-        state.filteredProducts = action.payload; 
+        state.filteredProducts = action.payload;
       })
       .addCase(fetchAllProducts.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.payload as string;
       })
       .addCase(fetchProductsByCategory.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.filteredProducts = action.payload;
       })
       .addCase(fetchProductsByCategory.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.payload as string;
       })
       .addCase(fetchProductDetails.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchProductDetails.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.productDetails = action.payload;
       })
       .addCase(fetchProductDetails.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.payload as string;
-      })
+      });
   },
 });
+
 export const { setProducts } = productSlice.actions;
 export default productSlice.reducer;
