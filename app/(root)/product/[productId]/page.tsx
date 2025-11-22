@@ -1,15 +1,15 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import Image from "next/image";
-import QuantitySelector from "@/components/shared/QuantitySelector";
+import QuantitySelector from "@/components/shared/common/QuantitySelector";
 import { useState, useEffect } from "react";
 import TagsList from "@/components/shared/tags/listTags";
-import Rating from "@/components/shared/Rating";
-import DiscountBannerProduct from "@/components/shared/discountBannerProduct";
+import Rating from "@/components/shared/common/Rating";
+import DiscountBannerProduct from "@/components/features/products/DiscountBannerProduct";
 import { usePathname } from "next/navigation";
 import { fetchProductDetails } from "@/store/slices/productsSlice";
 import { urlFor } from "@/sanity/lib/image";
-import Loading from "@/components/shared/Loading";
+import Loading from "@/components/ui/Loading";
 import { addToCart } from "@/store/slices/cartSlice";
 import { Product } from "@/types/product";
 import { useAppSelector } from "@/hooks/useAppSelector";
@@ -79,6 +79,11 @@ const ProductPage = () => {
           {/* right side */}
           <div className="flex flex-col justify-start max-w-md p-2 md:p-6 ">
             <h1 className="text-xl m-0 ">{productDetails.name}</h1>
+            {productDetails.brand && (
+              <p className="text-sm font-medium text-gray-600 mt-1">
+                Brand: {productDetails.brand}
+              </p>
+            )}
             <p className="text-sm font-light uppercase">
               {productDetails.description}
             </p>

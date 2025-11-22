@@ -9,10 +9,13 @@ export async function GET() {
       }`);
     return NextResponse.json(categories);
   } catch (error) {
-    console.error("Error fetching products:", error);
+    const isNetworkError =
+      error instanceof TypeError && error.message === "fetch failed";
     return NextResponse.json(
       {
-        message: "Failed to fetch categories",
+        message: isNetworkError
+          ? "No internet connection. Please check your network."
+          : "Failed to load categories.",
         error: error instanceof Error ? error.message : String(error),
       },
       { status: 500 }

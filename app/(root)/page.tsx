@@ -1,12 +1,12 @@
-import Reviews from "@/components/homeSections/Reviews";
-import ScrollBanner from "@/components/homeSections/ScrollBanner";
-import Heroslider from "@/components/homeSections/HeroSlider";
-import OverLapSection from "@/components/homeSections/OverLap";
-import BlogPosts from "@/components/homeSections/BlogPosts";
-import RichText from "@/components/homeSections/RichText";
-import CarouselHome from "@/components/homeSections/CarouselHome";
+import Reviews from "@/components/home/sections/Reviews";
+import ScrollBanner from "@/components/home/sections/ScrollBanner";
+import Heroslider from "@/components/home/sections/HeroSlider";
+import OverLapSection from "@/components/home/sections/Overlap";
+import BlogPosts from "@/components/home/sections/BlogPosts";
+import RichText from "@/components/home/sections/RichText";
+import CarouselHome from "@/components/home/sections/CarouselHome";
 import { Heart } from "lucide-react";
-import HydrateProductsAndCategories from "@/components/HydrateProductsAndCategories";
+import HydrateProductsAndCategories from "@/components/providers/HydrateProductsAndCategories";
 
 const getProducts = async () => {
   const res = await fetch(

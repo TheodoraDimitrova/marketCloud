@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
-import Banner from "@/components/shared/PageBanner";
-import CategoriesCarousel from "@/components/shared/categoriesCarousel/CategoriesCarousel";
+import Banner from "@/components/ui/Banner";
+import CategoriesCarousel from "@/components/features/categories/categoriesCarousel/CategoriesCarousel";
 import { fetchAllProducts } from "@/store/slices/productsSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import FilteredProductList from "@/components/shared/filteredProductList/FilteredProductList";
-import Loading from "@/components/shared/Loading";
-import SearchBar from "@/components/shared/SearchBar";
+import FilteredProductList from "@/components/features/products/filteredProductList/FilteredProductList";
+import Loading from "@/components/ui/Loading";
+import SearchBar from "@/components/shared/common/SearchBar";
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");

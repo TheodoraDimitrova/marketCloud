@@ -1,9 +1,9 @@
 "use client";
 
-import OrderSummary from "@/components/checkoutPage/OrderSummary";
-import CheckoutForm from "@/components/checkoutPage/CheckoutForm";
+import OrderSummary from "@/components/features/checkout/OrderSummary";
+import CheckoutForm from "@/components/features/checkout/CheckoutForm";
 import { useEffect, useState } from "react";
-import Loading from "@/components/shared/Loading";
+import Loading from "@/components/ui/Loading";
 
 const CheckoutPage = () => {
   const [isClient, setIsClient] = useState(false);

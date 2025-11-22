@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import QuantitySelector from "@/components/shared/QuantitySelector";
-import CartProductSummary from "@/components/shared/CartProductSummary";
-import FreeShippingBanner from "@/components/shared/FreeShippingBanner";
-import EmptyShopingCard from "@/components/cartDrawer/EmptyShoppingCart";
+import QuantitySelector from "@/components/shared/common/QuantitySelector";
+import CartProductSummary from "@/components/features/products/CartProductSummary";
+import FreeShippingBanner from "@/components/features/cart/FreeShippingBanner";
+import EmptyShopingCard from "@/components/features/cart/EmptyShoppingCart";
 import { updateItemQuantity, removeFromCart } from "@/store/slices/cartSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useEffect, useState } from "react";
-import Loading from "@/components/shared/Loading";
+import Loading from "@/components/ui/Loading";
 
 const CartPage = () => {
   const [isClient, setIsClient] = useState(false);

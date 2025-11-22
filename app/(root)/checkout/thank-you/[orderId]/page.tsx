@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { fetchOrder } from "@/store/slices/orderSlice";
 import { setCartFromOrder, clearCart } from "@/store/slices/cartSlice";
 import { useParams } from "next/navigation";
-import Loading from "@/components/shared/Loading";
-import OrderSummary from "@/components//checkoutPage/OrderSummary";
+import Loading from "@/components/ui/Loading";
+import OrderSummary from "@/components/features/checkout/OrderSummary";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { Order } from "@/types/order";
@@ -35,7 +35,6 @@ const ThankYouPage = () => {
   }, [status, order, dispatch]);
 
   const handleRedirect = () => {
-    console.log("да изчисти стейта");
     dispatch(clearOrder());
     dispatch(clearCart());
     router.push("/products");

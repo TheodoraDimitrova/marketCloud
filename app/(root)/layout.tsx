@@ -1,7 +1,7 @@
 "use client";
-import Footer from "@/components/footer/Footer";
-import Announcement from "@/components/navbar/Announcement";
-import NavBar from "@/components/navbar/NavBar";
+import Footer from "@/components/layout/footer/Footer";
+import Announcement from "@/components/layout/navbar/Announcement";
+import NavBar from "@/components/layout/navbar/NavBar";
 import { usePathname } from "next/navigation";
 
 export default function RootLayout({
