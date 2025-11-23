@@ -13,9 +13,11 @@ import { clearOrder } from "@/store/slices/orderSlice";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { Button } from "@/components/ui/Button";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 
 const ThankYouPage = () => {
   const order = useAppSelector((state) => state.order.order as Order | null);
+  const orderError = useAppSelector((state) => state.order?.error || null);
   const status = useAppSelector((state) => state.order.status);
   const dispatch = useAppDispatch();
   const params = useParams();
@@ -42,13 +44,32 @@ const ThankYouPage = () => {
     dispatch(clearCart());
     router.push("/products");
   };
+  const handleRetry = () => {
+    if (orderId) {
+      dispatch(fetchOrder(orderId));
+    }
+  };
 
   if (!hasMatchingOrder || !order) {
     if (status === "loading") {
       return <Loading />;
     }
     if (status === "failed") {
-      throw new Error("Error loading order.");
+      return (
+        <div className="max-w-4xl mx-auto p-6">
+          <ErrorMessage
+            message={
+              orderError || "Failed to load order details. Please try again."
+            }
+            retry={handleRetry}
+          />
+          <div className="mt-4 text-center">
+            <Button onClick={() => router.push("/products")} variant="outline">
+              Return to Products
+            </Button>
+          </div>
+        </div>
+      );
     }
     return <Loading />;
   }
