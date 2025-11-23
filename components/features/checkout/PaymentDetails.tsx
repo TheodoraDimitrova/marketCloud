@@ -1,3 +1,4 @@
+"use client";
 const PaymentDetails = () => {
   const stripeEnabled = false;
   if (!stripeEnabled) {

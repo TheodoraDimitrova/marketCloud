@@ -9,6 +9,7 @@ import { useAppSelector } from "@/hooks/useAppSelector";
 import FilteredProductList from "@/components/features/products/filteredProductList/FilteredProductList";
 import Loading from "@/components/ui/Loading";
 import SearchBar from "@/components/shared/common/SearchBar";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -30,7 +31,9 @@ const SearchPage = () => {
   }
 
   if (status === "failed") {
-    return <p>Error: {error}</p>;
+    if (status === "failed") {
+      return <ErrorMessage message={error || "Failed to load products"} />;
+    }
   }
 
   return (

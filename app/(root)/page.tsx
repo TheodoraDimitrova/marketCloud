@@ -1,7 +1,7 @@
 import Reviews from "@/components/home/sections/Reviews";
 import ScrollBanner from "@/components/home/sections/ScrollBanner";
 import Heroslider from "@/components/home/sections/HeroSlider";
-import OverLapSection from "@/components/home/sections/Overlap";
+import OverlapSection from "@/components/home/sections/Overlap";
 import BlogPosts from "@/components/home/sections/BlogPosts";
 import RichText from "@/components/home/sections/RichText";
 import CarouselHome from "@/components/home/sections/CarouselHome";
@@ -46,7 +46,7 @@ const HomePage = async () => {
           styles or you're looking for that perfect beachwear cover-up, we've got you covered."
       />
       <CarouselHome />
-      <OverLapSection />
+      <OverlapSection />
       <BlogPosts />
       <Reviews />
     </>

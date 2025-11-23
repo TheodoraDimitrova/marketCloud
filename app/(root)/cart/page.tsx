@@ -4,7 +4,7 @@ import Link from "next/link";
 import QuantitySelector from "@/components/shared/common/QuantitySelector";
 import CartProductSummary from "@/components/features/products/CartProductSummary";
 import FreeShippingBanner from "@/components/features/cart/FreeShippingBanner";
-import EmptyShopingCard from "@/components/features/cart/EmptyShoppingCart";
+import EmptyShoppingCart from "@/components/features/cart/EmptyShoppingCart";
 import { updateItemQuantity, removeFromCart } from "@/store/slices/cartSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
@@ -127,17 +127,10 @@ const CartPage = () => {
                 Proceed to Checkout
               </Link>
             </div>
-
-            {/* <Link
-              href="/shop"
-              className="underline text-red-500 w-full flex justify-end my-4"
-            >
-              <p>Continue Shopping</p>
-            </Link> */}
           </div>
         </>
       ) : (
-        <EmptyShopingCard />
+        <EmptyShoppingCart />
       )}
     </div>
   );

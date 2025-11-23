@@ -7,7 +7,7 @@ interface FormFieldProps {
   label?: string;
   name: keyof FormValues;
   register: UseFormRegister<FormValues>;
-  errors: FieldErrors;
+  errors: FieldErrors<FormValues>;
   placeholder?: string;
   type?: string;
   validationRules?: RegisterOptions<FormValues, keyof FormValues>;

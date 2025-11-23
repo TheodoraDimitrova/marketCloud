@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 
-const OverLap = () => {
+const Overlap = () => {
   return (
     <section className="flex-between h-auto flex-col md:flex-row pt-0 md:py-12 p-5">
       {/* Left side: Overlapping images */}
@@ -57,4 +57,4 @@ const OverLap = () => {
   );
 };
 
-export default OverLap;
+export default Overlap;

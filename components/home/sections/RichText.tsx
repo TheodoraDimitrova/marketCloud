@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { ElementType } from "react";
 
-interface SectionRichTextProps {
+interface RichTextProps {
   icon?: ElementType;
   title: string;
   text: string;
@@ -12,7 +12,7 @@ interface SectionRichTextProps {
   bgColor?: string;
 }
 
-const SectionRichText: React.FC<SectionRichTextProps> = ({
+const RichText: React.FC<RichTextProps> = ({
   icon: Icon,
   title,
   text,
@@ -39,4 +39,4 @@ const SectionRichText: React.FC<SectionRichTextProps> = ({
   );
 };
 
-export default SectionRichText;
+export default RichText;

@@ -1,4 +1,6 @@
+"use client";
 import { Checkbox } from "@/components/ui/forms/checkbox";
+
 const discounts: string[] = [
   "-10%",
   "-15%",
@@ -22,9 +24,7 @@ const FilterDiscounts: React.FC<FilterDiscountsProps> = ({
       ? selectedDiscounts.filter((d: string) => d !== discount)
       : [...selectedDiscounts, discount];
 
-    if (newDiscounts !== selectedDiscounts) {
-      onChange(newDiscounts);
-    }
+    onChange(newDiscounts);
   };
 
   return (

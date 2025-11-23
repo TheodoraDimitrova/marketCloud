@@ -7,6 +7,7 @@ import FilteredProductList from "@/components/features/products/filteredProductL
 import Loading from "@/components/ui/Loading";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 
 const ProductsPage = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +24,7 @@ const ProductsPage = () => {
   }
 
   if (status === "failed") {
-    return <p>Error: {error}</p>;
+    return <ErrorMessage message={error || "Failed to load products"} />;
   }
 
   return (

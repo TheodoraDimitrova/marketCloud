@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import CartProductSummary from "../products/CartProductSummary";
 import FreeShippingBanner from "@/components/features/cart/FreeShippingBanner";
-import EmptyShopingCard from "./EmptyShoppingCart";
+import EmptyShoppingCart from "@/components/features/cart/EmptyShoppingCart";
 import QuantitySelector from "@/components/shared/common/QuantitySelector";
 import { updateItemQuantity } from "@/store/slices/cartSlice";
 import { useEffect } from "react";
@@ -64,7 +64,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
         </div>
 
         {cartItems.length === 0 ? (
-          <EmptyShopingCard />
+          <EmptyShoppingCart />
         ) : (
           <>
             <FreeShippingBanner totalAmount={subtotal} />

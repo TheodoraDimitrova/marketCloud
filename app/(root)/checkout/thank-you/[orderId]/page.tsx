@@ -74,8 +74,7 @@ const ThankYouPage = () => {
     return <Loading />;
   }
 
-  if (!order) return <Loading />;
-
+  // Order is guaranteed to exist at this point
   return (
     <div className="max-w-4xl mx-auto p-6 text-gray-700">
       <h1 className="text-2xl font-semibold text-center">

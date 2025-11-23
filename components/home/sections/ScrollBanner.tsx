@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-const ScrollingBanner = () => {
+const ScrollBanner = () => {
   const imageArray = [
     {
       src: "/images/Maybelline-Logo.png",
@@ -54,4 +54,4 @@ const ScrollingBanner = () => {
   );
 };
 
-export default ScrollingBanner;
+export default ScrollBanner;
