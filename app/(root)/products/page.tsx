@@ -26,22 +26,20 @@ const ProductsPage = () => {
     return <p>Error: {error}</p>;
   }
 
-  {
-    return (
-      <>
-        <Banner title="Adora Cosmetics" backgroundImage="/images/bg1.png" />
+  return (
+    <>
+      <Banner title="Adora Cosmetics" backgroundImage="/images/bg1.png" />
 
-        <Suspense fallback={<Loading />}>
-          <FilteredProductList
-            products={products}
-            totalProducts={products.length}
-          />
-        </Suspense>
+      <Suspense fallback={<Loading />}>
+        <FilteredProductList
+          products={products}
+          totalProducts={products.length}
+        />
+      </Suspense>
 
-        <CategoriesCarousel />
-      </>
-    );
-  }
+      <CategoriesCarousel />
+    </>
+  );
 };
 
 export default ProductsPage;

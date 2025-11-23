@@ -18,38 +18,34 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({ control }) => {
         control={control}
         defaultValue="cod"
         render={({ field }) => (
-          <div className="flex flex-col space-y-4 md:flex-row md:items-center md:space-x-4 md:space-y-0 md:py-2">
-            {/* Credit / Debit Card */}
-            <label className="flex items-center space-x-2">
-              <input
-                type="radio"
-                value="card"
-                checked={field.value === "card"}
-                onChange={() => field.onChange("card")}
-              />
-              <span>Credit / Debit Card</span>
-            </label>
+          <>
+            <div className="flex flex-col space-y-4 md:flex-row md:items-center md:space-x-4 md:space-y-0 md:py-2">
+              {/* Credit / Debit Card */}
+              <label className="flex items-center space-x-2">
+                <input
+                  type="radio"
+                  value="card"
+                  checked={field.value === "card"}
+                  onChange={() => field.onChange("card")}
+                />
+                <span>Credit / Debit Card</span>
+              </label>
 
-            {/* Cash on Delivery (COD) */}
-            <label className="flex items-center space-x-2">
-              <input
-                type="radio"
-                value="cod"
-                checked={field.value === "cod"}
-                onChange={() => field.onChange("cod")}
-              />
-              <span>Cash on Delivery (COD)</span>
-            </label>
-          </div>
+              {/* Cash on Delivery (COD) */}
+              <label className="flex items-center space-x-2">
+                <input
+                  type="radio"
+                  value="cod"
+                  checked={field.value === "cod"}
+                  onChange={() => field.onChange("cod")}
+                />
+                <span>Cash on Delivery (COD)</span>
+              </label>
+            </div>
+
+            {field.value === "card" && <PaymentDetails />}
+          </>
         )}
-      />
-
-      <Controller
-        name="paymentMethod"
-        control={control}
-        render={({ field }) =>
-          field.value === "card" ? <PaymentDetails /> : <></>
-        }
       />
     </div>
   );

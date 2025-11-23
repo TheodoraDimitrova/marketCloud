@@ -70,6 +70,7 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
           toggleFilters={toggleFilters}
           totalProducts={filteredProducts.length}
           appliedFiltersCount={appliedFiltersCount}
+          showFilters={showFilters}
         />
       )}
 
@@ -86,7 +87,8 @@ const FilteredProductList: React.FC<FilteredProductListProps> = ({
           />
         </>
 
-        <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:gap-4 p-10 lg:gap-y-8 justify-items-center align-items-start">
+        {/* Product List */}
+        <div className="grid  w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:gap-4 p-10 lg:gap-y-8 justify-items-center align-items-start">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
               <ProductCard key={product._id} product={product} />

@@ -1,5 +1,3 @@
-"use client";
-import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -15,17 +13,16 @@ type UtilityBarProps = {
   toggleFilters: () => void;
   totalProducts: number;
   appliedFiltersCount: number;
+  showFilters: boolean;
 };
 
 const UtilityBar: React.FC<UtilityBarProps> = ({
   toggleFilters,
   totalProducts,
   appliedFiltersCount,
+  showFilters,
 }) => {
-  const [isRotated, setIsRotated] = useState(false);
-
   const handleClick = () => {
-    setIsRotated((prev) => !prev);
     toggleFilters();
   };
   return (
@@ -44,7 +41,7 @@ const UtilityBar: React.FC<UtilityBarProps> = ({
         <button className="transition-transform duration-300">
           <ChevronRight
             className={`transform ${
-              isRotated ? "rotate-180" : ""
+              showFilters ? "rotate-180" : ""
             } hidden lg:block`}
           />
         </button>
