@@ -12,6 +12,7 @@ import { Order } from "@/types/order";
 import { clearOrder } from "@/store/slices/orderSlice";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { Button } from "@/components/ui/Button";
 
 const ThankYouPage = () => {
   const order = useAppSelector((state) => state.order.order as Order | null);
@@ -20,13 +21,15 @@ const ThankYouPage = () => {
   const params = useParams();
   const router = useRouter();
   const orderId = params?.orderId as string | undefined;
+  const hasMatchingOrder = order?._id === orderId;
 
   useEffect(() => {
-    if (!order && orderId) {
+    if (orderId && (!order || order._id !== orderId)) {
       dispatch(fetchOrder(orderId));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [orderId]);
+
   useEffect(() => {
     if (status === "succeeded" && order?._id) {
       dispatch(setCartFromOrder(order));
@@ -40,11 +43,16 @@ const ThankYouPage = () => {
     router.push("/products");
   };
 
-  if (status === "loading") return <Loading />;
-
-  if (status === "failed") {
-    throw new Error("Error loading order.");
+  if (!hasMatchingOrder || !order) {
+    if (status === "loading") {
+      return <Loading />;
+    }
+    if (status === "failed") {
+      throw new Error("Error loading order.");
+    }
+    return <Loading />;
   }
+
   if (!order) return <Loading />;
 
   return (
@@ -95,12 +103,9 @@ const ThankYouPage = () => {
       </div>
 
       <div className="mt-8 text-center">
-        <div
-          onClick={handleRedirect}
-          className="cursor-pointer text-accent hover:underline"
-        >
+        <Button onClick={handleRedirect} variant="default" size="lg">
           Continue Shopping
-        </div>
+        </Button>
       </div>
     </div>
   );
