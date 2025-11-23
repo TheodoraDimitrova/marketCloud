@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import clientBackend from "@/sanity/lib/clientBackend";
+import client from "@/sanity/lib/client";
 
 export async function GET(req: Request) {
   try {
@@ -16,7 +16,7 @@ export async function GET(req: Request) {
     }
 
     const query = `*[_type == "product" && slug.current == $slug][0]`;
-    const product = await clientBackend.fetch(query, { slug: productId });
+    const product = await client.fetch(query, { slug: productId });
 
     if (!product) {
       return NextResponse.json(

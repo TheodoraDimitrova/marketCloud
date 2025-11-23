@@ -1,12 +1,12 @@
 import { createClient } from "@sanity/client";
 import { apiVersion, dataset, projectId } from "@/sanity/env";
 
-const clientBackend = createClient({
+// Public client for READ operations (with CDN caching)
+const client = createClient({
   projectId: projectId,
   dataset: dataset,
   apiVersion: apiVersion,
-  token: process.env.SANITY_API_TOKEN,
-  useCdn: false,
+  useCdn: true,
 });
 
-export default clientBackend;
+export default client;

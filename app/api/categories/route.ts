@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import clientBackend from "@/sanity/lib/clientBackend";
+import client from "@/sanity/lib/client";
 
 export async function GET() {
   try {
-    const categories = await clientBackend.fetch(`*[_type == "category"]{
+    const categories = await client.fetch(`*[_type == "category"]{
         ...,
         "totalProducts": count(*[_type == "product" && references(^._id)])
       }`);

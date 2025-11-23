@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import clientBackend from "@/sanity/lib/clientBackend";
+import client from "@/sanity/lib/client";
 
 export async function GET() {
   try {
-    const products = await clientBackend.fetch(`*[_type == "product"]`);
+    const products = await client.fetch(`*[_type == "product"]`);
 
     return NextResponse.json(products, { status: 200 });
   } catch (error) {
