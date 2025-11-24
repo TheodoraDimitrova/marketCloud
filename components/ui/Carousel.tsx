@@ -18,7 +18,7 @@ interface CarouselProps {
   swiperRef?: React.RefObject<SwiperCore | null>;
 }
 
-const Carousel: React.FC<CarouselProps> = ({
+export const Carousel: React.FC<CarouselProps> = ({
   items,
   slidesPerView = 1,
   spaceBetween = 0,
@@ -71,5 +71,3 @@ const Carousel: React.FC<CarouselProps> = ({
     </Swiper>
   );
 };
-
-export default Carousel;

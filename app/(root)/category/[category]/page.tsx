@@ -2,12 +2,12 @@
 
 import { useEffect, useState, Suspense } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import Banner from "@/components/ui/Banner";
+import { Banner } from "@/components/ui/Banner";
 import { fetchCategories } from "@/store/slices/categorySlice";
 import { fetchProductsByCategory } from "@/store/slices/productsSlice";
 import { urlFor } from "@/sanity/lib/image";
 import FilteredProductList from "@/components/features/products/filteredProductList/FilteredProductList";
-import Loading from "@/components/ui/Loading";
+import { Loading } from "@/components/ui/Loading";
 import SearchBar from "@/components/shared/common/SearchBar";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useAppDispatch } from "@/hooks/useAppDispatch";

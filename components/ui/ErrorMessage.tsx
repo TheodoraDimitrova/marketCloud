@@ -7,7 +7,7 @@ interface ErrorMessageProps {
   retry?: () => void;
 }
 
-const ErrorMessage = ({
+export const ErrorMessage = ({
   message = "Something went wrong.",
   retry,
 }: ErrorMessageProps) => {
@@ -28,5 +28,3 @@ const ErrorMessage = ({
     </div>
   );
 };
-
-export default ErrorMessage;

@@ -1,4 +1,4 @@
-import Banner from "@/components/ui/Banner";
+import { Banner } from "@/components/ui/Banner";
 
 const AboutPage = () => {
   return (

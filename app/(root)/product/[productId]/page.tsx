@@ -3,13 +3,13 @@ import { Button } from "@/components/ui/Button";
 import Image from "next/image";
 import QuantitySelector from "@/components/shared/common/QuantitySelector";
 import { useState, useEffect } from "react";
-import TagsList from "@/components/shared/tags/listTags";
+import ListTags from "@/components/shared/tags/ListTags";
 import Rating from "@/components/shared/common/Rating";
 import DiscountBannerProduct from "@/components/features/products/DiscountBannerProduct";
 import { usePathname } from "next/navigation";
 import { fetchProductDetails } from "@/store/slices/productsSlice";
 import { urlFor } from "@/sanity/lib/image";
-import Loading from "@/components/ui/Loading";
+import { Loading } from "@/components/ui/Loading";
 import { addToCart } from "@/store/slices/cartSlice";
 import { Product } from "@/types/product";
 import { useAppSelector } from "@/hooks/useAppSelector";
@@ -90,7 +90,7 @@ const ProductPage = () => {
 
             {productDetails.rating && <Rating rating={productDetails.rating} />}
             {productDetails.tags && productDetails.tags.length > 0 && (
-              <TagsList tags={productDetails.tags} />
+              <ListTags tags={productDetails.tags} />
             )}
 
             <div className="flex justify-between my-6">

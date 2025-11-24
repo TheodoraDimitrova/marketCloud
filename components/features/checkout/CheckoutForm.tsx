@@ -17,12 +17,12 @@ import FormField from "@/components/ui/forms/formField/FormField";
 import PaymentMethod from "@/components/features/checkout/PaymentMethod";
 import validationRules from "@/lib/validationRulesCheckout";
 import { createOrder } from "@/store/slices/orderSlice";
-import Loading from "@/components/ui/Loading";
+import { Loading } from "@/components/ui/Loading";
 import { CartItem, CartState } from "@/types/cart";
 import { FormValues } from "@/types/formValues";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
-import ErrorMessage from "@/components/ui/ErrorMessage";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
 
 const CheckoutForm = () => {
   const cart = useAppSelector((state) => state.cart);

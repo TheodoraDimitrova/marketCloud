@@ -9,7 +9,7 @@ import { updateItemQuantity, removeFromCart } from "@/store/slices/cartSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useEffect, useState } from "react";
-import Loading from "@/components/ui/Loading";
+import { Loading } from "@/components/ui/Loading";
 
 const CartPage = () => {
   const [isClient, setIsClient] = useState(false);

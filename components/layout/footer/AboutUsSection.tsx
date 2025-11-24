@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "@/components/ui/Logo";
+import { Logo } from "@/components/ui/Logo";
 import SocialIcons from "@/components/shared/icons/SocialIcons";
 
 const AboutUsSection = () => {

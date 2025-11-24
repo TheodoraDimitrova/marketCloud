@@ -1,7 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Carousel from "@/components/ui/Carousel";
+import { Carousel } from "@/components/ui/Carousel";
 import ImgCarousel from "@/components/features/categories/categoriesCarousel/ImgCarousel";
 import { urlFor } from "@/sanity/lib/image";
 import { useAppSelector } from "@/hooks/useAppSelector";

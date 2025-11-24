@@ -1,5 +1,5 @@
 import React from "react";
-import Banner from "@/components/ui/Banner";
+import { Banner } from "@/components/ui/Banner";
 import Link from "next/link";
 import { Search } from "lucide-react";
 import { ChevronDown } from "lucide-react";

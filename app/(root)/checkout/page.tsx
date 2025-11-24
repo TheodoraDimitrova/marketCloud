@@ -3,7 +3,7 @@
 import OrderSummary from "@/components/features/checkout/OrderSummary";
 import CheckoutForm from "@/components/features/checkout/CheckoutForm";
 import { useEffect, useState } from "react";
-import Loading from "@/components/ui/Loading";
+import { Loading } from "@/components/ui/Loading";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useRouter } from "next/navigation";
 

@@ -1,12 +1,12 @@
 import React from "react";
-import Tag from "./tag";
+import Tag from "./Tag";
 import { Tag as TagType } from "@/types/product";
 
 interface ListTagsProps {
   tags: TagType[];
 }
 
-const listTags: React.FC<ListTagsProps> = ({ tags }) => {
+const ListTags: React.FC<ListTagsProps> = ({ tags }) => {
   return (
     <div className="flex gap-2">
       {tags.map((tag) => (
@@ -20,4 +20,4 @@ const listTags: React.FC<ListTagsProps> = ({ tags }) => {
   );
 };
 
-export default listTags;
+export default ListTags;

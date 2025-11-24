@@ -2,7 +2,7 @@
 
 import CartProductSummary from "@/components/features/products/CartProductSummary";
 import { Tags } from "lucide-react";
-import Loading from "@/components/ui/Loading";
+import { Loading } from "@/components/ui/Loading";
 import { CartItem } from "@/types/cart";
 import { useAppSelector } from "@/hooks/useAppSelector";
 

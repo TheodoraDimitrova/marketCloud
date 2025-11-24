@@ -7,7 +7,7 @@ import FilterDiscounts from "@/components/shared/filters/FilterDiscounts";
 import FilterPrice from "./FilterPrice";
 import CollapsibleFilter from "./CollapsibleFilter";
 import AppliedFilters from "./AppliedFilters";
-import Loading from "@/components/ui/Loading";
+import { Loading } from "@/components/ui/Loading";
 import { Product } from "@/types/product";
 
 type FilterType = "priceRange" | "brands" | "discounts";

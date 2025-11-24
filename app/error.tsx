@@ -1,6 +1,6 @@
 "use client";
 
-import ErrorMessage from "../components/ui/ErrorMessage";
+import { ErrorMessage } from "../components/ui/ErrorMessage";
 
 export default function GlobalError({
   error,

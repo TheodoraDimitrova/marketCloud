@@ -1,13 +1,13 @@
 "use client";
 import { useEffect, Suspense } from "react";
-import Banner from "@/components/ui/Banner";
+import { Banner } from "@/components/ui/Banner";
 import CategoriesCarousel from "@/components/features/categories/categoriesCarousel/CategoriesCarousel";
 import { fetchAllProducts } from "@/store/slices/productsSlice";
 import FilteredProductList from "@/components/features/products/filteredProductList/FilteredProductList";
-import Loading from "@/components/ui/Loading";
+import { Loading } from "@/components/ui/Loading";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import ErrorMessage from "@/components/ui/ErrorMessage";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
 
 const ProductsPage = () => {
   const dispatch = useAppDispatch();

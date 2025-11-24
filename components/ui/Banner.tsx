@@ -6,7 +6,7 @@ interface BannerProps {
   backgroundImage?: string;
 }
 
-const Banner: React.FC<BannerProps> = ({
+export const Banner: React.FC<BannerProps> = ({
   title,
   subtitle,
   backgroundImage,
@@ -34,5 +34,3 @@ const Banner: React.FC<BannerProps> = ({
     </div>
   );
 };
-
-export default Banner;

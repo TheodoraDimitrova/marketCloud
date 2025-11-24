@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const Logo = ({ width = 150, height = 20, className = "" }) => {
+export const Logo = ({ width = 150, height = 20, className = "" }) => {
   return (
     <Link href="/" className={`block ${className}`}>
       <Image
@@ -15,5 +15,3 @@ const Logo = ({ width = 150, height = 20, className = "" }) => {
     </Link>
   );
 };
-
-export default Logo;

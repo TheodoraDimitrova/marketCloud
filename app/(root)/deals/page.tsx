@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Banner from "@/components/ui/Banner";
+import { Banner } from "@/components/ui/Banner";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 

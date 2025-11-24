@@ -1,4 +1,4 @@
-const Loading = () => {
+export const Loading = () => {
   return (
     <div className="flex justify-center items-center h-64">
       <svg
@@ -68,5 +68,3 @@ const Loading = () => {
     </div>
   );
 };
-
-export default Loading;

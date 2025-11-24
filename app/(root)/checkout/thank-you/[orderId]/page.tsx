@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { fetchOrder } from "@/store/slices/orderSlice";
 import { setCartFromOrder, clearCart } from "@/store/slices/cartSlice";
 import { useParams } from "next/navigation";
-import Loading from "@/components/ui/Loading";
+import { Loading } from "@/components/ui/Loading";
 import OrderSummary from "@/components/features/checkout/OrderSummary";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,7 @@ import { clearOrder } from "@/store/slices/orderSlice";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { Button } from "@/components/ui/Button";
-import ErrorMessage from "@/components/ui/ErrorMessage";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
 
 const ThankYouPage = () => {
   const order = useAppSelector((state) => state.order.order as Order | null);
