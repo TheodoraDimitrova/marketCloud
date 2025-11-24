@@ -9,20 +9,13 @@ import FormField from "@/components/ui/forms/formField/FormField";
 import PaymentMethod from "@/components/features/checkout/PaymentMethod";
 import CountrySelect from "@/components/ui/forms/CountrySelect";
 import validationRules from "@/lib/validationRulesCheckout";
-import { createOrder } from "@/store/slices/orderSlice";
-import { Loading } from "@/components/ui/Loading";
-import { CartItem, CartState } from "@/types/cart";
+
 import { FormValues } from "@/types/formValues";
-import { useAppSelector } from "@/hooks/useAppSelector";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import { useCheckout } from "@/hooks/useCheckout";
 
 const CheckoutForm = () => {
-  const cart = useAppSelector((state) => state.cart);
-  const dispatch = useAppDispatch();
-  const orderStatus: "idle" | "loading" | "succeeded" | "failed" =
-    useAppSelector((state) => state.order?.status || "idle");
-  const orderError = useAppSelector((state) => state.order?.error || null);
+  const { error, submitOrder } = useCheckout();
 
   const {
     register,
@@ -32,183 +25,122 @@ const CheckoutForm = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const prepareOrderData = (data: FormValues, cart: CartState) => ({
-    ...data,
-    cart: cart.items.map((item: CartItem, index: number) => ({
-      _key: `cartItem-${Date.now()}-${index}`,
-      _type: "cartItem",
-      images: [item.images[0]],
-      name: item.name,
-      quantity: item.quantity,
-      price: item.price,
-      discountedPrice: item.discount ? item.discountedPrice : item.price,
-      subtotalSingleProduct: item.subtotalSingleProduct,
-      totalPrice: item.subtotalSingleProduct,
-      discount: item.discount
-        ? {
-            amount: item.discount.amount,
-            isActive: item.discount.isActive,
-            type: item.discount.type,
-          }
-        : {
-            amount: 0,
-            isActive: false,
-            type: "",
-          },
-    })),
-    subtotal: cart.subtotal,
-    totalSavings: cart.totalSavings,
-    totalAmount: cart.totalAmount,
-    shipping: {
-      method: cart.shipping.method,
-      cost: cart.shipping.cost,
-      label: cart.shipping.label,
-    },
-    status: "confirm",
-  });
-
-  const handleFormSubmit = async (data: FormValues) => {
-    const orderData = prepareOrderData(data, cart);
-    const result = await dispatch(createOrder(orderData));
-
-    if (createOrder.rejected.match(result)) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-  };
-
   return (
     <>
-      {orderStatus === "loading" && (
-        <div className="fixed inset-0 bg-white bg-opacity-75 z-50 flex items-center justify-center">
-          <Loading />
-        </div>
-      )}
-      {orderStatus === "failed" && orderError && (
-        <ErrorMessage message={orderError} />
-      )}
+      {error && <ErrorMessage message={error} />}
 
-      {orderStatus !== "loading" &&
-        orderStatus !== "failed" &&
-        orderStatus !== "succeeded" && (
-          <div className="col-span-2">
-            <h1>Checkout</h1>
+      <div className="col-span-2">
+        <h1>Checkout</h1>
 
-            <form
-              onSubmit={handleSubmit(handleFormSubmit)}
-              className="space-y-4"
-            >
-              {/* Contact Section */}
-              <div className="space-y-2">
-                <FormField
-                  label="Contact"
-                  name="contact"
-                  register={register}
-                  errors={errors}
-                  placeholder="Enter your email or phone"
-                  validationRules={validationRules.contact}
-                />
-                <div className="flex items-center space-x-2">
-                  <Controller
-                    name="subscribed"
-                    control={control}
-                    defaultValue={false}
-                    render={({ field }) => (
-                      <Checkbox
-                        id="subscribed"
-                        checked={field.value === true}
-                        onCheckedChange={(e) =>
-                          field.onChange(e ? true : false)
-                        }
-                        disabled={!!errors.contact}
-                      />
-                    )}
+        <form onSubmit={handleSubmit(submitOrder)} className="space-y-4">
+          {/* Contact Section */}
+          <div className="space-y-2">
+            <FormField
+              label="Contact"
+              name="contact"
+              register={register}
+              errors={errors}
+              placeholder="Enter your email or phone"
+              validationRules={validationRules.contact}
+            />
+            <div className="flex items-center space-x-2">
+              <Controller
+                name="subscribed"
+                control={control}
+                defaultValue={false}
+                render={({ field }) => (
+                  <Checkbox
+                    id="subscribed"
+                    checked={field.value === true}
+                    onCheckedChange={(e) => field.onChange(e ? true : false)}
+                    disabled={!!errors.contact}
                   />
-                  <Label htmlFor="subscribed" className="text-sm">
-                    Be first to know about new products and exclusive offers
-                  </Label>
-                </div>
-              </div>
-
-              <h3>Billing Information</h3>
-              <div className="space-y-2">
-                <CountrySelect control={control} errors={errors} />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <FormField
-                  label="First Name"
-                  name="firstName"
-                  register={register}
-                  errors={errors}
-                  placeholder="First Name"
-                  validationRules={validationRules.firstName}
-                />
-                <FormField
-                  label="Last Name"
-                  name="lastName"
-                  register={register}
-                  errors={errors}
-                  placeholder="Last Name"
-                  validationRules={validationRules.lastName}
-                />
-              </div>
-
-              <FormField
-                label="Address"
-                name="address"
-                register={register}
-                errors={errors}
-                placeholder="Address"
-                validationRules={validationRules.address}
+                )}
               />
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <FormField
-                  label="Postal Code"
-                  name="postalCode"
-                  register={register}
-                  errors={errors}
-                  placeholder="Postal Code"
-                  validationRules={validationRules.postalCode}
-                />
-                <FormField
-                  label="City"
-                  name="city"
-                  register={register}
-                  errors={errors}
-                  placeholder="City"
-                  validationRules={validationRules.city}
-                />
-              </div>
-
-              <FormField
-                label="Phone"
-                name="phone"
-                register={register}
-                errors={errors}
-                placeholder="Phone"
-                validationRules={validationRules.phone}
-              />
-
-              <h3>Shipping Information</h3>
-
-              <p className="text-sm font-semibold">Delivery Method</p>
-              <p className="text-sm">
-                Enter your address to see the shipping methods
-              </p>
-
-              {watch("city") && watch("postalCode") && (
-                <DeliveryMethods control={control} errors={errors} />
-              )}
-              <PaymentMethod control={control} />
-
-              <Button type="submit" className="w-full">
-                Complete order
-              </Button>
-            </form>
+              <Label htmlFor="subscribed" className="text-sm">
+                Be first to know about new products and exclusive offers
+              </Label>
+            </div>
           </div>
-        )}
+
+          <h3>Billing Information</h3>
+          <div className="space-y-2">
+            <CountrySelect control={control} errors={errors} />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <FormField
+              label="First Name"
+              name="firstName"
+              register={register}
+              errors={errors}
+              placeholder="First Name"
+              validationRules={validationRules.firstName}
+            />
+            <FormField
+              label="Last Name"
+              name="lastName"
+              register={register}
+              errors={errors}
+              placeholder="Last Name"
+              validationRules={validationRules.lastName}
+            />
+          </div>
+
+          <FormField
+            label="Address"
+            name="address"
+            register={register}
+            errors={errors}
+            placeholder="Address"
+            validationRules={validationRules.address}
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <FormField
+              label="Postal Code"
+              name="postalCode"
+              register={register}
+              errors={errors}
+              placeholder="Postal Code"
+              validationRules={validationRules.postalCode}
+            />
+            <FormField
+              label="City"
+              name="city"
+              register={register}
+              errors={errors}
+              placeholder="City"
+              validationRules={validationRules.city}
+            />
+          </div>
+
+          <FormField
+            label="Phone"
+            name="phone"
+            register={register}
+            errors={errors}
+            placeholder="Phone"
+            validationRules={validationRules.phone}
+          />
+
+          <h3>Shipping Information</h3>
+
+          <p className="text-sm font-semibold">Delivery Method</p>
+          <p className="text-sm">
+            Enter your address to see the shipping methods
+          </p>
+
+          {watch("city") && watch("postalCode") && (
+            <DeliveryMethods control={control} errors={errors} />
+          )}
+          <PaymentMethod control={control} />
+
+          <Button type="submit" className="w-full">
+            Complete order
+          </Button>
+        </form>
+      </div>
     </>
   );
 };
