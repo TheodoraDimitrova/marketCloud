@@ -4,17 +4,10 @@ import { Button } from "@/components/ui/Button";
 import { useForm, Controller } from "react-hook-form";
 import { Checkbox } from "@/components/ui/forms/checkbox";
 import { Label } from "@/components/ui/Label";
-import Flag from "react-world-flags";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/forms/select";
 import DeliveryMethods from "@/components/features/checkout/DeliveryMethods";
 import FormField from "@/components/ui/forms/formField/FormField";
 import PaymentMethod from "@/components/features/checkout/PaymentMethod";
+import CountrySelect from "@/components/ui/forms/CountrySelect";
 import validationRules from "@/lib/validationRulesCheckout";
 import { createOrder } from "@/store/slices/orderSlice";
 import { Loading } from "@/components/ui/Loading";
@@ -139,53 +132,7 @@ const CheckoutForm = () => {
 
               <h3>Billing Information</h3>
               <div className="space-y-2">
-                <div className="flex flex-col">
-                  <label
-                    htmlFor="country"
-                    className="mb-2 text-sm font-medium text-gray-700"
-                  >
-                    Choose a country
-                  </label>
-                  <Controller
-                    name="country"
-                    control={control}
-                    defaultValue="bg"
-                    rules={{ required: "Country is required" }}
-                    render={({ field }) => (
-                      <Select {...field}>
-                        <SelectTrigger id="country">
-                          <SelectValue placeholder="Select a country" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="us" id="us">
-                            <div className="flex items-center space-x-2">
-                              <Flag code="US" className="w-6 h-6" />
-                              <span>United States</span>
-                            </div>
-                          </SelectItem>
-                          <SelectItem value="bg" id="bg">
-                            <div className="flex items-center space-x-2">
-                              <Flag code="BG" className="w-6 h-6" />
-                              <span>Bulgaria</span>
-                            </div>
-                          </SelectItem>
-                          <SelectItem value="fr" id="fr">
-                            <div className="flex items-center space-x-2">
-                              <Flag code="FR" className="w-6 h-6" />
-                              <span>France</span>
-                            </div>
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-
-                  {errors.country && (
-                    <p className="text-red-500 text-sm">
-                      {errors.country.message}
-                    </p>
-                  )}
-                </div>
+                <CountrySelect control={control} errors={errors} />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
