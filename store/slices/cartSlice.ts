@@ -1,19 +1,34 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { calculateDiscountedPrice, calculateSubtotal, calculateTotalSavings } from "@/lib/calculateCheckout";
-import { CartItem ,CartState } from "@/types/cart";
-import {saveToLocalStorage,loadFromLocalStorage } from '@/lib/localStorage'
+import {
+  calculateDiscountedPrice,
+  calculateSubtotal,
+  calculateTotalSavings,
+} from "@/lib/calculateCheckout";
+import { CartItem, CartState } from "@/types/cart";
 
-
-const initialState: CartState = loadFromLocalStorage();  
+const initialState: CartState = {
+  items: [],
+  subtotal: 0,
+  totalSavings: 0,
+  totalAmount: 0,
+  shipping: {
+    method: null,
+    cost: 0,
+    label: "",
+  },
+};
 
 type DeliveryMethodPayload = { method: string; cost: number; label: string };
-type SetCartFromOrderPayload = { cart: CartItem[]; shipping: { 
-  method: string | null; 
-  cost: number; 
-  label: string; 
-};  totalAmount: number; totalSavings: number };
-
-
+type SetCartFromOrderPayload = {
+  cart: CartItem[];
+  shipping: {
+    method: string | null;
+    cost: number;
+    label: string;
+  };
+  totalAmount: number;
+  totalSavings: number;
+};
 
 const recalculateCartTotals = (state: CartState) => {
   state.subtotal = calculateSubtotal(state.items);
@@ -26,17 +41,17 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<CartItem>) => {
-      console.log("ADD TO CART")
+      console.log("ADD TO CART");
       const product = action.payload;
       const existingItemIndex = state.items.findIndex(
         (item) => item._id === product._id
       );
-    
+
       if (existingItemIndex >= 0) {
         state.items[existingItemIndex].quantity += product.quantity;
       } else {
         const discountedPrice = calculateDiscountedPrice(product);
-        const subtotalSingleProduct = discountedPrice * product.quantity; 
+        const subtotalSingleProduct = discountedPrice * product.quantity;
 
         const newItem = {
           ...product,
@@ -46,22 +61,25 @@ const cartSlice = createSlice({
         state.items.push(newItem);
       }
 
-      recalculateCartTotals(state)
-      saveToLocalStorage(state);  
+      recalculateCartTotals(state);
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
-      console.log("REMOVE FROM CART")
-      state.items = state.items.filter(item => item._id !== action.payload);
-      recalculateCartTotals(state)
-      saveToLocalStorage(state);  
+      console.log("REMOVE FROM CART");
+      state.items = state.items.filter((item) => item._id !== action.payload);
+      recalculateCartTotals(state);
     },
-    updateItemQuantity: (state, action: PayloadAction<{ id: string; quantity: number }>) => {
-      console.log("UPDATE QUANTITY")
-      const item = state.items.find(item => item._id === action.payload.id);
+    updateItemQuantity: (
+      state,
+      action: PayloadAction<{ id: string; quantity: number }>
+    ) => {
+      console.log("UPDATE QUANTITY");
+      const item = state.items.find((item) => item._id === action.payload.id);
       if (item) {
         const newQuantity = item.quantity + action.payload.quantity;
         if (newQuantity <= 0) {
-          state.items = state.items.filter(item => item._id !== action.payload.id);
+          state.items = state.items.filter(
+            (item) => item._id !== action.payload.id
+          );
         } else {
           item.quantity += action.payload.quantity;
           const discountedPrice = calculateDiscountedPrice(item);
@@ -70,32 +88,38 @@ const cartSlice = createSlice({
           item.subtotalSingleProduct = subtotalSingleProduct;
         }
       }
-      recalculateCartTotals(state)
-      saveToLocalStorage(state);  
+      recalculateCartTotals(state);
     },
     clearCart: (state) => {
-     
       state.items = [];
       state.subtotal = 0;
       state.totalSavings = 0;
       state.totalAmount = 0;
-
-      saveToLocalStorage(state); 
     },
-    setDeliveryMethod: (state, action: PayloadAction<DeliveryMethodPayload>) => {
+    setDeliveryMethod: (
+      state,
+      action: PayloadAction<DeliveryMethodPayload>
+    ) => {
       state.shipping = action.payload;
       state.totalAmount = state.subtotal + action.payload.cost;
-
-      saveToLocalStorage(state); 
     },
-    setCartFromOrder: (state, action: PayloadAction<SetCartFromOrderPayload>) => {
+    setCartFromOrder: (
+      state,
+      action: PayloadAction<SetCartFromOrderPayload>
+    ) => {
       state.items = action.payload.cart;
       state.shipping = action.payload.shipping;
-      recalculateCartTotals(state)
-      saveToLocalStorage(state);  
+      recalculateCartTotals(state);
     },
   },
 });
 
-export const { addToCart, updateItemQuantity, removeFromCart, setDeliveryMethod, setCartFromOrder ,clearCart} = cartSlice.actions;
+export const {
+  addToCart,
+  updateItemQuantity,
+  removeFromCart,
+  setDeliveryMethod,
+  setCartFromOrder,
+  clearCart,
+} = cartSlice.actions;
 export default cartSlice.reducer;

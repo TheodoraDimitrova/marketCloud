@@ -33,11 +33,22 @@ const ThankYouPage = () => {
   }, [orderId]);
 
   useEffect(() => {
-    if (status === "succeeded" && order?._id) {
-      dispatch(setCartFromOrder(order));
-      localStorage.removeItem("cart");
+    if (
+      status === "succeeded" &&
+      order?._id &&
+      orderId &&
+      order._id === orderId
+    ) {
+      dispatch(
+        setCartFromOrder({
+          cart: order.cart,
+          shipping: order.shipping,
+          totalAmount: order.totalAmount,
+          totalSavings: order.totalSavings,
+        })
+      );
     }
-  }, [status, order, dispatch]);
+  }, [status, order, orderId, dispatch]);
 
   const handleRedirect = () => {
     dispatch(clearOrder());

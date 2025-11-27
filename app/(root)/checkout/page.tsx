@@ -5,31 +5,41 @@ import CheckoutForm from "@/components/features/checkout/CheckoutForm";
 import { Loading } from "@/components/ui/Loading";
 import { useEffect } from "react";
 import { useAppSelector } from "@/hooks/useAppSelector";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useRouter } from "next/navigation";
+import { clearCart } from "@/store/slices/cartSlice";
 
 const CheckoutPage = () => {
   const orderStatus = useAppSelector((state) => state.order?.status || "idle");
   const order = useAppSelector((state) => state.order.order);
   const cartItems = useAppSelector((state) => state.cart.items);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (orderStatus === "succeeded" && order?._id) {
-      localStorage.clear();
+      dispatch(clearCart());
       router.push(`/checkout/thank-you/${order._id}`);
     }
-  }, [orderStatus, order?._id, router]);
+  }, [orderStatus, order?._id, router, dispatch]);
 
-  // Redirect to cart if cart is empty
+  // Redirect to cart if cart is empty (but not if order is being processed)
   useEffect(() => {
-    if (cartItems.length === 0) {
+    if (
+      cartItems.length === 0 &&
+      orderStatus !== "succeeded" &&
+      orderStatus !== "loading"
+    ) {
       router.push("/cart");
     }
-  }, [cartItems.length, router]);
+  }, [cartItems.length, orderStatus, router]);
+
+  const showLoading =
+    orderStatus === "loading" || (orderStatus === "succeeded" && order?._id);
 
   return (
     <div className="max-w-6xl mx-auto p-6 grid grid-cols-1 md:grid-cols-3 md:gap-4 my-10 md:my-24">
-      {orderStatus === "loading" && (
+      {showLoading && (
         <div className="fixed inset-0 bg-white bg-opacity-75 z-50 flex items-center justify-center pointer-events-auto">
           <Loading />
         </div>
