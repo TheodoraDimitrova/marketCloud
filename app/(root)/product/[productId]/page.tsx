@@ -14,6 +14,7 @@ import { addToCart } from "@/store/slices/cartSlice";
 import { Product } from "@/types/product";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
 
 const ProductPage = () => {
   const [hovered, setHovered] = useState(false);
@@ -48,10 +49,14 @@ const ProductPage = () => {
     }
   };
 
+  if (status === "loading") {
+    return <Loading />;
+  }
+  if (status === "failed") {
+    return <ErrorMessage message={error || "Failed to load product"} />;
+  }
   return (
     <>
-      {status === "loading" && <Loading />}
-      {status === "failed" && <p className="text-red-500">Error: {error}</p>}
       {productDetails && (
         <div className="container mx-auto p-2 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* left side */}

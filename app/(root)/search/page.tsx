@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState } from "react";
 import { Banner } from "@/components/ui/Banner";
 import CategoriesCarousel from "@/components/features/categories/categoriesCarousel/CategoriesCarousel";
 import { fetchAllProducts } from "@/store/slices/productsSlice";
@@ -44,12 +44,10 @@ const SearchPage = () => {
         <SearchBar onSearch={setSearchTerm} />
       </div>
 
-      <Suspense fallback={<Loading />}>
-        <FilteredProductList
-          products={filteredProducts}
-          totalProducts={products.length}
-        />
-      </Suspense>
+      <FilteredProductList
+        products={filteredProducts}
+        totalProducts={products.length}
+      />
       <CategoriesCarousel />
     </>
   );

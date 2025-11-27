@@ -1,83 +1,65 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ShoppingBag, Search, User, AlignJustify } from "lucide-react";
-import { usePathname } from "next/navigation";
-import HeaderLinks from "./HeaderLinks";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import Dropdowns from "./dropdowns/Dropdowns";
+import HeaderLinks from "./HeaderLinks";
 import MobileMenu from "./MobileMenu";
 import CartDrawer from "@/components/features/cart/CartDrawer";
 import ShopDropdown from "./dropdowns/ShopDropdown";
 import BrandsDropdown from "./dropdowns/BrandsDropdown";
 import OurWorldDropdown from "./dropdowns/OurWorldDropdown";
 import { useAppSelector } from "@/hooks/useAppSelector";
+import { useScrollPosition } from "@/hooks/useScrollPosition";
 
 const NavBar = () => {
-  const [isClient, setIsClient] = useState(false);
-  const [isScrolledDown, setIsScrolledDown] = useState(false);
+  const isScrolledDown = useScrollPosition(10);
   const [isHovered, setIsHovered] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const router = useRouter();
+  const cartItems = useAppSelector((state) => state.cart.items);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const router = useRouter();
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
-  const cartItems = useAppSelector((state) => state.cart.items);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 10 && !isScrolledDown) {
-        setIsScrolledDown(true);
-      } else if (window.scrollY === 0 && isScrolledDown) {
-        setIsScrolledDown(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [isScrolledDown]);
-
-  const links = [
+  const navigationItems = [
     {
       href: "/categories",
       label: "SHOP",
-      dropdown: <ShopDropdown />,
+      Dropdown: ShopDropdown,
     },
     {
       href: "#",
       label: "BRANDS",
-      dropdown: <BrandsDropdown />,
+      Dropdown: BrandsDropdown,
     },
     {
       href: "/about-us",
       label: "OUR WORLD",
-      dropdown: <OurWorldDropdown />,
+      Dropdown: OurWorldDropdown,
     },
   ];
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) {
-    return null;
-  }
 
   return (
     <div
       className={`${
         isHomePage && (isScrolledDown || isHovered)
-          ? " bg-white sticky top-0 text-black "
+          ? "bg-white text-black"
           : isHomePage
-            ? "bg-transparent absolute top-30 text-white"
-            : "bg-white sticky top-0 text-black border-b border-gray-300"
-      }  w-full z-20 transition-all duration-700 `}
+            ? "bg-transparent text-white"
+            : "bg-white text-black border-b border-gray-300"
+      } ${isHomePage ? "fixed" : "sticky"} left-0 right-0 w-full z-20 transition-colors duration-700`}
+      style={
+        isHomePage
+          ? {
+              top: isScrolledDown ? "0" : "var(--announcement-height, 0px)",
+            }
+          : {
+              top: "0",
+            }
+      }
       onMouseEnter={() => isHomePage && setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
@@ -92,9 +74,12 @@ const NavBar = () => {
             <AlignJustify onClick={() => setIsMobileMenuOpen(true)} />
             <Search onClick={() => router.push("/search")} />
           </div>
-          {/* Left Section */}
+
           <div>
-            <HeaderLinks links={links} setActiveIndex={setActiveIndex} />
+            <HeaderLinks
+              navItems={navigationItems}
+              setActiveIndex={setActiveIndex}
+            />
           </div>
         </div>
 
@@ -111,7 +96,7 @@ const NavBar = () => {
         <div className="z-2 flex items-center space-x-1 md:space-x-4 md:w-full md:justify-end lg:w-auto">
           <Search
             onClick={() => router.push("/search")}
-            className="hidden lg:inline-flex"
+            className="hidden lg:inline-flex cursor-pointer"
           />
 
           <button onClick={() => setIsCartOpen(true)} className="relative">
@@ -131,17 +116,23 @@ const NavBar = () => {
           </div>
         </div>
       </div>
-      {activeIndex !== null && (
-        <Dropdowns
-          dropdown={links[activeIndex].dropdown}
-          setActiveIndex={setActiveIndex}
-        />
-      )}
+      {activeIndex !== null &&
+        (() => {
+          const DropdownComponent = navigationItems[activeIndex].Dropdown;
+          return (
+            <div
+              className="absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-400 z-70"
+              onClick={() => setActiveIndex(null)}
+            >
+              <DropdownComponent />
+            </div>
+          );
+        })()}
 
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
-        links={links}
+        navigationItems={navigationItems}
       />
 
       {/* Cart Drawer */}

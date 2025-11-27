@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Banner } from "@/components/ui/Banner";
 import { fetchCategories } from "@/store/slices/categorySlice";
@@ -87,12 +87,10 @@ const CategoryPage = () => {
           setSearchTerm(searchTerm);
         }}
       />
-      <Suspense fallback={<Loading />}>
-        <FilteredProductList
-          products={filterProducts}
-          totalProducts={filterProducts.length}
-        />
-      </Suspense>
+      <FilteredProductList
+        products={filterProducts}
+        totalProducts={filterProducts.length}
+      />
     </>
   );
 };

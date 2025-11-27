@@ -6,13 +6,14 @@ import ImgCarousel from "@/components/features/categories/categoriesCarousel/Img
 import { urlFor } from "@/sanity/lib/image";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import Swiper from "swiper";
+import { Loading } from "@/components/ui/Loading";
 
 const CategoriesCarousel = () => {
   const swiperRef = useRef<Swiper | null>(null);
   const { categories, status } = useAppSelector((state) => state.categories);
 
   if (status === "loading") {
-    return <div>Loading categories...</div>;
+    return <Loading />;
   }
 
   if (status === "failed") {

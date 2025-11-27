@@ -1,22 +1,25 @@
 "use client";
 
-import { useState, JSX, useEffect } from "react";
+import { useState, useEffect, ComponentType } from "react";
 import { X, ChevronLeft } from "lucide-react";
-
 import { ChevronRight } from "lucide-react";
 
 interface Links {
   href: string;
   label: string;
-  dropdown: JSX.Element;
+  Dropdown: ComponentType;
 }
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
-  links: Links[];
+  navigationItems: Links[];
 }
 
-const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, links }) => {
+const MobileMenu: React.FC<MobileMenuProps> = ({
+  isOpen,
+  onClose,
+  navigationItems,
+}) => {
   const [activeDropdownIndex, setActiveDropdownIndex] = useState<number | null>(
     null
   );
@@ -60,7 +63,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, links }) => {
                 <span className=" font-semibold ">Back</span>
               </div>
               <div>
-                <span>{links[activeDropdownIndex].label}</span>
+                <span>{navigationItems[activeDropdownIndex].label}</span>
               </div>
             </div>
           ) : (
@@ -72,14 +75,14 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, links }) => {
         <div className="flex flex-col p-4 space-y-4">
           {activeDropdownIndex === null ? (
             <>
-              {links.map((link, index) => {
+              {navigationItems.map((navigationItem, index) => {
                 return (
                   <div
                     key={index}
                     onClick={() => openDropdown(index)}
                     className="flex justify-between cursor-pointer"
                   >
-                    <span> {link.label}</span>
+                    <span> {navigationItem.label}</span>
                     <ChevronRight className="ml-2" />
                   </div>
                 );
@@ -87,7 +90,11 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, links }) => {
             </>
           ) : (
             <div onClick={onClose}>
-              {links[activeDropdownIndex]?.dropdown || null}
+              {(() => {
+                const DropdownComponent =
+                  navigationItems[activeDropdownIndex]?.Dropdown;
+                return DropdownComponent ? <DropdownComponent /> : null;
+              })()}
             </div>
           )}
         </div>

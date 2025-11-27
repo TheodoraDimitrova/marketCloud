@@ -25,7 +25,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer>
+    <footer id="footer">
       {/* promos */}
       <FooterPromos />
 

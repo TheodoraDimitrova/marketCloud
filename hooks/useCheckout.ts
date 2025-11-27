@@ -7,7 +7,6 @@ import { CartState } from "@/types/cart";
 import { useCallback } from "react";
 
 interface UseCheckoutReturn {
-  isLoading: boolean;
   error: string | null;
   isSuccess: boolean;
   cart: CartState;
@@ -36,7 +35,6 @@ export const useCheckout = (): UseCheckoutReturn => {
   );
 
   return {
-    isLoading: orderStatus === "loading",
     error: orderError,
     isSuccess: orderStatus === "succeeded",
     cart,
