@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import UtilityBar from "@/components/features/products/UtilityBar";
 import SectionFilters from "@/components/shared/filters/index";
-import ProductCard from "@/components/features/products/filteredProductList/ProductCard";
+import ProductCard from "@/components/features/products/ProductCard";
 import Link from "next/link";
 import { Product } from "@/types/product";
 

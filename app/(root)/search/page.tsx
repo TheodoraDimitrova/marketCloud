@@ -6,7 +6,7 @@ import CategoriesCarousel from "@/components/features/categories/categoriesCarou
 import { fetchAllProducts } from "@/store/slices/productsSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import FilteredProductList from "@/components/features/products/filteredProductList/FilteredProductList";
+import FilteredProductList from "@/components/features/products/FilteredProductList";
 import { Loading } from "@/components/ui/Loading";
 import SearchBar from "@/components/shared/common/SearchBar";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
