@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { setProducts } from "@/store/slices/productsSlice";
 import { setCategories } from "@/store/slices/categorySlice";
 import { Product } from "@/types/product";
@@ -16,7 +16,7 @@ const HydrateProductsAndCategories = ({
   products,
   categories,
 }: HydrateProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(setProducts(products));

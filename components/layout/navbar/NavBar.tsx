@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { ShoppingBag, Search, User, AlignJustify } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -12,14 +11,24 @@ import BrandsDropdown from "./dropdowns/BrandsDropdown";
 import OurWorldDropdown from "./dropdowns/OurWorldDropdown";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useScrollPosition } from "@/hooks/useScrollPosition";
+import { useNavbarState } from "@/hooks/useNavbarState";
 
 const NavBar = () => {
+  const {
+    isHovered,
+    isMobileMenuOpen,
+    activeIndex,
+    isCartOpen,
+    setIsMobileMenuOpen,
+    setActiveIndex,
+    setIsCartOpen,
+    handleMouseEnter,
+    handleMouseLeave,
+  } = useNavbarState();
+
   const isScrolledDown = useScrollPosition(10);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const cartItems = useAppSelector((state) => state.cart.items);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+
   const router = useRouter();
   const pathname = usePathname();
   const isHomePage = pathname === "/";
@@ -60,11 +69,8 @@ const NavBar = () => {
               top: "0",
             }
       }
-      onMouseEnter={() => isHomePage && setIsHovered(true)}
-      onMouseLeave={() => {
-        setIsHovered(false);
-        setActiveIndex(null);
-      }}
+      onMouseEnter={() => isHomePage && handleMouseEnter()}
+      onMouseLeave={handleMouseLeave}
     >
       <div className="relative mx-auto flex-between lg:flex-row md:flex-col-reverse md:gap-2 px-4 py-2">
         {/* Left Section */}
