@@ -29,7 +29,7 @@ const CategoriesCarousel = () => {
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
-        <h2>Explore our categories</h2>
+        <h2 className="m-0">Explore our categories</h2>
         <button
           className="ml-2"
           onClick={() => swiperRef.current && swiperRef.current.slideNext()}

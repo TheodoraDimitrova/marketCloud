@@ -165,6 +165,7 @@ const SectionFilter: React.FC<{
           <FilterDiscounts
             onChange={(values: string[]) => updateFilters("discounts", values)}
             selectedDiscounts={filters.discounts}
+            products={products}
           />
         </CollapsibleFilter>
       </div>

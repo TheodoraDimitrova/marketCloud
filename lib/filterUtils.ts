@@ -1,5 +1,10 @@
 import { Product } from "@/types/product";
 
+// Helper function to normalize tag labels to uppercase
+const normalizeToUpperCase = (str: string): string => {
+  return str.trim().toUpperCase();
+};
+
 export interface FilterParams {
   priceRange?: string;
   brands?: string;
@@ -28,20 +33,44 @@ export const applyDiscountFilter = (
   products: Product[],
   discounts: string
 ): Product[] => {
-  const discountList = discounts
-    .split(",")
-    .map((discount) => discount.trim().toLowerCase());
+  const discountList = discounts.split(",").map((discount) => discount.trim());
 
   return products.filter((product) => {
-    return discountList.some((discount) => {
-      // Check if product has active discount matching the filter
+    return discountList.some((filterDiscount) => {
+      // 1. Check if product has active discount matching the filter
       if (product.discount?.isActive && product.discount.amount) {
-        return `-${product.discount.amount}%` === discount;
+        if (product.discount.type === "percentage") {
+          // Match percentage discount: "-20%" === "-20%"
+          const productDiscountLabel = `-${product.discount.amount}%`;
+          if (productDiscountLabel === filterDiscount) {
+            return true;
+          }
+        } else if (product.discount.type === "fixed") {
+          // Match fixed discount: "-5€" === "-5€"
+          const productDiscountLabel = `-${product.discount.amount}€`;
+          if (productDiscountLabel === filterDiscount) {
+            return true;
+          }
+        }
       }
-      // Check if product tags match the discount filter
-      return product.tags?.some((tag) =>
-        tag.label.toLowerCase().includes(discount)
-      );
+
+      // 2. Check if product tags match the discount filter
+      // All tags (discount, new, limited, etc.) - normalized to uppercase
+      if (product.tags && product.tags.length > 0) {
+        return product.tags.some((tag) => {
+          if (tag.label) {
+            // Normalize both to uppercase for comparison
+            const normalizedTagLabel = normalizeToUpperCase(tag.label.trim());
+            const normalizedFilterDiscount = normalizeToUpperCase(
+              filterDiscount.trim()
+            );
+            return normalizedTagLabel === normalizedFilterDiscount;
+          }
+          return false;
+        });
+      }
+
+      return false;
     });
   });
 };
