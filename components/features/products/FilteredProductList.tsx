@@ -1,11 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useState } from "react";
 import UtilityBar from "@/components/features/products/UtilityBar";
 import SectionFilters from "@/components/shared/filters/index";
 import ProductCard from "@/components/features/products/ProductCard";
 import Link from "next/link";
 import { Product } from "@/types/product";
+import { useProductFilters } from "@/hooks/useProductFilters";
 
 interface FilteredProductListProps {
   products: Product[];
@@ -15,53 +15,12 @@ interface FilteredProductListProps {
 const FilteredProductList: React.FC<FilteredProductListProps> = ({
   products,
 }) => {
+  const filteredProducts = useProductFilters(products);
+
   const [showFilters, setShowFilters] = useState(false);
   const [appliedFiltersCount, setAppliedFiltersCount] = useState(0);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
-
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const toggleFilters = () => setShowFilters((prev) => !prev);
-
-  useEffect(() => {
-    const query: Record<string, string> = Object.fromEntries(
-      searchParams.entries()
-    );
-    let filtered = products;
-
-    if (query.priceRange) {
-      const [minPrice, maxPrice] = query.priceRange.split("-").map(Number);
-      filtered = filtered.filter(
-        (product) => product.price >= minPrice && product.price <= maxPrice
-      );
-    }
-
-    if (query.brands) {
-      const brands = query.brands.split(",");
-      filtered = filtered.filter((product) =>
-        brands.includes(product.brand || "")
-      );
-    }
-
-    if (query.discounts) {
-      const discounts = query.discounts
-        .split(",")
-        .map((discount) => discount.trim().toLowerCase());
-      filtered = filtered.filter((product) => {
-        return discounts.some((discount) => {
-          if (product.discount?.isActive && product.discount.amount) {
-            return `-${product.discount.amount}%` === discount;
-          }
-          return product.tags?.some((tag) =>
-            tag.label.toLowerCase().includes(discount)
-          );
-        });
-      });
-    }
-
-    setFilteredProducts(filtered);
-  }, [pathname, searchParams, products]);
 
   return (
     <div>
