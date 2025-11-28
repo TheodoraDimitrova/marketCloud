@@ -1,4 +1,5 @@
 import { Progress } from "@/components/ui/Progress";
+import PriceDisplay from "@/components/shared/common/PriceDisplay";
 
 interface FreeShippingBannerProps {
   totalAmount: number;
@@ -13,11 +14,14 @@ const FreeShippingBanner: React.FC<FreeShippingBannerProps> = ({
   return (
     <div className="text-center my-12">
       <p className="text-sm">
-        {totalAmount >= freeShippingThreshold
-          ? "You qualify for free shipping! 🎉"
-          : `Spend €${(freeShippingThreshold - totalAmount).toFixed(
-              2
-            )} more for free shipping!`}
+        {totalAmount >= freeShippingThreshold ? (
+          "You qualify for free shipping! 🎉"
+        ) : (
+          <>
+            Spend <PriceDisplay price={freeShippingThreshold - totalAmount} />{" "}
+            more for free shipping!
+          </>
+        )}
       </p>
       <Progress value={progress} className="w-full mt-2 h-2" />
     </div>

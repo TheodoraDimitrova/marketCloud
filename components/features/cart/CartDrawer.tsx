@@ -11,6 +11,7 @@ import { updateItemQuantity } from "@/store/slices/cartSlice";
 import { useEffect } from "react";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
+import PriceDisplay from "@/components/shared/common/PriceDisplay";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -92,15 +93,17 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                     {item.discount ? (
                       <>
                         <p className="text-sm font-semibold line-through">
-                          €{item.price.toFixed(2)}
+                          <PriceDisplay price={item.price} />
                         </p>
                         <p className="text-sm font-semibold">
-                          €{item.discountedPrice?.toFixed(2) ?? "0.00"}
+                          <PriceDisplay
+                            price={item.discountedPrice || item.price}
+                          />
                         </p>
                       </>
                     ) : (
                       <p className="text-sm font-semibold">
-                        €{item.price.toFixed(2)}
+                        <PriceDisplay price={item.price} />
                       </p>
                     )}
                   </div>
@@ -112,10 +115,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
             <div className="p-4 border-t">
               <div className="flex justify-between font-semibold text-lg">
                 <span>Subtotal:</span>
-                <span>
-                  &euro;
-                  {subtotal.toFixed(2)}
-                </span>
+                <PriceDisplay price={subtotal} />
               </div>
               <p className="py-4">
                 Tax included, shipping and discounts calculated at checkout.

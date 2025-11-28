@@ -10,6 +10,7 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useEffect, useState } from "react";
 import { Loading } from "@/components/ui/Loading";
+import PriceDisplay from "@/components/shared/common/PriceDisplay";
 
 const CartPage = () => {
   const [isClient, setIsClient] = useState(false);
@@ -66,15 +67,17 @@ const CartPage = () => {
                   {item.discount ? (
                     <>
                       <p className="text-sm font-semibold line-through">
-                        €{item.price.toFixed(2)}
+                        <PriceDisplay price={item.price} />
                       </p>
                       <p className="text-sm font-semibold">
-                        €{item.discountedPrice?.toFixed(2)}
+                        <PriceDisplay
+                          price={item.discountedPrice || item.price}
+                        />
                       </p>
                     </>
                   ) : (
                     <p className="text-sm font-semibold">
-                      €{item.price.toFixed(2)}
+                      <PriceDisplay price={item.price} />
                     </p>
                   )}
                 </div>
@@ -103,9 +106,9 @@ const CartPage = () => {
 
                 <div className="subtotal w-32 text-right">
                   <p className="text-sm font-semibold">
-                    €
-                    {item.subtotalSingleProduct?.toFixed(2) ??
-                      item.price.toFixed(2)}
+                    <PriceDisplay
+                      price={item.subtotalSingleProduct || item.price}
+                    />
                   </p>
                 </div>
               </div>
@@ -115,7 +118,9 @@ const CartPage = () => {
           <div className="p-4 border-t border-grey-200">
             <div className="flex space-x-2 font-semibold text-lg w-full  justify-end">
               <span>Subtotal:</span>
-              <span>€{subtotal.toFixed(2)}</span>
+              <span>
+                <PriceDisplay price={subtotal} />
+              </span>
             </div>
 
             <p className="pt-4 text-sm text-gray-500 flex w-full justify-end">

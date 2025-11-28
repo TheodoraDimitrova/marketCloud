@@ -15,6 +15,7 @@ import { Product } from "@/types/product";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import PriceDisplay from "@/components/shared/common/PriceDisplay";
 
 const ProductPage = () => {
   const [hovered, setHovered] = useState(false);
@@ -100,7 +101,7 @@ const ProductPage = () => {
 
             <div className="flex justify-between my-6">
               <p>{productDetails.package || "No package info available"}</p>
-              <p>€{Number(productDetails.price).toFixed(2)}</p>
+              <PriceDisplay price={productDetails.price} />
             </div>
 
             {productDetails.discount?.isActive && (

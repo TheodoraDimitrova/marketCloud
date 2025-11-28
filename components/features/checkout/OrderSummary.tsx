@@ -5,6 +5,7 @@ import { Tags } from "lucide-react";
 import { Loading } from "@/components/ui/Loading";
 import { CartItem } from "@/types/cart";
 import { useAppSelector } from "@/hooks/useAppSelector";
+import PriceDisplay from "@/components/shared/common/PriceDisplay";
 
 const OrderSummary = () => {
   const cartItems: CartItem[] = useAppSelector((state) => state.cart.items);
@@ -29,17 +30,16 @@ const OrderSummary = () => {
             {item.discount?.isActive ? (
               <div className="flex flex-col">
                 <p className="text-sm  line-through">
-                  €{item.price.toFixed(2)}
+                  <PriceDisplay price={item.price} />
                 </p>
                 <p className="text-sm font-semibold ">
-                  €
-                  {item.discountedPrice
-                    ? item.discountedPrice.toFixed(2)
-                    : item.price.toFixed(2)}
+                  <PriceDisplay price={item.discountedPrice || item.price} />
                 </p>
               </div>
             ) : (
-              <p className="text-sm font-semibold">€{item.price.toFixed(2)}</p>
+              <p className="text-sm font-semibold">
+                <PriceDisplay price={item.price} />
+              </p>
             )}
           </li>
         ))}
@@ -48,7 +48,9 @@ const OrderSummary = () => {
       {/* Subtotal */}
       <div className="flex justify-between mt-4 text-sm">
         <span>Subtotal:</span>
-        <span>€{subtotal.toFixed(2)}</span>
+        <span>
+          <PriceDisplay price={subtotal} />
+        </span>
       </div>
 
       {/* Shipping Fee */}
@@ -58,14 +60,18 @@ const OrderSummary = () => {
         {subtotal >= 60 ? (
           <span>Free</span>
         ) : (
-          <span>€{effectiveShippingFee.toFixed(2)}</span>
+          <span>
+            <PriceDisplay price={effectiveShippingFee} />
+          </span>
         )}
       </div>
 
       {/* Total Amount */}
       <div className="flex justify-between font-semibold text-lg mt-4">
         <span>Total Amount:</span>
-        <span>€{totalAmount.toFixed(2)}</span>
+        <span>
+          <PriceDisplay price={totalAmount} />
+        </span>
       </div>
 
       {/* Total Savings */}
@@ -73,7 +79,11 @@ const OrderSummary = () => {
         <div className="flex my-4 ">
           <Tags />
           <p className="text-sm uppercase font-semibold">
-            Total Savings <span> €{totalSavings.toFixed(2)}</span>
+            Total Savings{" "}
+            <span>
+              {" "}
+              <PriceDisplay price={totalSavings} />
+            </span>
           </p>
         </div>
       )}

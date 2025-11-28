@@ -5,6 +5,7 @@ import Link from "next/link";
 import { urlFor } from "@/sanity/lib/image";
 import { useState } from "react";
 import { Product } from "@/types/product";
+import PriceDisplay from "@/components/shared/common/PriceDisplay";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const [hovered, setHovered] = useState(false);
@@ -49,7 +50,9 @@ const ProductCard = ({ product }: { product: Product }) => {
         {/* Price Details */}
         <div className="flex-between flex-col flex-grow text-center p-3">
           <p className="text-gray-800 text-sm uppercase ">{product.name}</p>
-          <p className="text-gray-600 text-md"> € {product.price.toFixed(2)}</p>
+          <p className="text-gray-600 text-md">
+            <PriceDisplay price={product.price} />
+          </p>
         </div>
       </Link>
     </div>
