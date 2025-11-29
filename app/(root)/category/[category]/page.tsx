@@ -1,98 +1,55 @@
-"use client";
+import { notFound } from "next/navigation";
+import client from "@/sanity/lib/client";
+import CategoryDetails from "@/components/features/categories/CategoryDetails";
+import { Category } from "@/types/category";
+import { Product } from "@/types/product";
 
-import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { Banner } from "@/components/ui/Banner";
-import { fetchCategories } from "@/store/slices/categorySlice";
-import { fetchProductsByCategory } from "@/store/slices/productsSlice";
-import { urlFor } from "@/sanity/lib/image";
-import FilteredProductList from "@/components/features/products/FilteredProductList";
-import { Loading } from "@/components/ui/Loading";
-import SearchBar from "@/components/shared/common/SearchBar";
-import { useAppSelector } from "@/hooks/useAppSelector";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
+// ✅ Server Component - зарежда данните на сървъра за SEO
+const getCategory = async (slug: string): Promise<Category | null> => {
+  try {
+    const query = `*[_type == "category" && slug.current == $slug][0]`;
+    const category = await client.fetch(query, { slug });
+    return category;
+  } catch (error) {
+    console.error("Error fetching category:", error);
+    return null;
+  }
+};
 
-const CategoryPage = () => {
-  const pathname = usePathname();
-  const router = useRouter();
-  const category = pathname.split("/").pop();
+const getProductsByCategory = async (
+  categoryId: string
+): Promise<Product[]> => {
+  try {
+    const query = '*[_type == "product" && references($categoryId)]';
+    const products = await client.fetch(query, { categoryId });
+    return products;
+  } catch (error) {
+    console.error("Error fetching products by category:", error);
+    return [];
+  }
+};
 
-  const dispatch = useAppDispatch();
+interface CategoryPageProps {
+  params: Promise<{
+    category: string;
+  }>;
+}
 
-  const { categories, status: categoriesStatus } = useAppSelector(
-    (state) => state.categories
-  );
-  const { filteredProducts, status: ProductState } = useAppSelector(
-    (state) => state.products
-  );
+const CategoryPage = async ({ params }: CategoryPageProps) => {
+  const { category } = await params;
 
-  const [categoryData, setCategoryData] = useState<{
-    title: string;
-    description: string;
-    image: string;
-  } | null>(null);
+  // ✅ Зарежда категорията и продуктите на сървъра ПРЕДИ рендиране (SEO-friendly)
+  const categoryData = await getCategory(category);
 
-  const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    if (categoriesStatus === "idle") {
-      dispatch(fetchCategories());
-    }
-  }, [categoriesStatus, dispatch]);
-
-  useEffect(() => {
-    if (
-      !category ||
-      categoriesStatus !== "succeeded" ||
-      categories.length === 0
-    )
-      return;
-
-    const foundCategory = categories.find(
-      (cat) => cat.slug.current === category.toLowerCase()
-    );
-
-    if (!foundCategory) {
-      router.replace("/404");
-      return;
-    }
-
-    setCategoryData({
-      title: foundCategory.name,
-      description: foundCategory.description,
-      image: urlFor(foundCategory.image),
-    });
-
-    dispatch(fetchProductsByCategory(foundCategory._id));
-  }, [category, categoriesStatus, categories, dispatch, router]);
-
-  if (categoriesStatus === "loading" || ProductState === "loading") {
-    return <Loading />;
+  if (!categoryData) {
+    notFound();
   }
 
-  if (!categoryData) return null;
-  const filterProducts = filteredProducts.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // ✅ Зарежда продуктите по категория
+  const products = await getProductsByCategory(categoryData._id);
 
-  return (
-    <>
-      <Banner
-        title={categoryData.title}
-        subtitle={categoryData.description}
-        backgroundImage={categoryData.image}
-      />
-      <SearchBar
-        onSearch={(searchTerm) => {
-          setSearchTerm(searchTerm);
-        }}
-      />
-      <FilteredProductList
-        products={filterProducts}
-        totalProducts={filterProducts.length}
-      />
-    </>
-  );
+  // ✅ Предава данните на Client Component за интерактивност
+  return <CategoryDetails category={categoryData} products={products} />;
 };
 
 export default CategoryPage;

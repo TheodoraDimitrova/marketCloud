@@ -102,7 +102,7 @@ const NavBar = () => {
         <div className="z-2 flex items-center space-x-1 md:space-x-4 md:w-full md:justify-end lg:w-auto">
           <Search
             onClick={() => router.push("/search")}
-            className="hidden lg:inline-flex cursor-pointer"
+            className="hidden md:inline-flex cursor-pointer"
           />
 
           <button onClick={() => setIsCartOpen(true)} className="relative">

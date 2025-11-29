@@ -1,42 +1,65 @@
-"use client";
-import { useEffect } from "react";
 import { Banner } from "@/components/ui/Banner";
 import CategoriesCarousel from "@/components/features/categories/categoriesCarousel/CategoriesCarousel";
-import { fetchAllProducts } from "@/store/slices/productsSlice";
-import FilteredProductList from "@/components/features/products/FilteredProductList";
-import { Loading } from "@/components/ui/Loading";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { useAppSelector } from "@/hooks/useAppSelector";
-import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import HydrateProductsAndCategories from "@/components/providers/HydrateProductsAndCategories";
+import ProductsDetails from "@/components/features/products/ProductsDetails";
+import client from "@/sanity/lib/client";
+import { Product } from "@/types/product";
+import { Category } from "@/types/category";
+import Link from "next/link";
 
-const ProductsPage = () => {
-  const dispatch = useAppDispatch();
-  const { products, status, error } = useAppSelector((state) => state.products);
-
-  useEffect(() => {
-    if (!products || products.length === 0) {
-      dispatch(fetchAllProducts());
-    }
-  }, [dispatch, products]);
-
-  if (status === "loading") {
-    return <Loading />;
+const getProducts = async (): Promise<Product[]> => {
+  try {
+    return await client.fetch(`*[_type == "product"]`);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
   }
+};
 
-  if (status === "failed") {
-    return <ErrorMessage message={error || "Failed to load products"} />;
+const getCategories = async (): Promise<Category[]> => {
+  try {
+    return await client.fetch(`*[_type == "category"]{
+      ...,
+      "totalProducts": count(*[_type == "product" && references(^._id)])
+    }`);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return [];
+  }
+};
+
+const ProductsPage = async () => {
+  const products = await getProducts();
+  const categories = await getCategories();
+
+  if (!products || products.length === 0) {
+    return (
+      <>
+        <HydrateProductsAndCategories products={[]} categories={categories} />
+        <Banner title="Adora Cosmetics" backgroundImage="/images/bg1.png" />
+        <div className="container mx-auto p-6 text-center">
+          <p className="text-lg text-gray-700">
+            Sorry, no products are available right now.
+          </p>
+          <Link
+            href="/"
+            className="underline text-red-500 w-full flex justify-center"
+          >
+            <p>Go To Home Page</p>
+          </Link>
+        </div>
+        <CategoriesCarousel />
+      </>
+    );
   }
 
   return (
     <>
-      <Banner title="Adora Cosmetics" backgroundImage="/images/bg1.png" />
-
-      <FilteredProductList
+      <HydrateProductsAndCategories
         products={products}
-        totalProducts={products.length}
+        categories={categories}
       />
-
-      <CategoriesCarousel />
+      <ProductsDetails products={products} categories={categories} />
     </>
   );
 };

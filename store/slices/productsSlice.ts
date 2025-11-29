@@ -64,33 +64,16 @@ export const fetchProductsByCategory = createAsyncThunk(
   }
 );
 
-export const fetchProductDetails = createAsyncThunk(
-  "products/fetchProductDetails",
-  async (productId: string, { rejectWithValue }) => {
-    try {
-      const res = await fetch(`/api/products/${productId}`);
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        return rejectWithValue(
-          errorData.message || "Failed to fetch product details"
-        );
-      }
-
-      const product = await res.json();
-      return product;
-    } catch (error) {
-      return rejectWithValue(handleError(error));
-    }
-  }
-);
-
 const productSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
     setProducts: (state, action) => {
       state.products = action.payload;
+      state.status = "succeeded";
+    },
+    setProductDetails: (state, action) => {
+      state.productDetails = action.payload;
       state.status = "succeeded";
     },
   },
@@ -118,20 +101,9 @@ const productSlice = createSlice({
       .addCase(fetchProductsByCategory.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload as string;
-      })
-      .addCase(fetchProductDetails.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchProductDetails.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.productDetails = action.payload;
-      })
-      .addCase(fetchProductDetails.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload as string;
       });
   },
 });
 
-export const { setProducts } = productSlice.actions;
+export const { setProducts, setProductDetails } = productSlice.actions;
 export default productSlice.reducer;

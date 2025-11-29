@@ -7,23 +7,27 @@ import RichText from "@/components/home/sections/RichText";
 import CarouselHome from "@/components/home/sections/CarouselHome";
 import { Heart } from "lucide-react";
 import HydrateProductsAndCategories from "@/components/providers/HydrateProductsAndCategories";
+import client from "@/sanity/lib/client";
 
 const getProducts = async () => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/products`,
-    {
-      cache: "no-store",
-    }
-  );
-  return res.json();
+  try {
+    return await client.fetch(`*[_type == "product"]`);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
+  }
 };
 
 const getCategories = async () => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/categories`,
-    { cache: "no-store" }
-  );
-  return res.json();
+  try {
+    return await client.fetch(`*[_type == "category"]{
+      ...,
+      "totalProducts": count(*[_type == "product" && references(^._id)])
+    }`);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return [];
+  }
 };
 
 const HomePage = async () => {
