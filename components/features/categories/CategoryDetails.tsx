@@ -15,10 +15,7 @@ interface CategoryDetailsProps {
   products: Product[];
 }
 
-const CategoryDetails: React.FC<CategoryDetailsProps> = ({
-  category,
-  products,
-}) => {
+const CategoryDetails = ({ category, products }: CategoryDetailsProps) => {
   const dispatch = useAppDispatch();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -42,10 +39,7 @@ const CategoryDetails: React.FC<CategoryDetailsProps> = ({
           setSearchTerm(searchTerm);
         }}
       />
-      <FilteredProductList
-        products={filterProducts}
-        totalProducts={filterProducts.length}
-      />
+      <FilteredProductList products={filterProducts} />
     </>
   );
 };

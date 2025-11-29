@@ -1,10 +1,12 @@
 import React from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
-const CollapsibleFilter: React.FC<{
+interface CollapsibleFilterProps {
   title: string;
   children: React.ReactNode;
-}> = ({ title, children }) => (
+}
+
+const CollapsibleFilter = ({ title, children }: CollapsibleFilterProps) => (
   <div>
     <details className="group">
       <summary className="flex-between cursor-pointer text-md text-gray-500 py-5">

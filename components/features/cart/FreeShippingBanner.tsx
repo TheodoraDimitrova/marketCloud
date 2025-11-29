@@ -5,9 +5,7 @@ interface FreeShippingBannerProps {
   totalAmount: number;
 }
 
-const FreeShippingBanner: React.FC<FreeShippingBannerProps> = ({
-  totalAmount,
-}) => {
+const FreeShippingBanner = ({ totalAmount }: FreeShippingBannerProps) => {
   const freeShippingThreshold = 60;
   const progress = Math.min((totalAmount / freeShippingThreshold) * 100, 100);
 

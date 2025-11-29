@@ -17,7 +17,7 @@ interface ProductDetailsProps {
   product: Product;
 }
 
-const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
+const ProductDetails = ({ product }: ProductDetailsProps) => {
   const [hovered, setHovered] = useState(false);
   const dispatch = useAppDispatch();
   const { quantity, handleUpdateQuantity, handleAddToCart } =

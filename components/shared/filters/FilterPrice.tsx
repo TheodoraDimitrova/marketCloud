@@ -6,7 +6,7 @@ interface FilterPriceProps {
   priceRange: [number, number] | [];
 }
 
-const FilterPrice: React.FC<FilterPriceProps> = ({ onChange, priceRange }) => {
+const FilterPrice = ({ onChange, priceRange }: FilterPriceProps) => {
   const [minPrice, setMinPrice] = useState(1);
   const [maxPrice, setMaxPrice] = useState(150);
 

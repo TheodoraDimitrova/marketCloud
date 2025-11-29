@@ -13,11 +13,11 @@ interface FilterDiscountsProps {
   products?: Product[];
 }
 
-const FilterDiscounts: React.FC<FilterDiscountsProps> = ({
+const FilterDiscounts = ({
   onChange,
   selectedDiscounts,
   products = [],
-}) => {
+}: FilterDiscountsProps) => {
   const availableDiscounts = useMemo(() => {
     const discountsSet = new Set<string>();
 

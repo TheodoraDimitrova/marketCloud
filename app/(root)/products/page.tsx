@@ -59,7 +59,7 @@ const ProductsPage = async () => {
         products={products}
         categories={categories}
       />
-      <ProductsDetails products={products} categories={categories} />
+      <ProductsDetails products={products} />
     </>
   );
 };

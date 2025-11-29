@@ -18,10 +18,7 @@ const deliveryMethods = [
   { value: "toSmartPoint", label: "Delivery to Smart Point", cost: 2.99 },
 ];
 
-const DeliveryMethods: React.FC<DeliveryMethodsProps> = ({
-  control,
-  errors,
-}) => {
+const DeliveryMethods = ({ control, errors }: DeliveryMethodsProps) => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart);
 

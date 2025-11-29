@@ -5,7 +5,7 @@ interface TagProps {
   label: string;
 }
 
-const Tag: React.FC<TagProps> = ({ type, label }) => {
+const Tag = ({ type, label }: TagProps) => {
   const tagStyles = {
     discount: "bg-red-500",
     new: "bg-green-500",

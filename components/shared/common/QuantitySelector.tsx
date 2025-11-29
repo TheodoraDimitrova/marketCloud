@@ -6,10 +6,10 @@ interface QuantitySelectorProps {
   minValue?: number;
 }
 
-const QuantitySelector: React.FC<QuantitySelectorProps> = ({
+const QuantitySelector = ({
   quantity,
   updateQuantity,
-}) => {
+}: QuantitySelectorProps) => {
   return (
     <div className="flex-center border rounded-sm border-gray-300 w-24 bg-gray-200 mt-2 ">
       <div>

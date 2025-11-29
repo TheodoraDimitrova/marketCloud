@@ -18,11 +18,11 @@ interface CountrySelectProps {
   defaultValue?: string;
 }
 
-const CountrySelect: React.FC<CountrySelectProps> = ({
+const CountrySelect = ({
   control,
   errors,
   defaultValue = "bg",
-}) => {
+}: CountrySelectProps) => {
   return (
     <div className="flex flex-col">
       <label

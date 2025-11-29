@@ -10,7 +10,7 @@ interface FooterLinkListProps {
   title: string;
   links: LinkItem[];
 }
-const FooterLinkList: React.FC<FooterLinkListProps> = ({ title, links }) => {
+const FooterLinkList = ({ title, links }: FooterLinkListProps) => {
   return (
     <div className="px-5 lg:mr-20 sm:mr-0 sm:w-1/2 pb-5 lg:w-auto lg:pb-0 ">
       <h3 className="text-white h3-bold">{title}</h3>

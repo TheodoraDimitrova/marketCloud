@@ -6,11 +6,7 @@ interface BannerProps {
   backgroundImage?: string;
 }
 
-export const Banner: React.FC<BannerProps> = ({
-  title,
-  subtitle,
-  backgroundImage,
-}) => {
+export const Banner = ({ title, subtitle, backgroundImage }: BannerProps) => {
   const textColor = backgroundImage ? "text-white" : "text-black";
   const containerHeight = backgroundImage ? "h-64" : "h-16";
 

@@ -8,7 +8,7 @@ interface PaymentMethodProps {
   control: Control<FormValues>;
 }
 
-const PaymentMethod: React.FC<PaymentMethodProps> = ({ control }) => {
+const PaymentMethod = ({ control }: PaymentMethodProps) => {
   return (
     <div className="space-y-4 text-sm">
       <p className=" font-semibold">Payment Method</p>

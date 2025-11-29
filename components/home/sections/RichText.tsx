@@ -12,14 +12,14 @@ interface RichTextProps {
   bgColor?: string;
 }
 
-const RichText: React.FC<RichTextProps> = ({
+const RichText = ({
   icon: Icon,
   title,
   text,
   buttonText,
   buttonLink,
   bgColor = "bg-slate-300",
-}) => {
+}: RichTextProps) => {
   return (
     <section className={`${bgColor} py-6 lg:py-12 px-4 `}>
       <div className="flex-center flex-col max-w-3xl  mx-auto">

@@ -9,12 +9,9 @@ import { useProductFilters } from "@/hooks/useProductFilters";
 
 interface FilteredProductListProps {
   products: Product[];
-  totalProducts: number;
 }
 
-const FilteredProductList: React.FC<FilteredProductListProps> = ({
-  products,
-}) => {
+const FilteredProductList = ({ products }: FilteredProductListProps) => {
   const filteredProducts = useProductFilters(products);
 
   const [showFilters, setShowFilters] = useState(false);

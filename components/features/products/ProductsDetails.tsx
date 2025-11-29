@@ -5,17 +5,14 @@ import FilteredProductList from "@/components/features/products/FilteredProductL
 import SearchBar from "@/components/shared/common/SearchBar";
 import CategoriesCarousel from "@/components/features/categories/categoriesCarousel/CategoriesCarousel";
 import { Product } from "@/types/product";
-import { Category } from "@/types/category";
 
 interface ProductsDetailsProps {
   products: Product[];
-  categories: Category[];
 }
 
-const ProductsDetails: React.FC<ProductsDetailsProps> = ({ products }) => {
+const ProductsDetails = ({ products }: ProductsDetailsProps) => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  // ✅ Филтрира продуктите по search term
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -28,10 +25,7 @@ const ProductsDetails: React.FC<ProductsDetailsProps> = ({ products }) => {
           setSearchTerm(searchTerm);
         }}
       />
-      <FilteredProductList
-        products={filteredProducts}
-        totalProducts={filteredProducts.length}
-      />
+      <FilteredProductList products={filteredProducts} />
       <CategoriesCarousel />
     </>
   );

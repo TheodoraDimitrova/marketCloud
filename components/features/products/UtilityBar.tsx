@@ -17,12 +17,12 @@ type UtilityBarProps = {
   showFilters: boolean;
 };
 
-const UtilityBar: React.FC<UtilityBarProps> = ({
+const UtilityBar = ({
   toggleFilters,
   totalProducts,
   appliedFiltersCount,
   showFilters,
-}) => {
+}: UtilityBarProps) => {
   const handleClick = () => {
     toggleFilters();
   };

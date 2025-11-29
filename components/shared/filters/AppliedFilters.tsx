@@ -14,11 +14,11 @@ interface AppliedFiltersProps {
   clearFilters: () => void;
 }
 
-const AppliedFilters: React.FC<AppliedFiltersProps> = ({
+const AppliedFilters = ({
   initialFilters,
   removeFilter,
   clearFilters,
-}) => {
+}: AppliedFiltersProps) => {
   const hasActiveFilters = Object.values(initialFilters).some(
     (filters) => filters.length > 0
   );

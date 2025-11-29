@@ -11,13 +11,13 @@ interface ImgOverlayTextProps {
   src: string;
 }
 
-const ImgOverlayText: React.FC<ImgOverlayTextProps> = ({
+const ImgOverlayText = ({
   subheading,
   title,
   textBtn,
   url,
   src,
-}) => {
+}: ImgOverlayTextProps) => {
   return (
     <div className="relative ">
       <Image

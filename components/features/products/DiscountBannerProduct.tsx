@@ -13,10 +13,10 @@ interface DiscountBannerProductProps {
   discount?: Discount;
 }
 
-const DiscountBannerProduct: React.FC<DiscountBannerProductProps> = ({
+const DiscountBannerProduct = ({
   price,
   discount,
-}) => {
+}: DiscountBannerProductProps) => {
   const [discountedPrice, setDiscountedPrice] = useState(price);
 
   useEffect(() => {

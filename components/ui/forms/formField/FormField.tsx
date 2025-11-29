@@ -12,7 +12,7 @@ interface FormFieldProps {
   type?: string;
   validationRules?: RegisterOptions<FormValues, keyof FormValues>;
 }
-const FormField: React.FC<FormFieldProps> = ({
+const FormField = ({
   label,
   name,
   register,
@@ -20,7 +20,7 @@ const FormField: React.FC<FormFieldProps> = ({
   placeholder,
   type = "text",
   validationRules = {},
-}) => (
+}: FormFieldProps) => (
   <div className="flex flex-col">
     {label && (
       <label htmlFor={name} className="mb-1 text-sm font-medium">

@@ -44,10 +44,7 @@ const SearchPage = () => {
         <SearchBar onSearch={setSearchTerm} />
       </div>
 
-      <FilteredProductList
-        products={filteredProducts}
-        totalProducts={products.length}
-      />
+      <FilteredProductList products={filteredProducts} />
       <CategoriesCarousel />
     </>
   );

@@ -12,12 +12,19 @@ import { Product } from "@/types/product";
 
 type FilterType = "priceRange" | "brands" | "discounts";
 
-const SectionFilter: React.FC<{
+interface SectionFilterProps {
   toggleFilters: () => void;
   showFilter: boolean;
   onFiltersChange: (count: number) => void;
   products?: Product[];
-}> = ({ toggleFilters, showFilter, onFiltersChange, products = [] }) => {
+}
+
+const SectionFilter = ({
+  toggleFilters,
+  showFilter,
+  onFiltersChange,
+  products = [],
+}: SectionFilterProps) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();

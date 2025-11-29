@@ -15,11 +15,7 @@ interface MobileMenuProps {
   navigationItems: Links[];
 }
 
-const MobileMenu: React.FC<MobileMenuProps> = ({
-  isOpen,
-  onClose,
-  navigationItems,
-}) => {
+const MobileMenu = ({ isOpen, onClose, navigationItems }: MobileMenuProps) => {
   const [activeDropdownIndex, setActiveDropdownIndex] = useState<number | null>(
     null
   );

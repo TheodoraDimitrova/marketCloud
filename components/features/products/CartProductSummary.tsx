@@ -11,7 +11,7 @@ interface CartProductSummaryProps {
   item: CartItem;
 }
 
-const CartProductSummary: React.FC<CartProductSummaryProps> = ({ item }) => {
+const CartProductSummary = ({ item }: CartProductSummaryProps) => {
   const params = useParams();
   const pathname = usePathname();
   const orderId = params?.orderId;

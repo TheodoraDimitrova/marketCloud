@@ -5,7 +5,7 @@ interface SearchBarProps {
   onSearch: (value: string) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+const SearchBar = ({ onSearch }: SearchBarProps) => {
   return (
     <div>
       <div className="container w-[80%] md:max-w-[650px] md:w-full mx-auto my-10 md:my-20">

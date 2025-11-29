@@ -9,12 +9,7 @@ interface ImgCarouselProps {
   src: string;
 }
 
-const ImgCarousel: React.FC<ImgCarouselProps> = ({
-  totalProducts,
-  title,
-  url,
-  src,
-}) => {
+const ImgCarousel = ({ totalProducts, title, url, src }: ImgCarouselProps) => {
   return (
     <div className="relative">
       <Link href={url}>

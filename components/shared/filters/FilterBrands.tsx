@@ -10,11 +10,11 @@ interface FilterBrandsProps {
   products?: Product[];
 }
 
-const FilterBrands: React.FC<FilterBrandsProps> = ({
+const FilterBrands = ({
   onChange,
   selectedBrands,
   products = [],
-}) => {
+}: FilterBrandsProps) => {
   const availableBrands = useMemo(() => {
     const brandsSet = new Set<string>();
     products.forEach((product) => {

@@ -6,7 +6,7 @@ interface ListTagsProps {
   tags: TagType[];
 }
 
-const ListTags: React.FC<ListTagsProps> = ({ tags }) => {
+const ListTags = ({ tags }: ListTagsProps) => {
   return (
     <div className="flex gap-2">
       {tags.map((tag) => (

@@ -18,7 +18,7 @@ interface CarouselProps {
   swiperRef?: React.RefObject<SwiperCore | null>;
 }
 
-export const Carousel: React.FC<CarouselProps> = ({
+export const Carousel = ({
   items,
   slidesPerView = 1,
   spaceBetween = 0,
@@ -27,7 +27,7 @@ export const Carousel: React.FC<CarouselProps> = ({
   pagination = false,
   loop = false,
   swiperRef,
-}) => {
+}: CarouselProps) => {
   const adjustedSlidesPerView = items.length > 4 ? 3.5 : 3;
   useEffect(() => {
     if (swiperRef?.current) {
