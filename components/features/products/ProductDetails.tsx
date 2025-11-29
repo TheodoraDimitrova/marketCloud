@@ -7,7 +7,7 @@ import ListTags from "@/components/shared/tags/ListTags";
 import Rating from "@/components/shared/common/Rating";
 import DiscountBannerProduct from "@/components/features/products/DiscountBannerProduct";
 import { urlFor } from "@/sanity/lib/image";
-import { addToCart } from "@/store/slices/cartSlice";
+import { useProductCart } from "@/hooks/useProductCart";
 import { Product } from "@/types/product";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import PriceDisplay from "@/components/shared/common/PriceDisplay";
@@ -19,28 +19,14 @@ interface ProductDetailsProps {
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
   const [hovered, setHovered] = useState(false);
-  const [quantity, setQuantity] = useState(1);
   const dispatch = useAppDispatch();
+  const { quantity, handleUpdateQuantity, handleAddToCart } =
+    useProductCart(product);
 
   //save product details to redux store
   useEffect(() => {
     dispatch(setProductDetails(product));
   }, [product, dispatch]);
-
-  const handleUpdateQuantity = (value: number) => {
-    const newQuantity = quantity + value;
-    if (newQuantity < 1) {
-      setQuantity(1);
-    } else {
-      setQuantity(newQuantity);
-    }
-  };
-
-  const handleAddToCart = (productDetails: Product) => {
-    if (productDetails) {
-      dispatch(addToCart({ ...productDetails, quantity }));
-    }
-  };
 
   return (
     <div className="container mx-auto p-2 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -98,14 +84,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
             quantity={quantity}
             updateQuantity={handleUpdateQuantity}
           />
-          <Button
-            onClick={() => {
-              handleAddToCart(product);
-              setQuantity(1);
-            }}
-          >
-            Add to Cart
-          </Button>
+          <Button onClick={handleAddToCart}>Add to Cart</Button>
         </div>
 
         <div className="mt-8">
