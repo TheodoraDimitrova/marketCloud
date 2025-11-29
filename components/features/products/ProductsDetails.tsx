@@ -12,10 +12,7 @@ interface ProductsDetailsProps {
   categories: Category[];
 }
 
-const ProductsDetails: React.FC<ProductsDetailsProps> = ({
-  products,
-  categories,
-}) => {
+const ProductsDetails: React.FC<ProductsDetailsProps> = ({ products }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   // ✅ Филтрира продуктите по search term
@@ -41,4 +38,3 @@ const ProductsDetails: React.FC<ProductsDetailsProps> = ({
 };
 
 export default ProductsDetails;
-

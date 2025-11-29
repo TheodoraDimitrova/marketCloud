@@ -9,7 +9,6 @@ import FormField from "@/components/ui/forms/formField/FormField";
 import PaymentMethod from "@/components/features/checkout/PaymentMethod";
 import CountrySelect from "@/components/ui/forms/CountrySelect";
 import validationRules from "@/lib/validationRulesCheckout";
-
 import { FormValues } from "@/types/formValues";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
 import { useCheckout } from "@/hooks/useCheckout";
