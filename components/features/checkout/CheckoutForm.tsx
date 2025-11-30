@@ -11,6 +11,8 @@ import CountrySelect from "@/components/ui/forms/CountrySelect";
 import validationRules from "@/lib/validationRulesCheckout";
 import { FormValues } from "@/types/formValues";
 import { useCheckout } from "@/hooks/useCheckout";
+import { useEffect, useCallback, useMemo } from "react";
+import { Input } from "@/components/ui/forms/input";
 
 const CheckoutForm = () => {
   const { submitOrder } = useCheckout();
@@ -20,7 +22,48 @@ const CheckoutForm = () => {
     control,
     watch,
     formState: { errors },
+    trigger,
   } = useForm<FormValues>();
+
+  const selectedCountry = watch("country");
+
+  // Валидация функция за postal code базирана на държавата
+  const validatePostalCode = useCallback(
+    (value: string) => {
+      if (!value || value.trim() === "") {
+        return "Postal code is required";
+      }
+      if (selectedCountry === "gr") {
+        if (!/^[0-9]{5}$/.test(value)) {
+          return "Postal code must be exactly 5 digits for Greece";
+        }
+      } else if (selectedCountry === "bg") {
+        if (!/^[0-9]{4}$/.test(value)) {
+          return "Postal code must be exactly 4 digits for Bulgaria";
+        }
+      } else {
+        if (!/^[0-9]{4,5}$/.test(value)) {
+          return "Invalid postal code format";
+        }
+      }
+
+      return true;
+    },
+    [selectedCountry]
+  );
+
+  const postalCodeRules = useMemo(
+    () => ({
+      validate: validatePostalCode,
+    }),
+    [validatePostalCode]
+  );
+
+  useEffect(() => {
+    if (selectedCountry) {
+      trigger("postalCode");
+    }
+  }, [selectedCountry, trigger]);
 
   return (
     <div className="col-span-2">
@@ -91,14 +134,34 @@ const CheckoutForm = () => {
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <FormField
-            label="Postal Code"
-            name="postalCode"
-            register={register}
-            errors={errors}
-            placeholder="Postal Code"
-            validationRules={validationRules.postalCode}
-          />
+          <div className="flex flex-col">
+            <label htmlFor="postalCode" className="mb-1 text-sm font-medium">
+              Postal Code
+            </label>
+            <Controller
+              name="postalCode"
+              control={control}
+              rules={postalCodeRules}
+              render={({ field }) => (
+                <Input
+                  id="postalCode"
+                  type="text"
+                  placeholder="Postal Code"
+                  {...field}
+                  onChange={(e) => {
+                    // Позволява само цифри
+                    const value = e.target.value.replace(/[^0-9]/g, "");
+                    field.onChange(value);
+                  }}
+                />
+              )}
+            />
+            {errors.postalCode && (
+              <p className="text-red-500 text-sm">
+                {String(errors.postalCode?.message)}
+              </p>
+            )}
+          </div>
           <FormField
             label="City"
             name="city"
