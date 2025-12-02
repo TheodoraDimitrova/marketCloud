@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect, ComponentType } from "react";
+import { useState, ComponentType } from "react";
 import { X, ChevronLeft } from "lucide-react";
 import { ChevronRight } from "lucide-react";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 
 interface Links {
   href: string;
@@ -19,18 +20,7 @@ const MobileMenu = ({ isOpen, onClose, navigationItems }: MobileMenuProps) => {
   const [activeDropdownIndex, setActiveDropdownIndex] = useState<number | null>(
     null
   );
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
+  useBodyScrollLock(isOpen);
 
   const openDropdown = (index: number) => {
     setActiveDropdownIndex(index);

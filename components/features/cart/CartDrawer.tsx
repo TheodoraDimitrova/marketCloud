@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import PriceDisplay from "@/components/shared/common/PriceDisplay";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -31,23 +32,11 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
     }
   }, [pathname, isOpen, onClose]);
 
-  useEffect(() => {
-    // Don't block scroll on cart/checkout pages
-    if (pathname === "/cart" || pathname === "/checkout") {
-      document.body.style.overflow = "";
-      return;
-    }
-
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen, pathname]);
+  // Use hook with disabled paths for cart/checkout pages
+  useBodyScrollLock(isOpen, {
+    disabledPaths: ["/cart", "/checkout"],
+    currentPath: pathname,
+  });
 
   const updateQuantity = (id: string | undefined, change: number) => {
     if (id) {
