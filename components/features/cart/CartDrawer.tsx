@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import PriceDisplay from "@/components/shared/common/PriceDisplay";
+import CartItemPrice from "@/components/shared/cart/CartItemPrice";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 
 interface CartDrawerProps {
@@ -91,24 +92,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-end whitespace-nowrap">
-                    {item.discount?.isActive ? (
-                      <>
-                        <p className="text-sm font-semibold line-through text-red-500">
-                          <PriceDisplay price={item.price} />
-                        </p>
-                        <p className="text-sm font-semibold">
-                          <PriceDisplay
-                            price={item.discountedPrice || item.price}
-                          />
-                        </p>
-                      </>
-                    ) : (
-                      <p className="text-sm font-semibold">
-                        <PriceDisplay price={item.price} />
-                      </p>
-                    )}
-                  </div>
+                  <CartItemPrice item={item} />
                 </div>
               </div>
             ))}

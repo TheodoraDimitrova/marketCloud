@@ -10,6 +10,7 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 
 import PriceDisplay from "@/components/shared/common/PriceDisplay";
+import CartItemPrice from "@/components/shared/cart/CartItemPrice";
 
 const CartPage = () => {
   const cartItems = useAppSelector((state) => state.cart.items);
@@ -54,23 +55,8 @@ const CartPage = () => {
                   </div>
                 </div>
 
-                <div className="single-price hidden md:block w-32 text-center whitespace-nowrap">
-                  {item.discount?.isActive ? (
-                    <>
-                      <p className="text-sm font-semibold line-through text-red-500">
-                        <PriceDisplay price={item.price} />
-                      </p>
-                      <p className="text-sm font-semibold">
-                        <PriceDisplay
-                          price={item.discountedPrice || item.price}
-                        />
-                      </p>
-                    </>
-                  ) : (
-                    <p className="text-sm font-semibold">
-                      <PriceDisplay price={item.price} />
-                    </p>
-                  )}
+                <div className="single-price hidden md:block w-32 text-center">
+                  <CartItemPrice item={item} className="text-center" />
                 </div>
 
                 <div className="quantity hidden md:flex md:flex-col md:text-center md:flex-center md:w-32 ">

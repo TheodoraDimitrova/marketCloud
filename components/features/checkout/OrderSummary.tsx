@@ -6,6 +6,7 @@ import { Loading } from "@/components/ui/Loading";
 import { CartItem } from "@/types/cart";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import PriceDisplay from "@/components/shared/common/PriceDisplay";
+import CartItemPrice from "@/components/shared/cart/CartItemPrice";
 
 const OrderSummary = () => {
   const cartItems: CartItem[] = useAppSelector((state) => state.cart.items);
@@ -27,20 +28,7 @@ const OrderSummary = () => {
         {cartItems.map((item, index) => (
           <li key={item._id || index} className="flex-between">
             <CartProductSummary item={item} />
-            {item.discount?.isActive ? (
-              <div className="flex flex-col items-end whitespace-nowrap">
-                <p className="text-sm line-through">
-                  <PriceDisplay price={item.price} />
-                </p>
-                <p className="text-sm font-semibold">
-                  <PriceDisplay price={item.discountedPrice || item.price} />
-                </p>
-              </div>
-            ) : (
-              <p className="text-sm font-semibold whitespace-nowrap">
-                <PriceDisplay price={item.price} />
-              </p>
-            )}
+            <CartItemPrice item={item} />
           </li>
         ))}
       </ul>
