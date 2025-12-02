@@ -22,8 +22,22 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
   const cartItems = useAppSelector((state) => state.cart.items);
   const subtotal = useAppSelector((state) => state.cart.subtotal);
   const dispatch = useAppDispatch();
+  const pathname = usePathname();
 
   useEffect(() => {
+    // Close drawer when navigating to cart/checkout pages
+    if ((pathname === "/cart" || pathname === "/checkout") && isOpen) {
+      onClose();
+    }
+  }, [pathname, isOpen, onClose]);
+
+  useEffect(() => {
+    // Don't block scroll on cart/checkout pages
+    if (pathname === "/cart" || pathname === "/checkout") {
+      document.body.style.overflow = "";
+      return;
+    }
+
     if (isOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -33,7 +47,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen]);
+  }, [isOpen, pathname]);
 
   const updateQuantity = (id: string | undefined, change: number) => {
     if (id) {
@@ -41,7 +55,6 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
     }
   };
 
-  const pathname = usePathname();
   if (pathname === "/cart" || pathname === "/checkout") return null;
 
   return (
