@@ -3,7 +3,13 @@ import { useAppDispatch } from "./useAppDispatch";
 import { addToCart } from "@/store/slices/cartSlice";
 import { useState } from "react";
 
-export const useProductCart = (product: Product) => {
+interface UseProductCartReturn {
+  quantity: number;
+  handleUpdateQuantity: (value: number) => void;
+  handleAddToCart: () => void;
+}
+
+export const useProductCart = (product: Product): UseProductCartReturn => {
   const [quantity, setQuantity] = useState(1);
   const dispatch = useAppDispatch();
 

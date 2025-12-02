@@ -1,7 +1,7 @@
 
 import {CartState} from '@/types/cart'
 
-export const saveToLocalStorage = (cart: CartState) => {
+export const saveToLocalStorage = (cart: CartState): void => {
     if (typeof window !== "undefined") { 
       localStorage.setItem("cart", JSON.stringify(cart));
     }

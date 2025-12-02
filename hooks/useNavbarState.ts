@@ -1,6 +1,19 @@
 import { useState } from "react";
 
-export const useNavbarState = () => {
+interface UseNavbarStateReturn {
+  isHovered: boolean;
+  isMobileMenuOpen: boolean;
+  activeIndex: number | null;
+  isCartOpen: boolean;
+  setIsHovered: (value: boolean) => void;
+  setIsMobileMenuOpen: (value: boolean) => void;
+  setActiveIndex: (value: number | null) => void;
+  setIsCartOpen: (value: boolean) => void;
+  handleMouseEnter: () => void;
+  handleMouseLeave: () => void;
+}
+
+export const useNavbarState = (): UseNavbarStateReturn => {
   const [isHovered, setIsHovered] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
