@@ -1,4 +1,6 @@
-export const calculateDiscountedPrice = (item) => {
+import { CartItem } from "@/types/cart";
+
+export const calculateDiscountedPrice = (item: CartItem): number => {
   if (!item.discount?.isActive) return item.price;
   let discountedPrice = item.price;
   if (item.discount.type === "percentage") {
@@ -8,14 +10,15 @@ export const calculateDiscountedPrice = (item) => {
   }
   return discountedPrice;
 };
-export const calculateSubtotal = (cartItems) => {
+
+export const calculateSubtotal = (cartItems: CartItem[]): number => {
   return cartItems.reduce(
     (sum, item) => sum + (item.discountedPrice || item.price) * item.quantity,
     0
   );
 };
 
-export const calculateTotalSavings = (cartItems) => {
+export const calculateTotalSavings = (cartItems: CartItem[]): number => {
   return cartItems.reduce((sum, item) => {
     const originalPrice = item.price * item.quantity;
     const discountedPrice = calculateDiscountedPrice(item) * item.quantity;

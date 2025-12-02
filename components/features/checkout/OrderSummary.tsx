@@ -28,16 +28,16 @@ const OrderSummary = () => {
           <li key={item._id || index} className="flex-between">
             <CartProductSummary item={item} />
             {item.discount?.isActive ? (
-              <div className="flex flex-col">
-                <p className="text-sm  line-through">
+              <div className="flex flex-col items-end whitespace-nowrap">
+                <p className="text-sm line-through">
                   <PriceDisplay price={item.price} />
                 </p>
-                <p className="text-sm font-semibold ">
+                <p className="text-sm font-semibold">
                   <PriceDisplay price={item.discountedPrice || item.price} />
                 </p>
               </div>
             ) : (
-              <p className="text-sm font-semibold">
+              <p className="text-sm font-semibold whitespace-nowrap">
                 <PriceDisplay price={item.price} />
               </p>
             )}

@@ -89,10 +89,10 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
                     </div>
                   </div>
 
-                  <div className="flex flex-col">
-                    {item.discount ? (
+                  <div className="flex flex-col items-end whitespace-nowrap">
+                    {item.discount?.isActive ? (
                       <>
-                        <p className="text-sm font-semibold line-through">
+                        <p className="text-sm font-semibold line-through text-red-500">
                           <PriceDisplay price={item.price} />
                         </p>
                         <p className="text-sm font-semibold">

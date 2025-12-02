@@ -8,28 +8,19 @@ import EmptyShoppingCart from "@/components/features/cart/EmptyShoppingCart";
 import { updateItemQuantity, removeFromCart } from "@/store/slices/cartSlice";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { useEffect, useState } from "react";
-import { Loading } from "@/components/ui/Loading";
+
 import PriceDisplay from "@/components/shared/common/PriceDisplay";
 
 const CartPage = () => {
-  const [isClient, setIsClient] = useState(false);
   const cartItems = useAppSelector((state) => state.cart.items);
   const subtotal = useAppSelector((state) => state.cart.subtotal);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   const updateQuantity = (id: string | undefined, change: number) => {
     if (id) {
       dispatch(updateItemQuantity({ id, quantity: change }));
     }
   };
-  if (!isClient) {
-    return <Loading />;
-  }
 
   return (
     <div className="container max-w-3xl m-auto p-4 my-20">
@@ -63,10 +54,10 @@ const CartPage = () => {
                   </div>
                 </div>
 
-                <div className="single-price hidden md:block w-32 text-center ">
-                  {item.discount ? (
+                <div className="single-price hidden md:block w-32 text-center whitespace-nowrap">
+                  {item.discount?.isActive ? (
                     <>
-                      <p className="text-sm font-semibold line-through">
+                      <p className="text-sm font-semibold line-through text-red-500">
                         <PriceDisplay price={item.price} />
                       </p>
                       <p className="text-sm font-semibold">
@@ -98,7 +89,7 @@ const CartPage = () => {
                         console.error("Product ID is missing.");
                       }
                     }}
-                    className="text-center cursor-pointer text-red-500 underline"
+                    className="text-center cursor-pointer text-red-500"
                   >
                     <p className="text-sm ">Remove</p>
                   </div>
