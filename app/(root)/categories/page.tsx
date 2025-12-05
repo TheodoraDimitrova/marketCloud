@@ -4,7 +4,6 @@ import { urlFor } from "@/sanity/lib/image";
 import { Category } from "@/types/category";
 import client from "@/sanity/lib/client";
 
-// ✅ Директно заявка към Sanity (без излишен HTTP слой)
 const getCategories = async (): Promise<Category[]> => {
   try {
     return await client.fetch(`*[_type == "category"]{

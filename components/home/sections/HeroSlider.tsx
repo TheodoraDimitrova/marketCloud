@@ -156,7 +156,7 @@ const HeroSlider = () => {
                   </motion.div>
 
                   <motion.div
-                    key={`text4-${activeIndex}`} // Променя ключа на базата на активния индекс
+                    key={`text4-${activeIndex}`}
                     initial={{ opacity: 0, y: 100 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
@@ -211,7 +211,7 @@ const HeroSlider = () => {
                   </motion.div>
 
                   <motion.div
-                    key={`text3-${activeIndex}`} // Променя ключа на базата на активния индекс
+                    key={`text3-${activeIndex}`}
                     initial={{ opacity: 0, y: 100 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
@@ -223,7 +223,7 @@ const HeroSlider = () => {
                   </motion.div>
 
                   <motion.div
-                    key={`text4-${activeIndex}`} // Променя ключа на базата на активния индекс
+                    key={`text4-${activeIndex}`}
                     initial={{ opacity: 0, y: 100 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}

@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { useDebounce } from "@/hooks/useDebounce";
 import { Banner } from "@/components/ui/Banner";
 import { urlFor } from "@/sanity/lib/image";
 import FilteredProductList from "@/components/features/products/FilteredProductList";
@@ -18,14 +19,26 @@ interface CategoryDetailsProps {
 const CategoryDetails = ({ category, products }: CategoryDetailsProps) => {
   const dispatch = useAppDispatch();
   const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
   useEffect(() => {
     dispatch(setCategories([category]));
   }, [category, dispatch]);
 
-  const filterProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filterProducts = useMemo(() => {
+    if (!products?.length) {
+      return [];
+    }
+
+    if (!debouncedSearchTerm.trim()) {
+      return products;
+    }
+
+    const searchLower = debouncedSearchTerm.toLowerCase();
+    return products.filter((product) =>
+      product.name?.toLowerCase().includes(searchLower)
+    );
+  }, [products, debouncedSearchTerm]);
 
   return (
     <>

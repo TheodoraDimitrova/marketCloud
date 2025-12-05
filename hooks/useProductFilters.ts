@@ -6,7 +6,6 @@ import { applyFilters, FilterParams } from "@/lib/filterUtils";
 export const useProductFilters = (products: Product[]): Product[] => {
   const searchParams = useSearchParams();
 
-  // Parse URL parameters into filter object
   const filters: FilterParams = useMemo(() => {
     const query: Record<string, string> = Object.fromEntries(
       searchParams.entries()
@@ -21,6 +20,9 @@ export const useProductFilters = (products: Product[]): Product[] => {
 
   // Apply filters to products
   const filteredProducts = useMemo(() => {
+    if (!products?.length) {
+      return [];
+    }
     return applyFilters(products, filters);
   }, [products, filters]);
 

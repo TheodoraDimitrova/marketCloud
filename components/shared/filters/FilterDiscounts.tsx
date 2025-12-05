@@ -44,7 +44,6 @@ const FilterDiscounts = ({
           if (tag.label && tag.label.trim()) {
             const tagLabel = normalizeToUpperCase(tag.label.trim());
 
-            // Avoid duplication: if product has discount, check if tag label matches discount label
             if (
               product.discount?.isActive &&
               product.discount?.amount &&

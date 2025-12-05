@@ -26,8 +26,10 @@ const CheckoutForm = () => {
   } = useForm<FormValues>();
 
   const selectedCountry = watch("country");
+  const city = watch("city");
+  const postalCode = watch("postalCode");
+  const showDeliveryMethods = city && postalCode;
 
-  // Валидация функция за postal code базирана на държавата
   const validatePostalCode = useCallback(
     (value: string) => {
       if (!value || value.trim() === "") {
@@ -149,7 +151,7 @@ const CheckoutForm = () => {
                   placeholder="Postal Code"
                   {...field}
                   onChange={(e) => {
-                    // Позволява само цифри
+                    //only digits
                     const value = e.target.value.replace(/[^0-9]/g, "");
                     field.onChange(value);
                   }}
@@ -188,7 +190,7 @@ const CheckoutForm = () => {
           Enter your address to see the shipping methods
         </p>
 
-        {watch("city") && watch("postalCode") && (
+        {showDeliveryMethods && (
           <DeliveryMethods control={control} errors={errors} />
         )}
         <PaymentMethod control={control} />
