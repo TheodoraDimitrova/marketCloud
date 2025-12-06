@@ -11,7 +11,7 @@ const getCategory = async (slug: string): Promise<Category | null> => {
     return category;
   } catch (error) {
     console.error("Error fetching category:", error);
-    return null;
+    throw error;
   }
 };
 
@@ -24,7 +24,7 @@ const getProductsByCategory = async (
     return products;
   } catch (error) {
     console.error("Error fetching products by category:", error);
-    return [];
+    throw error;
   }
 };
 

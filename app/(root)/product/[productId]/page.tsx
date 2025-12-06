@@ -11,7 +11,7 @@ const getProduct = async (slug: string): Promise<Product | null> => {
     return product;
   } catch (error) {
     console.error("Error fetching product:", error);
-    return null;
+    throw error;
   }
 };
 

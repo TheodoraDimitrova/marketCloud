@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface BannerProps {
   title: string;
@@ -7,23 +8,24 @@ interface BannerProps {
 }
 
 export const Banner = ({ title, subtitle, backgroundImage }: BannerProps) => {
-  const textColor = backgroundImage ? "text-white" : "text-black";
-  const containerHeight = backgroundImage ? "h-64" : "h-16";
-
   return (
-    <div
-      className={`relative flex-center flex-col w-full ${containerHeight} text-white text-center p-5 ${
-        backgroundImage ? "bg-cover bg-center" : "bg-white"
-      }`}
-      style={
-        backgroundImage ? { backgroundImage: `url(${backgroundImage})` } : {}
-      }
-    >
+    <div className="relative flex-center flex-col w-full h-64 text-white text-center p-5 overflow-hidden">
       {backgroundImage && (
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <>
+          <Image
+            src={backgroundImage}
+            alt={title}
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority
+            quality={85}
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        </>
       )}
 
-      <div className={`relative z-10 ${textColor}`}>
+      <div className="relative z-10 text-white">
         <h1>{title}</h1>
         {subtitle && <p className="text-lg md:text-xl mt-2">{subtitle}</p>}
       </div>

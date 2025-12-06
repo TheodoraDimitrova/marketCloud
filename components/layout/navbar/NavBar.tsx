@@ -78,7 +78,7 @@ const NavBar = () => {
         <div className="flex items-center ">
           <div className="flex md:hidden items-center space-x-1 md:space-x-4">
             <AlignJustify onClick={() => setIsMobileMenuOpen(true)} />
-            <Search onClick={() => router.push("/search")} />
+            <Search onClick={() => router.push("/products")} />
           </div>
 
           <div>
@@ -101,7 +101,7 @@ const NavBar = () => {
 
         <div className="z-2 flex items-center space-x-1 md:space-x-4 md:w-full md:justify-end lg:w-auto">
           <Search
-            onClick={() => router.push("/search")}
+            onClick={() => router.push("/products")}
             className="hidden md:inline-flex cursor-pointer"
           />
 

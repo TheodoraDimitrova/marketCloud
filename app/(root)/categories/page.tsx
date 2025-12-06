@@ -12,7 +12,7 @@ const getCategories = async (): Promise<Category[]> => {
     }`);
   } catch (error) {
     console.error("Error fetching categories:", error);
-    return [];
+    throw error;
   }
 };
 

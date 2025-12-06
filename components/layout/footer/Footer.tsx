@@ -14,7 +14,7 @@ const Footer = () => {
     { href: "/our-blog", text: "Our blog" },
     { href: "/about-us", text: "About Us" },
     { href: "/customer-help", text: "FAQs" },
-    { href: "/search", text: "Search" },
+    { href: "/products", text: "Search" },
   ];
 
   const shopLinks = [

@@ -14,7 +14,7 @@ const getProducts = async () => {
     return await client.fetch(`*[_type == "product"]`);
   } catch (error) {
     console.error("Error fetching products:", error);
-    return [];
+    throw error;
   }
 };
 
@@ -26,7 +26,7 @@ const getCategories = async () => {
     }`);
   } catch (error) {
     console.error("Error fetching categories:", error);
-    return [];
+    throw error;
   }
 };
 
