@@ -1,19 +1,19 @@
 "use client";
 import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
+import { useEffect } from "react";
 import { store, persistor } from "./store";
-import { Loading } from "@/components/ui/Loading";
 
 export default function ReduxProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <Provider store={store}>
-      <PersistGate loading={<Loading />} persistor={persistor}>
-        {children}
-      </PersistGate>
-    </Provider>
-  );
+  useEffect(() => {
+    if (persistor && typeof window !== "undefined") {
+      const unsubscribe = persistor.subscribe(() => {});
+      return () => unsubscribe();
+    }
+  }, []);
+
+  return <Provider store={store}>{children}</Provider>;
 }
