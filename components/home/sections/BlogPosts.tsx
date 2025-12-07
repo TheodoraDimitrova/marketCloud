@@ -6,7 +6,7 @@ const BlogPosts = () => {
   const posts = [
     {
       imageUrl: "/images/post1.png",
-      link: "/article1",
+      link: "/our-blog",
       title: "Day vs. Night Makeup: Tips for Every Look",
       text: "Makeup transforms your look, but choosing the right style for day or night is key. Discover how to create a fresh, natural day look and elevate it with drama for evening events. Get inspired by the latest trends and must-have products!",
       author: "Beauty Maven",
@@ -14,7 +14,7 @@ const BlogPosts = () => {
     },
     {
       imageUrl: "/images/post2.png",
-      link: "/hair-products",
+      link: "/our-blog",
       title: "Top Hair Products for Healthy, Gorgeous Locks",
       text: "Your hair deserves the best care, whether you're fighting frizz, adding volume, or restoring moisture. In this post, we dive into the must-have hair products that deliver salon-quality results at home",
       author: "Clean Canvas",
@@ -23,7 +23,7 @@ const BlogPosts = () => {
     },
     {
       imageUrl: "/images/post3.png",
-      link: "/makeup-brushes",
+      link: "/our-blog",
       title: "The Ultimate Guide to Must-Have Makeup Brushes",
       text: "The right makeup brushes can make all the difference in achieving a flawless look. From foundation blending to precise eyeliner application, discover the essential brushes every beauty lover needs in their collection. We'll share tips for choosing, using, and caring for your brushes to elevate your makeup game!",
       author: "Adora Cosmetics",

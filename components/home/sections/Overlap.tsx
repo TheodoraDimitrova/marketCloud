@@ -44,7 +44,7 @@ const Overlap = () => {
             glamorous evening elegance, we’ve got you covered.
           </p>
           <div className="flex flex-col space-y-4 md:items-start items-center">
-            <Link href="/learn-more " className="link underline">
+            <Link href="/our-blog" className="link underline">
               Learn more
             </Link>
             <Button asChild className="w-60">
