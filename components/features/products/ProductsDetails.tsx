@@ -1,11 +1,12 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, Suspense } from "react";
 import { Banner } from "@/components/ui/Banner";
 import FilteredProductList from "@/components/features/products/FilteredProductList";
 import SearchBar from "@/components/shared/common/SearchBar";
 import CategoriesCarousel from "@/components/features/categories/categoriesCarousel/CategoriesCarousel";
 import { Product } from "@/types/product";
 import { useDebounce } from "@/hooks/useDebounce";
+import { Loading } from "@/components/ui/Loading";
 
 interface ProductsDetailsProps {
   products: Product[];
@@ -36,7 +37,9 @@ const ProductsDetails = ({ products }: ProductsDetailsProps) => {
           setSearchTerm(searchTerm);
         }}
       />
-      <FilteredProductList products={filteredProducts} />
+      <Suspense fallback={<Loading />}>
+        <FilteredProductList products={filteredProducts} />
+      </Suspense>
       <CategoriesCarousel />
     </>
   );
