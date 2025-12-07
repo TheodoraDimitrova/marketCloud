@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Product } from "@/types/product";
+import { normalizeError } from "../utils/errorUtils";
 
 type ProductState = {
   products: Product[];
@@ -17,28 +18,23 @@ const initialState: ProductState = {
   error: null,
 };
 
-const handleError = (error: unknown): string => {
-  if (error instanceof Error) {
-    return error.message;
-  }
-  return "An unknown error occurred";
-};
-
 export const fetchAllProducts = createAsyncThunk(
   "products/fetchAllProducts",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await fetch("/api/products");
+      const response = await fetch("/api/products");
 
-      if (!res.ok) {
-        const errorData = await res.json();
-        return rejectWithValue(errorData.message || "Failed to fetch products");
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(
+          normalizeError(errorData.message || "Failed to fetch products")
+        );
       }
 
-      const products = await res.json();
+      const products = await response.json();
       return products;
     } catch (error) {
-      return rejectWithValue(handleError(error));
+      return rejectWithValue(normalizeError(error));
     }
   }
 );
@@ -52,14 +48,16 @@ export const fetchProductsByCategory = createAsyncThunk(
       if (!res.ok) {
         const errorData = await res.json();
         return rejectWithValue(
-          errorData.message || "Failed to fetch products by category"
+          normalizeError(
+            errorData.message || "Failed to fetch products by category"
+          )
         );
       }
 
       const filteredProducts = await res.json();
       return filteredProducts;
     } catch (error) {
-      return rejectWithValue(handleError(error));
+      return rejectWithValue(normalizeError(error));
     }
   }
 );
@@ -89,7 +87,7 @@ const productSlice = createSlice({
       })
       .addCase(fetchAllProducts.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload as string;
+        state.error = (action.payload as string) || "Failed to fetch products";
       })
       .addCase(fetchProductsByCategory.pending, (state) => {
         state.status = "loading";
@@ -100,7 +98,8 @@ const productSlice = createSlice({
       })
       .addCase(fetchProductsByCategory.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload as string;
+        state.error =
+          (action.payload as string) || "Failed to fetch products by category";
       });
   },
 });

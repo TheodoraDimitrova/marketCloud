@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 
@@ -24,14 +25,19 @@ const OurWorldDropdown = () => {
         </div>
       </div>
 
-      <div className="hidden md:block absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-[#f2979c] to-transparent transition-all duration-700 ease-in-out"></div>
+      <div className="hidden md:block absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-[#f2979c] to-transparent transition-all duration-700 ease-in-out z-10"></div>
 
-      <div
-        className="w-full md:w-1/2 bg-cover bg-center h-64 md:h-full"
-        style={{
-          backgroundImage: "url('/images/makeup.png')",
-        }}
-      ></div>
+      <div className="relative w-full md:w-1/2 h-64 md:h-full">
+        <Image
+          src="/images/makeup.png"
+          alt="Makeup"
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          priority
+          quality={85}
+        />
+      </div>
     </div>
   );
 };

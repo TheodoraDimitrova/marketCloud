@@ -33,6 +33,9 @@ const HeroSlider = () => {
             alt="Slide 1"
             className="object-cover"
             fill={true}
+            priority
+            sizes="100vw"
+            quality={85}
           />
 
           <div className="absolute inset-0 flex items-center justify-center">
