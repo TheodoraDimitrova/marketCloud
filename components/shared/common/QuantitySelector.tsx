@@ -3,7 +3,6 @@ import { Minus, Plus } from "lucide-react";
 interface QuantitySelectorProps {
   quantity: number;
   updateQuantity: (amount: number) => void;
-  minValue?: number;
 }
 
 const QuantitySelector = ({
@@ -22,8 +21,6 @@ const QuantitySelector = ({
         value={quantity}
         readOnly
         className="w-12 text-center "
-        min={1}
-        max={500}
         aria-label="Quantity"
       />
 
