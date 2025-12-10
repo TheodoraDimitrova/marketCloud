@@ -46,7 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${lato.variable} antialiased`}>
+      <body className={`${lato.variable} antialiased`} suppressHydrationWarning>
         <ReduxProvider>{children}</ReduxProvider>
       </body>
     </html>

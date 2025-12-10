@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/Button";
 import Image from "next/image";
 import QuantitySelector from "@/components/shared/common/QuantitySelector";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import ListTags from "@/components/shared/tags/ListTags";
 import Rating from "@/components/shared/common/Rating";
 import DiscountBannerProduct from "@/components/features/products/DiscountBannerProduct";
@@ -23,6 +23,16 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
   const { quantity, handleUpdateQuantity, handleAddToCart } =
     useProductCart(product);
 
+  // Memoize image URLs to prevent unnecessary recalculations
+  const primaryImageUrl = useMemo(
+    () => urlFor(product.images[0]),
+    [product.images]
+  );
+  const secondaryImageUrl = useMemo(
+    () => (product.images[1] ? urlFor(product.images[1]) : primaryImageUrl),
+    [product.images, primaryImageUrl]
+  );
+
   //save product details to redux store
   useEffect(() => {
     dispatch(setProductDetails(product));
@@ -33,20 +43,15 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
       {/* left side */}
       <div className="flex justify-center place-items-start p-4 md:p-0">
         <Image
-          src={
-            hovered
-              ? product.images[1]
-                ? urlFor(product.images[1])
-                : urlFor(product.images[0])
-              : urlFor(product.images[0])
-          }
+          src={hovered ? secondaryImageUrl : primaryImageUrl}
           alt={product.name}
           width={200}
           height={250}
           style={{ width: "auto", height: "auto" }}
-          sizes="(max-width: 768px) 100vw, (min-width: 1600px) 25wv, 100vw"
+          sizes="(max-width: 768px) 100vw, (min-width: 1600px) 50vw, 100vw"
           className="rounded-[10px] shadow-lg h-[350px]"
-          priority
+          // priority
+          // quality={85}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
         />

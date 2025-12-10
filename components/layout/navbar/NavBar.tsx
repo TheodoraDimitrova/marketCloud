@@ -3,6 +3,7 @@
 import { ShoppingBag, Search, User, AlignJustify } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import HeaderLinks from "./HeaderLinks";
 import MobileMenu from "./MobileMenu";
 import CartDrawer from "@/components/features/cart/CartDrawer";
@@ -26,8 +27,23 @@ const NavBar = () => {
     handleMouseLeave,
   } = useNavbarState();
 
-  const isScrolledDown = useScrollPosition(10);
   const cartItems = useAppSelector((state) => state.cart.items);
+  const [isMounted, setIsMounted] = useState(false);
+  const [isScrolledDown, setIsScrolledDown] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+
+    // Initialize scroll position after mount to prevent hydration mismatch
+    setIsScrolledDown(window.scrollY > 10);
+
+    const handleScroll = () => {
+      setIsScrolledDown(window.scrollY > 10);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -69,6 +85,7 @@ const NavBar = () => {
               top: "0",
             }
       }
+      suppressHydrationWarning
       onMouseEnter={() => isHomePage && handleMouseEnter()}
       onMouseLeave={handleMouseLeave}
     >
@@ -107,7 +124,7 @@ const NavBar = () => {
 
           <button onClick={() => setIsCartOpen(true)} className="relative">
             <ShoppingBag size={24} />
-            {cartItems.length > 0 && (
+            {isMounted && cartItems.length > 0 && (
               <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                 {cartItems.length}
               </span>

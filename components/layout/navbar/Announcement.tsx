@@ -1,12 +1,13 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import SocialIcons from "@/components/shared/icons/SocialIcons";
 
 const Announcement = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isInitialMount = useRef(true);
 
   const announcements = [
     {
@@ -28,6 +29,11 @@ const Announcement = () => {
   const currentAnnouncement = announcements[currentIndex];
 
   useEffect(() => {
+    // Mark that initial mount is complete after first render
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    }
+
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % announcements.length);
     }, 3000);
@@ -36,7 +42,8 @@ const Announcement = () => {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
+  // Use useLayoutEffect to update height synchronously before paint
+  useLayoutEffect(() => {
     const updateHeight = () => {
       if (containerRef.current) {
         const height = containerRef.current.clientHeight;
@@ -47,11 +54,20 @@ const Announcement = () => {
       }
     };
 
+    // Update height immediately
     updateHeight();
-    window.addEventListener("resize", updateHeight);
+
+    // Use ResizeObserver for better performance than resize event
+    const resizeObserver = new ResizeObserver(() => {
+      updateHeight();
+    });
+
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
 
     return () => {
-      window.removeEventListener("resize", updateHeight);
+      resizeObserver.disconnect();
     };
   }, [currentIndex]);
 
@@ -68,7 +84,7 @@ const Announcement = () => {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
-            initial={{ opacity: 0, y: 50 }}
+            initial={isInitialMount.current ? false : { opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
             transition={{ duration: 0.5 }}

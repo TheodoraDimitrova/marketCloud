@@ -8,7 +8,7 @@ import FreeShippingBanner from "@/components/features/cart/FreeShippingBanner";
 import EmptyShoppingCart from "@/components/features/cart/EmptyShoppingCart";
 import QuantitySelector from "@/components/shared/common/QuantitySelector";
 import { updateItemQuantity } from "@/store/slices/cartSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import PriceDisplay from "@/components/shared/common/PriceDisplay";
@@ -25,6 +25,11 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
   const subtotal = useAppSelector((state) => state.cart.subtotal);
   const dispatch = useAppDispatch();
   const pathname = usePathname();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     // Close drawer when navigating to cart/checkout pages
@@ -63,11 +68,13 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
       >
         {/* Header */}
         <div className="flex items-center p-4">
-          {cartItems.length > 0 && <p>Your cart ({cartItems.length})</p>}
+          {isMounted && cartItems.length > 0 && (
+            <p>Your cart ({cartItems.length})</p>
+          )}
           <X size={24} onClick={onClose} className="ml-auto cursor-pointer" />
         </div>
 
-        {cartItems.length === 0 ? (
+        {!isMounted || cartItems.length === 0 ? (
           <EmptyShoppingCart />
         ) : (
           <>

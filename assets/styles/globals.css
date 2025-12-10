@@ -13,6 +13,11 @@
 }
 
 @layer base {
+  :root {
+    /* Initial announcement height - will be updated by JavaScript */
+    --announcement-height: 40px;
+  }
+
   h1 {
     @apply text-3xl sm:text-4xl mb-5 font-light;
   }

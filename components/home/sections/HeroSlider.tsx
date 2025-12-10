@@ -7,16 +7,22 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 
 const HeroSlider = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [hasMounted, setHasMounted] = useState(false);
 
   const handleSlideChange = (swiper: SwiperClass) => {
     setActiveIndex(swiper.activeIndex);
   };
+
+  useEffect(() => {
+    // Mark that initial mount is complete after first render
+    setHasMounted(true);
+  }, []);
   return (
     <Swiper
       modules={[Pagination, Autoplay]}
@@ -44,10 +50,18 @@ const HeroSlider = () => {
                 <AnimatePresence>
                   <motion.div
                     key={`text1-${activeIndex}`}
-                    initial={{ opacity: 0, y: 100 }}
+                    initial={
+                      !hasMounted && activeIndex === 0
+                        ? { y: 80 }
+                        : { opacity: 0, y: 100 }
+                    }
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
-                    transition={{ duration: 0.9 }}
+                    transition={{
+                      duration: !hasMounted && activeIndex === 0 ? 0.6 : 0.9,
+                      delay: !hasMounted && activeIndex === 0 ? 0 : 0,
+                      ease: "easeOut",
+                    }}
                     className="text-sm font-light uppercase"
                   >
                     new new new
@@ -55,10 +69,18 @@ const HeroSlider = () => {
 
                   <motion.div
                     key={`text2-${activeIndex}`}
-                    initial={{ opacity: 0, y: 100 }}
+                    initial={
+                      !hasMounted && activeIndex === 0
+                        ? { y: 80 }
+                        : { opacity: 0, y: 100 }
+                    }
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
-                    transition={{ duration: 0.9, delay: 0.3 }}
+                    transition={{
+                      duration: !hasMounted && activeIndex === 0 ? 0.6 : 0.9,
+                      delay: !hasMounted && activeIndex === 0 ? 0.1 : 0.3,
+                      ease: "easeOut",
+                    }}
                     className="text-4xl md:text-6xl text-right max-w-md"
                   >
                     Discover Our Collection
@@ -66,10 +88,18 @@ const HeroSlider = () => {
 
                   <motion.div
                     key={`text3-${activeIndex}`}
-                    initial={{ opacity: 0, y: 100 }}
+                    initial={
+                      !hasMounted && activeIndex === 0
+                        ? { y: 80 }
+                        : { opacity: 0, y: 100 }
+                    }
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
-                    transition={{ duration: 0.9, delay: 0.6 }}
+                    transition={{
+                      duration: !hasMounted && activeIndex === 0 ? 0.6 : 0.9,
+                      delay: !hasMounted && activeIndex === 0 ? 0.2 : 0.6,
+                      ease: "easeOut",
+                    }}
                     className="text-lg max-w-m"
                   >
                     <p>Be the first to shop the drop</p>
@@ -77,10 +107,18 @@ const HeroSlider = () => {
 
                   <motion.div
                     key={`text4-${activeIndex}`}
-                    initial={{ opacity: 0, y: 100 }}
+                    initial={
+                      !hasMounted && activeIndex === 0
+                        ? { y: 80 }
+                        : { opacity: 0, y: 100 }
+                    }
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
-                    transition={{ duration: 0.9, delay: 0.9 }}
+                    transition={{
+                      duration: !hasMounted && activeIndex === 0 ? 0.6 : 0.9,
+                      delay: !hasMounted && activeIndex === 0 ? 0.3 : 0.9,
+                      ease: "easeOut",
+                    }}
                     className="text-lg max-w-m"
                   >
                     <div className="flex flex-col md:flex-row space-x-0 md:space-x-4 mt-4 w-full">
