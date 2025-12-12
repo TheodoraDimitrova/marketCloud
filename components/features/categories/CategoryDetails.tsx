@@ -2,7 +2,6 @@
 import { useState, useMemo } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Banner } from "@/components/ui/Banner";
-import { urlFor } from "@/sanity/lib/image";
 import FilteredProductList from "@/components/features/products/FilteredProductList";
 import SearchBar from "@/components/shared/common/SearchBar";
 import { Category } from "@/types/category";
@@ -14,9 +13,14 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 interface CategoryDetailsProps {
   category: Category;
   products: Product[];
+  categoryImageUrl?: string; // Optional, защото може да няма изображение
 }
 
-const CategoryDetails = ({ category, products }: CategoryDetailsProps) => {
+const CategoryDetails = ({
+  category,
+  products,
+  categoryImageUrl,
+}: CategoryDetailsProps) => {
   const dispatch = useAppDispatch();
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
@@ -45,7 +49,7 @@ const CategoryDetails = ({ category, products }: CategoryDetailsProps) => {
       <Banner
         title={category.name}
         subtitle={category.description}
-        backgroundImage={urlFor(category.image)}
+        backgroundImage={categoryImageUrl}
       />
       <SearchBar
         onSearch={(searchTerm) => {

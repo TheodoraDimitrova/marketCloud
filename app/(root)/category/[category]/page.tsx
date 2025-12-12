@@ -3,6 +3,7 @@ import client from "@/sanity/lib/client";
 import CategoryDetails from "@/components/features/categories/CategoryDetails";
 import { Category } from "@/types/category";
 import { Product } from "@/types/product";
+import { urlFor } from "@/sanity/lib/image";
 
 const getCategory = async (slug: string): Promise<Category | null> => {
   try {
@@ -45,7 +46,18 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
 
   const products = await getProductsByCategory(categoryData._id);
 
-  return <CategoryDetails category={categoryData} products={products} />;
+  // Generate image URL on server
+  const categoryImageUrl = categoryData.image
+    ? urlFor(categoryData.image)
+    : undefined;
+
+  return (
+    <CategoryDetails
+      category={categoryData}
+      products={products}
+      categoryImageUrl={categoryImageUrl}
+    />
+  );
 };
 
 export default CategoryPage;

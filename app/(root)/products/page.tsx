@@ -35,7 +35,10 @@ const ProductsPage = async () => {
   if (!products || products.length === 0) {
     return (
       <>
-        <HydrateProductsAndCategories products={[]} categories={categories} />
+        <HydrateProductsAndCategories
+          products={products}
+          categories={categories}
+        />
         <Banner title="Adora Cosmetics" backgroundImage="/images/bg1.png" />
         <div className="container mx-auto p-6 text-center">
           <p className="text-lg text-gray-700">

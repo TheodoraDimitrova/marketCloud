@@ -1,23 +1,40 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UtilityBar from "@/components/features/products/UtilityBar";
 import SectionFilters from "@/components/shared/filters/index";
 import ProductCard from "@/components/features/products/ProductCard";
 import Link from "next/link";
 import { Product } from "@/types/product";
 import { useProductFilters } from "@/hooks/useProductFilters";
+import { Button } from "@/components/ui/Button";
 
 interface FilteredProductListProps {
   products: Product[];
 }
+
+const ITEMS_PER_PAGE = 18;
+const LOAD_MORE_INCREMENT = 6;
 
 const FilteredProductList = ({ products }: FilteredProductListProps) => {
   const filteredProducts = useProductFilters(products);
 
   const [showFilters, setShowFilters] = useState(false);
   const [appliedFiltersCount, setAppliedFiltersCount] = useState(0);
+  const [displayedCount, setDisplayedCount] = useState(ITEMS_PER_PAGE);
 
   const toggleFilters = () => setShowFilters((prev) => !prev);
+
+  // Reset displayed count when filters change
+  useEffect(() => {
+    setDisplayedCount(ITEMS_PER_PAGE);
+  }, [filteredProducts.length]);
+
+  const displayedProducts = filteredProducts.slice(0, displayedCount);
+  const hasMore = displayedCount < filteredProducts.length;
+
+  const handleLoadMore = () => {
+    setDisplayedCount((prev) => prev + LOAD_MORE_INCREMENT);
+  };
 
   return (
     <div>
@@ -44,19 +61,30 @@ const FilteredProductList = ({ products }: FilteredProductListProps) => {
         </>
 
         {/* Product List */}
-        <div className="grid  w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:gap-4 p-10 lg:gap-y-8 justify-items-center align-items-start">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))
-          ) : (
-            <div className="flex-center flex-col space-y-4">
-              <p className="text-lg text-gray-700">
-                Sorry, no products are available right now.
-              </p>
-              <Link href="/" className="underline text-red-500 w-full flex">
-                <p>Go To Home Page</p>
-              </Link>
+        <div className="w-full">
+          <div className="grid  w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:gap-4 p-10 lg:gap-y-8 justify-items-center align-items-start">
+            {displayedProducts.length > 0 ? (
+              displayedProducts.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))
+            ) : (
+              <div className="flex-center flex-col space-y-4">
+                <p className="text-lg text-gray-700">
+                  Sorry, no products are available right now.
+                </p>
+                <Link href="/" className="underline text-red-500 w-full flex">
+                  <p>Go To Home Page</p>
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Load More Button */}
+          {hasMore && (
+            <div className="flex justify-center py-8">
+              <Button onClick={handleLoadMore} variant="default">
+                Load More Products
+              </Button>
             </div>
           )}
         </div>
