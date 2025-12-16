@@ -7,6 +7,7 @@ import { CartItem } from "@/lib/types/cart";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import PriceDisplay from "@/components/shared/common/PriceDisplay";
 import CartItemPrice from "@/components/shared/cart/CartItemPrice";
+import { FREE_SHIPPING_THRESHOLD } from "@/lib/constants";
 
 const OrderSummary = () => {
   const cartItems: CartItem[] = useAppSelector((state) => state.cart.items);
@@ -19,7 +20,7 @@ const OrderSummary = () => {
     return <Loading />;
   }
 
-  const effectiveShippingFee = subtotal >= 60 ? 0 : shipping.cost;
+  const effectiveShippingFee = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : shipping.cost;
 
   return (
     <div className=" md:min-w-[280px] md:w-auto p-2 sm:p-4 md:p-6 bg-gray-100 rounded-md shadow-md mt-10 md:mt-0">
@@ -45,7 +46,7 @@ const OrderSummary = () => {
       <div className="flex justify-between mt-0 text-sm">
         <span>Shipping Fее:</span>
 
-        {subtotal >= 60 ? (
+        {subtotal >= FREE_SHIPPING_THRESHOLD ? (
           <span>Free</span>
         ) : (
           <span>

@@ -9,3 +9,6 @@ export const COUNTRIES = [
   { value: "gr", code: "GR", label: "Greece" },
   { value: "bg", code: "BG", label: "Bulgaria" },
 ] as const;
+
+// Free shipping threshold
+export const FREE_SHIPPING_THRESHOLD = 60;

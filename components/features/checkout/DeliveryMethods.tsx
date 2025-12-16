@@ -6,6 +6,7 @@ import { Controller, Control, FieldErrors } from "react-hook-form";
 import { FormValues } from "@/lib/types/formValues";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
+import { FREE_SHIPPING_THRESHOLD } from "@/lib/constants";
 
 interface DeliveryMethodsProps {
   control: Control<FormValues>;
@@ -26,7 +27,8 @@ const DeliveryMethods = ({ control, errors }: DeliveryMethodsProps) => {
     const selectedMethod = deliveryMethods.find((m) => m.value === value);
 
     if (selectedMethod) {
-      const deliveryCost = cart.subtotal >= 60 ? 0 : selectedMethod.cost;
+      const deliveryCost =
+        cart.subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : selectedMethod.cost;
       dispatch(
         setDeliveryMethod({
           method: selectedMethod.value,
