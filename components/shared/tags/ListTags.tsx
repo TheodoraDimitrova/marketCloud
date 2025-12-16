@@ -1,6 +1,6 @@
 import React from "react";
 import Tag from "./Tag";
-import { Tag as TagType } from "@/types/product";
+import { Tag as TagType } from "@/lib/types/product";
 
 interface ListTagsProps {
   tags: TagType[];

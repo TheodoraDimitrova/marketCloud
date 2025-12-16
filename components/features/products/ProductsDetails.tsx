@@ -4,7 +4,7 @@ import { Banner } from "@/components/ui/Banner";
 import FilteredProductList from "@/components/features/products/FilteredProductList";
 import SearchBar from "@/components/shared/common/SearchBar";
 import CategoriesCarousel from "@/components/features/categories/categoriesCarousel/CategoriesCarousel";
-import { Product } from "@/types/product";
+import { Product } from "@/lib/types/product";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Loading } from "@/components/ui/Loading";
 

@@ -1,4 +1,4 @@
-import { Product } from "@/types/product";
+import { Product } from "@/lib/types/product";
 import { useAppDispatch } from "./useAppDispatch";
 import { addToCart } from "@/store/slices/cartSlice";
 import { useState } from "react";

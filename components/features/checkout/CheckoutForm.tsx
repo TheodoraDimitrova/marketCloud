@@ -9,7 +9,7 @@ import FormField from "@/components/ui/forms/formField/FormField";
 import PaymentMethod from "@/components/features/checkout/PaymentMethod";
 import CountrySelect from "@/components/ui/forms/CountrySelect";
 import validationRules from "@/lib/validationRulesCheckout";
-import { FormValues } from "@/types/formValues";
+import { FormValues } from "@/lib/types/formValues";
 import { useCheckout } from "@/hooks/useCheckout";
 import { useEffect, useCallback, useMemo } from "react";
 import { Input } from "@/components/ui/forms/input";

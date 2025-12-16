@@ -10,7 +10,7 @@ import {
   SelectItem,
 } from "@/components/ui/forms/select";
 import { COUNTRIES } from "@/lib/constants";
-import { FormValues } from "@/types/formValues";
+import { FormValues } from "@/lib/types/formValues";
 
 interface CountrySelectProps {
   control: Control<FormValues>;

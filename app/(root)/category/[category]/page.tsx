@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import client from "@/sanity/lib/client";
 import CategoryDetails from "@/components/features/categories/CategoryDetails";
-import { Category } from "@/types/category";
-import { Product } from "@/types/product";
+import { Category } from "@/lib/types/category";
+import { Product } from "@/lib/types/product";
 import { urlFor } from "@/sanity/lib/image";
 
 const getCategory = async (slug: string): Promise<Category | null> => {

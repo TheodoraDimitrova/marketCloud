@@ -1,5 +1,5 @@
 import { RegisterOptions } from "react-hook-form";
-import { FormValues } from "@/types/formValues";
+import { FormValues } from "@/lib/types/formValues";
 
 const validationRules: Record<keyof FormValues, RegisterOptions<FormValues>> = {
   contact: {
@@ -43,7 +43,7 @@ const validationRules: Record<keyof FormValues, RegisterOptions<FormValues>> = {
     },
   },
   subscribed: {
-    required: false, 
+    required: false,
   },
   country: {
     required: "Country is required",

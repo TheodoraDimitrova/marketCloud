@@ -1,14 +1,13 @@
-import clientBackend from '@/sanity/lib/clientBackend'
-import { NextRequest, NextResponse } from 'next/server';
-import { CartItem } from '@/types/cart';
-
+import clientBackend from "@/sanity/lib/clientBackend";
+import { NextRequest, NextResponse } from "next/server";
+import { CartItem } from "@/lib/types/cart";
 
 export async function POST(req: NextRequest) {
   try {
-    const orderData = await req.json(); 
-  
+    const orderData = await req.json();
+
     const createdOrder = await clientBackend.create({
-      _type: 'order',
+      _type: "order",
       contact: orderData.contact,
       subscribed: orderData.subscribed,
       country: orderData.country,
@@ -21,15 +20,15 @@ export async function POST(req: NextRequest) {
       paymentMethod: orderData.paymentMethod,
       cart: orderData.cart.map((item: CartItem, index: number) => ({
         name: item.name,
-        _key: `cartItem-${Date.now()}-${index}`, 
-        _type: 'cartItem',
-        images: [item.images[0]], 
+        _key: `cartItem-${Date.now()}-${index}`,
+        _type: "cartItem",
+        images: [item.images[0]],
         quantity: item.quantity,
         price: item.price,
         discountedPrice: item.discountedPrice,
         subtotalSingleProduct: item.subtotalSingleProduct,
         totalPrice: item.totalPrice,
-        discount: item.discount,  
+        discount: item.discount,
       })),
       subtotal: orderData.subtotal,
       totalSavings: orderData.totalSavings,
@@ -37,9 +36,15 @@ export async function POST(req: NextRequest) {
       shipping: orderData.shipping,
       status: orderData.status,
     });
-    return NextResponse.json({ message: 'Order created successfully', createdOrder });
+    return NextResponse.json({
+      message: "Order created successfully",
+      createdOrder,
+    });
   } catch (error) {
-    console.error('Error:', error);
-    return NextResponse.json({ message: 'Error creating order', error }, { status: 500 });
+    console.error("Error:", error);
+    return NextResponse.json(
+      { message: "Error creating order", error },
+      { status: 500 }
+    );
   }
 }

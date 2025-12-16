@@ -4,7 +4,7 @@ import UtilityBar from "@/components/features/products/UtilityBar";
 import SectionFilters from "@/components/shared/filters/index";
 import ProductCard from "@/components/features/products/ProductCard";
 import Link from "next/link";
-import { Product } from "@/types/product";
+import { Product } from "@/lib/types/product";
 import { useProductFilters } from "@/hooks/useProductFilters";
 import { Button } from "@/components/ui/Button";
 

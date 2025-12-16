@@ -4,7 +4,7 @@ import ImgOverlayText from "@/components/home/sections/ImgOverlayText";
 import { Carousel } from "@/components/ui/Carousel";
 import { urlFor } from "@/sanity/lib/image";
 import { Loading } from "@/components/ui/Loading";
-import { Category } from "@/types/category";
+import { Category } from "@/lib/types/category";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
 

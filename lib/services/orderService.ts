@@ -1,6 +1,6 @@
-import { FormValues } from "@/types/formValues";
-import { CartItem, CartState } from "@/types/cart";
-import { Order } from "@/types/order";
+import { FormValues } from "@/lib/types/formValues";
+import { CartItem, CartState } from "@/lib/types/cart";
+import { Order } from "@/lib/types/order";
 
 /**
  * Prepares order data by combining form values with cart information

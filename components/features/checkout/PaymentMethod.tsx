@@ -1,7 +1,7 @@
 import React from "react";
 import { Controller } from "react-hook-form";
 import PaymentDetails from "@/components/features/checkout/PaymentDetails";
-import { FormValues } from "@/types/formValues";
+import { FormValues } from "@/lib/types/formValues";
 import { Control } from "react-hook-form";
 
 interface PaymentMethodProps {

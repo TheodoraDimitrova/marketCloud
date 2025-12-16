@@ -4,7 +4,7 @@ import {
   calculateSubtotal,
   calculateTotalSavings,
 } from "@/lib/calculateCheckout";
-import { CartItem, CartState } from "@/types/cart";
+import { CartItem, CartState } from "@/lib/types/cart";
 
 const initialState: CartState = {
   items: [],

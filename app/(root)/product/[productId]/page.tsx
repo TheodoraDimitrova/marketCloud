@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import client from "@/sanity/lib/client";
 import ProductDetails from "@/components/features/products/ProductDetails";
-import { Product } from "@/types/product";
+import { Product } from "@/lib/types/product";
 import { urlFor } from "@/sanity/lib/image";
 
 const getProduct = async (slug: string): Promise<Product | null> => {

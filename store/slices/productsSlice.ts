@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { Product } from "@/types/product";
+import { Product } from "@/lib/types/product";
 import { normalizeError } from "../utils/errorUtils";
 
 type ProductState = {

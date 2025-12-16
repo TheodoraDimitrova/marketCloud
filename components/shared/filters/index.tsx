@@ -8,7 +8,7 @@ import FilterPrice from "./FilterPrice";
 import CollapsibleFilter from "./CollapsibleFilter";
 import AppliedFilters from "./AppliedFilters";
 
-import { Product } from "@/types/product";
+import { Product } from "@/lib/types/product";
 
 type FilterType = "priceRange" | "brands" | "discounts";
 

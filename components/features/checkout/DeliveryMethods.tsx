@@ -3,7 +3,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/forms/radio-group";
 import { Label } from "@/components/ui/Label";
 import { setDeliveryMethod } from "@/store/slices/cartSlice";
 import { Controller, Control, FieldErrors } from "react-hook-form";
-import { FormValues } from "@/types/formValues";
+import { FormValues } from "@/lib/types/formValues";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 

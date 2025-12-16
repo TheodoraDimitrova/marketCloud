@@ -8,7 +8,7 @@ import { Loading } from "@/components/ui/Loading";
 import OrderSummary from "@/components/features/checkout/OrderSummary";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
-import { Order } from "@/types/order";
+import { Order } from "@/lib/types/order";
 import { clearOrder } from "@/store/slices/orderSlice";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useAppDispatch } from "@/hooks/useAppDispatch";

@@ -1,4 +1,4 @@
-import { Product } from "@/types/product";
+import { Product } from "@/lib/types/product";
 
 // Helper function to normalize tag labels to uppercase
 const normalizeToUpperCase = (str: string): string => {

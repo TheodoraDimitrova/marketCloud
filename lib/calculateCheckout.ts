@@ -1,4 +1,4 @@
-import { CartItem } from "@/types/cart";
+import { CartItem } from "@/lib/types/cart";
 
 export const calculateDiscountedPrice = (item: CartItem): number => {
   if (!item.discount?.isActive) return item.price;

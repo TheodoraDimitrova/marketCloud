@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { Order } from "@/types/order";
+import { Order } from "@/lib/types/order";
 import { normalizeError } from "../utils/errorUtils";
 
 interface OrderState {

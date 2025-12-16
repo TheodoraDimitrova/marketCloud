@@ -5,8 +5,8 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { setProducts } from "@/store/slices/productsSlice";
 import { setCategories } from "@/store/slices/categorySlice";
-import { Product } from "@/types/product";
-import { Category } from "@/types/category";
+import { Product } from "@/lib/types/product";
+import { Category } from "@/lib/types/category";
 
 interface HydrateProps {
   products: Product[];

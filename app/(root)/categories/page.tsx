@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
-import { Category } from "@/types/category";
+import { Category } from "@/lib/types/category";
 import client from "@/sanity/lib/client";
 
 const getCategories = async (): Promise<Category[]> => {

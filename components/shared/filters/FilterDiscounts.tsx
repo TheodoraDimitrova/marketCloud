@@ -1,7 +1,7 @@
 "use client";
 import { useMemo } from "react";
 import { Checkbox } from "@/components/ui/forms/checkbox";
-import { Product } from "@/types/product";
+import { Product } from "@/lib/types/product";
 
 const normalizeToUpperCase = (str: string): string => {
   return str.trim().toUpperCase();

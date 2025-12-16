@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import PriceDisplay from "@/components/shared/common/PriceDisplay";
 
 interface FilterPriceProps {
   onChange: (priceRange: [number, number]) => void;
@@ -82,8 +83,12 @@ const FilterPrice = ({ onChange, priceRange }: FilterPriceProps) => {
       </div>
 
       <div className="flex justify-between text-sm mt-2">
-        <span>€{minPrice}</span>
-        <span>€{maxPrice}</span>
+        <span>
+          <PriceDisplay price={minPrice} />
+        </span>
+        <span>
+          <PriceDisplay price={maxPrice} />
+        </span>
       </div>
     </div>
   );

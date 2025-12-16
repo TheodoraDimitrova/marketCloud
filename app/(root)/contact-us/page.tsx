@@ -1,7 +1,5 @@
-"use client";
 import React from "react";
 import Image from "next/image";
-import Head from "next/head";
 import { Banner } from "@/components/ui/Banner";
 import Marquee from "@/components/features/contact/Marquee";
 import StoreInfo from "@/components/features/contact/StoreInfo";
@@ -10,14 +8,6 @@ import ContactForm from "@/components/features/contact/ContactForm";
 const ContactPage = () => {
   return (
     <div className="flex flex-col mx-auto">
-      {/* SEO  */}
-      <Head>
-        <title>Contact Us</title>
-        <meta
-          name="description"
-          content="Get in touch with us for any inquiries or support. We're here to help!"
-        />
-      </Head>
       <Banner
         title="Contact Us"
         subtitle="We'd love to hear from you!"

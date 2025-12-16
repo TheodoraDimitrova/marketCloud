@@ -1,5 +1,5 @@
 import PriceDisplay from "@/components/shared/common/PriceDisplay";
-import { CartItem } from "@/types/cart";
+import { CartItem } from "@/lib/types/cart";
 
 interface CartItemPriceProps {
   item: CartItem;

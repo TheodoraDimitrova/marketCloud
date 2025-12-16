@@ -11,7 +11,6 @@ import ShopDropdown from "./dropdowns/ShopDropdown";
 import BrandsDropdown from "./dropdowns/BrandsDropdown";
 import OurWorldDropdown from "./dropdowns/OurWorldDropdown";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { useScrollPosition } from "@/hooks/useScrollPosition";
 import { useNavbarState } from "@/hooks/useNavbarState";
 
 const NavBar = () => {

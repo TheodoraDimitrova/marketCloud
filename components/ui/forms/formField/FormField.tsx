@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/forms/input";
 import React from "react";
 import { FieldErrors, UseFormRegister, RegisterOptions } from "react-hook-form";
-import { FormValues } from "@/types/formValues";
+import { FormValues } from "@/lib/types/formValues";
 
 interface FormFieldProps {
   label?: string;

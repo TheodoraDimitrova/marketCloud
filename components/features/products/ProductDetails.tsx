@@ -7,7 +7,7 @@ import ListTags from "@/components/shared/tags/ListTags";
 import Rating from "@/components/shared/common/Rating";
 import DiscountBannerProduct from "@/components/features/products/DiscountBannerProduct";
 import { useProductCart } from "@/hooks/useProductCart";
-import { Product } from "@/types/product";
+import { Product } from "@/lib/types/product";
 import PriceDisplay from "@/components/shared/common/PriceDisplay";
 
 interface ProductDetailsProps {

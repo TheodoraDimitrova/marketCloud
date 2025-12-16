@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
-import { Product } from "@/types/product";
+import { Product } from "@/lib/types/product";
 import { applyFilters, FilterParams } from "@/lib/filterUtils";
 
 export const useProductFilters = (products: Product[]): Product[] => {

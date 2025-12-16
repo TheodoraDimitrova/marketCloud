@@ -5,7 +5,7 @@ import { Tags } from "lucide-react";
 import { urlFor } from "@/sanity/lib/image";
 import { useParams } from "next/navigation";
 
-import { CartItem } from "@/types/cart";
+import { CartItem } from "@/lib/types/cart";
 
 interface CartProductSummaryProps {
   item: CartItem;

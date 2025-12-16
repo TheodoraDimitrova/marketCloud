@@ -3,8 +3,8 @@ import CategoriesCarousel from "@/components/features/categories/categoriesCarou
 import HydrateProductsAndCategories from "@/components/providers/HydrateProductsAndCategories";
 import ProductsDetails from "@/components/features/products/ProductsDetails";
 import client from "@/sanity/lib/client";
-import { Product } from "@/types/product";
-import { Category } from "@/types/category";
+import { Product } from "@/lib/types/product";
+import { Category } from "@/lib/types/category";
 import Link from "next/link";
 
 const getProducts = async (): Promise<Product[]> => {

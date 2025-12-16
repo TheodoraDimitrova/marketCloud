@@ -2,8 +2,8 @@ import { useAppSelector } from "@/hooks/useAppSelector";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { createOrder } from "@/store/slices/orderSlice";
 import { prepareOrderData } from "@/lib/services/orderService";
-import { FormValues } from "@/types/formValues";
-import { CartState } from "@/types/cart";
+import { FormValues } from "@/lib/types/formValues";
+import { CartState } from "@/lib/types/cart";
 import { useCallback } from "react";
 
 interface UseCheckoutReturn {

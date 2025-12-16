@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "@/sanity/lib/image";
 import { useState } from "react";
-import { Product } from "@/types/product";
+import { Product } from "@/lib/types/product";
 import PriceDisplay from "@/components/shared/common/PriceDisplay";
 
 const ProductCard = ({ product }: { product: Product }) => {
