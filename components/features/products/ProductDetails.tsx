@@ -2,41 +2,28 @@
 import { Button } from "@/components/ui/Button";
 import Image from "next/image";
 import QuantitySelector from "@/components/shared/common/QuantitySelector";
-import { useState, useEffect, useMemo } from "react";
+import { useState } from "react";
 import ListTags from "@/components/shared/tags/ListTags";
 import Rating from "@/components/shared/common/Rating";
 import DiscountBannerProduct from "@/components/features/products/DiscountBannerProduct";
-import { urlFor } from "@/sanity/lib/image";
 import { useProductCart } from "@/hooks/useProductCart";
 import { Product } from "@/types/product";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
 import PriceDisplay from "@/components/shared/common/PriceDisplay";
-import { setProductDetails } from "@/store/slices/productsSlice";
 
 interface ProductDetailsProps {
   product: Product;
+  primaryImageUrl: string;
+  secondaryImageUrl: string;
 }
 
-const ProductDetails = ({ product }: ProductDetailsProps) => {
+const ProductDetails = ({
+  product,
+  primaryImageUrl,
+  secondaryImageUrl,
+}: ProductDetailsProps) => {
   const [hovered, setHovered] = useState(false);
-  const dispatch = useAppDispatch();
   const { quantity, handleUpdateQuantity, handleAddToCart } =
     useProductCart(product);
-
-  // Memoize image URLs to prevent unnecessary recalculations
-  const primaryImageUrl = useMemo(
-    () => urlFor(product.images[0]),
-    [product.images]
-  );
-  const secondaryImageUrl = useMemo(
-    () => (product.images[1] ? urlFor(product.images[1]) : primaryImageUrl),
-    [product.images, primaryImageUrl]
-  );
-
-  //save product details to redux store
-  useEffect(() => {
-    dispatch(setProductDetails(product));
-  }, [product, dispatch]);
 
   return (
     <div className="container mx-auto p-2 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -48,10 +35,11 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
           width={200}
           height={250}
           style={{ width: "auto", height: "auto" }}
-          sizes="(max-width: 768px) 100vw, (min-width: 1600px) 50vw, 100vw"
+          sizes="(max-width: 768px) 100vw, 50vw"
           className="rounded-[10px] shadow-lg h-[350px]"
-          // priority
-          // quality={85}
+          priority
+          quality={85}
+          unoptimized={true}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
         />

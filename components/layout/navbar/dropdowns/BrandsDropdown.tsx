@@ -63,7 +63,7 @@ const BrandsDropdown = () => {
               width={150}
               height={200}
               style={{ width: "auto", height: "auto" }}
-              sizes="(min-width: 1600px) 25vw, (min-width: 768px) 25vw, 50vw"
+              sizes="50vw"
             />
           </div>
         ))}

@@ -47,7 +47,7 @@ const BlogPosts = () => {
               alt={post.title}
               width={2500}
               height={1404}
-              sizes="(min-width: 1024px) 440px, (min-width: 768px) 50vw, 100vw"
+              sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
               className="object-cover rounded-lg shadow-lg mb-1"
             />
             <Link href={post.link}>

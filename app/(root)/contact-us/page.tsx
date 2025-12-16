@@ -49,7 +49,7 @@ const ContactPage = () => {
               alt="shop"
               fill
               className="object-cover"
-              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 30vw, 33vw"
+              sizes="(max-width: 768px) 50vw, 25vw"
             />
           </div>
         </div>
@@ -59,7 +59,7 @@ const ContactPage = () => {
             alt="shop_location"
             fill
             className="object-cover"
-            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 30vw, 33vw"
+            sizes="(max-width: 768px) 50vw, 50vw"
           />
         </div>
       </div>

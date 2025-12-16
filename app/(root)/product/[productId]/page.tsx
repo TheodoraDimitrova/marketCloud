@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import client from "@/sanity/lib/client";
 import ProductDetails from "@/components/features/products/ProductDetails";
 import { Product } from "@/types/product";
+import { urlFor } from "@/sanity/lib/image";
 
 const getProduct = async (slug: string): Promise<Product | null> => {
   try {
@@ -29,7 +30,18 @@ const ProductPage = async ({ params }: ProductPageProps) => {
     notFound();
   }
 
-  return <ProductDetails product={product} />;
+  const primaryImageUrl = urlFor(product.images[0]);
+  const secondaryImageUrl = product.images[1]
+    ? urlFor(product.images[1])
+    : primaryImageUrl;
+
+  return (
+    <ProductDetails
+      product={product}
+      primaryImageUrl={primaryImageUrl}
+      secondaryImageUrl={secondaryImageUrl}
+    />
+  );
 };
 
 export default ProductPage;
