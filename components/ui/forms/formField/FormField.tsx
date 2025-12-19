@@ -20,24 +20,29 @@ const FormField = ({
   placeholder,
   type = "text",
   validationRules = {},
-}: FormFieldProps) => (
-  <div className="flex flex-col">
-    {label && (
-      <label htmlFor={name} className="mb-1 text-sm font-medium">
-        {label}
-      </label>
-    )}
+}: FormFieldProps) => {
+  const isRequired = Boolean(validationRules?.required);
 
-    <Input
-      id={name}
-      type={type}
-      placeholder={placeholder}
-      {...register(name, validationRules)}
-    />
-    {errors[name] && (
-      <p className="text-red-500 text-sm">{String(errors[name]?.message)}</p>
-    )}
-  </div>
-);
+  return (
+    <div className="flex flex-col">
+      {label && (
+        <label htmlFor={name} className="mb-1 text-sm font-medium">
+          {label}
+          {isRequired && <span className="text-gray-600"> *</span>}
+        </label>
+      )}
+
+      <Input
+        id={name}
+        type={type}
+        placeholder={placeholder}
+        {...register(name, validationRules)}
+      />
+      {errors[name] && (
+        <p className="text-red-500 text-sm">{String(errors[name]?.message)}</p>
+      )}
+    </div>
+  );
+};
 
 export default FormField;

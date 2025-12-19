@@ -29,7 +29,7 @@ const CountrySelect = ({
         htmlFor="country"
         className="mb-2 text-sm font-medium text-gray-700"
       >
-        Choose a country
+        Choose a country <span className="text-gray-600">*</span>
       </label>
       <Controller
         name="country"

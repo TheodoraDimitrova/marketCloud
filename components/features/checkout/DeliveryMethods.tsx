@@ -41,6 +41,9 @@ const DeliveryMethods = ({ control, errors }: DeliveryMethodsProps) => {
 
   return (
     <div className="space-y-3 mt-4 text-xs">
+      <p className="text-sm font-semibold">
+        Delivery Method <span className="text-gray-600">*</span>
+      </p>
       <Controller
         name="deliveryMethod"
         control={control}

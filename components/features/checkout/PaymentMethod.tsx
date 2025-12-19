@@ -11,7 +11,9 @@ interface PaymentMethodProps {
 const PaymentMethod = ({ control }: PaymentMethodProps) => {
   return (
     <div className="space-y-4 text-sm">
-      <p className=" font-semibold">Payment Method</p>
+      <p className=" font-semibold">
+        Payment Method <span className="text-gray-600">*</span>
+      </p>
 
       <Controller
         name="paymentMethod"
