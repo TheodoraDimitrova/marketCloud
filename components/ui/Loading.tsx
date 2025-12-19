@@ -16,7 +16,7 @@ export const Loading = () => {
             attributeType="XML"
             values="5;21;5"
             begin="0s"
-            dur="0.6s"
+            dur="0.4s"
             repeatCount="indefinite"
           />
           <animate
@@ -24,7 +24,7 @@ export const Loading = () => {
             attributeType="XML"
             values="13; 5; 13"
             begin="0s"
-            dur="0.6s"
+            dur="0.4s"
             repeatCount="indefinite"
           />
         </rect>
@@ -33,16 +33,16 @@ export const Loading = () => {
             attributeName="height"
             attributeType="XML"
             values="5;21;5"
-            begin="0.15s"
-            dur="0.6s"
+            begin="0.1s"
+            dur="0.4s"
             repeatCount="indefinite"
           />
           <animate
             attributeName="y"
             attributeType="XML"
             values="13; 5; 13"
-            begin="0.15s"
-            dur="0.6s"
+            begin="0.1s"
+            dur="0.4s"
             repeatCount="indefinite"
           />
         </rect>
@@ -51,16 +51,16 @@ export const Loading = () => {
             attributeName="height"
             attributeType="XML"
             values="5;21;5"
-            begin="0.3s"
-            dur="0.6s"
+            begin="0.2s"
+            dur="0.4s"
             repeatCount="indefinite"
           />
           <animate
             attributeName="y"
             attributeType="XML"
             values="13; 5; 13"
-            begin="0.3s"
-            dur="0.6s"
+            begin="0.2s"
+            dur="0.4s"
             repeatCount="indefinite"
           />
         </rect>
