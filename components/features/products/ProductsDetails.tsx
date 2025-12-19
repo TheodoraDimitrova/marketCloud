@@ -5,14 +5,19 @@ import FilteredProductList from "@/components/features/products/FilteredProductL
 import SearchBar from "@/components/shared/common/SearchBar";
 import CategoriesCarousel from "@/components/features/categories/categoriesCarousel/CategoriesCarousel";
 import { Product } from "@/lib/types/product";
+import { Category } from "@/lib/types/category";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Loading } from "@/components/ui/Loading";
 
 interface ProductsDetailsProps {
   products: Product[];
+  categories?: Category[];
 }
 
-const ProductsDetails = ({ products }: ProductsDetailsProps) => {
+const ProductsDetails = ({
+  products,
+  categories = [],
+}: ProductsDetailsProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
@@ -40,7 +45,7 @@ const ProductsDetails = ({ products }: ProductsDetailsProps) => {
       <Suspense fallback={<Loading />}>
         <FilteredProductList products={filteredProducts} />
       </Suspense>
-      <CategoriesCarousel />
+      {categories.length > 0 && <CategoriesCarousel categories={categories} />}
     </>
   );
 };

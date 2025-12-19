@@ -4,20 +4,18 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Carousel } from "@/components/ui/Carousel";
 import ImgCarousel from "@/components/features/categories/categoriesCarousel/ImgCarousel";
 import { urlFor } from "@/sanity/lib/image";
-import { useAppSelector } from "@/hooks/useAppSelector";
 import Swiper from "swiper";
-import { Loading } from "@/components/ui/Loading";
+import { Category } from "@/lib/types/category";
 
-const CategoriesCarousel = () => {
+interface CategoriesCarouselProps {
+  categories: Category[];
+}
+
+const CategoriesCarousel = ({ categories }: CategoriesCarouselProps) => {
   const swiperRef = useRef<Swiper | null>(null);
-  const { categories, status } = useAppSelector((state) => state.categories);
 
-  if (status === "loading") {
-    return <Loading />;
-  }
-
-  if (status === "failed") {
-    return <div>Error loading categories</div>;
+  if (!categories || categories.length === 0) {
+    return null;
   }
 
   return (

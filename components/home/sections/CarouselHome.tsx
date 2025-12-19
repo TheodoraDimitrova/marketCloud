@@ -3,22 +3,13 @@ import React from "react";
 import ImgOverlayText from "@/components/home/sections/ImgOverlayText";
 import { Carousel } from "@/components/ui/Carousel";
 import { urlFor } from "@/sanity/lib/image";
-import { Loading } from "@/components/ui/Loading";
 import { Category } from "@/lib/types/category";
-import { useAppSelector } from "@/hooks/useAppSelector";
-import { ErrorMessage } from "@/components/ui/ErrorMessage";
 
-const CarouselHome = () => {
-  const { categories, status, error } = useAppSelector(
-    (state) => state.categories
-  );
-  if (status === "loading") {
-    return <Loading />;
-  }
+interface CarouselHomeProps {
+  categories: Category[];
+}
 
-  if (status === "failed") {
-    return <ErrorMessage message={error} />;
-  }
+const CarouselHome = ({ categories }: CarouselHomeProps) => {
   const safeCategories = Array.isArray(categories) ? categories : [];
   const arrayCategories = safeCategories
     .slice(0, 3)

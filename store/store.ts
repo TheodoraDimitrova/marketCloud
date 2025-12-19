@@ -9,12 +9,31 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import storage from "redux-persist/lib/storage";
 import { combineReducers } from "redux";
-import categoryReducer from "./slices/categorySlice";
-import productReducer from "./slices/productsSlice";
+import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import cartReducer from "./slices/cartSlice";
 import orderReducer from "./slices/orderSlice";
+
+//  noop storage for SSR
+const createNoopStorage = () => {
+  return {
+    getItem() {
+      return Promise.resolve(null);
+    },
+    setItem(_key: string, value: unknown) {
+      return Promise.resolve(value);
+    },
+    removeItem() {
+      return Promise.resolve();
+    },
+  };
+};
+
+//  localStorage only on client side
+const storage =
+  typeof window !== "undefined"
+    ? createWebStorage("local")
+    : createNoopStorage();
 
 const persistConfig = {
   key: "root",
@@ -23,8 +42,6 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  categories: categoryReducer,
-  products: productReducer,
   cart: cartReducer,
   order: orderReducer,
 });

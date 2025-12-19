@@ -6,14 +6,11 @@ import FilteredProductList from "@/components/features/products/FilteredProductL
 import SearchBar from "@/components/shared/common/SearchBar";
 import { Category } from "@/lib/types/category";
 import { Product } from "@/lib/types/product";
-import { setCategories } from "@/store/slices/categorySlice";
-import { useEffect } from "react";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
 
 interface CategoryDetailsProps {
   category: Category;
   products: Product[];
-  categoryImageUrl?: string; // Optional, защото може да няма изображение
+  categoryImageUrl?: string; 
 }
 
 const CategoryDetails = ({
@@ -21,13 +18,8 @@ const CategoryDetails = ({
   products,
   categoryImageUrl,
 }: CategoryDetailsProps) => {
-  const dispatch = useAppDispatch();
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
-
-  useEffect(() => {
-    dispatch(setCategories([category]));
-  }, [category, dispatch]);
 
   const filterProducts = useMemo(() => {
     if (!products?.length) {
