@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/Button";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { FormError } from "@/components/ui/forms/FormError";
 
 interface IFormInput {
   email: string;
@@ -41,9 +42,7 @@ const FooterNewsLetter = () => {
               },
             })}
           />
-          {errors.email && typeof errors.email.message === "string" && (
-            <p className="text-red-500 py-2">{errors.email.message}</p>
-          )}
+          <FormError message={errors.email?.message} />
           <Button type="submit" className="mt-4">
             Subscribe
           </Button>

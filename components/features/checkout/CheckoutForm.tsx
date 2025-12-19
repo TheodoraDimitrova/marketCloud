@@ -17,6 +17,7 @@ import { ErrorMessage } from "@/components/ui/ErrorMessage";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { clearOrder } from "@/store/slices/orderSlice";
+import { FormError } from "@/components/ui/forms/FormError";
 
 const CheckoutForm = () => {
   const { submitOrder } = useCheckout();
@@ -177,11 +178,7 @@ const CheckoutForm = () => {
                 />
               )}
             />
-            {errors.postalCode && (
-              <p className="text-red-500 text-sm">
-                {String(errors.postalCode?.message)}
-              </p>
-            )}
+            <FormError message={errors.postalCode?.message} />
           </div>
           <FormField
             label="City"

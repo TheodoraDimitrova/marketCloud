@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/forms/select";
 import { COUNTRIES } from "@/lib/constants";
 import { FormValues } from "@/lib/types/formValues";
+import { FormError } from "@/components/ui/forms/FormError";
 
 interface CountrySelectProps {
   control: Control<FormValues>;
@@ -59,9 +60,7 @@ const CountrySelect = ({
         )}
       />
 
-      {errors.country && (
-        <p className="text-red-500 text-sm">{errors.country.message}</p>
-      )}
+      <FormError message={errors.country?.message} />
     </div>
   );
 };

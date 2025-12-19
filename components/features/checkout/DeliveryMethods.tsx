@@ -7,6 +7,7 @@ import { FormValues } from "@/lib/types/formValues";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/constants";
+import { FormError } from "@/components/ui/forms/FormError";
 
 interface DeliveryMethodsProps {
   control: Control<FormValues>;
@@ -71,9 +72,7 @@ const DeliveryMethods = ({ control, errors }: DeliveryMethodsProps) => {
         )}
       />
 
-      {errors.deliveryMethod && (
-        <p className="text-red-500 text-sm">{errors.deliveryMethod?.message}</p>
-      )}
+      <FormError message={errors.deliveryMethod?.message} />
     </div>
   );
 };

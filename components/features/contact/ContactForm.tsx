@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/Label";
 import { Textarea } from "@/components/ui/forms/textarea";
 import { Loading } from "@/components/ui/Loading";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import { FormError } from "@/components/ui/forms/FormError";
 
 interface IFormInput {
   name: string;
@@ -115,9 +116,7 @@ const ContactForm = () => {
               aria-label="Your Name"
               {...register("name", { required: "Name is required" })}
             />
-            {errors.name && (
-              <span className="text-red-500">{errors.name.message}</span>
-            )}
+            <FormError message={errors.name?.message} />
           </div>
 
           <div>
@@ -135,9 +134,7 @@ const ContactForm = () => {
                 pattern: /^[^@]+@[^@]+\.[^@]+$/i,
               })}
             />
-            {errors.email && (
-              <span className="text-red-500">{errors.email.message}</span>
-            )}
+            <FormError message={errors.email?.message} />
           </div>
 
           <div>
@@ -165,9 +162,7 @@ const ContactForm = () => {
                 </Select>
               )}
             />
-            {errors.enquiryType && (
-              <span className="text-red-500">{errors.enquiryType.message}</span>
-            )}
+            <FormError message={errors.enquiryType?.message} />
           </div>
 
           <div>
@@ -192,9 +187,7 @@ const ContactForm = () => {
               placeholder="Type your message here."
               {...register("message", { required: "Message is required" })}
             />
-            {errors.message && (
-              <span className="text-red-500">{errors.message.message}</span>
-            )}
+            <FormError message={errors.message?.message} />
           </div>
 
           <div className="flex items-center gap-2 m-4">

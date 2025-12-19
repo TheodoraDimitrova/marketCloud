@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/forms/input";
 import React from "react";
 import { FieldErrors, UseFormRegister, RegisterOptions } from "react-hook-form";
 import { FormValues } from "@/lib/types/formValues";
+import { FormError } from "@/components/ui/forms/FormError";
 
 interface FormFieldProps {
   label?: string;
@@ -38,9 +39,7 @@ const FormField = ({
         placeholder={placeholder}
         {...register(name, validationRules)}
       />
-      {errors[name] && (
-        <p className="text-red-500 text-sm">{String(errors[name]?.message)}</p>
-      )}
+      <FormError message={errors[name]?.message} />
     </div>
   );
 };
