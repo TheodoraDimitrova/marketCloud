@@ -13,9 +13,15 @@ import { FormValues } from "@/lib/types/formValues";
 import { useCheckout } from "@/hooks/useCheckout";
 import { useEffect, useCallback, useMemo } from "react";
 import { Input } from "@/components/ui/forms/input";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { clearOrder } from "@/store/slices/orderSlice";
 
 const CheckoutForm = () => {
   const { submitOrder } = useCheckout();
+  const dispatch = useAppDispatch();
+  const orderError = useAppSelector((state) => state.order?.error || null);
   const {
     register,
     handleSubmit,
@@ -24,6 +30,11 @@ const CheckoutForm = () => {
     formState: { errors },
     trigger,
   } = useForm<FormValues>();
+
+  const handleRetry = () => {
+    dispatch(clearOrder());
+    handleSubmit(submitOrder)();
+  };
 
   const selectedCountry = watch("country");
   const city = watch("city");
@@ -70,6 +81,14 @@ const CheckoutForm = () => {
   return (
     <div className="col-span-2">
       <h1>Checkout</h1>
+
+      {orderError && (
+        <div className="fixed inset-0 bg-white bg-opacity-75 backdrop-blur-sm z-50 flex items-center justify-center pointer-events-auto">
+          <div className="animate-in fade-in slide-in-from-top-2 duration-500 max-w-md mx-4">
+            <ErrorMessage message={orderError} retry={handleRetry} />
+          </div>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit(submitOrder)} className="space-y-4">
         {/* Contact Section */}
@@ -138,7 +157,7 @@ const CheckoutForm = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="flex flex-col">
             <label htmlFor="postalCode" className="mb-1 text-sm font-medium">
-              Postal Code
+              Postal Code <span className="text-gray-600">*</span>
             </label>
             <Controller
               name="postalCode"
@@ -185,7 +204,6 @@ const CheckoutForm = () => {
 
         <h3>Shipping Information</h3>
 
-        <p className="text-sm font-semibold">Delivery Method</p>
         <p className="text-sm">
           Enter your address to see the shipping methods
         </p>

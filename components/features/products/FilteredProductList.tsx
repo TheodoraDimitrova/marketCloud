@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import UtilityBar from "@/components/features/products/UtilityBar";
 import SectionFilters from "@/components/shared/filters/index";
 import ProductCard from "@/components/features/products/ProductCard";
-import Link from "next/link";
 import { Product } from "@/lib/types/product";
 import { useProductFilters } from "@/hooks/useProductFilters";
 import { Button } from "@/components/ui/Button";
@@ -67,14 +66,18 @@ const FilteredProductList = ({ products }: FilteredProductListProps) => {
               displayedProducts.map((product) => (
                 <ProductCard key={product._id} product={product} />
               ))
+            ) : products.length > 0 ? (
+              <div className="flex-center flex-col space-y-4">
+                <p className="text-lg text-gray-700">
+                  No products match your selected filters. Try adjusting your
+                  search.
+                </p>
+              </div>
             ) : (
               <div className="flex-center flex-col space-y-4">
                 <p className="text-lg text-gray-700">
                   Sorry, no products are available right now.
                 </p>
-                <Link href="/" className="underline text-red-500 w-full flex">
-                  <p>Go To Home Page</p>
-                </Link>
               </div>
             )}
           </div>

@@ -36,6 +36,7 @@ const ContactForm = () => {
     formState: { errors },
     reset,
     control,
+    getValues,
   } = useForm<IFormInput>();
 
   const onSubmit = async (data: IFormInput) => {
@@ -69,6 +70,13 @@ const ContactForm = () => {
     }
   };
 
+  const handleRetry = () => {
+    setSubmitError(null);
+    // Re-submit the form with the same data
+    const formData = getValues();
+    onSubmit(formData);
+  };
+
   return (
     <div className="flex flex-col md:w-3/4 ">
       <h1>Contact us</h1>
@@ -77,7 +85,9 @@ const ContactForm = () => {
       </p>
       {/* form */}
       <form onSubmit={handleSubmit(onSubmit)}>
-        {submitError && <ErrorMessage message={submitError} />}
+        {submitError && (
+          <ErrorMessage message={submitError} retry={handleRetry} />
+        )}
         {submitSuccess && (
           <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-md text-green-800">
             <p className="font-semibold">Message sent successfully!</p>
@@ -94,7 +104,9 @@ const ContactForm = () => {
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 my-4">
           <div>
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">
+              Name <span className="text-gray-600">*</span>
+            </Label>
             <Input
               id="name"
               type="text"
@@ -109,7 +121,9 @@ const ContactForm = () => {
           </div>
 
           <div>
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">
+              Email <span className="text-gray-600">*</span>
+            </Label>
             <Input
               id="email"
               type="email"
@@ -127,7 +141,9 @@ const ContactForm = () => {
           </div>
 
           <div>
-            <Label htmlFor="enquiryType">Type of enquiry</Label>
+            <Label htmlFor="enquiryType">
+              Type of enquiry <span className="text-gray-600">*</span>
+            </Label>
             <Controller
               name="enquiryType"
               control={control}
@@ -168,7 +184,9 @@ const ContactForm = () => {
 
         <div className="flex flex-col">
           <div>
-            <Label htmlFor="message">Message</Label>
+            <Label htmlFor="message">
+              Message <span className="text-gray-600">*</span>
+            </Label>
             <Textarea
               id="message"
               placeholder="Type your message here."
