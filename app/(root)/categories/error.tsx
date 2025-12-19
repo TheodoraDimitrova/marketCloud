@@ -4,7 +4,7 @@ import { ErrorMessage } from "@/components/ui/ErrorMessage";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 
-export default function Error({
+export default function CategoriesPageError({
   error: _error,
   reset: _reset,
 }: {
@@ -19,12 +19,12 @@ export default function Error({
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-6">
       <div className="w-full max-w-md">
         <ErrorMessage
-          message="Failed to load order details. Please try again."
+          message="Failed to load categories. Please try again."
           retry={handleRetry}
         />
         <div className="mt-4 text-center">
           <Button>
-            <Link href="/">Go back to homepage</Link>
+            <Link href="/products">View Products</Link>
           </Button>
         </div>
       </div>
