@@ -16,14 +16,9 @@ import { FormError } from "@/components/ui/forms/FormError";
 interface CountrySelectProps {
   control: Control<FormValues>;
   errors: FieldErrors<FormValues>;
-  defaultValue?: string;
 }
 
-const CountrySelect = ({
-  control,
-  errors,
-  defaultValue = "bg",
-}: CountrySelectProps) => {
+const CountrySelect = ({ control, errors }: CountrySelectProps) => {
   return (
     <div className="flex flex-col">
       <label
@@ -35,7 +30,6 @@ const CountrySelect = ({
       <Controller
         name="country"
         control={control}
-        defaultValue={defaultValue}
         rules={{ required: "Country is required" }}
         render={({ field }) => (
           <Select value={field.value} onValueChange={field.onChange}>

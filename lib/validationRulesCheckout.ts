@@ -3,10 +3,34 @@ import { FormValues } from "@/lib/types/formValues";
 
 const validationRules: Record<keyof FormValues, RegisterOptions<FormValues>> = {
   contact: {
-    minLength: { value: 5, message: "Must be at least 5 characters" },
-    pattern: {
-      value: /(^\+?[0-9\s-]{7,15}$)|(^[^\s@]+@[^\s@]+\.[^\s@]+$)/,
-      message: "Enter a valid phone number or email",
+    validate: (value: string | boolean) => {
+      // If value is boolean or empty, it's valid (field is optional)
+      if (typeof value !== "string" || !value || value.trim() === "") {
+        return true;
+      }
+
+      // Email pattern: valid email format
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      // Phone pattern: allows +, digits, spaces, and hyphens, 7-15 digits
+      const phonePattern = /^\+?[0-9\s-]{7,15}$/;
+
+      // Check if it's a valid email
+      if (emailPattern.test(value.trim())) {
+        return true;
+      }
+
+      // Check if it's a valid phone (must contain at least 7 digits)
+      const digitsOnly = value.replace(/\D/g, "");
+      if (
+        phonePattern.test(value.trim()) &&
+        digitsOnly.length >= 7 &&
+        digitsOnly.length <= 15
+      ) {
+        return true;
+      }
+
+      return "Enter a valid email address or phone number";
     },
   },
   firstName: {
@@ -51,9 +75,7 @@ const validationRules: Record<keyof FormValues, RegisterOptions<FormValues>> = {
   deliveryMethod: {
     required: "Delivery method is required",
   },
-  paymentMethod: {
-    required: "Payment method is required",
-  },
+  paymentMethod: {},
 };
 
 export default validationRules;

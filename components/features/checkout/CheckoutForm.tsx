@@ -28,9 +28,27 @@ const CheckoutForm = () => {
     handleSubmit,
     control,
     watch,
-    formState: { errors },
+    setValue,
+    formState: { errors, touchedFields, isSubmitted },
     trigger,
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+    defaultValues: {
+      contact: "",
+      firstName: "",
+      lastName: "",
+      address: "",
+      postalCode: "",
+      city: "",
+      phone: "",
+      email: "",
+      subscribed: false,
+      country: "bg",
+      deliveryMethod: "",
+      paymentMethod: "cod",
+    },
+  });
 
   const handleRetry = () => {
     dispatch(clearOrder());
@@ -40,7 +58,42 @@ const CheckoutForm = () => {
   const selectedCountry = watch("country");
   const city = watch("city");
   const postalCode = watch("postalCode");
+  const address = watch("address");
+  const contact = watch("contact");
   const showDeliveryMethods = city && postalCode;
+  const hasAddressInfo = address && city && postalCode;
+
+  // Check if contact is valid email or phone
+  const isContactValid = useMemo(() => {
+    if (!contact || contact.trim() === "") {
+      return false;
+    }
+
+    const trimmedContact = contact.trim();
+
+    // Email pattern: valid email format
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Phone pattern: allows +, digits, spaces, and hyphens, 7-15 digits
+    const phonePattern = /^\+?[0-9\s-]{7,15}$/;
+
+    // Check if it's a valid email
+    if (emailPattern.test(trimmedContact)) {
+      return true;
+    }
+
+    // Check if it's a valid phone (must contain at least 7 digits)
+    const digitsOnly = trimmedContact.replace(/\D/g, "");
+    if (
+      phonePattern.test(trimmedContact) &&
+      digitsOnly.length >= 7 &&
+      digitsOnly.length <= 15
+    ) {
+      return true;
+    }
+
+    return false;
+  }, [contact]);
 
   const validatePostalCode = useCallback(
     (value: string) => {
@@ -68,16 +121,33 @@ const CheckoutForm = () => {
 
   const postalCodeRules = useMemo(
     () => ({
-      validate: validatePostalCode,
+      required: "Postal code is required",
+      validate: (value: string) => {
+        // Only validate format if value exists
+        if (!value || value.trim() === "") {
+          return true; // required rule will handle empty case
+        }
+        return validatePostalCode(value);
+      },
     }),
     [validatePostalCode]
   );
 
   useEffect(() => {
-    if (selectedCountry) {
+    if (selectedCountry && (touchedFields.postalCode || isSubmitted)) {
       trigger("postalCode");
     }
-  }, [selectedCountry, trigger]);
+  }, [selectedCountry, trigger, touchedFields.postalCode, isSubmitted]);
+
+  // Reset subscribed checkbox if contact is not valid
+  useEffect(() => {
+    if (!isContactValid) {
+      const subscribedValue = watch("subscribed");
+      if (subscribedValue) {
+        setValue("subscribed", false);
+      }
+    }
+  }, [isContactValid, setValue, watch]);
 
   return (
     <div className="col-span-2">
@@ -112,7 +182,7 @@ const CheckoutForm = () => {
                   id="subscribed"
                   checked={field.value === true}
                   onCheckedChange={(e) => field.onChange(e ? true : false)}
-                  disabled={!!errors.contact}
+                  disabled={!isContactValid}
                 />
               )}
             />
@@ -169,16 +239,25 @@ const CheckoutForm = () => {
                   id="postalCode"
                   type="text"
                   placeholder="Postal Code"
-                  {...field}
+                  value={field.value || ""}
                   onChange={(e) => {
                     //only digits
                     const value = e.target.value.replace(/[^0-9]/g, "");
                     field.onChange(value);
                   }}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  ref={field.ref}
                 />
               )}
             />
-            <FormError message={errors.postalCode?.message} />
+            <FormError
+              message={
+                isSubmitted || touchedFields.postalCode
+                  ? errors.postalCode?.message
+                  : undefined
+              }
+            />
           </div>
           <FormField
             label="City"
@@ -201,9 +280,11 @@ const CheckoutForm = () => {
 
         <h3>Shipping Information</h3>
 
-        <p className="text-sm">
-          Enter your address to see the shipping methods
-        </p>
+        {!hasAddressInfo && (
+          <p className="text-sm">
+            Enter your address to see the shipping methods
+          </p>
+        )}
 
         {showDeliveryMethods && (
           <DeliveryMethods control={control} errors={errors} />

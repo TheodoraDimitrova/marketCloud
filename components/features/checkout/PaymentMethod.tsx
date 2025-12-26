@@ -18,7 +18,6 @@ const PaymentMethod = ({ control }: PaymentMethodProps) => {
       <Controller
         name="paymentMethod"
         control={control}
-        defaultValue="cod"
         render={({ field }) => (
           <>
             <div className="flex flex-col space-y-4 md:flex-row md:items-center md:space-x-4 md:space-y-0 md:py-2">
