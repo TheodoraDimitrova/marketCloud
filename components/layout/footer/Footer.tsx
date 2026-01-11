@@ -22,6 +22,7 @@ const Footer = () => {
     { href: "/deals", text: "Exclusive Offers" },
     { href: "/products", text: "Products" },
     { href: "/brands", text: "Brands" },
+    { href: "/products?sort=newest", text: "New Arrivals" },
   ];
 
   return (
@@ -29,10 +30,10 @@ const Footer = () => {
       {/* promos */}
       <FooterPromos />
 
-      <div className="bg-black text-white py-16 px-4">
+      <div className="bg-black text-white py-12 px-4">
         {/* section footer blocks */}
         <div className="container mx-auto">
-          <div className="flex flex-wrap lg:justify-between mb-8 ">
+          <div className="flex flex-wrap lg:justify-between mb-6 ">
             {/* Column 1: About the Store */}
             <AboutUsSection />
 
@@ -48,32 +49,38 @@ const Footer = () => {
             {/* Column 4: Join Our Email List */}
             <FooterNewsLetter />
           </div>
-          {/* Divider and Legal Links */}
-          <div className="border-t border-gray-600 pt-4 flex-between">
-            <div className="relative text-gray-400">
-              <CurrencySelect />
-            </div>
+          {/* Bottom Section */}
+          <div className="border-t border-gray-600 pt-5 mt-6">
+            {/* Mobile & Tablet: Stack vertically, Desktop: Grid 3 columns */}
+            <div className="flex flex-col gap-5 text-center md:grid md:grid-cols-3 md:gap-4 md:items-center md:text-left">
+              {/* Mobile: Copyright first, Desktop: Currency left */}
+              <div className="order-2 md:order-1 md:justify-self-start flex justify-center md:justify-start">
+                <CurrencySelect />
+              </div>
 
-            <div className="flex flex-col sm:flex-row sm:space-x-4 text-gray-400">
-              <Link
-                href="/policies/privacy-policy"
-                className="hover:text-white"
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                href="/policies/terms-of-service"
-                className="hover:text-white"
-              >
-                Terms of Service
-              </Link>
-            </div>
-          </div>
+              {/* Center: Copyright */}
+              <div className="order-1 md:order-2 md:justify-self-center md:text-center">
+                <p className="text-[#fff]">
+                  © {new Date().getFullYear()} {APP_NAME}. All Rights Reserved.
+                </p>
+              </div>
 
-          <div className="items-start mt-8 pt-4">
-            <p>
-              © {new Date().getFullYear()} {APP_NAME}. All Rights Reserved.
-            </p>
+              {/* Right: Legal Links */}
+              <div className="order-3 md:justify-self-end flex gap-4 justify-center md:justify-end">
+                <Link
+                  href="/policies/privacy-policy"
+                  className="text-[#8C8C8C] opacity-75 hover:opacity-100 hover:text-white transition-all"
+                >
+                  Privacy Policy
+                </Link>
+                <Link
+                  href="/policies/terms-of-service"
+                  className="text-[#8C8C8C] opacity-75 hover:opacity-100 hover:text-white transition-all"
+                >
+                  Terms of Service
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>

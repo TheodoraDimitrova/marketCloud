@@ -22,18 +22,19 @@ const FooterNewsLetter = () => {
   };
 
   return (
-    <div className="px-5  pb-5  w-full sm:w-1/2 sm:pb-5  lg:basis-1/4 lg:pb-0 overflow-hidden">
+    <div className="px-3  pb-5  w-full sm:w-1/2 sm:pb-5  lg:basis-1/4 lg:pb-0 overflow-hidden">
       <h3 className="text-white h3-bold">Join Our Email List</h3>
-      <p className="text-white mb-4">
+      <p className="text-white mb-4 opacity-85 font-light">
         Get 20% off your first purchase! Plus, be the first to know about sales,
         new product launches, and exclusive offers!
       </p>
-      <div className="flex flex-col space-y-2 w-full">
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="flex flex-col w-full">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
           <input
             type="email"
             placeholder="Enter your email"
-            className="px-4 py-2 text-black "
+            className="w-full px-4 text-black rounded-md"
+            style={{ height: '44px' }}
             {...register("email", {
               required: "Email is required",
               pattern: {
@@ -43,10 +44,13 @@ const FooterNewsLetter = () => {
             })}
           />
           <FormError message={errors.email?.message} />
-          <Button type="submit" className="mt-4">
+          <Button type="submit" className="w-full rounded-md" style={{ height: '44px' }}>
             Subscribe
           </Button>
         </form>
+        <p className="text-sm text-gray-400 mt-3">
+          No spam. Unsubscribe anytime.
+        </p>
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ const ScrollBanner = () => {
   const extendedArray = [...imageArray, ...imageArray, ...imageArray];
 
   return (
-    <div className="block overflow-hidden py-8 bg-white  ">
+    <div className="block overflow-hidden  bg-white  ">
       <motion.div
         className="flex space-x-[120px] items-center"
         animate={{ x: ["0%", "-100%"] }}

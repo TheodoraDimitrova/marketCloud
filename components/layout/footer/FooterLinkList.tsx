@@ -12,14 +12,14 @@ interface FooterLinkListProps {
 }
 const FooterLinkList = ({ title, links }: FooterLinkListProps) => {
   return (
-    <div className="px-5 lg:mr-20 sm:mr-0 sm:w-1/2 pb-5 lg:w-auto lg:pb-0 ">
+    <div className="px-3 lg:mr-20 sm:mr-0 sm:w-1/2 pb-5 lg:w-auto lg:pb-0 ">
       <h3 className="text-white h3-bold">{title}</h3>
       <ul>
         {links.map((link) => (
           <li key={link.href}>
             <Link
               href={link.href}
-              className="text-gray-400 hover:text-white hover:underline"
+              className="text-gray-400 hover:text-white transition-colors"
             >
               {link.text}
             </Link>

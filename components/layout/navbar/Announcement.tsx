@@ -36,7 +36,7 @@ const Announcement = () => {
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % announcements.length);
-    }, 3000);
+    }, 4000);
 
     return () => clearInterval(interval);
     // eslint-disable-next-line

@@ -15,12 +15,22 @@ interface IconLinkGroupProps {
 
 const IconLinkGroup = ({ links }: IconLinkGroupProps) => {
   return (
-    <div className="flex space-x-4">
+    <div className="flex gap-4">
       {links.map(({ href, label, Icon, extraClasses }) => (
-        <Link key={label} href={href} aria-label={label}>
-          <Icon
-            className={` hover:text-red-600 transition-colors ${extraClasses}`}
-          />
+        <Link
+          key={label}
+          href={href}
+          aria-label={label}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group"
+        >
+          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-red-600 transition-all duration-300 group-hover:scale-110">
+            <Icon
+              className={`text-[22px] group-hover:scale-110 transition-transform duration-300 ${extraClasses}`}
+              style={{ color: "#FFFFFF" }}
+            />
+          </div>
         </Link>
       ))}
     </div>
