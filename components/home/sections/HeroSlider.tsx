@@ -62,7 +62,7 @@ const HeroSlider = () => {
                       delay: !hasMounted && activeIndex === 0 ? 0 : 0,
                       ease: "easeOut",
                     }}
-                    className="text-sm font-light uppercase"
+                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-[#F4C542]"
                   >
                     new new new
                   </motion.div>
@@ -125,7 +125,7 @@ const HeroSlider = () => {
                       <Button
                         asChild
                         variant="link"
-                        className="w-full md:w-auto text-center mb-4"
+                        className="w-full md:w-auto text-center mb-4 md:mb-0"
                       >
                         <Link href="/products?discounts=Best+Seller">
                           Best Sellers
@@ -133,7 +133,7 @@ const HeroSlider = () => {
                       </Button>
                       <Button
                         asChild
-                        variant="link"
+                        variant="accent"
                         className="w-full md:w-auto text-center"
                       >
                         <Link href="/products?discounts=New+Arrival">
@@ -168,7 +168,7 @@ const HeroSlider = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
                     transition={{ duration: 0.9 }}
-                    className="text-sm font-light uppercase"
+                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-[#F4C542]"
                   >
                     Exclusive 24-Hour Flash Sale
                   </motion.div>
@@ -235,7 +235,7 @@ const HeroSlider = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
                     transition={{ duration: 0.9 }}
-                    className="text-sm font-light uppercase"
+                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-[#F4C542]"
                   >
                     Shop Best-Sellers
                   </motion.div>

@@ -104,23 +104,19 @@ const Reviews = () => {
               <div className="flex justify-items-start m-6 space-x-4">
                 <button
                   onClick={prevReview}
-                  className={`p-2 rounded-md hover:bg-gray-400 focus:outline-none ${
-                    currentReview !== reviews.length - 1
-                      ? "bg-gray-300"
-                      : "bg-gray-200"
-                  }`}
+                  className="p-3 rounded-md bg-black text-white hover:bg-gray-800 transition-all duration-300 focus:outline-none disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-black"
+                  disabled={currentReview === 0}
+                  aria-label="Previous review"
                 >
-                  <ArrowLeft />
+                  <ArrowLeft className="w-5 h-5" />
                 </button>
                 <button
                   onClick={nextReview}
-                  className={`p-2 rounded-md hover:bg-gray-400 focus:outline-none ${
-                    currentReview !== reviews.length - 1
-                      ? "bg-gray-200"
-                      : "bg-gray-300"
-                  }`}
+                  className="p-3 rounded-md bg-black text-white hover:bg-gray-800 transition-all duration-300 focus:outline-none disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-black"
+                  disabled={currentReview === reviews.length - 1}
+                  aria-label="Next review"
                 >
-                  <ArrowRight />
+                  <ArrowRight className="w-5 h-5" />
                 </button>
               </div>
             </div>
