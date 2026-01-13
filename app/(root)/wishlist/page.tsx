@@ -23,10 +23,12 @@ const WishlistPage = () => {
           // Empty State
           <div className="flex flex-col items-center justify-center py-16 text-center">
             <Heart className="w-24 h-24 text-gray-300 mb-6" />
-            <h2 className="text-2xl font-medium mb-4">Your Wishlist is Empty</h2>
+            <h2 className="text-2xl font-medium mb-4">
+              Your Wishlist is Empty
+            </h2>
             <p className="text-gray-600 mb-8 max-w-md">
               Save your favorite products by clicking the heart icon on any
-              product card. They'll appear here for easy access later!
+              product card. They&apos;ll appear here for easy access later!
             </p>
             <Button asChild>
               <Link href="/products">Browse Products</Link>
