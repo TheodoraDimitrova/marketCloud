@@ -5,7 +5,11 @@ import { Category } from "@/lib/types/category";
 
 const getProducts = async (): Promise<Product[]> => {
   try {
-    return await client.fetch(`*[_type == "product"]`);
+    return await client.fetch(`*[_type == "product"]{
+      ...,
+      _createdAt,
+      _updatedAt
+    }`);
   } catch (error) {
     console.error("Error fetching products:", error);
     throw error;

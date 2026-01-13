@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import UtilityBar from "@/components/features/products/UtilityBar";
 import SectionFilters from "@/components/shared/filters/index";
 import ProductCard from "@/components/features/products/ProductCard";
@@ -14,22 +14,72 @@ interface FilteredProductListProps {
 const ITEMS_PER_PAGE = 18;
 const LOAD_MORE_INCREMENT = 6;
 
+type SortOption =
+  | "a-z"
+  | "z-a"
+  | "low-to-high"
+  | "high-to-low"
+  | "old-to-new"
+  | "new-to-old";
+
 const FilteredProductList = ({ products }: FilteredProductListProps) => {
   const filteredProducts = useProductFilters(products);
 
   const [showFilters, setShowFilters] = useState(false);
   const [appliedFiltersCount, setAppliedFiltersCount] = useState(0);
   const [displayedCount, setDisplayedCount] = useState(ITEMS_PER_PAGE);
+  const [sortOption, setSortOption] = useState<SortOption | null>(null);
 
   const toggleFilters = () => setShowFilters((prev) => !prev);
 
-  // Reset displayed count when filters change
+  // Sort products based on selected option
+  const sortedProducts = useMemo(() => {
+    const sorted = [...filteredProducts];
+
+    // If no sort option selected, return original order
+    if (!sortOption) {
+      return sorted;
+    }
+
+    switch (sortOption) {
+      case "a-z":
+        return sorted.sort((a, b) =>
+          a.name.trim().toLowerCase().localeCompare(b.name.trim().toLowerCase())
+        );
+      case "z-a":
+        return sorted.sort((a, b) =>
+          b.name.trim().toLowerCase().localeCompare(a.name.trim().toLowerCase())
+        );
+      case "low-to-high":
+        return sorted.sort((a, b) => a.price - b.price);
+      case "high-to-low":
+        return sorted.sort((a, b) => b.price - a.price);
+      case "old-to-new":
+        return sorted.sort((a, b) => {
+          if (!a._createdAt || !b._createdAt) return 0;
+          return (
+            new Date(a._createdAt).getTime() - new Date(b._createdAt).getTime()
+          );
+        });
+      case "new-to-old":
+        return sorted.sort((a, b) => {
+          if (!a._createdAt || !b._createdAt) return 0;
+          return (
+            new Date(b._createdAt).getTime() - new Date(a._createdAt).getTime()
+          );
+        });
+      default:
+        return sorted;
+    }
+  }, [filteredProducts, sortOption]);
+
+  // Reset displayed count when filters or sort changes
   useEffect(() => {
     setDisplayedCount(ITEMS_PER_PAGE);
-  }, [filteredProducts.length]);
+  }, [filteredProducts.length, sortOption]);
 
-  const displayedProducts = filteredProducts.slice(0, displayedCount);
-  const hasMore = displayedCount < filteredProducts.length;
+  const displayedProducts = sortedProducts.slice(0, displayedCount);
+  const hasMore = displayedCount < sortedProducts.length;
 
   const handleLoadMore = () => {
     setDisplayedCount((prev) => prev + LOAD_MORE_INCREMENT);
@@ -43,6 +93,7 @@ const FilteredProductList = ({ products }: FilteredProductListProps) => {
           totalProducts={filteredProducts.length}
           appliedFiltersCount={appliedFiltersCount}
           showFilters={showFilters}
+          onSortChange={setSortOption}
         />
       )}
 
