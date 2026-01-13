@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import client from "@/sanity/lib/client";
 import ProductDetails from "@/components/features/products/ProductDetails";
+import RelatedProducts from "@/components/features/products/RelatedProducts";
 import { Product } from "@/lib/types/product";
 import { urlFor } from "@/sanity/lib/image";
 
@@ -13,6 +14,32 @@ const getProduct = async (slug: string): Promise<Product | null> => {
   } catch (error) {
     console.error("Error fetching product:", error);
     throw error;
+  }
+};
+
+const getRelatedProducts = async (
+  categoryId: string | undefined,
+  currentProductId: string
+): Promise<Product[]> => {
+  if (!categoryId) {
+    return [];
+  }
+
+  try {
+    const query = `*[_type == "product" && references($categoryId) && _id != $currentProductId][0...3]{
+      ...,
+      _createdAt,
+      _updatedAt
+    }`;
+    const products = await client.fetch(query, {
+      categoryId,
+      currentProductId,
+    });
+
+    return products;
+  } catch (error) {
+    console.error("Error fetching related products:", error);
+    return [];
   }
 };
 
@@ -35,12 +62,25 @@ const ProductPage = async ({ params }: ProductPageProps) => {
     ? urlFor(product.images[1])
     : primaryImageUrl;
 
+  const relatedProducts = await getRelatedProducts(
+    product.category?._ref,
+    product._id
+  );
+
   return (
-    <ProductDetails
-      product={product}
-      primaryImageUrl={primaryImageUrl}
-      secondaryImageUrl={secondaryImageUrl}
-    />
+    <>
+      <ProductDetails
+        product={product}
+        primaryImageUrl={primaryImageUrl}
+        secondaryImageUrl={secondaryImageUrl}
+      />
+      {relatedProducts.length > 0 && (
+        <RelatedProducts
+          products={relatedProducts}
+          currentProductId={product._id}
+        />
+      )}
+    </>
   );
 };
 

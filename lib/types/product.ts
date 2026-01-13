@@ -27,6 +27,7 @@ export interface Product {
   productDetails: string[];
   images: { asset: { _ref: string } }[]; 
   brand?: string;
+  category?: { _ref: string; _type: string }; // Sanity reference
   _createdAt?: string; // Sanity automatic field
   _updatedAt?: string; // Sanity automatic field
 }
