@@ -1,6 +1,6 @@
 "use client";
 
-import { ShoppingBag, Search, User, AlignJustify } from "lucide-react";
+import { ShoppingBag, Search, AlignJustify, Heart } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ import BrandsDropdown from "./dropdowns/BrandsDropdown";
 import OurWorldDropdown from "./dropdowns/OurWorldDropdown";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { useNavbarState } from "@/hooks/useNavbarState";
+import { useWishlist } from "@/hooks/useWishlist";
 
 const NavBar = () => {
   const {
@@ -27,6 +28,7 @@ const NavBar = () => {
   } = useNavbarState();
 
   const cartItems = useAppSelector((state) => state.cart.items);
+  const { wishlistItems } = useWishlist();
   const [isMounted, setIsMounted] = useState(false);
   const [isScrolledDown, setIsScrolledDown] = useState(false);
 
@@ -121,6 +123,19 @@ const NavBar = () => {
             className="hidden md:inline-flex cursor-pointer"
           />
 
+          <button
+            onClick={() => router.push("/wishlist")}
+            className="relative hidden md:inline-flex"
+            aria-label="Wishlist"
+          >
+            <Heart size={24} />
+            {isMounted && wishlistItems.length > 0 && (
+              <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                {wishlistItems.length}
+              </span>
+            )}
+          </button>
+
           <button onClick={() => setIsCartOpen(true)} className="relative">
             <ShoppingBag size={24} />
             {isMounted && cartItems.length > 0 && (
@@ -129,13 +144,6 @@ const NavBar = () => {
               </span>
             )}
           </button>
-
-          <div
-            onClick={() => router.push("/account/login")}
-            className="cursor-pointer"
-          >
-            <User />
-          </div>
         </div>
       </div>
       {activeIndex !== null &&

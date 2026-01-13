@@ -13,6 +13,7 @@ import { combineReducers } from "redux";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import cartReducer from "./slices/cartSlice";
 import orderReducer from "./slices/orderSlice";
+import wishlistReducer from "./slices/wishlistSlice";
 
 //  noop storage for SSR
 const createNoopStorage = () => {
@@ -38,12 +39,13 @@ const storage =
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["cart", "order"],
+  whitelist: ["cart", "order", "wishlist"],
 };
 
 const rootReducer = combineReducers({
   cart: cartReducer,
   order: orderReducer,
+  wishlist: wishlistReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
