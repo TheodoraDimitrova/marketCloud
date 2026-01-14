@@ -28,6 +28,7 @@ const CartProductSummary = ({ item }: CartProductSummaryProps) => {
           sizes="(max-width: 768px) 50px, 100px"
           className="rounded-sm object-cover"
           priority
+          unoptimized={true}
         />
         {/* Quantity Badge */}
         {(isCheckoutPage || isThankYouPage) && (
