@@ -2,7 +2,9 @@ import { notFound } from "next/navigation";
 import client from "@/sanity/lib/client";
 import ProductDetails from "@/components/features/products/ProductDetails";
 import RelatedProducts from "@/components/features/products/RelatedProducts";
+import ReviewsSection from "@/components/features/products/ReviewsSection";
 import { Product } from "@/lib/types/product";
+import { Review } from "@/lib/types/review";
 import { urlFor } from "@/sanity/lib/image";
 
 const getProduct = async (slug: string): Promise<Product | null> => {
@@ -43,6 +45,25 @@ const getRelatedProducts = async (
   }
 };
 
+const getReviews = async (productId: string): Promise<Review[]> => {
+  try {
+    const query = `*[_type == "review" && product._ref == $productId] | order(_createdAt desc){
+      _id,
+      author,
+      rating,
+      comment,
+      product,
+      _createdAt,
+      _updatedAt
+    }`;
+    const reviews = await client.fetch(query, { productId });
+    return reviews;
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    return [];
+  }
+};
+
 interface ProductPageProps {
   params: Promise<{
     productId: string;
@@ -67,6 +88,8 @@ const ProductPage = async ({ params }: ProductPageProps) => {
     product._id
   );
 
+  const reviews = await getReviews(product._id);
+
   return (
     <>
       <ProductDetails
@@ -74,6 +97,7 @@ const ProductPage = async ({ params }: ProductPageProps) => {
         primaryImageUrl={primaryImageUrl}
         secondaryImageUrl={secondaryImageUrl}
       />
+      <ReviewsSection reviews={reviews} productId={product._id} />
       {relatedProducts.length > 0 && (
         <RelatedProducts
           products={relatedProducts}

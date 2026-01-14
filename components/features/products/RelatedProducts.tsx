@@ -22,8 +22,8 @@ const RelatedProducts = ({
   }
 
   return (
-    <section className="container mx-auto px-4 py-12">
-      <h2 className="mb-8">You May Also Like</h2>
+    <section className="container mx-auto px-4 py-8">
+      <h2 className="text-xl font-semibold mb-6">You May Also Like</h2>
       <div className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
         {relatedProducts.map((product) => (
           <ProductCard key={product._id} product={product} />

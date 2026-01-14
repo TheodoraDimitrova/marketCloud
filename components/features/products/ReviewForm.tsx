@@ -1,0 +1,207 @@
+"use client";
+
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/forms/input";
+import { Label } from "@/components/ui/Label";
+import { Textarea } from "@/components/ui/forms/textarea";
+import { FormError } from "@/components/ui/forms/FormError";
+import { FaStar, FaRegStar } from "react-icons/fa";
+
+interface ReviewFormData {
+  name: string;
+  email: string;
+  comment: string;
+  rating: number;
+}
+
+interface ReviewFormProps {
+  productId: string;
+  onSubmitSuccess: () => void;
+}
+
+const ReviewForm = ({ productId, onSubmitSuccess }: ReviewFormProps) => {
+  const [rating, setRating] = useState(0);
+  const [hoveredRating, setHoveredRating] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    setValue,
+  } = useForm<ReviewFormData>({
+    defaultValues: {
+      name: "",
+      email: "",
+      comment: "",
+      rating: 0,
+    },
+  });
+
+  const onSubmit = async (data: ReviewFormData) => {
+    if (rating === 0) {
+      setSubmitError("Please select a rating");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+    setSubmitSuccess(false);
+
+    try {
+      const response = await fetch("/api/reviews/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId,
+          name: data.name,
+          email: data.email,
+          comment: data.comment,
+          rating,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to submit review");
+      }
+
+      reset();
+      setRating(0);
+      setSubmitSuccess(true);
+      onSubmitSuccess();
+
+      setTimeout(() => {
+        setSubmitSuccess(false);
+      }, 5000);
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "Failed to submit review. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleStarClick = (value: number) => {
+    setRating(value);
+    setValue("rating", value);
+  };
+
+  return (
+    <div className="mt-4 border-t border-gray-200 pt-4">
+      <h2 className="text-lg font-semibold mb-3">Write a Review</h2>
+      {submitError && (
+        <div className="mb-2 p-2 bg-red-50 border border-red-200 rounded text-red-800 text-sm">
+          {submitError}
+        </div>
+      )}
+      {submitSuccess && (
+        <div className="mb-2 p-2 bg-green-50 border border-green-200 rounded text-green-800 text-sm">
+          <p className="font-medium text-sm">Review submitted successfully!</p>
+        </div>
+      )}
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2.5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+          <div>
+            <Label htmlFor="name" className="text-sm">
+              Name <span className="text-gray-500">*</span>
+            </Label>
+            <Input
+              id="name"
+              type="text"
+              className="rounded mt-0.5"
+              {...register("name", { required: "Name is required" })}
+            />
+            <FormError message={errors.name?.message} />
+          </div>
+
+          <div>
+            <Label htmlFor="email" className="text-sm">
+              Email <span className="text-gray-500">*</span>
+            </Label>
+            <Input
+              id="email"
+              type="email"
+              className="rounded mt-0.5"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Invalid email address",
+                },
+              })}
+            />
+            <FormError message={errors.email?.message} />
+          </div>
+        </div>
+
+        <div>
+          <Label className="text-sm">
+            Rating <span className="text-gray-500">*</span>
+          </Label>
+          <div className="flex gap-1 mt-0.5">
+            {Array(5)
+              .fill(0)
+              .map((_, index) => {
+                const starValue = index + 1;
+                return (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => handleStarClick(starValue)}
+                    onMouseEnter={() => setHoveredRating(starValue)}
+                    onMouseLeave={() => setHoveredRating(0)}
+                    className="focus:outline-none"
+                  >
+                    {starValue <= (hoveredRating || rating) ? (
+                      <FaStar className="w-5 h-5 text-yellow-500 fill-current" />
+                    ) : (
+                      <FaRegStar className="w-5 h-5 text-gray-300 fill-current hover:text-yellow-400 transition-colors" />
+                    )}
+                  </button>
+                );
+              })}
+          </div>
+          {rating === 0 && (
+            <FormError message="Please select a rating" />
+          )}
+        </div>
+
+        <div>
+          <Label htmlFor="comment" className="text-sm">
+            Comment <span className="text-gray-500">*</span>
+          </Label>
+          <Textarea
+            id="comment"
+            className="rounded mt-0.5 min-h-[70px]"
+            {...register("comment", {
+              required: "Comment is required",
+              minLength: {
+                value: 10,
+                message: "Comment must be at least 10 characters",
+              },
+            })}
+          />
+          <FormError message={errors.comment?.message} />
+        </div>
+
+        <Button type="submit" disabled={isSubmitting} className="mt-1.5">
+          {isSubmitting ? "Submitting..." : "Submit Review"}
+        </Button>
+      </form>
+    </div>
+  );
+};
+
+export default ReviewForm;
