@@ -11,6 +11,7 @@ import { useWishlist } from "@/hooks/useWishlist";
 import { Product } from "@/lib/types/product";
 import PriceDisplay from "@/components/shared/common/PriceDisplay";
 import { Heart, Copy, Check } from "lucide-react";
+import Breadcrumb from "@/components/shared/common/Breadcrumb";
 
 interface ProductDetailsProps {
   product: Product;
@@ -61,8 +62,24 @@ const ProductDetails = ({
     }
   };
 
+  // Build breadcrumb items
+  const breadcrumbItems = [
+    { label: "Home", href: "/" },
+    ...(product.category?.name && product.category?.slug?.current
+      ? [
+          {
+            label: product.category.name,
+            href: `/category/${product.category.slug.current}`,
+          },
+        ]
+      : []),
+    { label: product.name },
+  ];
+
   return (
-    <div className="container mx-auto p-2 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className="container mx-auto p-2 md:p-6">
+      <Breadcrumb items={breadcrumbItems} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {/* left side */}
       <div className="flex justify-center place-items-start p-4 md:p-0">
         <Image
@@ -164,6 +181,7 @@ const ProductDetails = ({
             </button>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { Banner } from "@/components/ui/Banner";
 import FilteredProductList from "@/components/features/products/FilteredProductList";
 import SearchBar from "@/components/shared/common/SearchBar";
+import Breadcrumb from "@/components/shared/common/Breadcrumb";
 import { Category } from "@/lib/types/category";
 import { Product } from "@/lib/types/product";
 
@@ -36,8 +37,16 @@ const CategoryDetails = ({
     );
   }, [products, debouncedSearchTerm]);
 
+  const breadcrumbItems = [
+    { label: "Home", href: "/" },
+    { label: category.name },
+  ];
+
   return (
     <>
+      <div className="container mx-auto p-2 md:p-6">
+        <Breadcrumb items={breadcrumbItems} />
+      </div>
       <Banner
         title={category.name}
         subtitle={category.description}

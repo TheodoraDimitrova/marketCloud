@@ -9,7 +9,14 @@ import { urlFor } from "@/sanity/lib/image";
 
 const getProduct = async (slug: string): Promise<Product | null> => {
   try {
-    const query = `*[_type == "product" && slug.current == $slug][0]`;
+    const query = `*[_type == "product" && slug.current == $slug][0]{
+      ...,
+      category->{
+        _id,
+        name,
+        slug
+      }
+    }`;
     const product = await client.fetch(query, { slug });
 
     return product;
@@ -83,8 +90,11 @@ const ProductPage = async ({ params }: ProductPageProps) => {
     ? urlFor(product.images[1])
     : primaryImageUrl;
 
+  // Get category ID - use _id if category is expanded, otherwise use _ref
+  const categoryId = product.category?._id || product.category?._ref;
+  
   const relatedProducts = await getRelatedProducts(
-    product.category?._ref,
+    categoryId,
     product._id
   );
 
