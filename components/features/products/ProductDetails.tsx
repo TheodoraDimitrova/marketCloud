@@ -65,6 +65,7 @@ const ProductDetails = ({
   // Build breadcrumb items
   const breadcrumbItems = [
     { label: "Home", href: "/" },
+    { label: "Products", href: "/products" },
     ...(product.category?.name && product.category?.slug?.current
       ? [
           {

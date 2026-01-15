@@ -44,17 +44,18 @@ const CategoryDetails = ({
 
   const breadcrumbItems = [
     { label: "Home", href: "/" },
-    { label: category.name },
+    { label: "Categories", href: "/categories" },
+    { label: category?.name || "Category" },
   ];
 
   return (
     <>
-      <div className="container mx-auto p-2 md:p-6">
+      <div className="container mx-auto px-2 md:px-6 pt-1 md:pt-2 pb-0">
         <Breadcrumb items={breadcrumbItems} />
       </div>
       <Banner
-        title={category.name}
-        subtitle={category.description}
+        title={category?.name || "Category"}
+        subtitle={category?.description}
         backgroundImage={categoryImageUrl}
       />
       <SearchBar
