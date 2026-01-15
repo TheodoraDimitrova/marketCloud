@@ -35,8 +35,8 @@ const ProductCard = ({ product }: { product: Product }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <Link href={`/product/${product.slug.current}`} className="relative">
-        <div className="relative w-[250px] h-[350px]">
+      <Link href={`/product/${product.slug.current}`} className="relative w-full">
+        <div className="relative w-full aspect-[5/7]">
           <Image
             src={
               hovered
@@ -54,7 +54,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
           {/* Tags */}
           {product.tags && product.tags.length > 0 && (
-            <div className="absolute top-4 left-4 flex flex-col gap-1 text-center">
+            <div className="absolute top-3 left-3 flex flex-col gap-1 text-center z-10">
               {product.tags.map((tag) => (
                 <p
                   key={tag._key}
@@ -69,7 +69,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           {/* Wishlist/Favorite Button */}
           <button
             onClick={onToggleWishlist}
-            className="absolute top-4 right-4 p-2 rounded-full bg-white/90 hover:bg-white transition-all duration-300 shadow-md hover:shadow-lg"
+            className="absolute top-3 right-3 p-2 rounded-full bg-white/90 hover:bg-white transition-all duration-300 shadow-md hover:shadow-lg z-20"
             aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
           >
             <Heart

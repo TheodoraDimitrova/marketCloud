@@ -118,16 +118,24 @@ const FilteredProductList = ({ products }: FilteredProductListProps) => {
                 <ProductCard key={product._id} product={product} />
               ))
             ) : products.length > 0 ? (
-              <div className="flex-center flex-col space-y-4">
-                <p className="text-lg text-gray-700">
-                  No products match your selected filters. Try adjusting your
-                  search.
+              <div className="col-span-full flex-center flex-col space-y-4 py-12 px-4">
+                <p className="text-xl font-semibold text-gray-900 mb-2">
+                  No products found
+                </p>
+                <p className="text-base text-gray-600 text-center max-w-md">
+                  No products match your search or filters. Try adjusting your
+                  search terms, clearing filters, or browsing different
+                  categories.
                 </p>
               </div>
             ) : (
-              <div className="flex-center flex-col space-y-4">
-                <p className="text-lg text-gray-700">
-                  Sorry, no products are available right now.
+              <div className="col-span-full flex-center flex-col space-y-4 py-12 px-4">
+                <p className="text-xl font-semibold text-gray-900 mb-2">
+                  No products available for that search
+                </p>
+                <p className="text-base text-gray-600 text-center max-w-md">
+                  Try adjusting your search terms or filters to find what
+                  you&apos;re looking for.
                 </p>
               </div>
             )}
