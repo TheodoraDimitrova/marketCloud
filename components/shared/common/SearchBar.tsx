@@ -149,7 +149,10 @@ const SearchBar = ({ onSearch, products, searchTerm: externalSearchTerm }: Searc
                         // Check if image has the correct structure
                         if (firstImage && firstImage.asset) {
                           // Support both direct asset reference and nested ref
-                          const assetRef = firstImage.asset._ref || (firstImage.asset as any)?.ref;
+                          const assetRef = firstImage.asset._ref || 
+                            (typeof firstImage.asset === 'object' && 'ref' in firstImage.asset 
+                              ? (firstImage.asset as { ref?: string }).ref 
+                              : undefined);
                           if (assetRef) {
                             imageUrl = urlFor(firstImage);
                           }

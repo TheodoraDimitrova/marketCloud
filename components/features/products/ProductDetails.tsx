@@ -46,7 +46,7 @@ const ProductDetails = ({
           text: `Check out ${product.name}`,
           url: productUrl,
         });
-      } catch (error) {
+      } catch {
         // User cancelled or error occurred
         console.log("Share cancelled");
       }

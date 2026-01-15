@@ -2,13 +2,7 @@
 
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
 
-export default function ProductsError({
-  error: _error,
-  reset: _reset,
-}: {
-  error: Error;
-  reset: () => void;
-}) {
+export default function ProductsError() {
   const handleRetry = () => {
     window.location.reload();
   };

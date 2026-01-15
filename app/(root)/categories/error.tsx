@@ -4,13 +4,7 @@ import { ErrorMessage } from "@/components/ui/ErrorMessage";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 
-export default function CategoriesPageError({
-  error: _error,
-  reset: _reset,
-}: {
-  error: Error;
-  reset: () => void;
-}) {
+export default function CategoriesPageError() {
   const handleRetry = () => {
     window.location.reload();
   };

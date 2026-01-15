@@ -4,13 +4,7 @@ import { ErrorMessage } from "@/components/ui/ErrorMessage";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 
-export default function ProductPageError({
-  error: _error,
-  reset: _reset,
-}: {
-  error: Error;
-  reset: () => void;
-}) {
+export default function ProductPageError() {
   const handleRetry = () => {
     window.location.reload();
   };
