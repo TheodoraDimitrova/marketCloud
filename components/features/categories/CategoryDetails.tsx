@@ -11,7 +11,7 @@ import { Product } from "@/lib/types/product";
 interface CategoryDetailsProps {
   category: Category;
   products: Product[];
-  categoryImageUrl?: string; 
+  categoryImageUrl?: string;
 }
 
 const CategoryDetails = ({
@@ -32,9 +32,14 @@ const CategoryDetails = ({
     }
 
     const searchLower = debouncedSearchTerm.toLowerCase();
-    return products.filter((product) =>
-      product.name?.toLowerCase().includes(searchLower)
-    );
+    return products.filter((product) => {
+      const nameMatch = product.name?.toLowerCase().includes(searchLower);
+      const brandMatch = product.brand?.toLowerCase().includes(searchLower);
+      const descriptionMatch = product.description
+        ?.toLowerCase()
+        .includes(searchLower);
+      return nameMatch || brandMatch || descriptionMatch;
+    });
   }, [products, debouncedSearchTerm]);
 
   const breadcrumbItems = [
@@ -56,6 +61,8 @@ const CategoryDetails = ({
         onSearch={(searchTerm) => {
           setSearchTerm(searchTerm);
         }}
+        products={products}
+        searchTerm={searchTerm}
       />
       <FilteredProductList products={filterProducts} />
     </>
