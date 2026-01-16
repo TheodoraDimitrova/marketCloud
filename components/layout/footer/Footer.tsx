@@ -14,15 +14,15 @@ const Footer = () => {
     { href: "/our-blog", text: "Our blog" },
     { href: "/about-us", text: "About Us" },
     { href: "/customer-help", text: "FAQs" },
-    { href: "/products", text: "Search" },
+    // { href: "/products", text: "Search" },
   ];
 
   const shopLinks = [
     { href: "/categories", text: "Categories" },
     { href: "/deals", text: "Exclusive Offers" },
     { href: "/products", text: "Products" },
-    { href: "/brands", text: "Brands" },
-    { href: "/products?sort=newest", text: "New Arrivals" },
+    // { href: "/brands", text: "Brands" },
+    { href: "/products?discounts=NEW+ARRIVAL", text: "New Arrivals" },
   ];
 
   return (

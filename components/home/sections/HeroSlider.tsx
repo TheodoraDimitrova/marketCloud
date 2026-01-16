@@ -202,9 +202,14 @@ const HeroSlider = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
                     transition={{ duration: 0.9, delay: 0.9 }}
+                    className="text-lg max-w-m"
                   >
-                    <div className="flex space-x-4 mt-4">
-                      <Button asChild variant={"link"}>
+                    <div className="flex flex-col md:flex-row space-x-0 md:space-x-4 mt-4 w-full">
+                      <Button
+                        asChild
+                        variant="accent"
+                        className="w-full md:w-auto text-center mb-4 md:mb-0"
+                      >
                         <Link href="/deals">Grab the Deal</Link>
                       </Button>
                     </div>
@@ -269,9 +274,14 @@ const HeroSlider = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
                     transition={{ duration: 0.9, delay: 0.9 }}
+                    className="text-lg max-w-m"
                   >
-                    <div className="flex space-x-4 mt-4">
-                      <Button asChild variant={"link"}>
+                    <div className="flex flex-col md:flex-row space-x-0 md:space-x-4 mt-4 w-full">
+                      <Button
+                        asChild
+                        variant="accent"
+                        className="w-full md:w-auto text-center mb-4 md:mb-0"
+                      >
                         <Link href="/deals">Get Free Shipping</Link>
                       </Button>
                     </div>
