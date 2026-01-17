@@ -1,5 +1,3 @@
-import { Rule } from 'sanity';
-
 const productSchema = {
   name: "product",
   title: "Product",
@@ -66,12 +64,6 @@ const productSchema = {
       title: "Colors",
       type: "array",
       of: [{ type: "string" }],
-    },
-    {
-      name: "rating",
-      title: "Rating",
-      type: "number",
-      validation: (Rule: Rule) => Rule.min(0).max(5), 
     },
     {
       name: "reviews",

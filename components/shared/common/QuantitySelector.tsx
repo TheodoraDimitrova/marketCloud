@@ -10,24 +10,32 @@ const QuantitySelector = ({
   updateQuantity,
 }: QuantitySelectorProps) => {
   return (
-    <div className="flex-center border rounded-sm border-gray-300 w-24 bg-gray-200 mt-2 ">
-      <div>
-        {" "}
-        <Minus size={20} onClick={() => updateQuantity(-1)} />
-      </div>
+    <div className="flex items-center justify-center border rounded border-gray-400 w-24 h-10 bg-white">
+      <button
+        type="button"
+        onClick={() => updateQuantity(-1)}
+        className="flex items-center justify-center w-8 h-full hover:bg-gray-100 transition-colors"
+        aria-label="Decrease quantity"
+      >
+        <Minus size={18} className="text-gray-700" />
+      </button>
 
       <input
         type="number"
         value={quantity}
         readOnly
-        className="w-12 text-center "
+        className="w-12 text-center text-base font-medium text-gray-900 border-0 focus:outline-none"
         aria-label="Quantity"
       />
 
-      <div>
-        {" "}
-        <Plus size={20} onClick={() => updateQuantity(1)} />
-      </div>
+      <button
+        type="button"
+        onClick={() => updateQuantity(1)}
+        className="flex items-center justify-center w-8 h-full hover:bg-gray-100 transition-colors"
+        aria-label="Increase quantity"
+      >
+        <Plus size={18} className="text-gray-700" />
+      </button>
     </div>
   );
 };

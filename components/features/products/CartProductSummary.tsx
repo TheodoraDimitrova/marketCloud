@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Tags } from "lucide-react";
 import { urlFor } from "@/sanity/lib/image";
 import { useParams } from "next/navigation";
 
@@ -26,13 +25,13 @@ const CartProductSummary = ({ item }: CartProductSummaryProps) => {
           alt={item.name}
           fill
           sizes="(max-width: 768px) 50px, 100px"
-          className="rounded-sm object-cover"
+          className="rounded-md object-cover"
           priority
           unoptimized={true}
         />
         {/* Quantity Badge */}
         {(isCheckoutPage || isThankYouPage) && (
-          <div className="absolute top-[-7px] right-[-6px] bg-red-500 text-white text-xs rounded-full px-2 py-1 ">
+          <div className="absolute top-[-7px] right-[-6px] bg-[#7d0d23] text-white text-xs rounded-full px-2 py-1 ">
             {item.quantity}
           </div>
         )}
@@ -41,12 +40,11 @@ const CartProductSummary = ({ item }: CartProductSummaryProps) => {
         <h3 className="text-sm font-medium">{item.name}</h3>
 
         {item.discount?.isActive && (
-          <div className="flex items-center mt-2 w-full bg-">
-            <Tags />
-            <div className="text-sm w-full md:ml-2">
-              -{item.discount.amount}{" "}
+          <div className="flex items-center mt-2">
+            <span className="text-xs font-medium text-[#7d0d23] bg-[#7d0d23]/10 px-2 py-0.5 rounded">
+              -{item.discount.amount}
               {item.discount.type === "percentage" ? "%" : "€"} OFF
-            </div>
+            </span>
           </div>
         )}
       </div>

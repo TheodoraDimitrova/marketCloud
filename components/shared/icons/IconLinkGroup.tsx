@@ -25,7 +25,7 @@ const IconLinkGroup = ({ links }: IconLinkGroupProps) => {
           rel="noopener noreferrer"
           className="group"
         >
-          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-red-600 transition-all duration-300 group-hover:scale-110">
+          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-[#7d0d23] transition-all duration-300 group-hover:scale-110">
             <Icon
               className={`text-[22px] group-hover:scale-110 transition-transform duration-300 ${extraClasses}`}
               style={{ color: "#FFFFFF" }}

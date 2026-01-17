@@ -54,15 +54,30 @@ const ProductCard = ({ product }: { product: Product }) => {
 
           {/* Tags */}
           {product.tags && product.tags.length > 0 && (
-            <div className="absolute top-3 left-3 flex flex-col gap-1 text-center z-10">
-              {product.tags.map((tag) => (
-                <p
-                  key={tag._key}
-                  className="bg-red-400 text-xs text-white px-2 py-1 rounded-sm"
-                >
-                  {tag.label}
-                </p>
-              ))}
+            <div className="absolute top-3 left-3 flex flex-col gap-1 z-10">
+              {product.tags.map((tag) => {
+                // Luxury color palette matching Tag component
+                const getTagColor = (type: string) => {
+                  switch (type) {
+                    case "discount":
+                      return "bg-[#7d0d23] text-white";
+                    case "new":
+                      return "bg-[#C9A9A6] text-[#1F2933]";
+                    case "limited":
+                      return "bg-[#D4AF8E] text-[#1F2933]";
+                    default:
+                      return "bg-gray-400 text-white";
+                  }
+                };
+                return (
+                  <p
+                    key={tag._key}
+                    className={`${getTagColor(tag.type)} text-xs font-medium px-2.5 py-1 rounded`}
+                  >
+                    {tag.label}
+                  </p>
+                );
+              })}
             </div>
           )}
 
@@ -75,8 +90,8 @@ const ProductCard = ({ product }: { product: Product }) => {
             <Heart
               className={`w-5 h-5 transition-all duration-300 ${
                 inWishlist
-                  ? "fill-red-500 text-red-500"
-                  : "text-gray-700 hover:text-red-500"
+                  ? "fill-[#7d0d23] text-[#7d0d23]"
+                  : "text-gray-600 hover:text-[#7d0d23]"
               }`}
             />
           </button>
@@ -99,9 +114,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         {/* Price Details */}
         <div className="flex-between flex-col flex-grow text-center p-3">
           <p className="text-gray-800 text-sm uppercase ">{product.name}</p>
-          <p className="text-gray-600 text-md">
-            <PriceDisplay price={product.price} />
-          </p>
+          <PriceDisplay price={product.price} className="text-sm font-semibold text-gray-600" />
         </div>
       </Link>
     </div>

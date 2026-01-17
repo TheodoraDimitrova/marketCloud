@@ -21,19 +21,20 @@ export interface Product {
   description: string;
   price: number;
   package: string;
-  rating: number;
-  tags?: Tag[]; // tags are optional
-  discount?: Discount; // discount is optional
+  rating?: number; // Optional - calculated from reviews
+  tags?: Tag[];
+  discount?: Discount;
   productDetails: string[];
-  images: { asset: { _ref: string } }[]; 
+  images: { asset: { _ref: string } }[];
   brand?: string;
-  category?: { 
-    _ref?: string; 
+  sizes?: string[]; // sizes are optional
+  category?: {
+    _ref?: string;
     _type?: string;
     _id?: string;
     name?: string;
     slug?: { current: string };
-  }; // Sanity reference (can be expanded or reference)
-  _createdAt?: string; // Sanity automatic field
-  _updatedAt?: string; // Sanity automatic field
+  };
+  _createdAt?: string;
+  _updatedAt?: string;
 }

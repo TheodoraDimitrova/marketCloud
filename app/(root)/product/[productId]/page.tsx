@@ -35,7 +35,7 @@ const getRelatedProducts = async (
   }
 
   try {
-    const query = `*[_type == "product" && references($categoryId) && _id != $currentProductId][0...3]{
+    const query = `*[_type == "product" && references($categoryId) && _id != $currentProductId][0...4]{
       ...,
       _createdAt,
       _updatedAt
@@ -100,12 +100,26 @@ const ProductPage = async ({ params }: ProductPageProps) => {
 
   const reviews = await getReviews(product._id);
 
+  // Calculate average rating from reviews
+  const calculateAverageRating = (reviews: Review[]): number | null => {
+    if (reviews.length === 0) return null;
+    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
+    const average = sum / reviews.length;
+    return Math.round(average * 10) / 10; // Round to 1 decimal place
+  };
+
+  const calculatedRating = calculateAverageRating(reviews);
+  // Only use calculated rating from reviews, no manual rating
+  const displayRating = calculatedRating;
+
   return (
     <>
       <ProductDetails
-        product={product}
+        product={{ ...product, rating: displayRating || undefined }}
         primaryImageUrl={primaryImageUrl}
         secondaryImageUrl={secondaryImageUrl}
+        productId={product._id}
+        reviewsCount={reviews.length}
       />
       <ReviewsSection reviews={reviews} productId={product._id} />
       {relatedProducts.length > 0 && (

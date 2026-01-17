@@ -99,22 +99,21 @@ const ReviewForm = ({ productId, onSubmitSuccess }: ReviewFormProps) => {
   };
 
   return (
-    <div className="mt-4 border-t border-gray-200 pt-4">
-      <h2 className="text-lg font-semibold mb-3">Write a Review</h2>
+    <div>
       {submitError && (
-        <div className="mb-2 p-2 bg-red-50 border border-red-200 rounded text-red-800 text-sm">
+        <div className="mb-2 p-2 bg-red-50 border border-red-200 rounded text-red-800 text-base">
           {submitError}
         </div>
       )}
       {submitSuccess && (
-        <div className="mb-2 p-2 bg-green-50 border border-green-200 rounded text-green-800 text-sm">
-          <p className="font-medium text-sm">Review submitted successfully!</p>
+        <div className="mb-2 p-2 bg-green-50 border border-green-200 rounded text-green-800 text-base">
+          <p className="font-medium text-base">Review submitted successfully!</p>
         </div>
       )}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-2.5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
           <div>
-            <Label htmlFor="name" className="text-sm">
+            <Label htmlFor="name" className="text-base">
               Name <span className="text-gray-500">*</span>
             </Label>
             <Input
@@ -127,7 +126,7 @@ const ReviewForm = ({ productId, onSubmitSuccess }: ReviewFormProps) => {
           </div>
 
           <div>
-            <Label htmlFor="email" className="text-sm">
+            <Label htmlFor="email" className="text-base">
               Email <span className="text-gray-500">*</span>
             </Label>
             <Input
@@ -147,7 +146,7 @@ const ReviewForm = ({ productId, onSubmitSuccess }: ReviewFormProps) => {
         </div>
 
         <div>
-          <Label className="text-sm">
+          <Label className="text-base">
             Rating <span className="text-gray-500">*</span>
           </Label>
           <div className="flex gap-1 mt-0.5">
@@ -165,9 +164,9 @@ const ReviewForm = ({ productId, onSubmitSuccess }: ReviewFormProps) => {
                     className="focus:outline-none"
                   >
                     {starValue <= (hoveredRating || rating) ? (
-                      <FaStar className="w-5 h-5 text-yellow-500 fill-current" />
+                      <FaStar className="w-5 h-5 text-[#7d0d23] fill-[#7d0d23]" />
                     ) : (
-                      <FaRegStar className="w-5 h-5 text-gray-300 fill-current hover:text-yellow-400 transition-colors" />
+                      <FaRegStar className="w-5 h-5 text-gray-300 fill-current hover:text-[#7d0d23] transition-colors" />
                     )}
                   </button>
                 );
@@ -179,7 +178,7 @@ const ReviewForm = ({ productId, onSubmitSuccess }: ReviewFormProps) => {
         </div>
 
         <div>
-          <Label htmlFor="comment" className="text-sm">
+          <Label htmlFor="comment" className="text-base">
             Comment <span className="text-gray-500">*</span>
           </Label>
           <Textarea

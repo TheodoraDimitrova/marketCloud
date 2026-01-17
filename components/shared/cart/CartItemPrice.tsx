@@ -23,7 +23,7 @@ const CartItemPrice = ({
         className={`flex flex-col ${alignmentClass} whitespace-nowrap ${className}`}
       >
         {showStrikethrough && (
-          <p className="text-sm font-semibold line-through text-red-500">
+          <p className="text-sm font-semibold line-through text-gray-400">
             <PriceDisplay price={item.price} />
           </p>
         )}

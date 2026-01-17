@@ -33,34 +33,21 @@ const DiscountBannerProduct = ({
   }, [price, discount]);
 
   return (
-    <div className="bg-[#ffedf6] p-4 rounded-sm w-full">
-      <div className="flex items-center gap-2">
-        <span className="text-lg font-bold text-[#dc0069]">
-          <PriceDisplay price={discountedPrice} />
-        </span>
+    <div className="w-full">
+      <div className="flex flex-col">
+        <PriceDisplay price={discountedPrice} />
         {discount && (
-          <span className="text-sm px-2 py-1 rounded">
-            -{discount.amount}
-            {discount.type === "percentage" ? "%" : "€"} OFF
+          <p className="text-sm text-gray-400 line-through mt-0.5">
+            € {price.toFixed(2)}
+          </p>
+        )}
+        {discount && (
+          <span className="inline-block text-xs font-medium text-[#7d0d23] mt-1">
+            Save {discount.amount}
+            {discount.type === "percentage" ? "%" : "€"}
           </span>
         )}
       </div>
-
-      {discount && (
-        <p className="text-gray-500 text-sm line-through">
-          <PriceDisplay price={price} />
-        </p>
-      )}
-
-      {discount && (
-        <div className="flex items-center text-xs text-gray-600 mt-2">
-          Current price with discount:
-          <span className="font text-gray-800 ml-1">
-            <PriceDisplay price={price} /> - {discount.amount}
-            {discount.type === "percentage" ? "%" : "€"} OFF
-          </span>
-        </div>
-      )}
     </div>
   );
 };

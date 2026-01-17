@@ -3,7 +3,6 @@ import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-import CartProductSummary from "../products/CartProductSummary";
 import FreeShippingBanner from "@/components/features/cart/FreeShippingBanner";
 import EmptyShoppingCart from "@/components/features/cart/EmptyShoppingCart";
 import QuantitySelector from "@/components/shared/common/QuantitySelector";
@@ -14,6 +13,8 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import PriceDisplay from "@/components/shared/common/PriceDisplay";
 import CartItemPrice from "@/components/shared/cart/CartItemPrice";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
+import Image from "next/image";
+import { urlFor } from "@/sanity/lib/image";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -67,11 +68,19 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
         } transition-transform duration-300 ease-in-out text-gray-600 z-20 overflow-y-auto`}
       >
         {/* Header */}
-        <div className="flex items-center p-4">
-          {isMounted && cartItems.length > 0 && (
-            <p>Your cart ({cartItems.length})</p>
-          )}
-          <X size={24} onClick={onClose} className="ml-auto cursor-pointer" />
+        <div className="flex items-center justify-between p-4 border-b border-gray-200">
+          <h2 className="text-lg font-semibold text-gray-900">
+            {isMounted && cartItems.length > 0
+              ? `Your cart (${cartItems.length})`
+              : "Your cart"}
+          </h2>
+          <button
+            onClick={onClose}
+            className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+            aria-label="Close cart"
+          >
+            <X size={20} className="text-gray-600" />
+          </button>
         </div>
 
         {!isMounted || cartItems.length === 0 ? (
@@ -80,45 +89,71 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
           <>
             <FreeShippingBanner totalAmount={subtotal} />
             {/* Cart Content */}
-            {cartItems.map((item, index) => (
-              <div
-                key={item._id || index}
-                className="md:p-4  flex-col pb-4 mt-4 "
-              >
-                <div className="flex-between">
-                  <div className="flex flex-col">
-                    <CartProductSummary item={item} />
-
-                    <div className="ml-20 w-full">
-                      <QuantitySelector
-                        updateQuantity={(change) =>
-                          updateQuantity(item._id, change)
-                        }
-                        quantity={item.quantity}
+            <div className="py-2">
+              {cartItems.map((item, index) => (
+                <div
+                  key={item._id || index}
+                  className="border-b border-gray-100 last:border-b-0 py-4 first:pt-2"
+                >
+                  <div className="flex gap-3">
+                    {/* Product Image */}
+                    <div className="relative flex-shrink-0 w-20 h-20">
+                      <Image
+                        src={urlFor(item.images[0])}
+                        alt={item.name}
+                        fill
+                        sizes="80px"
+                        className="rounded-md object-cover"
+                        unoptimized={true}
                       />
                     </div>
-                  </div>
 
-                  <CartItemPrice item={item} />
+                    {/* Product Info */}
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-sm font-medium text-gray-900 mb-1 line-clamp-2">
+                        {item.name}
+                      </h3>
+
+                      {/* Price and Quantity Row */}
+                      <div className="flex items-center justify-between mt-2 gap-3">
+                        <QuantitySelector
+                          updateQuantity={(change) =>
+                            updateQuantity(item._id, change)
+                          }
+                          quantity={item.quantity}
+                        />
+                        <CartItemPrice item={item} />
+                      </div>
+
+                      {/* Discount Badge */}
+                      {item.discount?.isActive && (
+                        <div className="mt-2">
+                          <span className="text-xs font-medium text-[#7d0d23] bg-[#7d0d23]/10 px-2 py-0.5 rounded">
+                            -{item.discount.amount}
+                            {item.discount.type === "percentage" ? "%" : "€"} OFF
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
 
             {/* Footer */}
-            <div className="p-4 border-t">
-              <div className="flex justify-between font-semibold text-lg">
-                <span>Subtotal:</span>
-                <PriceDisplay price={subtotal} />
+            <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4 mt-4">
+              <div className="flex justify-between items-center mb-3">
+                <span className="text-base font-semibold text-gray-900">
+                  Subtotal:
+                </span>
+                <PriceDisplay price={subtotal} className="text-lg font-bold text-gray-900" />
               </div>
-              <p className="py-4">
+              <p className="text-xs text-gray-500 mb-4">
                 Tax included, shipping and discounts calculated at checkout.
               </p>
-              <Button asChild className="w-60">
-                <Link
-                  href="/cart"
-                  className="w-full bg-black text-white py-2 mt-3 rounded-md"
-                >
-                  Checkout
+              <Button asChild className="w-full" onClick={onClose}>
+                <Link href="/cart" className="w-full text-center">
+                  View Cart & Checkout
                 </Link>
               </Button>
             </div>

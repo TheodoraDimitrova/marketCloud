@@ -10,15 +10,15 @@ const Rating = ({ rating }: RatingProps) => {
   const emptyStars = 5 - fullStars - halfStar;
 
   return (
-    <div className="flex my-4">
+    <div className="flex gap-0.5">
       {Array(fullStars)
         .fill(0)
         .map((_, index) => (
-          <FaStar key={`full-${index}`} className="h-4 w-4 text-yellow-500" />
+          <FaStar key={`full-${index}`} className="h-4 w-4 text-[#7d0d23] fill-[#7d0d23]" />
         ))}
 
       {halfStar === 1 && (
-        <FaStarHalfAlt key="half" className="h-4 w-4 text-yellow-500" />
+        <FaStarHalfAlt key="half" className="h-4 w-4 text-[#7d0d23] fill-[#7d0d23]" />
       )}
 
       {Array(emptyStars)
@@ -26,7 +26,7 @@ const Rating = ({ rating }: RatingProps) => {
         .map((_, index) => (
           <FaRegStar
             key={`empty-${index}`}
-            className="h-4 w-4 text-yellow-500"
+            className="h-4 w-4 text-gray-300"
           />
         ))}
     </div>
