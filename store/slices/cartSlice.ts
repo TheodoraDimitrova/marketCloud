@@ -47,7 +47,12 @@ const cartSlice = createSlice({
       );
 
       if (existingItemIndex >= 0) {
-        state.items[existingItemIndex].quantity += product.quantity;
+        const existingItem = state.items[existingItemIndex];
+        existingItem.quantity += product.quantity;
+        // Recalculate discounted price and subtotal for the updated quantity
+        const discountedPrice = calculateDiscountedPrice(existingItem);
+        existingItem.discountedPrice = discountedPrice;
+        existingItem.subtotalSingleProduct = discountedPrice * existingItem.quantity;
       } else {
         const discountedPrice = calculateDiscountedPrice(product);
         const subtotalSingleProduct = discountedPrice * product.quantity;

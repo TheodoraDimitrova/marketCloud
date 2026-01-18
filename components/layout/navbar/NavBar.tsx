@@ -125,7 +125,7 @@ const NavBar = () => {
 
           <button
             onClick={() => router.push("/wishlist")}
-            className="relative hidden md:inline-flex"
+            className="relative"
             aria-label="Wishlist"
           >
             <Heart size={24} />
@@ -151,7 +151,9 @@ const NavBar = () => {
           const DropdownComponent = navigationItems[activeIndex].Dropdown;
           return (
             <div
-              className="absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-400 z-70"
+              className="absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-300 z-70 transition-all duration-300 ease-in-out"
+              onMouseEnter={() => setActiveIndex(activeIndex)}
+              onMouseLeave={() => setActiveIndex(null)}
               onClick={() => setActiveIndex(null)}
             >
               <DropdownComponent />

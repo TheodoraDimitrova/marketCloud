@@ -44,11 +44,6 @@ const ReviewForm = ({ productId, onSubmitSuccess }: ReviewFormProps) => {
   });
 
   const onSubmit = async (data: ReviewFormData) => {
-    if (rating === 0) {
-      setSubmitError("Please select a rating");
-      return;
-    }
-
     setIsSubmitting(true);
     setSubmitError(null);
     setSubmitSuccess(false);
@@ -64,7 +59,7 @@ const ReviewForm = ({ productId, onSubmitSuccess }: ReviewFormProps) => {
           name: data.name,
           email: data.email,
           comment: data.comment,
-          rating,
+          rating: data.rating,
         }),
       });
 
@@ -95,7 +90,9 @@ const ReviewForm = ({ productId, onSubmitSuccess }: ReviewFormProps) => {
 
   const handleStarClick = (value: number) => {
     setRating(value);
-    setValue("rating", value);
+    // keep react-hook-form in sync and validate immediately
+    setValue("rating", value, { shouldValidate: true, shouldDirty: true });
+    setSubmitError(null);
   };
 
   return (
@@ -150,6 +147,13 @@ const ReviewForm = ({ productId, onSubmitSuccess }: ReviewFormProps) => {
             Rating <span className="text-gray-500">*</span>
           </Label>
           <div className="flex gap-1 mt-0.5">
+            <input
+              type="hidden"
+              {...register("rating", {
+                validate: (value) =>
+                  value > 0 || "Please select a rating",
+              })}
+            />
             {Array(5)
               .fill(0)
               .map((_, index) => {
@@ -172,9 +176,7 @@ const ReviewForm = ({ productId, onSubmitSuccess }: ReviewFormProps) => {
                 );
               })}
           </div>
-          {rating === 0 && (
-            <FormError message="Please select a rating" />
-          )}
+          <FormError message={errors.rating?.message} />
         </div>
 
         <div>

@@ -65,15 +65,14 @@ const OrderSummary = () => {
 
       {/* Total Savings */}
       {totalSavings > 0 && (
-        <div className="flex my-4 ">
-          <Tags />
-          <p className="text-sm uppercase font-semibold">
-            Total Savings{" "}
-            <span>
-              {" "}
-              <PriceDisplay price={totalSavings} />
+        <div className="flex items-center justify-between my-4 p-3 bg-[#7d0d23]/10 rounded-md border border-[#7d0d23]/20">
+          <div className="flex items-center gap-2">
+            <Tags className="text-[#7d0d23] w-5 h-5" />
+            <span className="text-sm uppercase font-semibold text-[#7d0d23]">
+              Total Savings
             </span>
-          </p>
+          </div>
+          <PriceDisplay price={totalSavings} className="text-base font-bold text-[#7d0d23]" />
         </div>
       )}
     </div>

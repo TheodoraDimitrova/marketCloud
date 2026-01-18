@@ -23,20 +23,20 @@ const CartItemPrice = ({
         className={`flex flex-col ${alignmentClass} whitespace-nowrap ${className}`}
       >
         {showStrikethrough && (
-          <p className="text-sm font-semibold line-through text-gray-400">
-            <PriceDisplay price={item.price} />
+          <p className="text-sm font-medium line-through decoration-2 text-gray-500">
+            <PriceDisplay price={item.price} className="text-sm font-medium" />
           </p>
         )}
-        <p className="text-sm font-semibold">
-          <PriceDisplay price={item.discountedPrice || item.price} />
+        <p className="text-base font-semibold text-gray-900">
+          <PriceDisplay price={item.discountedPrice || item.price} className="text-base font-semibold" />
         </p>
       </div>
     );
   }
 
   return (
-    <p className={`text-sm font-semibold whitespace-nowrap ${className}`}>
-      <PriceDisplay price={item.price} />
+    <p className={`text-base font-semibold whitespace-nowrap ${className}`}>
+      <PriceDisplay price={item.price} className="text-base font-semibold" />
     </p>
   );
 };

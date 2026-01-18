@@ -108,28 +108,30 @@ const ProductDetails = ({
   return (
     <section className="container mx-auto p-2 md:p-6">
       <Breadcrumb items={breadcrumbItems} />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 mt-6">
         {/* left side */}
-        <div className="flex justify-center place-items-start p-4 md:p-0">
-          <Image
-            src={hovered ? secondaryImageUrl : primaryImageUrl}
-            alt={product.name}
-            width={200}
-            height={250}
-            style={{ width: "auto", height: "auto" }}
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="rounded-[10px] shadow-lg h-[350px]"
-            priority
-            quality={85}
-            unoptimized={true}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-          />
+        <div className="flex justify-center items-start p-4 md:p-4 lg:p-6">
+          <div className="w-full max-w-md lg:max-w-lg xl:max-w-xl">
+            <Image
+              src={hovered ? secondaryImageUrl : primaryImageUrl}
+              alt={product.name}
+              width={200}
+              height={250}
+              style={{ width: "auto", height: "auto" }}
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 45vw, 40vw"
+              className="rounded-[10px] shadow-lg h-[350px] md:h-[400px] lg:h-[450px] xl:h-[500px] w-full object-contain"
+              priority
+              quality={85}
+              unoptimized={true}
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+            />
+          </div>
         </div>
 
         {/* right side */}
-        <div className="flex flex-col justify-start max-w-md p-2 md:p-6">
-          <div className="flex items-center justify-between gap-4 mb-2">
+        <div className="flex flex-col justify-start w-full p-4 md:p-4 lg:p-6">
+          <div className="flex items-center justify-between gap-4 mb-3">
             <h1 className="text-2xl md:text-3xl font-semibold text-gray-600 m-0 flex-1">
               {product.name}
             </h1>
@@ -151,13 +153,14 @@ const ProductDetails = ({
               </button>
             </div>
           </div>
+
           {product.brand && (
-            <p className="text-base font-medium text-gray-600 mt-1 mb-2">
+            <p className="text-base font-medium text-gray-600 mb-3">
               Brand: {product.brand}
             </p>
           )}
 
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-4 mb-3">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-4 mb-4">
             {product.tags && product.tags.length > 0 && (
               <div className="flex-1">
                 <ListTags tags={product.tags} />
@@ -170,30 +173,38 @@ const ProductDetails = ({
             ) : null}
           </div>
 
-          {product.discount?.isActive ? (
-            <div className="my-3">
+          {/* Price Section - Enhanced Visual Hierarchy */}
+          <div className="mb-6 pb-6 border-b border-gray-200">
+            {product.discount?.isActive ? (
               <DiscountBannerProduct
                 price={product.price}
                 discount={product.discount}
               />
-            </div>
-          ) : (
-            <div className="flex justify-end items-center my-3">
-              <PriceDisplay price={product.price} />
-            </div>
-          )}
-
-          <div className="mt-4 flex items-center gap-4">
-            <QuantitySelector
-              quantity={quantity}
-              updateQuantity={handleUpdateQuantity}
-            />
-            <Button onClick={handleAddToCart} className="flex-1">
-              Add to Cart
-            </Button>
+            ) : (
+              <div className="flex justify-start items-center">
+                <PriceDisplay price={product.price} />
+              </div>
+            )}
           </div>
 
-          <div className="mt-4 border-t border-gray-200 pt-4">
+          {/* CTA Section */}
+          <div className="mb-6">
+            <div className="flex items-center gap-4 mb-4">
+              <QuantitySelector
+                quantity={quantity}
+                updateQuantity={handleUpdateQuantity}
+              />
+              <Button
+                onClick={handleAddToCart}
+                className="flex-1 text-base py-6"
+              >
+                Add to Cart
+              </Button>
+            </div>
+          </div>
+
+          {/* Additional Information Section */}
+          <div className="border-t border-gray-200 pt-6">
             {/* Description Accordion */}
             <div className="border-b border-gray-200">
               <details className="group" open>
@@ -206,8 +217,8 @@ const ProductDetails = ({
                     <ChevronUp className="w-5 h-5" />
                   </span>
                 </summary>
-                <div className="pb-4 pt-2 text-gray-700">
-                  <p className="text-base text-justify leading-relaxed">
+                <div className="pb-4 pt-2 text-gray-700 overflow-hidden">
+                  <p className="text-base leading-relaxed break-words">
                     {product.description}
                   </p>
                 </div>
@@ -226,12 +237,12 @@ const ProductDetails = ({
                     <ChevronUp className="w-5 h-5" />
                   </span>
                 </summary>
-                <div className="pb-4 pt-2 text-gray-700">
+                <div className="pb-4 pt-2 text-gray-700 overflow-hidden">
                   <ul className="list-disc pl-5 space-y-2">
                     {product.productDetails.map((detail, index) => (
                       <li
                         key={index}
-                        className="text-justify text-base leading-relaxed"
+                        className="text-base leading-relaxed break-words"
                       >
                         {detail}
                       </li>
@@ -254,8 +265,8 @@ const ProductDetails = ({
                       <ChevronUp className="w-5 h-5" />
                     </span>
                   </summary>
-                  <div className="pb-4 pt-2 text-gray-700">
-                    <p className="text-base text-justify leading-relaxed">
+                  <div className="pb-4 pt-2 text-gray-700 overflow-hidden">
+                    <p className="text-base leading-relaxed break-words">
                       {product.sizes.join(", ")}
                     </p>
                   </div>
@@ -276,8 +287,8 @@ const ProductDetails = ({
                       <ChevronUp className="w-5 h-5" />
                     </span>
                   </summary>
-                  <div className="pb-4 pt-2 text-gray-700">
-                    <p className="text-base text-justify leading-relaxed">
+                  <div className="pb-4 pt-2 text-gray-700 overflow-hidden">
+                    <p className="text-base leading-relaxed break-words">
                       {product.package}
                     </p>
                   </div>
@@ -343,13 +354,13 @@ const ProductDetails = ({
                       Delivery Methods:
                     </p>
                     <ul className="list-disc pl-5 space-y-1.5 text-base">
-                      <li className="text-justify">
+                      <li className="break-words">
                         Delivery to Address: €5.99
                       </li>
-                      <li className="text-justify">
+                      <li className="break-words">
                         Delivery to Courier Office: €3.99
                       </li>
-                      <li className="text-justify">
+                      <li className="break-words">
                         Delivery to Smart Point: €2.99
                       </li>
                     </ul>
@@ -358,7 +369,7 @@ const ProductDetails = ({
                     <p className="font-semibold mb-1.5 text-gray-800">
                       Free Shipping:
                     </p>
-                    <p className="text-base text-justify leading-relaxed">
+                    <p className="text-base leading-relaxed break-words">
                       Enjoy free shipping on all orders over €
                       {FREE_SHIPPING_THRESHOLD}. Orders are typically processed
                       within 1-2 business days and delivered within 3-5 business
@@ -369,7 +380,7 @@ const ProductDetails = ({
                     <p className="font-semibold mb-1.5 text-gray-800">
                       Delivery Areas:
                     </p>
-                    <p className="text-base text-justify leading-relaxed">
+                    <p className="text-base leading-relaxed break-words">
                       We currently deliver to Greece and Bulgaria. For
                       international shipping, please contact us for more
                       information.

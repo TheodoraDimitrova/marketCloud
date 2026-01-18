@@ -35,7 +35,10 @@ const ProductCard = ({ product }: { product: Product }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <Link href={`/product/${product.slug.current}`} className="relative w-full">
+      <Link
+        href={`/product/${product.slug.current}`}
+        className="relative w-full"
+      >
         <div className="relative w-full aspect-[5/7]">
           <Image
             src={
@@ -114,7 +117,10 @@ const ProductCard = ({ product }: { product: Product }) => {
         {/* Price Details */}
         <div className="flex-between flex-col flex-grow text-center p-3">
           <p className="text-gray-800 text-sm uppercase ">{product.name}</p>
-          <PriceDisplay price={product.price} className="text-sm font-semibold text-gray-600" />
+          <PriceDisplay
+            price={product.price}
+            className="text-sm font-semibold text-gray-600"
+          />
         </div>
       </Link>
     </div>

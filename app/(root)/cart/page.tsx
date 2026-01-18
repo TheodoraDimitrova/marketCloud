@@ -142,11 +142,10 @@ const CartPage = () => {
 
                   {/* Total Price Section */}
                   <div className="flex items-center justify-end pt-2">
-                    <p className="text-lg font-bold text-gray-900">
-                      <PriceDisplay
-                        price={item.subtotalSingleProduct || item.price}
-                      />
-                    </p>
+                    <PriceDisplay
+                      price={item.subtotalSingleProduct || item.price}
+                      className="text-base font-semibold text-gray-900"
+                    />
                   </div>
 
                   {/* Remove Button */}
@@ -214,22 +213,22 @@ const CartPage = () => {
 
                   {/* Subtotal */}
                   <div className="w-24 text-right">
-                    <p className="text-sm font-semibold">
-                      <PriceDisplay
-                        price={item.subtotalSingleProduct || item.price}
-                      />
-                    </p>
+                    <PriceDisplay
+                      price={item.subtotalSingleProduct || item.price}
+                      className="text-base font-semibold text-gray-900"
+                    />
                   </div>
                 </div>
               </div>
             ))}
 
           <div className="p-4 mt-6">
-            <div className="flex space-x-2 font-semibold text-lg w-full  justify-end">
+            <div className="flex space-x-2 font-semibold text-base w-full  justify-end">
               <span>Subtotal:</span>
-              <span>
-                <PriceDisplay price={subtotal} />
-              </span>
+              <PriceDisplay
+                price={subtotal}
+                className="text-base font-semibold text-gray-900"
+              />
             </div>
 
             <p className="pt-4 text-sm text-gray-500 flex w-full justify-end">

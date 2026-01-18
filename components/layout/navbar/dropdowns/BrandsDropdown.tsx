@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 
 const brands = [
@@ -38,33 +37,25 @@ const brands = [
 
 const BrandsDropdown = () => {
   return (
-    <div className="lg:container flex-col md:flex-row space-y-4 pb-[100px] mx-auto flex h-screen overflow-scroll md:overflow-hidden md:justify-between md:p-6  md:h-auto md:align-middle md:space-y-0 md:gap-4">
-      {brands.map((brand, index) => (
-        <div key={index}>
-          <h3 className="font-bold">{brand.category}</h3>
-          <ul>
-            {brand.items.map((item, index) => (
-              <li key={index}>
-                <Link href={item.url}>{item.name}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-
-      {/* Image Section */}
-      <div className="flex flex-col md:flex-row justify-between gap-4 ">
-        {["/images/Products.png", "/images/Brands.png"].map((src, index) => (
-          <div key={index}>
-            <Image
-              src={src}
-              alt="Brand Ad"
-              className="rounded"
-              width={150}
-              height={200}
-              style={{ width: "auto", height: "auto" }}
-              sizes="50vw"
-            />
+    <div className="lg:container mx-auto p-4 md:p-8 pb-4 md:pb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        {brands.map((brand, index) => (
+          <div key={index} className="flex flex-col">
+            <h3 className="font-bold text-base md:text-lg mb-3 text-gray-800 border-b border-gray-200 pb-2">
+              {brand.category}
+            </h3>
+            <ul className="space-y-2 flex-1">
+              {brand.items.map((item, index) => (
+                <li key={index}>
+                  <Link 
+                    href={item.url} 
+                    className="text-sm md:text-base text-gray-600 hover:text-[#7d0d23] transition-colors duration-300 block py-1.5"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         ))}
       </div>
