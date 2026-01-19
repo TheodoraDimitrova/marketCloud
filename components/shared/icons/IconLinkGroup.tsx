@@ -11,11 +11,37 @@ interface IconLink {
 
 interface IconLinkGroupProps {
   links: IconLink[];
+  size?: "sm" | "md" | "lg" | "xs";
 }
 
-const IconLinkGroup = ({ links }: IconLinkGroupProps) => {
+const IconLinkGroup = ({ links, size = "md" }: IconLinkGroupProps) => {
+  const sizeClasses = {
+    xs: {
+      container: "w-6 h-6",
+      icon: "text-sm",
+      gap: "gap-2",
+    },
+    sm: {
+      container: "w-7 h-7",
+      icon: "text-base",
+      gap: "gap-2.5",
+    },
+    md: {
+      container: "w-10 h-10",
+      icon: "text-[22px]",
+      gap: "gap-4",
+    },
+    lg: {
+      container: "w-12 h-12",
+      icon: "text-2xl",
+      gap: "gap-4",
+    },
+  };
+
+  const currentSize = sizeClasses[size];
+
   return (
-    <div className="flex gap-4">
+    <div className={`flex ${currentSize.gap}`}>
       {links.map(({ href, label, Icon, extraClasses }) => (
         <Link
           key={label}
@@ -25,9 +51,9 @@ const IconLinkGroup = ({ links }: IconLinkGroupProps) => {
           rel="noopener noreferrer"
           className="group"
         >
-          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-[#7d0d23] transition-all duration-300 group-hover:scale-110">
+          <div className={`flex items-center justify-center ${currentSize.container} rounded-full bg-white/10 hover:bg-[#7d0d23] transition-all duration-300 group-hover:scale-110`}>
             <Icon
-              className={`text-[22px] group-hover:scale-110 transition-transform duration-300 ${extraClasses}`}
+              className={`${currentSize.icon} group-hover:scale-110 transition-transform duration-300 ${extraClasses}`}
               style={{ color: "#FFFFFF" }}
             />
           </div>

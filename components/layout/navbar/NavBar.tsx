@@ -76,25 +76,25 @@ const NavBar = () => {
           : isHomePage
             ? "bg-transparent text-white"
             : "bg-white text-black border-b border-gray-300"
-      } ${isHomePage ? "fixed" : "sticky"} left-0 right-0 w-full z-20 transition-colors duration-700`}
+      } ${isHomePage ? "fixed" : "sticky"} left-0 right-0 w-full z-30 transition-colors duration-700`}
       style={
         isHomePage
           ? {
               top: isScrolledDown ? "0" : "var(--announcement-height, 0px)",
             }
           : {
-              top: "0",
+              top: "var(--announcement-height, 0px)",
             }
       }
       suppressHydrationWarning
       onMouseEnter={() => isHomePage && handleMouseEnter()}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="relative mx-auto flex-between lg:flex-row md:flex-col-reverse md:gap-2 px-4 py-2">
+      <div className="relative mx-auto flex-between lg:flex-row md:flex-col-reverse md:gap-2 px-4 py-4 md:py-2">
         {/* Left Section */}
 
         <div className="flex items-center ">
-          <div className="flex md:hidden items-center space-x-1 md:space-x-4">
+          <div className="flex md:hidden items-center space-x-3 md:space-x-4">
             <AlignJustify onClick={() => setIsMobileMenuOpen(true)} />
             <Search onClick={() => router.push("/products")} />
           </div>
@@ -111,13 +111,16 @@ const NavBar = () => {
 
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:top-6 lg:top-1/2">
           <div className="font-bold uppercase text-center align-middle">
-            <Link href="/">Adora Cosmetics</Link>
+            <Link href="/" className="block md:inline leading-tight md:leading-normal">
+              <span className="block md:inline">Adora</span>
+              <span className="block md:inline md:ml-1">Cosmetics</span>
+            </Link>
           </div>
         </div>
 
         {/* Right Section */}
 
-        <div className="z-2 flex items-center space-x-1 md:space-x-4 md:w-full md:justify-end lg:w-auto">
+        <div className="z-2 flex items-center space-x-3 md:space-x-4 md:w-full md:justify-end lg:w-auto">
           <Search
             onClick={() => router.push("/products")}
             className="hidden md:inline-flex cursor-pointer"
