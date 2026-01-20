@@ -66,9 +66,7 @@ const CartPage = () => {
     <div className="container max-w-3xl m-auto p-4 my-20">
       {cartItems.length > 0 ? (
         <>
-          <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
-            Your Cart
-          </h1>
+          <h1>Your Cart</h1>
           <FreeShippingBanner totalAmount={subtotal} />
 
           {/* Header of the list products */}
