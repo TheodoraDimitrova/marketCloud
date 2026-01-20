@@ -19,6 +19,8 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { clearOrder } from "@/store/slices/orderSlice";
 import { FormError } from "@/components/ui/forms/FormError";
 
+const SAVED_ADDRESS_KEY = "saved_address";
+
 const CheckoutForm = () => {
   const { submitOrder } = useCheckout();
   const dispatch = useAppDispatch();
@@ -44,6 +46,7 @@ const CheckoutForm = () => {
       phone: "",
       email: "",
       subscribed: false,
+      saveAddress: false,
       country: "bg",
       deliveryMethod: "",
       paymentMethod: "cod",
@@ -60,6 +63,7 @@ const CheckoutForm = () => {
   const postalCode = watch("postalCode");
   const address = watch("address");
   const contact = watch("contact");
+  const saveAddress = watch("saveAddress");
   const showDeliveryMethods = city && postalCode;
   const hasAddressInfo = address && city && postalCode;
 
@@ -149,6 +153,50 @@ const CheckoutForm = () => {
     }
   }, [isContactValid, setValue, watch]);
 
+  // Load saved address on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedAddress = localStorage.getItem(SAVED_ADDRESS_KEY);
+      if (savedAddress) {
+        try {
+          const parsedAddress = JSON.parse(savedAddress);
+          if (parsedAddress.firstName) setValue("firstName", parsedAddress.firstName);
+          if (parsedAddress.lastName) setValue("lastName", parsedAddress.lastName);
+          if (parsedAddress.address) setValue("address", parsedAddress.address);
+          if (parsedAddress.postalCode) setValue("postalCode", parsedAddress.postalCode);
+          if (parsedAddress.city) setValue("city", parsedAddress.city);
+          if (parsedAddress.phone) setValue("phone", parsedAddress.phone);
+          if (parsedAddress.country) setValue("country", parsedAddress.country);
+        } catch (error) {
+          console.error("Error loading saved address:", error);
+        }
+      }
+    }
+  }, [setValue]);
+
+  // Custom submit handler to save address if checkbox is checked
+  const onSubmit = async (data: FormValues) => {
+    // Save address to localStorage if checkbox is checked
+    if (data.saveAddress && hasAddressInfo) {
+      const addressData = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        address: data.address,
+        postalCode: data.postalCode,
+        city: data.city,
+        phone: data.phone,
+        country: data.country,
+      };
+      localStorage.setItem(SAVED_ADDRESS_KEY, JSON.stringify(addressData));
+    } else if (!data.saveAddress) {
+      // Remove saved address if checkbox is unchecked
+      localStorage.removeItem(SAVED_ADDRESS_KEY);
+    }
+
+    // Submit the order
+    await submitOrder(data);
+  };
+
   return (
     <div className="col-span-2">
       <h1>Checkout</h1>
@@ -161,7 +209,7 @@ const CheckoutForm = () => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit(submitOrder)} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Contact Section */}
         <div className="space-y-2">
           <FormField
@@ -277,6 +325,27 @@ const CheckoutForm = () => {
           placeholder="Phone"
           validationRules={validationRules.phone}
         />
+
+        {/* Save Address Option */}
+        {hasAddressInfo && (
+          <div className="flex items-center space-x-2">
+            <Controller
+              name="saveAddress"
+              control={control}
+              defaultValue={false}
+              render={({ field }) => (
+                <Checkbox
+                  id="saveAddress"
+                  checked={field.value === true}
+                  onCheckedChange={(e) => field.onChange(e ? true : false)}
+                />
+              )}
+            />
+            <Label htmlFor="saveAddress" className="text-sm">
+              Save for future orders
+            </Label>
+          </div>
+        )}
 
         <h3>Shipping Information</h3>
 

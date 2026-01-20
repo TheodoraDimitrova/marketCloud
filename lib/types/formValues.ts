@@ -8,6 +8,7 @@ export interface FormValues {
   phone: string;
   email: string;
   subscribed: boolean;
+  saveAddress: boolean;
   country: string;
   deliveryMethod: string;
   paymentMethod: string;

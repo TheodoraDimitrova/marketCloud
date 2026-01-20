@@ -209,7 +209,7 @@ const ExitIntentPopup = () => {
                 variant="accent" 
                 className="w-full sm:flex-1 hover:scale-105 transition-transform duration-200 shadow-lg hover:shadow-xl"
               >
-                <Link href="/deals">View current offers</Link>
+                <Link href="/deals" onClick={handleClose}>View current offers</Link>
               </Button>
               <Button
                 type="button"
