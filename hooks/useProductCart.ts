@@ -5,12 +5,14 @@ import { useState } from "react";
 
 interface UseProductCartReturn {
   quantity: number;
+  isLoading: boolean;
   handleUpdateQuantity: (value: number) => void;
   handleAddToCart: () => void;
 }
 
 export const useProductCart = (product: Product): UseProductCartReturn => {
   const [quantity, setQuantity] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
 
   const handleUpdateQuantity = (value: number) => {
@@ -22,12 +24,19 @@ export const useProductCart = (product: Product): UseProductCartReturn => {
     }
   };
 
-  const handleAddToCart = () => {
-    if (product) {
-      dispatch(addToCart({ ...product, quantity }));
-      setQuantity(1);
+  const handleAddToCart = async () => {
+    if (product && !isLoading) {
+      setIsLoading(true);
+      try {
+        // Small delay to show loading state and prevent double-clicks
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        dispatch(addToCart({ ...product, quantity }));
+        setQuantity(1);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
-  return { quantity, handleUpdateQuantity, handleAddToCart };
+  return { quantity, isLoading, handleUpdateQuantity, handleAddToCart };
 };

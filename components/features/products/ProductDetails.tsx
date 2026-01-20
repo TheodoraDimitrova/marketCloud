@@ -10,7 +10,7 @@ import { useProductCart } from "@/hooks/useProductCart";
 import { useWishlist } from "@/hooks/useWishlist";
 import { Product } from "@/lib/types/product";
 import PriceDisplay from "@/components/shared/common/PriceDisplay";
-import { Heart, Copy, Check, ChevronDown, ChevronUp } from "lucide-react";
+import { Heart, Copy, Check, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import Breadcrumb from "@/components/shared/common/Breadcrumb";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/constants";
 import ReviewForm from "./ReviewForm";
@@ -54,7 +54,7 @@ const ProductDetails = ({
       onReviewSubmit();
     }
   };
-  const { quantity, handleUpdateQuantity, handleAddToCart } =
+  const { quantity, isLoading, handleUpdateQuantity, handleAddToCart } =
     useProductCart(product);
   const { isInWishlist, toggleWishlist } = useWishlist();
 
@@ -197,8 +197,16 @@ const ProductDetails = ({
               <Button
                 onClick={handleAddToCart}
                 className="flex-1 text-base py-6"
+                disabled={isLoading}
               >
-                Add to Cart
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Adding...
+                  </>
+                ) : (
+                  "Add to Cart"
+                )}
               </Button>
             </div>
           </div>

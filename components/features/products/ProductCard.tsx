@@ -8,11 +8,11 @@ import { Product } from "@/lib/types/product";
 import PriceDisplay from "@/components/shared/common/PriceDisplay";
 import { useProductCart } from "@/hooks/useProductCart";
 import { useWishlist } from "@/hooks/useWishlist";
-import { ShoppingBag, Heart } from "lucide-react";
+import { ShoppingBag, Heart, Loader2 } from "lucide-react";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const [hovered, setHovered] = useState(false);
-  const { handleAddToCart } = useProductCart(product);
+  const { isLoading, handleAddToCart } = useProductCart(product);
   const { isInWishlist, toggleWishlist } = useWishlist();
 
   const onAddToCart = (e: React.MouseEvent) => {
@@ -102,15 +102,25 @@ const ProductCard = ({ product }: { product: Product }) => {
           {/* Quick Add to Cart - Appears on Hover */}
           <button
             onClick={onAddToCart}
-            className={`absolute bottom-0 left-0 right-0 bg-black text-white py-3 px-4 flex items-center justify-center gap-2 transition-all duration-300 ${
+            disabled={isLoading}
+            className={`absolute bottom-0 left-0 right-0 bg-black text-white py-3 px-4 flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
               hovered
                 ? "translate-y-0 opacity-100"
                 : "translate-y-full opacity-0"
             }`}
             aria-label="Add to cart"
           >
-            <ShoppingBag className="w-5 h-5" />
-            <span className="font-medium text-sm">Add to Cart</span>
+            {isLoading ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span className="font-medium text-sm">Adding...</span>
+              </>
+            ) : (
+              <>
+                <ShoppingBag className="w-5 h-5" />
+                <span className="font-medium text-sm">Add to Cart</span>
+              </>
+            )}
           </button>
         </div>
 
