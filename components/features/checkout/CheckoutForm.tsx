@@ -18,6 +18,7 @@ import { useAppSelector } from "@/hooks/useAppSelector";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { clearOrder } from "@/store/slices/orderSlice";
 import { FormError } from "@/components/ui/forms/FormError";
+import { Lock, Shield } from "lucide-react";
 
 const SAVED_ADDRESS_KEY = "saved_address";
 
@@ -64,6 +65,7 @@ const CheckoutForm = () => {
   const address = watch("address");
   const contact = watch("contact");
   const saveAddress = watch("saveAddress");
+  const paymentMethod = watch("paymentMethod");
   const showDeliveryMethods = city && postalCode;
   const hasAddressInfo = address && city && postalCode;
 
@@ -198,7 +200,7 @@ const CheckoutForm = () => {
   };
 
   return (
-    <div className="col-span-2">
+    <div>
       <h1>Checkout</h1>
 
       {orderError && (
@@ -358,7 +360,62 @@ const CheckoutForm = () => {
         {showDeliveryMethods && (
           <DeliveryMethods control={control} errors={errors} />
         )}
+
+        {/* Trust Signals - After Shipping (GDPR & Data Protection) */}
+        {hasAddressInfo && (
+          <div className="mt-4 pt-4 border-t border-gray-100">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 text-xs text-gray-600">
+              <div className="flex items-center gap-1.5">
+                <Shield className="w-3.5 h-3.5 text-green-600" />
+                <span>We never share your personal data</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Shield className="w-3.5 h-3.5 text-green-600" />
+                <span>GDPR compliant</span>
+              </div>
+            </div>
+          </div>
+        )}
+
         <PaymentMethod control={control} />
+
+        {/* Trust Signals - Under Payment Method (COD specific) */}
+        {paymentMethod === "cod" && (
+          <div className="mt-3 p-3 bg-blue-50 rounded-md border border-blue-100">
+            <div className="space-y-1.5 text-xs text-gray-700">
+              <p className="font-medium">✓ Cash on Delivery – pay after delivery</p>
+              <p>✓ No hidden fees</p>
+              <p>✓ You pay only when you receive the product</p>
+            </div>
+          </div>
+        )}
+
+        {/* Trust Signals - Above CTA Button (Critical) */}
+        <div className="mt-6 pt-4 border-t border-gray-200">
+          <div className="flex flex-col items-center gap-3 mb-4">
+            {/* Secure Checkout */}
+            <div className="flex items-center gap-2">
+              <Lock className="w-4 h-4 text-green-600" />
+              <span className="text-sm font-semibold text-gray-700">Secure Checkout</span>
+            </div>
+
+            {/* Payment Icons */}
+            <div className="flex items-center gap-2">
+              <div className="text-xs font-bold text-[#1A1F71]">VISA</div>
+              <div className="flex items-center gap-0.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#EB001B]"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-[#F79E1B] -ml-1"></div>
+              </div>
+              <div className="text-xs font-bold text-[#006FCF]">AMEX</div>
+            </div>
+
+            {/* SSL Badge */}
+            <div className="flex items-center gap-1.5 text-xs text-gray-600">
+              <Shield className="w-3.5 h-3.5 text-green-600" />
+              <span>SSL Encrypted</span>
+            </div>
+          </div>
+        </div>
 
         <Button type="submit" className="w-full">
           Complete order

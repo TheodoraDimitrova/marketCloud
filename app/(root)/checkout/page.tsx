@@ -38,14 +38,20 @@ const CheckoutPage = () => {
     orderStatus === "loading" || (orderStatus === "succeeded" && order?._id);
 
   return (
-    <div className="max-w-6xl mx-auto p-6 grid grid-cols-1 md:grid-cols-3 md:gap-4 my-10 md:my-24">
+    <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-6 py-6 my-10 md:my-24">
       {showLoading && (
         <div className="fixed inset-0 bg-white bg-opacity-75 backdrop-blur-sm z-50 flex items-center justify-center pointer-events-auto">
           <Loading />
         </div>
       )}
-      <CheckoutForm />
-      <OrderSummary />
+      <div className="flex flex-col md:flex-row md:items-start">
+        <div className="flex-1 md:mr-5 min-w-0">
+          <CheckoutForm />
+        </div>
+        <div className="w-full md:w-[300px] lg:w-[380px] md:flex-shrink-0 mt-8 md:mt-0">
+          <OrderSummary />
+        </div>
+      </div>
     </div>
   );
 };

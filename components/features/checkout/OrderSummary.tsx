@@ -8,8 +8,12 @@ import { useAppSelector } from "@/hooks/useAppSelector";
 import PriceDisplay from "@/components/shared/common/PriceDisplay";
 import CartItemPrice from "@/components/shared/cart/CartItemPrice";
 import { FREE_SHIPPING_THRESHOLD } from "@/lib/constants";
+import { RefreshCw, Truck } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const OrderSummary = () => {
+  const pathname = usePathname();
+  const isThankYouPage = pathname?.includes("/checkout/thank-you");
   const cartItems: CartItem[] = useAppSelector((state) => state.cart.items);
   const subtotal = useAppSelector((state) => state.cart.subtotal);
   const shipping = useAppSelector((state) => state.cart.shipping);
@@ -23,7 +27,7 @@ const OrderSummary = () => {
   const effectiveShippingFee = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : shipping.cost;
 
   return (
-    <div className="md:min-w-[320px] md:w-auto bg-white rounded-lg shadow-lg border border-gray-200 mt-10 md:mt-0 sticky top-24 h-fit">
+    <div className={`w-full md:w-[300px] lg:w-[380px] bg-white rounded-lg shadow-lg border border-gray-200 mt-10 md:mt-0 h-fit ${!isThankYouPage ? "md:sticky md:top-24" : ""}`}>
       {/* Header */}
       <div className="px-6 py-5 border-b border-gray-200">
         <h2 className="text-xl font-semibold text-gray-900">Order Summary</h2>
@@ -91,6 +95,24 @@ const OrderSummary = () => {
               price={totalAmount}
               className="text-base font-semibold text-gray-900"
             />
+          </div>
+        </div>
+
+        {/* Trust Signals - In Order Summary (Secondary, Minimal) */}
+        <div className="mt-4 pt-4 border-t border-gray-100 space-y-2">
+          {subtotal >= FREE_SHIPPING_THRESHOLD && (
+            <div className="flex items-center gap-2 text-xs text-gray-600">
+              <Truck className="w-3.5 h-3.5 text-green-600" />
+              <span>Free Shipping</span>
+            </div>
+          )}
+          <div className="flex items-center gap-2 text-xs text-gray-600">
+            <RefreshCw className="w-3.5 h-3.5 text-gray-500" />
+            <span>30-Day Money-Back Guarantee</span>
+          </div>
+          <div className="flex items-center gap-2 text-xs text-gray-600">
+            <RefreshCw className="w-3.5 h-3.5 text-gray-500" />
+            <span>Easy Returns</span>
           </div>
         </div>
       </div>

@@ -87,56 +87,69 @@ const ThankYouPage = () => {
 
   // Order is guaranteed to exist at this point
   return (
-    <div className="max-w-4xl mx-auto p-6 text-gray-700">
-      <h1 className="text-center">
-        Thank You, {order.firstName}!
-      </h1>
-      <p className="mt-2 text-center text-gray-600">
-        Your order <strong>#{order._id}</strong> has been successfully placed.
-      </p>
+    <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-6 py-6 my-10 md:my-24">
+      <div className="flex flex-col md:flex-row md:items-start">
+        {/* Left Column - Main Content */}
+        <div className="flex-1 md:mr-5 min-w-0 text-gray-700 space-y-6">
+          <div className="text-center md:text-left">
+            <h1>
+              Thank You, {order.firstName}!
+            </h1>
+            <p className="mt-2 text-gray-600">
+              Your order <strong>#{order._id}</strong> has been successfully placed.
+            </p>
+          </div>
 
-      {/*order status*/}
-      <div className="mt-6 text-center">
-        <p className="text-lg uppercase">
-          Order Status: <strong>{order.status}</strong>
-        </p>
-        <p className="text-sm text-gray-500">
-          {order._updatedAt ? (
-            <span>
-              Expected Delivery:{" "}
-              {format(new Date(order._updatedAt), "yyyy-MM-dd")}
-            </span>
-          ) : (
-            <span>Expected Delivery: Date not available</span>
-          )}
-        </p>
-      </div>
-      <div className="mt-8">
-        <OrderSummary />
-      </div>
+          {/* Order Status */}
+          <div className="text-center md:text-left">
+            <p className="text-lg uppercase">
+              Order Status: <strong>{order.status}</strong>
+            </p>
+            <p className="text-sm text-gray-500 mt-1">
+              {order._updatedAt ? (
+                <span>
+                  Expected Delivery:{" "}
+                  {format(new Date(order._updatedAt), "yyyy-MM-dd")}
+                </span>
+              ) : (
+                <span>Expected Delivery: Date not available</span>
+              )}
+            </p>
+          </div>
 
-      <div className="mt-8 p-4 bg-gray-100 rounded-lg">
-        <h3>Shipping Information</h3>
-        <p>
-          {order.firstName} {order.lastName}
-        </p>
-        <p>Phone : {order.phone}</p>
-        <p>
-          {order.address}, {order.city}, {order.country}
-        </p>
-        <p>Postal Code: {order.postalCode}</p>
-        <p>
-          Delivery Method: <strong>{order.shipping.label}</strong>
-        </p>
-        <p>
-          Payment Method: <strong>{order.paymentMethod}</strong>
-        </p>
-      </div>
+          {/* Shipping Information */}
+          <div className="p-4 bg-gray-100 rounded-lg">
+            <h3 className="mb-4">Shipping Information</h3>
+            <div className="space-y-2 text-sm">
+              <p>
+                {order.firstName} {order.lastName}
+              </p>
+              <p>Phone: {order.phone}</p>
+              <p>
+                {order.address}, {order.city}, {order.country}
+              </p>
+              <p>Postal Code: {order.postalCode}</p>
+              <p>
+                Delivery Method: <strong>{order.shipping.label}</strong>
+              </p>
+              <p>
+                Payment Method: <strong>{order.paymentMethod}</strong>
+              </p>
+            </div>
+          </div>
 
-      <div className="mt-8 text-center">
-        <Button onClick={handleRedirect} variant="default" size="lg">
-          Continue Shopping
-        </Button>
+          {/* Continue Shopping Button */}
+          <div className="text-center md:text-left">
+            <Button onClick={handleRedirect} variant="default" size="lg">
+              Continue Shopping
+            </Button>
+          </div>
+        </div>
+
+        {/* Right Column - Order Summary */}
+        <div className="w-full md:w-[300px] lg:w-[380px] md:flex-shrink-0 mt-8 md:mt-0">
+          <OrderSummary />
+        </div>
       </div>
     </div>
   );
