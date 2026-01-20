@@ -119,7 +119,7 @@ const ProductDetails = ({
               height={250}
               style={{ width: "auto", height: "auto" }}
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 45vw, 40vw"
-              className="rounded-[10px] shadow-lg h-[350px] md:h-[400px] lg:h-[450px] xl:h-[500px] w-full object-contain"
+              className="rounded-[10px] shadow-lg h-[60vh] md:h-[400px] lg:h-[450px] xl:h-[500px] w-full object-contain"
               priority
               quality={85}
               unoptimized={true}
