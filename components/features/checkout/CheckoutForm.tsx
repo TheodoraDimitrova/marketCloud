@@ -64,7 +64,6 @@ const CheckoutForm = () => {
   const postalCode = watch("postalCode");
   const address = watch("address");
   const contact = watch("contact");
-  const saveAddress = watch("saveAddress");
   const paymentMethod = watch("paymentMethod");
   const showDeliveryMethods = city && postalCode;
   const hasAddressInfo = address && city && postalCode;
