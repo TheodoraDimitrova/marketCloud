@@ -23,58 +23,77 @@ const OrderSummary = () => {
   const effectiveShippingFee = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : shipping.cost;
 
   return (
-    <div className=" md:min-w-[280px] md:w-auto p-2 sm:p-4 md:p-6 bg-gray-100 rounded-md shadow-md mt-10 md:mt-0">
-      <h2>Order Summary</h2>
-      <ul className="space-y-4">
-        {cartItems.map((item, index) => (
-          <li key={item._id || index} className="flex-between">
-            <CartProductSummary item={item} />
-            <CartItemPrice item={item} />
-          </li>
-        ))}
-      </ul>
-
-      {/* Subtotal */}
-      <div className="flex justify-between mt-4 text-sm">
-        <span>Subtotal:</span>
-        <span>
-          <PriceDisplay price={subtotal} />
-        </span>
+    <div className="md:min-w-[320px] md:w-auto bg-white rounded-lg shadow-lg border border-gray-200 mt-10 md:mt-0 sticky top-24 h-fit">
+      {/* Header */}
+      <div className="px-6 py-5 border-b border-gray-200">
+        <h2 className="text-xl font-semibold text-gray-900">Order Summary</h2>
       </div>
 
-      {/* Shipping Fee */}
-      <div className="flex justify-between mt-0 text-sm">
-        <span>Shipping Fее:</span>
-
-        {subtotal >= FREE_SHIPPING_THRESHOLD ? (
-          <span>Free</span>
-        ) : (
-          <span>
-            <PriceDisplay price={effectiveShippingFee} />
-          </span>
-        )}
+      {/* Products List */}
+      <div className="px-6 py-4 max-h-[400px] overflow-y-auto">
+        <ul className="space-y-4">
+          {cartItems.map((item, index) => (
+            <li key={item._id || index} className="flex items-start justify-between gap-4 pb-4 border-b border-gray-100 last:border-0 last:pb-0">
+              <div className="flex-1 min-w-0">
+                <CartProductSummary item={item} />
+              </div>
+              <div className="flex-shrink-0">
+                <CartItemPrice item={item} />
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
 
-      {/* Total Amount */}
-      <div className="flex justify-between font-semibold text-lg mt-4">
-        <span>Total Amount:</span>
-        <span>
-          <PriceDisplay price={totalAmount} />
-        </span>
-      </div>
-
-      {/* Total Savings */}
-      {totalSavings > 0 && (
-        <div className="flex items-center justify-between my-4 p-3 bg-[#7d0d23]/10 rounded-md border border-[#7d0d23]/20">
-          <div className="flex items-center gap-2">
-            <Tags className="text-[#7d0d23] w-5 h-5" />
-            <span className="text-sm uppercase font-semibold text-[#7d0d23]">
-              Total Savings
-            </span>
-          </div>
-          <PriceDisplay price={totalSavings} className="text-base font-bold text-[#7d0d23]" />
+      {/* Pricing Summary */}
+      <div className="px-6 py-4 border-t border-gray-200 space-y-3">
+        {/* Subtotal */}
+        <div className="flex justify-between items-center">
+          <span className="text-base font-semibold text-gray-900">Subtotal:</span>
+          <PriceDisplay
+            price={subtotal}
+            className="text-base font-semibold text-gray-900"
+          />
         </div>
-      )}
+
+        {/* Shipping Fee */}
+        <div className="flex justify-between items-center">
+          <span className="text-base font-semibold text-gray-900">Shipping:</span>
+          {subtotal >= FREE_SHIPPING_THRESHOLD ? (
+            <span className="text-base font-semibold text-green-600">Free</span>
+          ) : (
+            <PriceDisplay
+              price={effectiveShippingFee}
+              className="text-base font-semibold text-gray-900"
+            />
+          )}
+        </div>
+
+        {/* Total Savings */}
+        {totalSavings > 0 && (
+          <div className="flex items-center justify-between py-2 px-3 bg-[#7d0d23]/5 rounded-md border border-[#7d0d23]/20">
+            <div className="flex items-center gap-2">
+              <Tags className="text-[#7d0d23] w-4 h-4" />
+              <span className="text-xs uppercase font-semibold text-[#7d0d23]">
+                You Save
+              </span>
+            </div>
+            <PriceDisplay price={totalSavings} className="text-sm font-semibold text-[#7d0d23]" />
+          </div>
+        )}
+
+        {/* Divider */}
+        <div className="border-t border-gray-200 pt-3 mt-2">
+          {/* Total Amount */}
+          <div className="flex justify-between items-center">
+            <span className="text-base font-semibold text-gray-900">Total:</span>
+            <PriceDisplay
+              price={totalAmount}
+              className="text-base font-semibold text-gray-900"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
