@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo, Suspense } from "react";
+import { useState, useMemo } from "react";
 import { Banner } from "@/components/ui/Banner";
 import FilteredProductList from "@/components/features/products/FilteredProductList";
 import SearchBar from "@/components/shared/common/SearchBar";
@@ -47,9 +47,7 @@ const ProductsDetails = ({
         products={products}
         searchTerm={searchTerm}
       />
-      <Suspense fallback={<Loading />}>
-        <FilteredProductList products={filteredProducts} />
-      </Suspense>
+      <FilteredProductList products={filteredProducts} />
       {categories.length > 0 && <CategoriesCarousel categories={categories} />}
     </>
   );

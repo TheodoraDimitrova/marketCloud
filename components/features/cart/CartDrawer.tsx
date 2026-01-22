@@ -99,12 +99,11 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
                     {/* Product Image */}
                     <div className="relative flex-shrink-0 w-20 h-20">
                       <Image
-                        src={urlFor(item.images[0])}
+                        src={urlFor(item.images[0], { quality: 85, format: "webp" })}
                         alt={item.name}
                         fill
                         sizes="80px"
                         className="rounded-md object-cover"
-                        unoptimized={true}
                       />
                     </div>
 

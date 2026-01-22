@@ -29,6 +29,7 @@ const FilteredProductList = ({ products }: FilteredProductListProps) => {
   const [appliedFiltersCount, setAppliedFiltersCount] = useState(0);
   const [displayedCount, setDisplayedCount] = useState(ITEMS_PER_PAGE);
   const [sortOption, setSortOption] = useState<SortOption | null>(null);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const toggleFilters = () => setShowFilters((prev) => !prev);
 
@@ -82,7 +83,12 @@ const FilteredProductList = ({ products }: FilteredProductListProps) => {
   const hasMore = displayedCount < sortedProducts.length;
 
   const handleLoadMore = () => {
-    setDisplayedCount((prev) => prev + LOAD_MORE_INCREMENT);
+    setIsLoadingMore(true);
+    // Simulate loading for better UX
+    setTimeout(() => {
+      setDisplayedCount((prev) => prev + LOAD_MORE_INCREMENT);
+      setIsLoadingMore(false);
+    }, 300);
   };
 
   return (
@@ -144,8 +150,12 @@ const FilteredProductList = ({ products }: FilteredProductListProps) => {
           {/* Load More Button */}
           {hasMore && (
             <div className="flex justify-center py-8">
-              <Button onClick={handleLoadMore} variant="default">
-                Load More Products
+              <Button 
+                onClick={handleLoadMore} 
+                variant="default"
+                disabled={isLoadingMore}
+              >
+                {isLoadingMore ? "Loading..." : "Load More Products"}
               </Button>
             </div>
           )}

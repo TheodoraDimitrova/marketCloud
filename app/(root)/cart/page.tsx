@@ -100,12 +100,11 @@ const CartPage = () => {
                   <div className="flex gap-3">
                     <div className="relative flex-shrink-0 w-24 h-24">
                       <Image
-                        src={urlFor(item.images[0])}
+                        src={urlFor(item.images[0], { quality: 85, format: "webp" })}
                         alt={item.name}
                         fill
                         sizes="96px"
                         className="rounded-md object-cover"
-                        unoptimized={true}
                       />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -162,12 +161,11 @@ const CartPage = () => {
                   {/* Product Image */}
                   <div className="relative flex-shrink-0 w-24 h-24">
                     <Image
-                      src={urlFor(item.images[0])}
+                      src={urlFor(item.images[0], { quality: 85, format: "webp" })}
                       alt={item.name}
                       fill
                       sizes="96px"
                       className="rounded-xl object-cover"
-                      unoptimized={true}
                     />
                   </div>
 

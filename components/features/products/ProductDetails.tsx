@@ -122,7 +122,6 @@ const ProductDetails = ({
               className="rounded-[10px] shadow-lg h-[60vh] md:h-[400px] lg:h-[450px] xl:h-[500px] w-full object-contain"
               priority
               quality={85}
-              unoptimized={true}
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
             />

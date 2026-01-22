@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 
 import { CartItem } from "@/lib/types/cart";
 
-interface CartProductSummaryProps {
+interface CartProductSummaryProps { 
   item: CartItem;
 }
 
@@ -21,13 +21,12 @@ const CartProductSummary = ({ item }: CartProductSummaryProps) => {
     <div className="flex items-center w-full ">
       <div className="relative min-w-20 min-h-20">
         <Image
-          src={urlFor(item.images[0])}
+          src={urlFor(item.images[0], { quality: 85, format: "webp" })}
           alt={item.name}
           fill
           sizes="(max-width: 768px) 50px, 100px"
           className="rounded-md object-cover"
           priority
-          unoptimized={true}
         />
         {/* Quantity Badge */}
         {(isCheckoutPage || isThankYouPage) && (

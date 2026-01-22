@@ -1,6 +1,11 @@
-export const Loading = () => {
+interface LoadingProps {
+  height?: string;
+  className?: string;
+}
+
+export const Loading = ({ height = "h-64", className = "" }: LoadingProps) => {
   return (
-    <div className="flex justify-center items-center h-64">
+    <div className={`flex justify-center items-center ${height} ${className}`}>
       <svg
         version="1.1"
         id="Layer_1"

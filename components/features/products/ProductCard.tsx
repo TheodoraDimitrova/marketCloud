@@ -44,15 +44,14 @@ const ProductCard = ({ product }: { product: Product }) => {
             src={
               hovered
                 ? product.images[1]
-                  ? urlFor(product.images[1])
-                  : urlFor(product.images[0])
-                : urlFor(product.images[0])
+                  ? urlFor(product.images[1], { quality: 85, format: "webp" })
+                  : urlFor(product.images[0], { quality: 85, format: "webp" })
+                : urlFor(product.images[0], { quality: 85, format: "webp" })
             }
             alt={product.name}
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            unoptimized={true}
           />
 
           {/* Tags */}

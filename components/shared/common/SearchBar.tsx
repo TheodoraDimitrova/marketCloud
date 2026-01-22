@@ -154,7 +154,7 @@ const SearchBar = ({ onSearch, products, searchTerm: externalSearchTerm }: Searc
                               ? (firstImage.asset as { ref?: string }).ref 
                               : undefined);
                           if (assetRef) {
-                            imageUrl = urlFor(firstImage);
+                            imageUrl = urlFor(firstImage, { quality: 75, format: "webp", width: 56, height: 56 });
                           }
                         }
                       }
@@ -178,7 +178,6 @@ const SearchBar = ({ onSearch, products, searchTerm: externalSearchTerm }: Searc
                               width={56}
                               height={56}
                               className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-200"
-                              unoptimized={true}
                               onError={(e) => {
                                 console.error("Image failed to load:", imageUrl);
                                 // Hide image on error
