@@ -108,9 +108,9 @@ const CartPage = () => {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-base font-semibold text-gray-900 mb-2 leading-tight">
+                      <h4 className="mb-2 leading-tight">
                         {item.name}
-                      </h3>
+                      </h4>
                       {item.discount?.isActive && (
                         <span className="inline-block text-xs font-medium text-[#7d0d23] bg-[#7d0d23]/10 px-2 py-1 rounded mb-2">
                           -{item.discount.amount}
@@ -171,9 +171,9 @@ const CartPage = () => {
 
                   {/* Product Info */}
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-base font-medium text-gray-900 mb-1">
+                    <h4 className="mb-1">
                       {item.name}
-                    </h3>
+                    </h4>
                     {item.discount?.isActive && (
                       <div className="mb-2">
                         <span className="text-xs font-medium text-[#7d0d23] bg-[#7d0d23]/10 px-2 py-0.5 rounded">

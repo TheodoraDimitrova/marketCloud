@@ -5,9 +5,9 @@ import SocialIcons from "@/components/shared/icons/SocialIcons";
 const AboutUsSection = () => {
   return (
     <div className="px-3  pb-5  w-full sm:w-1/2 sm:pb-5 lg:basis-1/4 lg:pb-0">
-      <h3 className="text-white h3-bold">About the Store</h3>
+      <h3 className="text-white">About the Store</h3>
 
-      <p className="text-wrap ">
+      <p className="text-wrap text-white">
         At Adora, we believe beauty has no boundaries. We provide high-quality
         products that make you feel radiant and beautiful at any age.
       </p>
@@ -16,7 +16,7 @@ const AboutUsSection = () => {
       </div>
 
       <div className="mt-6">
-        <h4 className="text-white font-semibold mb-2">Follow Us</h4>
+        <h4 className="text-white">Follow Us</h4>
         <SocialIcons />
       </div>
     </div>

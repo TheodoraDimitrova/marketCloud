@@ -7,7 +7,6 @@ import CategoriesCarousel from "@/components/features/categories/categoriesCarou
 import { Product } from "@/lib/types/product";
 import { Category } from "@/lib/types/category";
 import { useDebounce } from "@/hooks/useDebounce";
-import { Loading } from "@/components/ui/Loading";
 
 interface ProductsDetailsProps {
   products: Product[];

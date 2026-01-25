@@ -39,7 +39,7 @@ const ProductReviews = ({ reviews }: ProductReviewsProps) => {
 
   return (
     <section className="border-t border-gray-200 pt-4">
-      <h2 className="text-2xl font-semibold mb-3">
+      <h2>
         Customer Reviews ({reviews.length})
       </h2>
       <div className="space-y-4">

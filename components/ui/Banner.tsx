@@ -38,7 +38,7 @@ export const Banner = ({ title, subtitle, backgroundImage }: BannerProps) => {
 
       <div className="relative z-10 text-white">
         <h1>{title}</h1>
-        {subtitle && <p className="text-lg md:text-xl mt-2">{subtitle}</p>}
+        {subtitle && <p className="text-lg md:text-xl mt-2 text-white">{subtitle}</p>}
       </div>
     </div>
   );

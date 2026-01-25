@@ -45,7 +45,7 @@ const CategoriesPage = async () => {
               height={200}
               className="w-full rounded-md h-48 md:h-40 object-cover"
             />
-            <h3 className="mt-3 md:mt-2 text-center text-lg md:text-base font-semibold">{category.name}</h3>
+            <h3 className="mt-3 md:mt-2 text-center">{category.name}</h3>
           </Link>
         ))}
       </div>

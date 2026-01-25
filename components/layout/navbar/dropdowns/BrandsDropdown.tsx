@@ -41,7 +41,7 @@ const BrandsDropdown = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
         {brands.map((brand, index) => (
           <div key={index} className="flex flex-col">
-            <h3 className="font-bold text-base md:text-lg mb-3 text-gray-800 border-b border-gray-200 pb-2">
+            <h3 className="mb-3 border-b border-gray-200 pb-2">
               {brand.category}
             </h3>
             <ul className="space-y-2 flex-1">

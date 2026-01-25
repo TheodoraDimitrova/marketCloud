@@ -123,7 +123,7 @@ const ThankYouPage = () => {
                 <CheckCircle2 className="w-8 h-8 text-green-600" />
               </div>
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+                <h1>
                   Thank You, {order.firstName}!
                 </h1>
                 <p className="text-sm text-gray-500 mt-1">Your order has been confirmed</p>
@@ -136,7 +136,7 @@ const ThankYouPage = () => {
 
           {/* Next Steps */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 md:p-5">
-            <h3 className="text-base font-semibold text-gray-900 mb-3 flex items-center gap-2">
+            <h3 className="mb-3 flex items-center gap-2">
               <Mail className="w-4 h-4 text-blue-600" />
               What&apos;s Next?
             </h3>
@@ -184,7 +184,7 @@ const ThankYouPage = () => {
           {/* Shipping Information */}
           <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
             <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900">Shipping Information</h3>
+              <h3>Shipping Information</h3>
             </div>
             <div className="p-6 space-y-4">
               {/* Name */}
@@ -250,7 +250,7 @@ const ThankYouPage = () => {
 
           {/* Trust Signals */}
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 md:p-5">
-            <h3 className="text-xs font-semibold text-gray-900 mb-3 uppercase tracking-wide">Your Purchase is Protected</h3>
+            <h3 className="mb-3 uppercase tracking-wide text-xs">Your Purchase is Protected</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
               <div className="flex items-start gap-2.5">
                 <Shield className="w-4 h-4 text-gray-600 flex-shrink-0 mt-0.5" />

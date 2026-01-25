@@ -166,7 +166,7 @@ const Announcement = () => {
                   transition={{ duration: 0.5 }}
                 >
                   <div className="announcement__text flex flex-col md:flex-row items-center justify-center gap-2 md:gap-2 lg:gap-3">
-                    <p className="text-xs md:text-sm lg:text-base font-medium whitespace-nowrap">{currentAnnouncement.text}</p>
+                    <p className="text-xs md:text-sm lg:text-base text-black font-medium whitespace-nowrap mb-0">{currentAnnouncement.text}</p>
                     {currentAnnouncement.linkHref === "#footer" ? (
                       <button
                         onClick={() => {

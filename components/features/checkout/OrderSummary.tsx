@@ -30,7 +30,7 @@ const OrderSummary = () => {
     <div className={`w-full md:w-[300px] lg:w-[380px] bg-white rounded-lg shadow-lg border border-gray-200 mt-10 md:mt-0 h-fit ${!isThankYouPage ? "md:sticky md:top-24" : ""}`}>
       {/* Header */}
       <div className="px-6 py-5 border-b border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-900">Order Summary</h2>
+        <h2>Order Summary</h2>
       </div>
 
       {/* Products List */}

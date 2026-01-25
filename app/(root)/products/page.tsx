@@ -34,6 +34,7 @@ const ProductsPage = async () => {
 
   return (
     <>
+      <h1 className="sr-only">All Products - Adora Cosmetics</h1>
       <ProductsDetails products={products} categories={categories} />
     </>
   );

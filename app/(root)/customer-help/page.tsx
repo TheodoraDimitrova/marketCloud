@@ -197,7 +197,7 @@ const CostomerHepl = () => {
           <aside className="hidden md:block md:col-span-4 lg:col-span-3">
             <div className="sticky top-24 space-y-6">
               <div>
-                <h3 className="mb-3 text-lg font-semibold text-gray-800">
+                <h3 className="mb-3">
                   Browse topics
                 </h3>
                 <nav className="space-y-1">
@@ -312,7 +312,7 @@ const CostomerHepl = () => {
                   return (
                     <section key={section.category} id={sectionId}>
                       <div className="mb-4 flex items-end justify-between gap-4">
-                        <h2 className="text-xl md:text-2xl font-semibold text-gray-700">
+                        <h2>
                           {section.category}
                         </h2>
                         <span className="text-sm text-gray-400">

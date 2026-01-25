@@ -9,7 +9,7 @@ const OurWorldDropdown = () => {
       {/* Text Section */}
       <div className="w-full md:w-1/2 p-4 md:p-10 flex flex-col z-20 text-center order-2 md:order-1">
         <div className="w-full md:w-4/5 mx-auto">
-          <h1 className="text-xl md:text-3xl mb-3 md:mb-4">Amazing Experience</h1>
+          <h1>Amazing Experience</h1>
           <p className="text-sm md:text-lg mb-4 md:mb-6">
             Discover how we blend visuals with text to create a seamless and
             engaging design. The transition effect brings harmony between

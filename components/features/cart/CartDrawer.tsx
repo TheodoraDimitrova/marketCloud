@@ -69,7 +69,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">
+          <h2>
             {isMounted && cartItems.length > 0
               ? `Your cart (${cartItems.length})`
               : "Your cart"}
@@ -109,9 +109,9 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
 
                     {/* Product Info */}
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-sm font-medium text-gray-900 mb-1 line-clamp-2">
+                      <h4 className="mb-1 line-clamp-2">
                         {item.name}
-                      </h3>
+                      </h4>
 
                       {/* Price and Quantity Row */}
                       <div className="flex items-center justify-between mt-2 gap-3">

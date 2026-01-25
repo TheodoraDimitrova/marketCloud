@@ -131,7 +131,7 @@ const ProductDetails = ({
         {/* right side */}
         <div className="flex flex-col justify-start w-full p-4 md:p-4 lg:p-6">
           <div className="flex items-center justify-between gap-4 mb-3">
-            <h1 className="text-2xl md:text-3xl font-semibold text-gray-600 m-0 flex-1">
+            <h1 >
               {product.name}
             </h1>
             <div className="flex items-center gap-2 flex-shrink-0">

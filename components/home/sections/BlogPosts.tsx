@@ -51,7 +51,7 @@ const BlogPosts = () => {
               className="object-cover rounded-lg shadow-lg mb-1"
             />
             <Link href={post.link}>
-              <h3 className="font-light">{post.title}</h3>
+              <h3>{post.title}</h3>
             </Link>
             <p className="mb-auto text-justify">{post.text}</p>
             <p className="mt-2">

@@ -36,7 +36,7 @@ const CartProductSummary = ({ item }: CartProductSummaryProps) => {
         )}
       </div>
       <div className="flex md:flex-1 ml-3 flex-col">
-        <h3 className="text-sm font-medium">{item.name}</h3>
+        <h4>{item.name}</h4>
 
         {item.discount?.isActive && (
           <div className="flex items-center mt-2">
