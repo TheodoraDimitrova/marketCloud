@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
@@ -8,19 +7,18 @@ import { Search, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/forms/input";
 
-const CostomerHepl = () => {
-  const toCategoryId = (name: string) =>
-    `faq-${name.toLowerCase().replace(/ & /g, "-").replace(/\s+/g, "-")}`;
+const toCategoryId = (name: string) =>
+  `faq-${name.toLowerCase().replace(/ & /g, "-").replace(/\s+/g, "-")}`;
 
-  const topics = [
-    { topicName: "Ordering", href: "#faq-ordering" },
-    { topicName: "Shipping", href: "#faq-shipping" },
-    { topicName: "Returns & Exchanges", href: "#faq-returns-exchanges" },
-    { topicName: "Product Questions", href: "#faq-products-questions" },
-    { topicName: "Order Issues", href: "#faq-order-issues" },
-  ];
+const topics = [
+  { topicName: "Ordering", href: "#faq-ordering" },
+  { topicName: "Shipping", href: "#faq-shipping" },
+  { topicName: "Returns & Exchanges", href: "#faq-returns-exchanges" },
+  { topicName: "Product Questions", href: "#faq-products-questions" },
+  { topicName: "Order Issues", href: "#faq-order-issues" },
+];
 
-  const faqData: Array<{
+const faqData: Array<{
     category: string;
     questions: Array<{
       question: string;
@@ -135,8 +133,9 @@ const CostomerHepl = () => {
         },
       ],
     },
-  ];
+];
 
+const CostomerHepl = () => {
   const [query, setQuery] = useState("");
   const [activeCategoryId, setActiveCategoryId] = useState<string>(
     toCategoryId(faqData[0]?.category ?? "ordering")
@@ -156,7 +155,7 @@ const CostomerHepl = () => {
         return { ...section, questions };
       })
       .filter((section) => section.questions.length > 0);
-  }, [faqData, normalizedQuery]);
+  }, [normalizedQuery]);
 
   const totalResults = useMemo(() => {
     return filteredFaqData.reduce((sum, section) => sum + section.questions.length, 0);

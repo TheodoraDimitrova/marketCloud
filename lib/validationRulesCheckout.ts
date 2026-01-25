@@ -69,6 +69,9 @@ const validationRules: Record<keyof FormValues, RegisterOptions<FormValues>> = {
   subscribed: {
     required: false,
   },
+  saveAddress: {
+    required: false,
+  },
   country: {
     required: "Country is required",
   },
