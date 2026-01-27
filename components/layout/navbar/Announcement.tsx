@@ -149,7 +149,7 @@ const Announcement = () => {
       {!isDismissedDesktop && (
         <div
           ref={containerRef}
-          className="hidden md:block bg-yellow-500 text-black sticky top-0 z-10"
+          className="hidden md:block bg-yellow-500 text-black sticky top-0 z-30"
         >
           <div className="py-4 text-center flex items-center justify-center px-4 md:px-6 lg:px-10 relative">
             <div className="absolute left-4 md:left-6 lg:left-10">
@@ -196,7 +196,7 @@ const Announcement = () => {
             </div>
             <button
               onClick={handleDismissDesktop}
-              className="absolute right-2 md:right-4 lg:right-10 top-1/2 -translate-y-1/2 p-1.5 hover:bg-yellow-600 rounded transition-colors flex-shrink-0 z-20"
+              className="absolute right-2 md:right-4 lg:right-10 top-1/2 -translate-y-1/2 p-1.5 hover:opacity-80 rounded transition-opacity flex-shrink-0 z-20"
               aria-label="Dismiss announcement"
               type="button"
             >
@@ -210,7 +210,7 @@ const Announcement = () => {
       {!isDismissedMobile && (
         <div
           ref={mobileContainerRef}
-          className="md:hidden bg-yellow-500 text-black sticky top-0 z-10 flex items-center justify-center px-4 min-h-[44px]"
+          className="md:hidden bg-yellow-500 text-black sticky top-0 z-30 flex items-center justify-center px-4 min-h-[44px]"
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -248,7 +248,7 @@ const Announcement = () => {
           </AnimatePresence>
           <button
             onClick={handleDismissMobile}
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 hover:bg-yellow-600 rounded transition-colors flex-shrink-0 z-20"
+            className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 hover:opacity-80 rounded transition-opacity flex-shrink-0 z-20"
             aria-label="Dismiss announcement"
             type="button"
           >

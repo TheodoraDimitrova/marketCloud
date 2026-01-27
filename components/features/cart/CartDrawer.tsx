@@ -127,7 +127,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
                       {/* Discount Badge */}
                       {item.discount?.isActive && (
                         <div className="mt-2">
-                          <span className="text-xs font-medium text-[#7d0d23] bg-[#7d0d23]/10 px-2 py-0.5 rounded">
+                          <span className="text-xs font-medium text-brand bg-brand/10 px-2 py-0.5 rounded">
                             -{item.discount.amount}
                             {item.discount.type === "percentage" ? "%" : "€"} OFF
                           </span>

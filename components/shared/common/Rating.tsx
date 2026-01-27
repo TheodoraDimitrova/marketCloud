@@ -14,11 +14,11 @@ const Rating = ({ rating }: RatingProps) => {
       {Array(fullStars)
         .fill(0)
         .map((_, index) => (
-          <FaStar key={`full-${index}`} className="h-4 w-4 text-[#7d0d23] fill-[#7d0d23]" />
+          <FaStar key={`full-${index}`} className="h-4 w-4 text-brand fill-brand" />
         ))}
 
       {halfStar === 1 && (
-        <FaStarHalfAlt key="half" className="h-4 w-4 text-[#7d0d23] fill-[#7d0d23]" />
+        <FaStarHalfAlt key="half" className="h-4 w-4 text-brand fill-brand" />
       )}
 
       {Array(emptyStars)

@@ -60,7 +60,7 @@ const Footer = () => {
 
               {/* Center: Copyright */}
               <div className="order-1 md:order-2 md:justify-self-center md:text-center">
-                <p className="text-[#fff]">
+                <p className="text-white">
                   © {new Date().getFullYear()} {APP_NAME}. All Rights Reserved.
                 </p>
               </div>

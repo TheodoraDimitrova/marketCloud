@@ -49,7 +49,7 @@ const BrandsDropdown = () => {
                 <li key={index}>
                   <Link 
                     href={item.url} 
-                    className="text-sm md:text-base text-gray-600 hover:text-[#7d0d23] transition-colors duration-300 block py-1.5"
+                    className="text-sm md:text-base text-gray-600 hover:text-brand transition-colors duration-300 block py-1.5"
                   >
                     {item.name}
                   </Link>

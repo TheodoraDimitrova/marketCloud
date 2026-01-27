@@ -30,7 +30,7 @@ const CartProductSummary = ({ item }: CartProductSummaryProps) => {
         />
         {/* Quantity Badge */}
         {(isCheckoutPage || isThankYouPage) && (
-          <div className="absolute top-[-7px] right-[-6px] bg-[#7d0d23] text-white text-xs rounded-full px-2 py-1 ">
+          <div className="absolute top-[-7px] right-[-6px] bg-brand text-white text-xs rounded-full px-2 py-1 ">
             {item.quantity}
           </div>
         )}
@@ -40,7 +40,7 @@ const CartProductSummary = ({ item }: CartProductSummaryProps) => {
 
         {item.discount?.isActive && (
           <div className="flex items-center mt-2">
-            <span className="text-xs font-medium text-[#7d0d23] bg-[#7d0d23]/10 px-2 py-0.5 rounded">
+            <span className="text-xs font-medium text-brand bg-brand/10 px-2 py-0.5 rounded">
               -{item.discount.amount}
               {item.discount.type === "percentage" ? "%" : "€"} OFF
             </span>

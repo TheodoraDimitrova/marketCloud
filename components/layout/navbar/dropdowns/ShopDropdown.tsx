@@ -50,7 +50,7 @@ const ShopDropdown = () => {
             </div>
 
             {/* Text - Always visible, styled differently on mobile */}
-            <h3 className="block mt-0 md:mt-3  hover:text-[#7d0d23] transition-colors duration-300 py-2 md:py-0">
+            <h3 className="block mt-0 md:mt-3  hover:text-brand transition-colors duration-300 py-2 md:py-0">
               {text}
             </h3>
           </Link>

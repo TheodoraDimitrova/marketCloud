@@ -62,11 +62,11 @@ const ProductCard = ({ product }: { product: Product }) => {
                 const getTagColor = (type: string) => {
                   switch (type) {
                     case "discount":
-                      return "bg-[#7d0d23] text-white";
+                      return "bg-brand text-white";
                     case "new":
-                      return "bg-[#C9A9A6] text-[#1F2933]";
+                      return "bg-tag-new text-tag-text";
                     case "limited":
-                      return "bg-[#D4AF8E] text-[#1F2933]";
+                      return "bg-tag-limited text-tag-text";
                     default:
                       return "bg-gray-400 text-white";
                   }
@@ -92,8 +92,8 @@ const ProductCard = ({ product }: { product: Product }) => {
             <Heart
               className={`w-5 h-5 transition-all duration-300 ${
                 inWishlist
-                  ? "fill-[#7d0d23] text-[#7d0d23]"
-                  : "text-gray-600 hover:text-[#7d0d23]"
+                  ? "fill-brand text-brand"
+                  : "text-gray-600 hover:text-brand"
               }`}
             />
           </button>

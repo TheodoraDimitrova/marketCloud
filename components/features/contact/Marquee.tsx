@@ -19,7 +19,7 @@ const Marquee = () => {
         {[...Array(7)].map((_, i) => (
           <div key={i} className="flex w-full space-x-2 md:space-x-12">
             <div className="flex w-full space-x-4 md:w-1/2  md:space-x-12">
-              <span className="text-xl text-[#dd9a1a] ">
+              <span className="text-xl text-yellow-500 ">
                 <Link
                   href="https://www.facebook.com"
                   target="_blank"
@@ -29,12 +29,12 @@ const Marquee = () => {
                 </Link>
               </span>
               <div>
-                <FaFacebook className="w-8 h-8 text-[#dd9a1a]" />
+                <FaFacebook className="w-8 h-8 text-yellow-500" />
               </div>
             </div>
 
             <div className="flex w-full space-x-4 md:w-1/2  md:space-x-12">
-              <span className="text-xl text-[#dd9a1a]">
+              <span className="text-xl text-yellow-500">
                 <Link
                   href="https://www.instagram.com"
                   target="_blank"
@@ -44,7 +44,7 @@ const Marquee = () => {
                 </Link>
               </span>
               <span>
-                <FaInstagram className="w-8 h-8 text-[#dd9a1a]" />
+                <FaInstagram className="w-8 h-8 text-yellow-500" />
               </span>
             </div>
           </div>

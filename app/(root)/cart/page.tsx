@@ -112,7 +112,7 @@ const CartPage = () => {
                         {item.name}
                       </h4>
                       {item.discount?.isActive && (
-                        <span className="inline-block text-xs font-medium text-[#7d0d23] bg-[#7d0d23]/10 px-2 py-1 rounded mb-2">
+                        <span className="inline-block text-xs font-medium text-brand bg-[#7d0d23]/10 px-2 py-1 rounded mb-2">
                           -{item.discount.amount}
                           {item.discount.type === "percentage" ? "%" : "€"} OFF
                         </span>
@@ -150,7 +150,7 @@ const CartPage = () => {
                     onClick={() => {
                       dispatch(removeFromCart(item._id));
                     }}
-                    className="w-full text-center text-sm text-[#7d0d23] hover:text-[#5a0919] transition-colors py-2 border border-[#7d0d23]/30 hover:border-[#7d0d23] rounded-md"
+                    className="w-full text-center text-sm text-brand hover:text-[#5a0919] transition-colors py-2 border border-[#7d0d23]/30 hover:border-[#7d0d23] rounded-md"
                   >
                     Remove
                   </button>
@@ -176,7 +176,7 @@ const CartPage = () => {
                     </h4>
                     {item.discount?.isActive && (
                       <div className="mb-2">
-                        <span className="text-xs font-medium text-[#7d0d23] bg-[#7d0d23]/10 px-2 py-0.5 rounded">
+                        <span className="text-xs font-medium text-brand bg-[#7d0d23]/10 px-2 py-0.5 rounded">
                           -{item.discount.amount}
                           {item.discount.type === "percentage" ? "%" : "€"} OFF
                         </span>
@@ -201,7 +201,7 @@ const CartPage = () => {
                       onClick={() => {
                         dispatch(removeFromCart(item._id));
                       }}
-                      className="text-sm text-[#7d0d23] hover:text-[#5a0919] transition-colors"
+                      className="text-sm text-brand hover:text-[#5a0919] transition-colors"
                     >
                       Remove
                     </button>

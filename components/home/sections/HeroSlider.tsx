@@ -62,7 +62,7 @@ const HeroSlider = () => {
                       delay: !hasMounted && activeIndex === 0 ? 0 : 0,
                       ease: "easeOut",
                     }}
-                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-[#F4C542]"
+                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-yellow-500"
                   >
                     new new new
                   </motion.div>
@@ -102,7 +102,7 @@ const HeroSlider = () => {
                     }}
                     className="text-lg max-w-m"
                   >
-                    <p>Be the first to shop the drop</p>
+                    Be the first to shop the drop
                   </motion.div>
 
                   <motion.div
@@ -124,7 +124,7 @@ const HeroSlider = () => {
                     <div className="flex flex-col md:flex-row gap-6 md:gap-4 mt-4 w-full">
                       <Button
                         asChild
-                        variant="link"
+                        variant="accent"
                         className="w-full md:w-auto text-center"
                       >
                         <Link href="/products?discounts=Best+Seller">
@@ -168,7 +168,7 @@ const HeroSlider = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
                     transition={{ duration: 0.9 }}
-                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-[#F4C542]"
+                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-yellow-500"
                   >
                     Exclusive 24-Hour Flash Sale
                   </motion.div>
@@ -240,7 +240,7 @@ const HeroSlider = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
                     transition={{ duration: 0.9 }}
-                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-[#F4C542]"
+                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-yellow-500"
                   >
                     Shop Best-Sellers
                   </motion.div>

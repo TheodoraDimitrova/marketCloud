@@ -18,7 +18,7 @@ const ProductReviews = ({ reviews }: ProductReviewsProps) => {
               return (
                 <FaStar
                   key={index}
-                  className="w-4 h-4 text-[#7d0d23] fill-[#7d0d23]"
+                  className="w-4 h-4 text-brand fill-brand"
                 />
               );
             }

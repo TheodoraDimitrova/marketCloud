@@ -3,7 +3,7 @@ import { Truck, RotateCcw, ShieldCheck, Star } from "lucide-react";
 
 const FooterPromos = () => {
   return (
-    <div className="bg-[#FAF8F6] py-5 px-2 md:px-20">
+    <div className="bg-footer-bg py-5 px-2 md:px-20">
       <div className="container mx-auto flex flex-wrap justify-between opacity-90">
         <div className="w-1/2 pb-5 md:w-1/4 md:pb-0 flex flex-col items-center ">
           <div className="flex flex-col items-center text-[#333]">

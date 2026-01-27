@@ -44,7 +44,7 @@ const FooterNewsLetter = () => {
             })}
           />
           <FormError message={errors.email?.message} />
-          <Button type="submit" className="w-full rounded-md" style={{ height: '44px' }}>
+          <Button type="submit" variant="accent" className="w-full rounded-md" style={{ height: '44px' }}>
             Subscribe
           </Button>
         </form>

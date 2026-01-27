@@ -168,9 +168,9 @@ const ReviewForm = ({ productId, onSubmitSuccess }: ReviewFormProps) => {
                     className="focus:outline-none"
                   >
                     {starValue <= (hoveredRating || rating) ? (
-                      <FaStar className="w-5 h-5 text-[#7d0d23] fill-[#7d0d23]" />
+                      <FaStar className="w-5 h-5 text-brand fill-brand" />
                     ) : (
-                      <FaRegStar className="w-5 h-5 text-gray-300 fill-current hover:text-[#7d0d23] transition-colors" />
+                      <FaRegStar className="w-5 h-5 text-gray-300 fill-current hover:text-brand transition-colors" />
                     )}
                   </button>
                 );

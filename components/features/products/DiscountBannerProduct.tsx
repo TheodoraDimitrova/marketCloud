@@ -42,7 +42,7 @@ const DiscountBannerProduct = ({
           </p>
         )}
         {discount && (
-          <span className="inline-block text-xs font-medium text-[#7d0d23] mt-1">
+          <span className="inline-block text-xs font-medium text-brand mt-1">
             Save {discount.amount}
             {discount.type === "percentage" ? "%" : "€"}
           </span>

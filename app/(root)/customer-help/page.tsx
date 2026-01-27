@@ -36,7 +36,7 @@ const faqData: Array<{
               We want to speak to you too!{" "}
               <Link
                 href="/contact-us"
-                className="font-medium text-[#7d0d23] underline underline-offset-4"
+                className="font-medium text-brand underline underline-offset-4"
               >
                 Contact us
               </Link>{" "}
@@ -209,8 +209,8 @@ const CostomerHepl = () => {
                         href={topic.href}
                         className={`block rounded-md px-3 py-2 text-sm transition-colors ${
                           isActive
-                            ? "bg-[#7d0d23]/10 text-[#7d0d23] font-medium"
-                            : "text-gray-600 hover:text-[#7d0d23] hover:bg-gray-50"
+                            ? "bg-[#7d0d23]/10 text-brand font-medium"
+                            : "text-gray-600 hover:text-brand hover:bg-gray-50"
                         }`}
                         onClick={() => setActiveCategoryId(categoryId)}
                       >
@@ -275,7 +275,7 @@ const CostomerHepl = () => {
                   </span>
                   <Link
                     href="/contact-us"
-                    className="font-medium text-[#7d0d23] hover:underline underline-offset-4"
+                    className="font-medium text-brand hover:underline underline-offset-4"
                   >
                     Contact us
                   </Link>

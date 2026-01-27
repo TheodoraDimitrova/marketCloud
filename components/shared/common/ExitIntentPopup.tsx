@@ -108,8 +108,8 @@ const ExitIntentPopup = () => {
             className="relative w-full max-w-lg rounded-3xl bg-gradient-to-br from-white to-gray-50 p-8 sm:p-10 shadow-2xl border border-gray-100"
           >
             {/* Decorative elements */}
-            <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-[#D4AF37] to-[#F4C542] rounded-full opacity-20 blur-2xl"></div>
-            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-br from-[#1f4769] to-[#163550] rounded-full opacity-10 blur-3xl"></div>
+            <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-yellow-500 to-yellow-500 rounded-full opacity-20 blur-2xl"></div>
+            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-br from-navy to-navy-dark rounded-full opacity-10 blur-3xl"></div>
 
             <button
               type="button"
@@ -132,7 +132,7 @@ const ExitIntentPopup = () => {
                 }}
                 className="relative"
               >
-                <div className="w-20 h-20 bg-gradient-to-br from-[#D4AF37] to-[#F4C542] rounded-full flex items-center justify-center shadow-lg">
+                <div className="w-20 h-20 bg-gradient-to-br from-yellow-500 to-yellow-500 rounded-full flex items-center justify-center shadow-lg">
                   <Gift className="h-10 w-10 text-white" />
                 </div>
                 <motion.div
@@ -147,7 +147,7 @@ const ExitIntentPopup = () => {
                   }}
                   className="absolute -top-2 -right-2"
                 >
-                  <Sparkles className="h-6 w-6 text-[#D4AF37]" />
+                  <Sparkles className="h-6 w-6 text-yellow-500" />
                 </motion.div>
               </motion.div>
             </div>

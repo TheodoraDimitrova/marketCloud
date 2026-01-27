@@ -133,7 +133,7 @@ const NavBar = () => {
           >
             <Heart size={24} />
             {isMounted && wishlistItems.length > 0 && (
-              <span className="absolute -top-3 -right-2 bg-[#7d0d23] text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+              <span className="absolute -top-3 -right-2 bg-brand text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                 {wishlistItems.length}
               </span>
             )}
@@ -142,7 +142,7 @@ const NavBar = () => {
           <button onClick={() => setIsCartOpen(true)} className="relative">
             <ShoppingBag size={24} />
             {isMounted && cartItems.length > 0 && (
-              <span className="absolute -top-3 -right-2 bg-[#7d0d23] text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+              <span className="absolute -top-3 -right-2 bg-brand text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                 {cartItems.length}
               </span>
             )}

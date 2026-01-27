@@ -145,8 +145,8 @@ const ProductDetails = ({
                 <Heart
                   className={`w-5 h-5 transition-all duration-300 ${
                     inWishlist
-                      ? "fill-[#7d0d23] text-[#7d0d23]"
-                      : "text-gray-600 hover:text-[#7d0d23]"
+                      ? "fill-brand text-brand"
+                      : "text-gray-600 hover:text-brand"
                   }`}
                 />
               </button>
