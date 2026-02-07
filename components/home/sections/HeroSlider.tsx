@@ -62,7 +62,7 @@ const HeroSlider = () => {
                       delay: !hasMounted && activeIndex === 0 ? 0 : 0,
                       ease: "easeOut",
                     }}
-                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-yellow-500"
+                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-accent"
                   >
                     new new new
                   </motion.div>
@@ -168,7 +168,7 @@ const HeroSlider = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
                     transition={{ duration: 0.9 }}
-                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-yellow-500"
+                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-accent"
                   >
                     Exclusive 24-Hour Flash Sale
                   </motion.div>
@@ -240,7 +240,7 @@ const HeroSlider = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
                     transition={{ duration: 0.9 }}
-                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-yellow-500"
+                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-accent"
                   >
                     Shop Best-Sellers
                   </motion.div>

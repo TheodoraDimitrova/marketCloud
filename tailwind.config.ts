@@ -41,23 +41,38 @@ export default {
   				DEFAULT: 'hsl(var(--popover))',
   				foreground: 'hsl(var(--popover-foreground))'
   			},
-  			// Brand colors
+  			card: {
+  				DEFAULT: 'hsl(var(--card))',
+  				foreground: 'hsl(var(--card-foreground))'
+  			},
+  			// Brand colors - използвайте brand и brand-dark
   			brand: {
-  				DEFAULT: '#7d0d23',
-  				dark: '#5a0919',
+  				DEFAULT: 'hsl(var(--brand))',
+  				dark: 'hsl(var(--brand-dark))',
   			},
+  			// Navy colors - използвайте navy и navy-dark
   			navy: {
-  				DEFAULT: '#1f4769',
-  				dark: '#163550',
+  				DEFAULT: 'hsl(var(--navy))',
+  				dark: 'hsl(var(--navy-dark))',
   			},
+  			// Tag colors
   			tag: {
-  				new: '#C9A9A6',
-  				limited: '#D4AF8E',
-  				text: '#1F2933',
+  				new: 'hsl(var(--tag-new))',
+  				limited: 'hsl(var(--tag-limited))',
+  				text: 'hsl(var(--tag-text))',
   			},
+  			// Footer colors
   			footer: {
-  				bg: '#FAF8F6',
-  			}
+  				bg: 'hsl(var(--bg-footer))',
+  			},
+  			// Gray utilities - за по-лесна употреба
+  			'gray-custom': {
+  				400: 'hsl(var(--gray-400))',
+  				800: 'hsl(var(--gray-800))',
+  				333: 'hsl(var(--gray-333))',
+  			},
+  			// Gradient colors
+  			'gradient-pink': 'hsl(var(--gradient-pink))' /* #f2979c */
   		},
 		  borderRadius: {
 			sm: 'var(--radius)',  

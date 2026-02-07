@@ -149,7 +149,7 @@ const Announcement = () => {
       {!isDismissedDesktop && (
         <div
           ref={containerRef}
-          className="hidden md:block bg-yellow-500 text-black sticky top-0 z-30"
+          className="hidden md:block bg-accent text-accent-foreground sticky top-0 z-30"
         >
           <div className="py-4 text-center flex items-center justify-center px-4 md:px-6 lg:px-10 relative">
             <div className="absolute left-4 md:left-6 lg:left-10">
@@ -166,7 +166,7 @@ const Announcement = () => {
                   transition={{ duration: 0.5 }}
                 >
                   <div className="announcement__text flex flex-col md:flex-row items-center justify-center gap-2 md:gap-2 lg:gap-3">
-                    <p className="text-xs md:text-sm lg:text-base text-black font-medium whitespace-nowrap mb-0">{currentAnnouncement.text}</p>
+                    <p className="text-xs md:text-sm lg:text-base text-accent-foreground font-medium whitespace-nowrap mb-0">{currentAnnouncement.text}</p>
                     {currentAnnouncement.linkHref === "#footer" ? (
                       <button
                         onClick={() => {
@@ -185,7 +185,7 @@ const Announcement = () => {
                     ) : (
                       <Link
                         href={currentAnnouncement.linkHref}
-                        className="font-bold text-black underline hover:no-underline transition-all text-xs md:text-sm lg:text-base whitespace-nowrap"
+                        className="font-bold text-accent-foreground underline hover:no-underline transition-all text-xs md:text-sm lg:text-base whitespace-nowrap"
                       >
                         {currentAnnouncement.linkText}
                       </Link>
@@ -210,7 +210,7 @@ const Announcement = () => {
       {!isDismissedMobile && (
         <div
           ref={mobileContainerRef}
-          className="md:hidden bg-yellow-500 text-black sticky top-0 z-30 flex items-center justify-center px-4 min-h-[44px]"
+          className="md:hidden bg-accent text-accent-foreground sticky top-0 z-30 flex items-center justify-center px-4 min-h-[44px]"
         >
           <AnimatePresence mode="wait">
             <motion.div

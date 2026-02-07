@@ -108,7 +108,7 @@ const ExitIntentPopup = () => {
             className="relative w-full max-w-lg rounded-3xl bg-gradient-to-br from-white to-gray-50 p-8 sm:p-10 shadow-2xl border border-gray-100"
           >
             {/* Decorative elements */}
-            <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-yellow-500 to-yellow-500 rounded-full opacity-20 blur-2xl"></div>
+            <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-accent to-accent rounded-full opacity-20 blur-2xl"></div>
             <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-br from-navy to-navy-dark rounded-full opacity-10 blur-3xl"></div>
 
             <button
@@ -132,7 +132,7 @@ const ExitIntentPopup = () => {
                 }}
                 className="relative"
               >
-                <div className="w-20 h-20 bg-gradient-to-br from-yellow-500 to-yellow-500 rounded-full flex items-center justify-center shadow-lg">
+                <div className="w-20 h-20 bg-gradient-to-br from-accent to-accent rounded-full flex items-center justify-center shadow-lg">
                   <Gift className="h-10 w-10 text-white" />
                 </div>
                 <motion.div
@@ -147,7 +147,7 @@ const ExitIntentPopup = () => {
                   }}
                   className="absolute -top-2 -right-2"
                 >
-                  <Sparkles className="h-6 w-6 text-yellow-500" />
+                  <Sparkles className="h-6 w-6 text-accent" />
                 </motion.div>
               </motion.div>
             </div>
@@ -179,7 +179,7 @@ const ExitIntentPopup = () => {
             >
               <div className="flex items-center gap-3 bg-blue-50 rounded-xl p-4 flex-1">
                 <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Truck className="h-5 w-5 text-[#1f4769]" />
+                  <Truck className="h-5 w-5 text-navy" />
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900 text-sm">Free Shipping</p>

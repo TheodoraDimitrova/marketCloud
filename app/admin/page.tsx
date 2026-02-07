@@ -27,7 +27,7 @@ const page = () => {
               <tr>
                 <td className="py-2 px-4 border-b">#1235</td>
                 <td className="py-2 px-4 border-b">Jane Smith</td>
-                <td className="py-2 px-4 border-b text-yellow-500">Pending</td>
+                <td className="py-2 px-4 border-b text-accent">Pending</td>
                 <td className="py-2 px-4 border-b">$250.00</td>
               </tr>
             </tbody>

@@ -209,7 +209,7 @@ const CostomerHepl = () => {
                         href={topic.href}
                         className={`block rounded-md px-3 py-2 text-sm transition-colors ${
                           isActive
-                            ? "bg-[#7d0d23]/10 text-brand font-medium"
+                            ? "bg-brand/10 text-brand font-medium"
                             : "text-gray-600 hover:text-brand hover:bg-gray-50"
                         }`}
                         onClick={() => setActiveCategoryId(categoryId)}

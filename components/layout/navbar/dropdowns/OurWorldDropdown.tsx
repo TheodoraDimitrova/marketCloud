@@ -27,7 +27,7 @@ const OurWorldDropdown = () => {
       </div>
 
       {/* Gradient Overlay - Desktop only */}
-      <div className="hidden md:block absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-[#f2979c] to-transparent transition-all duration-700 ease-in-out z-10"></div>
+      <div className="hidden md:block absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-gradient-pink to-transparent transition-all duration-700 ease-in-out z-10"></div>
 
       {/* Image Section */}
       <div className="relative w-full md:w-1/2 h-48 md:h-full min-h-[200px] md:min-h-0 order-1 md:order-2">

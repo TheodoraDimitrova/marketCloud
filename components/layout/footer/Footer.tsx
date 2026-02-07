@@ -69,13 +69,13 @@ const Footer = () => {
               <div className="order-3 md:justify-self-end flex gap-4 justify-center md:justify-end">
                 <Link
                   href="/policies/privacy-policy"
-                  className="text-[#8C8C8C] opacity-75 hover:opacity-100 hover:text-white transition-all"
+                  className="text-gray-400 opacity-75 hover:opacity-100 hover:text-white transition-all"
                 >
                   Privacy Policy
                 </Link>
                 <Link
                   href="/policies/terms-of-service"
-                  className="text-[#8C8C8C] opacity-75 hover:opacity-100 hover:text-white transition-all"
+                  className="text-gray-400 opacity-75 hover:opacity-100 hover:text-white transition-all"
                 >
                   Terms of Service
                 </Link>
