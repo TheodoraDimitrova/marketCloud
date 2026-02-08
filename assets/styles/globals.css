@@ -1,6 +1,6 @@
-@tailwind base; 
+@tailwind base;
 @tailwind components;
-@tailwind utilities; 
+@tailwind utilities;
 
 @layer utilities {
   .flex-center {
@@ -13,187 +13,198 @@
 }
 
 @layer components {
-
-  
   /* Text Colors - Цветове за текст */
   .text-primary {
     color: hsl(var(--gray-text-primary));
   }
-  
+
   .text-secondary {
     color: hsl(var(--gray-text-secondary));
   }
-  
+
   .text-muted {
     color: hsl(var(--gray-text-muted));
   }
-  
+
   .text-tertiary {
     color: hsl(var(--gray-text-muted));
   }
-  
+
   .text-brand {
     color: hsl(var(--brand));
   }
-  
+
   .text-brand-dark {
     color: hsl(var(--brand-dark));
   }
-  
+
   .text-navy {
     color: hsl(var(--navy));
   }
-  
+
   .text-accent {
     color: hsl(var(--accent));
   }
-  
-  
+
   /* Background Colors - Фонови цветове */
   .bg-primary {
     @apply bg-white;
   }
-  
+
   .bg-secondary {
     background-color: hsl(var(--gray-light));
   }
-  
+
   .bg-tertiary {
     background-color: hsl(var(--gray-light));
   }
-  
+
   .bg-brand {
     background-color: hsl(var(--brand));
   }
-  
+
   .bg-brand-light {
     background-color: hsl(var(--brand) / 0.1);
   }
-  
+
   .bg-navy {
     background-color: hsl(var(--navy));
   }
-  
+
   .bg-navy-dark {
     background-color: hsl(var(--navy-dark));
   }
-  
+
   .bg-accent {
     background-color: hsl(var(--accent));
   }
-  
+
   /* bg-black е стандартен Tailwind клас - използвайте го директно */
-  
+
   /* Border Colors - Граници */
   .border-divider {
     border-color: hsl(var(--gray-border));
   }
-  
+
   .border-divider-light {
     border-color: hsl(var(--gray-light));
   }
-  
+
   .border-divider-dark {
     border-color: hsl(var(--gray-border));
   }
-  
+
   .border-brand {
     border-color: hsl(var(--brand));
   }
-  
+
   .border-brand-light {
     border-color: hsl(var(--brand) / 0.3);
   }
-  
+
   .border-navy {
     border-color: hsl(var(--navy));
   }
-  
+
   /* Component-specific classes */
+  /* Luxury announcement: бордо → прашно розово → бордо, кремаво-бял текст */
   .announcement-bar {
-    background-color: hsl(var(--accent));
-    color: hsl(var(--accent-foreground));
+    background: linear-gradient(
+      to right,
+      hsl(345 50% 35%),
+      hsl(350 40% 50%),
+      hsl(345 50% 35%)
+    );
+    color: hsl(30 20% 95%);
   }
-  
+
   .navbar {
     background-color: hsl(var(--navy));
     @apply text-white;
   }
-  
+
   .navbar-transparent {
     @apply bg-transparent text-white;
   }
-  
-  .footer {
-    @apply bg-black text-white;
+
+  .footer,
+  #footer {
+    background: hsl(220 40% 8%);
+    @apply text-white;
   }
-  
+
   .footer-link {
     color: hsl(var(--gray-text-muted));
     @apply opacity-75 hover:opacity-100 hover:text-white transition-all;
   }
-  
+
   .card {
     @apply bg-white rounded-lg;
     border: 1px solid hsl(var(--gray-border));
   }
-  
+
   .card-header {
     border-bottom: 1px solid hsl(var(--gray-border));
   }
-  
+
   .card-footer {
     border-top: 1px solid hsl(var(--gray-border));
   }
-  
+
   /* Button variants - вече са в Button.tsx, но можем да добавим и тук за употреба извън Button компонента */
   .btn-primary {
     background-color: hsl(var(--navy));
     @apply text-white hover:bg-navy-dark;
   }
-  
+
   .btn-accent {
     background-color: hsl(var(--accent));
-    color: hsl(var(--accent-foreground));
-    @apply hover:opacity-90;
+    @apply text-black hover:opacity-90;
   }
-  
+
   .btn-brand {
     background-color: hsl(var(--brand));
     @apply text-white hover:bg-brand-dark;
   }
-  
+
   .btn-ghost {
     @apply bg-transparent hover:bg-accent hover:text-accent-foreground;
   }
-  
+
   /* Tag colors */
   .tag-new {
     background-color: hsl(var(--tag-new));
     color: hsl(var(--tag-text));
   }
-  
+
   .tag-limited {
     background-color: hsl(var(--tag-limited));
     color: hsl(var(--tag-text));
   }
-  
+
   .tag-discount {
     background-color: hsl(var(--brand));
     @apply text-white;
   }
-  
+
   /* Hover states */
   .hover-brand {
     @apply hover:text-brand transition-colors;
   }
-  
+
   .hover-brand-bg {
     @apply hover:bg-brand transition-colors;
   }
-  
+
   .hover-accent {
     @apply hover:text-accent transition-colors;
+  }
+
+  .text-gradient-rose {
+    background: linear-gradient(135deg, hsl(15 60% 70%), hsl(350 40% 60%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
 
@@ -201,29 +212,29 @@
   :root {
     /* Initial announcement height - will be updated by JavaScript */
     --announcement-height: 40px;
-    
+
     /* ============================================
        COLOR SYSTEM - Променете цветовете тук
        ============================================ */
-    
-    /* Brand Colors - Основни цветове на бранда (от дизайн: announcement, лого, badges) */
-    --brand: 345 50% 46%; /* #B13A53 - Мuted reddish-pink */
-    --brand-dark: 345 50% 38%; /* По-тъмен вариант */
-    
-    /* Navy Colors - Навигация (тъмно синьо-черно от дизайна) */
-    --navy: 215 15% 15%; /* #1E252D - Навбар фон */
-    --navy-dark: 215 15% 10%; /* По-тъмен вариант */
-    
-    /* Accent Colors - същият като brand за единен вид */
+
+    /* Brand Colors - Основни цветове на бранда */
+    --brand: 345 85% 28%; /* #7d0d23 - Основен бранд цвят */
+    --brand-dark: 345 90% 20%; /* #5a0919 - Тъмен вариант */
+
+    /* Navy Colors - Навигация и футър */
+    --navy: 205 55% 28%; /* #1f4769 - Основен navy */
+    --navy-dark: 205 65% 20%; /* #163550 - Тъмен вариант */
+
+    /* Accent Colors - Акцентни цветове */
     --gradient-pink: 350 80% 75%; /* #f2979c - Розов градиент */
-    
+
     /* Neutral Colors - Опростена Gray палитра (само необходимите нюанси) */
     --gray-light: 210 20% 96%; /* #f3f4f6 - Светъл фон, hover (заменя gray-50, gray-100) */
     --gray-border: 214 32% 91%; /* #e5e7eb - Граници (заменя gray-200, gray-300) */
     --gray-text-muted: 215 20% 65%; /* #9ca3af - Вторичен текст, икони (заменя gray-400) */
     --gray-text-secondary: 215 19% 35%; /* #4b5563 - Вторичен текст (заменя gray-500, gray-600) */
     --gray-text-primary: 222 47% 4%; /* #111827 - Основен текст (заменя gray-700, gray-800, gray-900) */
-    
+
     /* Legacy support - мапване към новите цветове */
     --gray-50: var(--gray-light);
     --gray-100: var(--gray-light);
@@ -236,46 +247,47 @@
     --gray-800: var(--gray-text-primary);
     --gray-900: var(--gray-text-primary);
     --gray-333: 0 0% 20%; /* #333 - Legacy support */
-    
+
     /* Footer Background - Футър фон */
-    --bg-footer: 30 20% 98%; /* #FAF8F6 - Футър фон */
-    
+    --bg-footer: 220 40% 8%;
+
     /* Tag Colors - Цветове за тагове */
     --tag-new: 15 30% 70%; /* #C9A9A6 */
     --tag-limited: 25 40% 75%; /* #D4AF8E */
     --tag-text: var(--gray-text-primary); /* Използва основен текст */
-    
+
     /* Shadcn/ui Colors - За UI компоненти (консолидирани с основните цветове) */
     --background: 0 0% 100%; /* #ffffff - Бял фон */
     --foreground: var(--gray-text-primary); /* Основен текст */
-    --card: 0 0% 100%; /* #ffffff - Бял фон */
-    --card-foreground: var(--gray-text-primary); /* Основен текст */
-    --primary: var(--navy); /* Navy като primary */
-    --primary-foreground: 0 0% 100%; /* #ffffff - Бял текст */
-    --secondary: var(--brand); /* Brand като secondary */
-    --secondary-foreground: 0 0% 100%; /* #ffffff - Бял текст */
-    --muted: var(--gray-light); /* Светъл фон */
-    --muted-foreground: var(--gray-text-secondary); /* Вторичен текст */
-    --accent: 345 50% 46%; /* #B13A53 - Съвпада с brand (announcement bar, badges) */
-    --accent-foreground: 0 0% 100%; /* #FFFFFF - Бял текст върху accent */
-    --destructive: 0 84% 60%; /* #ef4444 - Червен за грешки */
-    --destructive-foreground: 0 0% 100%; /* #ffffff - Бял текст */
+    --primary: 15 60% 70%; /* Primary – rose gold; основен CTA (Buy now, Add to cart) */
+    --primary-foreground: 220 40% 8%; /* Тъмно navy текст върху primary */
+    --secondary: 345 50% 35%; /* Secondary – бордо; Learn more, View details */
+    --secondary-foreground: 30 20% 95%; /* Светъл кремав текст върху secondary */
+    --accent: 350 40% 50%; /* Accent – dusty rose; highlight, малки CTA, chips */
+    --accent-foreground: 30 20% 95%; /* Светъл кремав текст върху accent */
+    --card: 220 35% 12%; /* Card/Surface – по-светло тъмно синьо; карти, модали, popover-и */
+    --card-foreground: 0 0% 95%; /* Светъл текст върху card */
+    --muted: 220 30% 18%; /* Muted – тъмно синьо */
+    --muted-foreground: 0 0% 85%; /* Светъл текст върху muted */
+    --destructive: 0 70% 50%; /* Destructive – червено; Delete, Remove, Clear cart */
+    --destructive-foreground: 30 20% 95%; /* Светъл кремав текст върху destructive */
     --border: var(--gray-border); /* Граници */
+    --border-outline: 220 25% 20%; /* Граница за outline/ghost бутони (тъмни фонове) */
     --input: var(--gray-border); /* Input граници */
-    --ring: var(--navy); /* Focus ring */
+    --ring: var(--primary); /* Focus ring – primary акцент */
     --radius: 0.5rem;
-    --popover: 0 0% 100%; /* #ffffff - Бял фон */
-    --popover-foreground: var(--gray-text-primary); /* Основен текст */
+    --popover: var(--card); /* Също като card – модали, popover-и */
+    --popover-foreground: var(--card-foreground);
   }
 
   h1 {
     @apply text-3xl sm:text-4xl mb-5 font-light;
   }
   h2 {
-    @apply text-2xl sm:text-3xl mb-5 ;
+    @apply text-2xl sm:text-3xl mb-5;
   }
   h3 {
-    @apply text-lg sm:text-xl mb-5 ;
+    @apply text-lg sm:text-xl mb-5;
   }
   h4 {
     @apply text-base sm:text-lg mb-3;

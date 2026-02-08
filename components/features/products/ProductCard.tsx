@@ -102,7 +102,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           <button
             onClick={onAddToCart}
             disabled={isLoading}
-            className={`absolute bottom-0 left-0 right-0 bg-black text-white py-3 px-4 flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
+            className={`absolute bottom-0 left-0 right-0 bg-primary text-primary-foreground py-3 px-4 flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary/90 ${
               hovered
                 ? "translate-y-0 opacity-100"
                 : "translate-y-full opacity-0"

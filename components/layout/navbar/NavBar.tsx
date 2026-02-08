@@ -111,7 +111,10 @@ const NavBar = () => {
 
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:top-6 lg:top-1/2">
           <div className="font-bold uppercase text-center align-middle">
-            <Link href="/" className="block md:inline leading-tight md:leading-normal">
+            <Link
+              href="/"
+              className="block md:inline leading-tight md:leading-normal "
+            >
               <span className="block md:inline">Adora</span>
               <span className="block md:inline md:ml-1">Cosmetics</span>
             </Link>

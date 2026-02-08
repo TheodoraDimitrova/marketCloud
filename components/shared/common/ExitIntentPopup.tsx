@@ -186,9 +186,9 @@ const ExitIntentPopup = () => {
                   <p className="text-xs text-gray-600">Over €60</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 bg-amber-50 rounded-xl p-4 flex-1">
-                <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Gift className="h-5 w-5 text-amber-600" />
+              <div className="flex items-center gap-3 bg-primary/10 rounded-xl p-4 flex-1">
+                <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Gift className="h-5 w-5 text-primary" />
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900 text-sm">-20% Off</p>

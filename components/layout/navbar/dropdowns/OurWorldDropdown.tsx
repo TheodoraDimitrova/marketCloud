@@ -16,10 +16,10 @@ const OurWorldDropdown = () => {
             sections.
           </p>
           <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4 justify-center">
-            <Button asChild>
+            <Button asChild variant="secondary">
               <Link href="/products?discounts=Best+Seller">Best Sellers</Link>
             </Button>
-            <Button asChild>
+            <Button asChild variant="secondary">
               <Link href="/products?discounts=New+Arrival">New arrivals</Link>
             </Button>
           </div>

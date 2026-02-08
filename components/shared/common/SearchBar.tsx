@@ -107,7 +107,7 @@ const SearchBar = ({ onSearch, products, searchTerm: externalSearchTerm }: Searc
         <div ref={searchRef} className="relative mt-4 w-full">
           <div className="relative w-full">
             <Input
-              className={`p-3 pl-12 pr-12 bg-white w-full placeholder:text-gray-400 placeholder:text-base border-2 border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-gray-200 transition-all duration-200 shadow-sm hover:shadow-md ${
+              className={`p-3 pl-12 pr-12 bg-white w-full placeholder:text-gray-400 placeholder:text-base border border-gray-200 focus:border-gray-400 transition-all duration-200 shadow-sm hover:shadow-md ${
                 showSuggestions && searchTerm.trim()
                   ? "rounded-t-xl rounded-b-none border-b-0"
                   : "rounded-xl"
@@ -132,7 +132,7 @@ const SearchBar = ({ onSearch, products, searchTerm: externalSearchTerm }: Searc
                 animate={{ opacity: 1, scaleY: 1 }}
                 exit={{ opacity: 0, scaleY: 0 }}
                 transition={{ duration: 0.2, ease: "easeOut" }}
-                className="absolute top-full left-0 w-full bg-white border-2 border-t-0 border-gray-400 rounded-b-xl shadow-2xl max-h-96 overflow-hidden z-50"
+                className="absolute top-full left-0 w-full bg-white border border-t-0 border-gray-400 rounded-b-xl shadow-2xl max-h-96 overflow-hidden z-50"
               >
                 <div className="max-h-96 overflow-y-auto">
                   {suggestions.length > 0 ? (

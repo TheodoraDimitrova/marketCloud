@@ -23,7 +23,7 @@ const FooterNewsLetter = () => {
 
   return (
     <div className="px-3  pb-5  w-full sm:w-1/2 sm:pb-5  lg:basis-1/4 lg:pb-0 overflow-hidden">
-      <h3 className="text-white">Join Our Email List</h3>
+      <h3 className="text-gradient-rose">Join Our Email List</h3>
       <p className="text-white mb-4 opacity-85 font-light">
         Get 20% off your first purchase! Plus, be the first to know about sales,
         new product launches, and exclusive offers!

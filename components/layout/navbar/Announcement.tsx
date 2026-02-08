@@ -9,7 +9,6 @@ const Announcement = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDismissedMobile, setIsDismissedMobile] = useState(false);
   const [isDismissedDesktop, setIsDismissedDesktop] = useState(false);
-  const [iconSize, setIconSize] = useState<"sm" | "md" | "lg">("sm");
   const containerRef = useRef<HTMLDivElement>(null);
   const mobileContainerRef = useRef<HTMLDivElement>(null);
   const isInitialMount = useRef(true);
@@ -53,30 +52,6 @@ const Announcement = () => {
 
     return () => clearInterval(interval);
     // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    const updateIconSize = () => {
-      if (typeof window !== 'undefined') {
-        const width = window.innerWidth;
-        if (width >= 1024) {
-          // Large screens use medium icons
-          setIconSize("md");
-        } else if (width >= 768) {
-          // Tablet uses small icons
-          setIconSize("sm");
-        } else {
-          // Mobile uses small icons
-          setIconSize("sm");
-        }
-      }
-    };
-
-    // Update immediately on mount
-    updateIconSize();
-    
-    window.addEventListener('resize', updateIconSize);
-    return () => window.removeEventListener('resize', updateIconSize);
   }, []);
 
   // Use useLayoutEffect to update height synchronously before paint
@@ -149,11 +124,11 @@ const Announcement = () => {
       {!isDismissedDesktop && (
         <div
           ref={containerRef}
-          className="hidden md:block bg-accent text-accent-foreground sticky top-0 z-30"
+          className="announcement-bar hidden md:block sticky top-0 z-30 py-2.5 px-4 text-center text-sm font-medium tracking-wide"
         >
-          <div className="py-4 text-center flex items-center justify-center px-4 md:px-6 lg:px-10 relative">
-            <div className="absolute left-4 md:left-6 lg:left-10">
-              <SocialIcons size={iconSize} />
+          <div className="flex items-center justify-center px-4 md:px-6 lg:px-10 relative">
+            <div className="absolute left-4 md:left-6 lg:left-10 py-1 flex items-center">
+              <SocialIcons size="sm" />
             </div>
 
             <div className="text-center mx-auto max-w-full px-8 md:px-12 lg:px-0">
@@ -166,7 +141,9 @@ const Announcement = () => {
                   transition={{ duration: 0.5 }}
                 >
                   <div className="announcement__text flex flex-col md:flex-row items-center justify-center gap-2 md:gap-2 lg:gap-3">
-                    <p className="text-xs md:text-sm lg:text-base text-accent-foreground font-medium whitespace-nowrap mb-0">{currentAnnouncement.text}</p>
+                    <p className="text-sm font-medium tracking-wide whitespace-nowrap mb-0 text-inherit">
+                      {currentAnnouncement.text}
+                    </p>
                     {currentAnnouncement.linkHref === "#footer" ? (
                       <button
                         onClick={() => {
@@ -178,14 +155,14 @@ const Announcement = () => {
                             });
                           }
                         }}
-                        className="font-bold text-black underline hover:no-underline transition-all cursor-pointer text-xs md:text-sm lg:text-base whitespace-nowrap"
+                        className="font-bold underline hover:no-underline transition-all cursor-pointer text-sm whitespace-nowrap text-inherit"
                       >
                         {currentAnnouncement.linkText}
                       </button>
                     ) : (
                       <Link
                         href={currentAnnouncement.linkHref}
-                        className="font-bold text-accent-foreground underline hover:no-underline transition-all text-xs md:text-sm lg:text-base whitespace-nowrap"
+                        className="font-bold text-inherit underline hover:no-underline transition-all text-sm whitespace-nowrap"
                       >
                         {currentAnnouncement.linkText}
                       </Link>
@@ -196,11 +173,11 @@ const Announcement = () => {
             </div>
             <button
               onClick={handleDismissDesktop}
-              className="absolute right-2 md:right-4 lg:right-10 top-1/2 -translate-y-1/2 p-1.5 hover:opacity-80 rounded transition-opacity flex-shrink-0 z-20"
+              className="absolute right-2 md:right-4 lg:right-10 top-1/2 -translate-y-1/2 p-1.5 hover:opacity-80 rounded transition-opacity flex-shrink-0 z-20 text-inherit"
               aria-label="Dismiss announcement"
               type="button"
             >
-              <X className="w-4 h-4 md:w-5 md:h-5 text-black" />
+              <X className="w-4 h-4 md:w-5 md:h-5" />
             </button>
           </div>
         </div>
@@ -210,7 +187,7 @@ const Announcement = () => {
       {!isDismissedMobile && (
         <div
           ref={mobileContainerRef}
-          className="md:hidden bg-accent text-accent-foreground sticky top-0 z-30 flex items-center justify-center px-4 min-h-[44px]"
+          className="announcement-bar md:hidden sticky top-0 z-30 flex items-center justify-center py-2.5 px-4 text-center text-sm font-medium tracking-wide min-h-[44px]"
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -219,7 +196,7 @@ const Announcement = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
               transition={{ duration: 0.5 }}
-              className="text-center"
+              className="text-center text-inherit"
             >
               {currentAnnouncement.linkHref === "#footer" ? (
                 <button
@@ -232,14 +209,14 @@ const Announcement = () => {
                       });
                     }
                   }}
-                  className="text-xs font-medium text-black hover:underline"
+                  className="text-sm font-medium text-inherit hover:underline"
                 >
                   {currentAnnouncement.text}
                 </button>
               ) : (
                 <Link
                   href={currentAnnouncement.linkHref}
-                  className="text-xs font-medium text-black hover:underline"
+                  className="text-sm font-medium text-inherit hover:underline"
                 >
                   {currentAnnouncement.text}
                 </Link>
@@ -248,11 +225,11 @@ const Announcement = () => {
           </AnimatePresence>
           <button
             onClick={handleDismissMobile}
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 hover:opacity-80 rounded transition-opacity flex-shrink-0 z-20"
+            className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 hover:opacity-80 rounded transition-opacity flex-shrink-0 z-20 text-inherit"
             aria-label="Dismiss announcement"
             type="button"
           >
-            <X className="w-4 h-4 text-black" />
+            <X className="w-4 h-4" />
           </button>
         </div>
       )}

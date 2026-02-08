@@ -62,7 +62,7 @@ const HeroSlider = () => {
                       delay: !hasMounted && activeIndex === 0 ? 0 : 0,
                       ease: "easeOut",
                     }}
-                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-accent"
+                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-white"
                   >
                     new new new
                   </motion.div>
@@ -81,7 +81,7 @@ const HeroSlider = () => {
                       delay: !hasMounted && activeIndex === 0 ? 0.1 : 0.3,
                       ease: "easeOut",
                     }}
-                    className="text-4xl md:text-6xl text-right max-w-md"
+                    className="text-4xl md:text-6xl text-right max-w-md text-gradient-rose"
                   >
                     Discover Our Collection
                   </motion.div>
@@ -168,7 +168,7 @@ const HeroSlider = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
                     transition={{ duration: 0.9 }}
-                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-accent"
+                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-white"
                   >
                     Exclusive 24-Hour Flash Sale
                   </motion.div>
@@ -179,7 +179,7 @@ const HeroSlider = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
                     transition={{ duration: 0.9, delay: 0.3 }}
-                    className="text-4xl md:text-6xl max-w-md text-left"
+                    className="text-4xl md:text-6xl max-w-md text-left text-gradient-rose"
                   >
                     Exclusive Offer Just for You!
                   </motion.div>
@@ -240,7 +240,7 @@ const HeroSlider = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
                     transition={{ duration: 0.9 }}
-                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-accent"
+                    className="text-base md:text-lg font-semibold uppercase tracking-wider text-white"
                   >
                     Shop Best-Sellers
                   </motion.div>
@@ -251,7 +251,7 @@ const HeroSlider = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -100 }}
                     transition={{ duration: 0.9, delay: 0.3 }}
-                    className="text-4xl md:text-6xl max-w-md text-left"
+                    className="text-4xl md:text-6xl max-w-md text-left text-gradient-rose"
                   >
                     Our Best-Selling Products
                   </motion.div>

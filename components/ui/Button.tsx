@@ -9,18 +9,25 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        /* Primary – основен CTA: Buy now, Add to cart, Shop collection */
         default:
-          "text-lg font-normal uppercase px-4 py-2 text-white bg-navy hover:bg-navy-dark rounded",
+          "text-lg font-normal uppercase px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded shadow-sm ring-2 ring-primary/20 transition-all duration-200",
+        /* Destructive – Delete, Remove, Clear cart */
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        /* Ghost/Outline – Cancel, Back; прозрачен фон, рамка, hover accent */
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          "border-2 bg-transparent text-foreground hover:bg-accent/10 hover:border-accent hover:text-accent border-[hsl(var(--border-outline))]",
+        /* Secondary – Learn more, View details; бордо */
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-lg uppercase font-normal leading-normal py-2 px-10 border border-white text-white bg-transparent hover:bg-navy rounded",
+          "text-lg font-normal uppercase px-4 py-2 bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded shadow-sm transition-all duration-200",
+        ghost:
+          "bg-transparent hover:bg-muted hover:text-muted-foreground text-foreground",
+        /* Link – за hero върху тъмно */
+        link: "text-lg uppercase font-normal leading-normal py-2 px-10 border-2 border-white text-white bg-transparent hover:bg-white/10 rounded",
+        /* Accent – highlight, малки CTA; dusty rose */
         accent:
-          "text-lg font-normal uppercase px-10 py-2 text-accent-foreground bg-accent rounded shadow-lg hover:shadow-xl hover:opacity-90 transition-all duration-300",
+          "text-lg font-normal uppercase px-10 py-2 bg-accent text-accent-foreground rounded shadow-lg hover:shadow-xl hover:opacity-90 transition-all duration-300",
       },
       size: {
         default: "h-10 px-4 py-2",

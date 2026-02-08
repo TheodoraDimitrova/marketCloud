@@ -26,11 +26,11 @@ const Footer = () => {
   ];
 
   return (
-    <footer id="footer">
+    <footer id="footer" className="bg-footer text-white">
       {/* promos */}
       <FooterPromos />
 
-      <div className="bg-black text-white py-12 px-4">
+      <div className="py-12 px-4">
         {/* section footer blocks */}
         <div className="container mx-auto">
           <div className="flex flex-wrap lg:justify-between mb-6 ">

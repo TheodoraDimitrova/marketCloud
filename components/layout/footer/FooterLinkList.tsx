@@ -13,7 +13,7 @@ interface FooterLinkListProps {
 const FooterLinkList = ({ title, links }: FooterLinkListProps) => {
   return (
     <div className="px-3 lg:mr-20 sm:mr-0 sm:w-1/2 pb-5 lg:w-auto lg:pb-0 ">
-      <h3 className="text-white">{title}</h3>
+      <h3 className="text-gradient-rose">{title}</h3>
       <ul>
         {links.map((link) => (
           <li key={link.href}>
