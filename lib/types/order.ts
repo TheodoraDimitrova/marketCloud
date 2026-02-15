@@ -26,6 +26,6 @@ export interface Order {
     paymentMethod: string;
     _id?: string;
     _updatedAt?: string;
-
+    orderNumber?: string;
   }
   

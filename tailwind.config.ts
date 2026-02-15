@@ -72,7 +72,16 @@ export default {
   				333: 'hsl(var(--gray-333))',
   			},
   			// Gradient colors
-  			'gradient-pink': 'hsl(var(--gradient-pink))' /* #f2979c */
+  			'gradient-pink': 'hsl(var(--gradient-pink))' /* #f2979c */,
+  			// Admin sidebar (used only in .admin-panel)
+  			sidebar: {
+  				DEFAULT: 'hsl(var(--sidebar, 220 20% 12%))',
+  				foreground: 'hsl(var(--sidebar-foreground, 0 0% 98%))',
+  				border: 'hsl(var(--sidebar-border, 220 15% 20%))',
+  				accent: 'hsl(var(--sidebar-accent, 220 20% 18%))',
+  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground, 0 0% 98%))',
+  				ring: 'hsl(var(--sidebar-ring, 220 20% 25%))',
+  			},
   		},
 		  borderRadius: {
 			sm: 'var(--radius)',  

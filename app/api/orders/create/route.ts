@@ -1,13 +1,25 @@
 import clientBackend from "@/sanity/lib/clientBackend";
 import { NextRequest, NextResponse } from "next/server";
 import { CartItem } from "@/lib/types/cart";
+import { ORDER_NUMBERS_QUERY } from "@/sanity/queries";
+
+const MIN_ORDER_NUMBER = 1000;
 
 export async function POST(req: NextRequest) {
   try {
     const orderData = await req.json();
 
+    const existing = await clientBackend.fetch<string[]>(ORDER_NUMBERS_QUERY);
+    const numeric = existing
+      .map((s) => parseInt(s, 10))
+      .filter((n) => !Number.isNaN(n));
+    const max = numeric.length > 0 ? Math.max(...numeric) : MIN_ORDER_NUMBER - 1;
+    const nextNumber = Math.max(max + 1, MIN_ORDER_NUMBER);
+    const orderNumber = String(nextNumber);
+
     const createdOrder = await clientBackend.create({
       _type: "order",
+      orderNumber,
       contact: orderData.contact,
       subscribed: orderData.subscribed,
       country: orderData.country,
@@ -18,6 +30,7 @@ export async function POST(req: NextRequest) {
       city: orderData.city,
       phone: orderData.phone,
       paymentMethod: orderData.paymentMethod,
+      paymentStatus: orderData.paymentMethod === "card" ? "paid" : "unpaid",
       cart: orderData.cart.map((item: CartItem, index: number) => ({
         name: item.name,
         _key: `cartItem-${Date.now()}-${index}`,
@@ -34,7 +47,7 @@ export async function POST(req: NextRequest) {
       totalSavings: orderData.totalSavings,
       totalAmount: orderData.totalAmount,
       shipping: orderData.shipping,
-      status: orderData.status,
+      status: "confirm",
     });
     return NextResponse.json({
       message: "Order created successfully",

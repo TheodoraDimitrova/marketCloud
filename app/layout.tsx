@@ -4,6 +4,7 @@ import "@/assets/styles/globals.css";
 import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from "@/lib/constants";
 
 import ReduxProvider from "@/store/ReduxProvider";
+import { AuthProvider } from "@/components/providers/AuthProvider";
 
 const lato = Lato({
   variable: "--font-lato",
@@ -47,7 +48,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${lato.variable} antialiased`} suppressHydrationWarning>
-        <ReduxProvider>{children}</ReduxProvider>
+        <AuthProvider>
+          <ReduxProvider>{children}</ReduxProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -1,14 +1,12 @@
 import client from "@/sanity/lib/client";
 import { NextRequest, NextResponse } from "next/server";
+import { ORDER_BY_ID_QUERY } from "@/sanity/queries";
 
 export async function GET(req: NextRequest) {
   try {
     const orderId = req.nextUrl.pathname.split("/").pop();
 
-    const order = await client.fetch(
-      `*[_type == "order" && _id == $orderId][0]`,
-      { orderId }
-    );
+    const order = await client.fetch(ORDER_BY_ID_QUERY, { orderId });
     if (!order) {
       return NextResponse.json({ message: "Order not found" }, { status: 404 });
     }

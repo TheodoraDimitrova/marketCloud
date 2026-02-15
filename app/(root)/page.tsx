@@ -7,13 +7,11 @@ import RichText from "@/components/home/sections/RichText";
 import CarouselHome from "@/components/home/sections/CarouselHome";
 import { Heart } from "lucide-react";
 import client from "@/sanity/lib/client";
+import { CATEGORIES_QUERY } from "@/sanity/queries";
 
 const getCategories = async () => {
   try {
-    return await client.fetch(`*[_type == "category"]{
-      ...,
-      "totalProducts": count(*[_type == "product" && references(^._id)])
-    }`);
+    return await client.fetch(CATEGORIES_QUERY);
   } catch (error) {
     console.error("Error fetching categories:", error);
     throw error;

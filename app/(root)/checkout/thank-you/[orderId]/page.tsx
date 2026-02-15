@@ -86,11 +86,14 @@ const ThankYouPage = () => {
     return <Loading />;
   }
 
-  // Order is guaranteed to exist at this point
-  // Format order ID to show only last 8 characters
-  const formatOrderId = (id: string | undefined): string => {
-    if (!id) return "";
-    return id.length > 8 ? `#${id.slice(-8).toUpperCase()}` : `#${id.toUpperCase()}`;
+  // Display order number (1000, 1001, ...) or fallback to short id for old orders
+  const displayOrderNumber = (): string => {
+    if (order.orderNumber) return `#${order.orderNumber}`;
+    if (order._id) {
+      const short = order._id.length > 8 ? order._id.slice(-8).toUpperCase() : order._id.toUpperCase();
+      return `#${short}`;
+    }
+    return "";
   };
 
   // Calculate expected delivery date (3-5 business days from order date)
@@ -130,7 +133,7 @@ const ThankYouPage = () => {
               </div>
             </div>
             <p className="mt-2 text-gray-600">
-              Your order <strong className="text-gray-900">{formatOrderId(order._id)}</strong> has been successfully placed.
+              Your order <strong className="text-gray-900">{displayOrderNumber()}</strong> has been successfully placed.
             </p>
           </div>
 

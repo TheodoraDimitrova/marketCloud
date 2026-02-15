@@ -1,8 +1,21 @@
-const orderSchema= {
+const orderSchema = {
   name: 'order',
   title: 'Order',
   type: 'document',
   fields: [
+    {
+      name: 'orderNumber',
+      title: 'Order Number',
+      type: 'string',
+      description: 'Sequential order number (1000, 1001, ...). Set automatically on create.',
+      readOnly: true,
+    },
+    {
+      name: 'tracking',
+      title: 'Tracking Number',
+      type: 'string',
+      description: 'Shipping tracking number.',
+    },
     {
       name: 'contact',
       title: 'Contact',
@@ -52,7 +65,19 @@ const orderSchema= {
       name: 'paymentMethod',
       title: 'Payment Method',
       type: 'string',
-    }, 
+    },
+    {
+      name: 'paymentStatus',
+      title: 'Payment Status',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Unpaid', value: 'unpaid' },
+          { title: 'Paid', value: 'paid' },
+        ],
+        layout: 'radio',
+      },
+    },
     {
       name: 'subtotal',
       title: 'Subtotal',
@@ -103,7 +128,7 @@ const orderSchema= {
         ],
         layout: 'dropdown',
       },
-      initialValue: 'confirm',
+      description: 'Fulfillment status (use Payment Status for paid/unpaid).',
     },
     {
       name: "cart",

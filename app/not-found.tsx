@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-export default function NotFound() {
+
+const NotFound = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-6">
       <div className="text-center">
@@ -15,4 +16,6 @@ export default function NotFound() {
       </div>
     </div>
   );
-}
+};
+
+export default NotFound;

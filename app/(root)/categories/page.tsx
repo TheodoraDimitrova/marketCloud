@@ -3,13 +3,11 @@ import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import { Category } from "@/lib/types/category";
 import client from "@/sanity/lib/client";
+import { CATEGORIES_QUERY } from "@/sanity/queries";
 
 const getCategories = async (): Promise<Category[]> => {
   try {
-    return await client.fetch(`*[_type == "category"]{
-      ...,
-      "totalProducts": count(*[_type == "product" && references(^._id)])
-    }`);
+    return await client.fetch<Category[]>(CATEGORIES_QUERY);
   } catch (error) {
     console.error("Error fetching categories:", error);
     throw error;

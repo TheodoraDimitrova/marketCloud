@@ -6,20 +6,11 @@ import ReviewsSection from "@/components/features/products/ReviewsSection";
 import { Product } from "@/lib/types/product";
 import { Review } from "@/lib/types/review";
 import { urlFor } from "@/sanity/lib/image";
+import { PRODUCT_BY_SLUG_QUERY, RELATED_PRODUCTS_QUERY, REVIEWS_BY_PRODUCT_QUERY } from "@/sanity/queries";
 
 const getProduct = async (slug: string): Promise<Product | null> => {
   try {
-    const query = `*[_type == "product" && slug.current == $slug][0]{
-      ...,
-      category->{
-        _id,
-        name,
-        slug
-      }
-    }`;
-    const product = await client.fetch(query, { slug });
-
-    return product;
+    return await client.fetch<Product | null>(PRODUCT_BY_SLUG_QUERY, { slug });
   } catch (error) {
     console.error("Error fetching product:", error);
     throw error;
@@ -35,17 +26,10 @@ const getRelatedProducts = async (
   }
 
   try {
-    const query = `*[_type == "product" && references($categoryId) && _id != $currentProductId][0...4]{
-      ...,
-      _createdAt,
-      _updatedAt
-    }`;
-    const products = await client.fetch(query, {
+    return await client.fetch<Product[]>(RELATED_PRODUCTS_QUERY, {
       categoryId,
       currentProductId,
     });
-
-    return products;
   } catch (error) {
     console.error("Error fetching related products:", error);
     return [];
@@ -54,16 +38,7 @@ const getRelatedProducts = async (
 
 const getReviews = async (productId: string): Promise<Review[]> => {
   try {
-    const query = `*[_type == "review" && product._ref == $productId] | order(_createdAt desc){
-      _id,
-      author,
-      rating,
-      comment,
-      product,
-      _createdAt,
-      _updatedAt
-    }`;
-    const reviews = await client.fetch(query, { productId });
+    const reviews = await client.fetch<Review[]>(REVIEWS_BY_PRODUCT_QUERY, { productId });
     return reviews;
   } catch (error) {
     console.error("Error fetching reviews:", error);

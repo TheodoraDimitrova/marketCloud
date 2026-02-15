@@ -135,7 +135,7 @@ const faqData: Array<{
     },
 ];
 
-const CostomerHepl = () => {
+const CustomerHelpPage = () => {
   const [query, setQuery] = useState("");
   const [activeCategoryId, setActiveCategoryId] = useState<string>(
     toCategoryId(faqData[0]?.category ?? "ordering")
@@ -357,4 +357,4 @@ const CostomerHepl = () => {
   );
 };
 
-export default CostomerHepl;
+export default CustomerHelpPage;

@@ -41,6 +41,6 @@ export const prepareOrderData = (data: FormValues, cart: CartState): Order => {
       cost: cart.shipping.cost,
       label: cart.shipping.label,
     },
-    status: "confirm",
+    status: data.paymentMethod === "card" ? "paid" : "unpaid",
   };
 };

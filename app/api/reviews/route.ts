@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import clientBackend from "@/sanity/lib/clientBackend";
 import { Review } from "@/lib/types/review";
+import { REVIEWS_BY_PRODUCT_QUERY } from "@/sanity/queries";
 
 export async function GET(req: NextRequest) {
   try {
@@ -14,17 +15,7 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const query = `*[_type == "review" && product._ref == $productId] | order(_createdAt desc){
-      _id,
-      author,
-      rating,
-      comment,
-      product,
-      _createdAt,
-      _updatedAt
-    }`;
-
-    const reviews: Review[] = await clientBackend.fetch(query, { productId });
+    const reviews: Review[] = await clientBackend.fetch(REVIEWS_BY_PRODUCT_QUERY, { productId });
 
     return NextResponse.json({ reviews });
   } catch (error) {
