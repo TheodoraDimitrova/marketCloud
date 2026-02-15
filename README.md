@@ -1,4 +1,11 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Adora Cosmetics
+
+E-commerce store (Next.js, Sanity CMS) with a protected admin panel for orders, products, and reports.
+
+- **Store:** categories, products, cart, checkout, wishlist, reviews.
+- **Admin:** dashboard (revenue, orders, low stock), orders list & detail, products, reports, settings. Google sign-in; access controlled by allowed emails in Sanity.
+
+**Production (Vercel):** Set env vars `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, `AUTH_SECRET`, `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, `SANITY_API_TOKEN`. In Google OAuth: add **Authorized JavaScript origin** `https://your-domain.vercel.app` (no path) and **Authorized redirect URI** `https://your-domain.vercel.app/api/auth/callback/google`. In Sanity, add an **adminAccess** document with an **emails** array of allowed Gmail addresses. Redeploy after changing env vars.
 
 ## Getting Started
 
