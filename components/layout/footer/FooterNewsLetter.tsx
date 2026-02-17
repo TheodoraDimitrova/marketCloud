@@ -15,10 +15,19 @@ const FooterNewsLetter = () => {
     reset,
   } = useForm<IFormInput>();
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log("Form submitted with:", data);
-    alert("You have successfully subscribed!");
-    reset();
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    try {
+      const res = await fetch("/api/contacts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ source: "newsletter", email: data.email }),
+      });
+      if (!res.ok) throw new Error("Failed to subscribe");
+      alert("You have successfully subscribed!");
+      reset();
+    } catch {
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   return (

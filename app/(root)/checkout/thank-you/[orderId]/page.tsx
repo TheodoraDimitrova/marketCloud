@@ -284,14 +284,6 @@ const ThankYouPage = () => {
             <Button onClick={handleRedirect} variant="default" size="lg" className="flex-1 sm:flex-initial">
               Continue Shopping
             </Button>
-            <Button 
-              onClick={() => router.push("/products")} 
-              variant="outline" 
-              size="lg"
-              className="flex-1 sm:flex-initial"
-            >
-              Browse Products
-            </Button>
           </div>
         </div>
 

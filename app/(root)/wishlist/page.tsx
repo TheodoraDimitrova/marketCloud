@@ -29,7 +29,7 @@ const WishlistPage = () => {
               product card. They&apos;ll appear here for easy access later!
             </p>
             <Button asChild>
-              <Link href="/products">Browse Products</Link>
+              <Link href="/products">Continue Shopping</Link>
             </Button>
           </div>
         ) : (

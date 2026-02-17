@@ -46,18 +46,22 @@ const ContactForm = () => {
     setSubmitSuccess(false);
 
     try {
-      // TODO: Replace with actual API call
-      console.log(data);
-      // Simulate API call
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(null);
-        }, 1000);
+      const res = await fetch("/api/contacts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          source: "contact",
+          email: data.email,
+          name: data.name,
+          message: data.message,
+          enquiryType: data.enquiryType || undefined,
+          subscribed: Boolean(data.emailMarketing),
+        }),
       });
+      if (!res.ok) throw new Error("Failed to send");
 
       reset();
       setSubmitSuccess(true);
-
       setTimeout(() => setSubmitSuccess(false), 5000);
     } catch (error) {
       console.error("Error submitting form:", error);

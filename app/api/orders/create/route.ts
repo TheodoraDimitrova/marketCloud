@@ -49,6 +49,25 @@ export async function POST(req: NextRequest) {
       shipping: orderData.shipping,
       status: "confirm",
     });
+
+    const contactStr = typeof orderData.contact === "string" ? orderData.contact.trim() : "";
+    const isEmail = contactStr.includes("@");
+    if (isEmail && createdOrder._id) {
+      const name = [orderData.firstName, orderData.lastName].filter(Boolean).join(" ") || undefined;
+      try {
+        await clientBackend.create({
+          _type: "contact",
+          source: "order",
+          email: contactStr,
+          name: name || undefined,
+          subscribed: Boolean(orderData.subscribed),
+          orderId: { _type: "reference", _ref: createdOrder._id },
+        });
+      } catch (e) {
+        console.error("Failed to create contact from order:", e);
+      }
+    }
+
     return NextResponse.json({
       message: "Order created successfully",
       createdOrder,
