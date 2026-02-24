@@ -7,7 +7,8 @@ import StatusBadge from "@/components/admin/StatusBadge";
 import type { AdminOrderListItem } from "@/lib/types/adminOrder";
 import { Input } from "@/components/admin/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/admin/ui/select";
-import { Search, Loader2 } from "lucide-react";
+import { Search, Loader2, Plus } from "lucide-react";
+import { Button } from "@/components/admin/ui/button";
 
 const AdminOrdersPage = () => {
   const router = useRouter();
@@ -61,6 +62,13 @@ const AdminOrdersPage = () => {
       <TopBar title="Orders" />
       <main className="flex-1 p-6 space-y-4">
         <div className="flex items-center gap-3">
+          <Button
+            onClick={() => router.push("/admin/orders/new")}
+            className="bg-primary text-primary-foreground"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Create Order
+          </Button>
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input

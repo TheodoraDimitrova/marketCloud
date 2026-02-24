@@ -17,6 +17,7 @@ import { Textarea } from "@/components/ui/forms/textarea";
 import { Loading } from "@/components/ui/Loading";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
 import { FormError } from "@/components/ui/forms/FormError";
+import Modal from "@/components/ui/Modal";
 
 interface IFormInput {
   name: string;
@@ -30,7 +31,7 @@ interface IFormInput {
 const ContactForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const {
     register,
     handleSubmit,
@@ -43,7 +44,7 @@ const ContactForm = () => {
   const onSubmit = async (data: IFormInput) => {
     setIsLoading(true);
     setSubmitError(null);
-    setSubmitSuccess(false);
+    setShowSuccessModal(false);
 
     try {
       const res = await fetch("/api/contacts", {
@@ -56,13 +57,19 @@ const ContactForm = () => {
           message: data.message,
           enquiryType: data.enquiryType || undefined,
           subscribed: Boolean(data.emailMarketing),
+          orderNumber: data.orderNumber || undefined,
         }),
       });
-      if (!res.ok) throw new Error("Failed to send");
+      
+      const responseData = await res.json();
+      console.log("Contact form - API response:", { status: res.status, data: responseData });
+      
+      if (!res.ok) {
+        throw new Error(responseData.message || "Failed to send");
+      }
 
       reset();
-      setSubmitSuccess(true);
-      setTimeout(() => setSubmitSuccess(false), 5000);
+      setShowSuccessModal(true);
     } catch (error) {
       console.error("Error submitting form:", error);
       setSubmitError(
@@ -92,12 +99,6 @@ const ContactForm = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {submitError && (
           <ErrorMessage message={submitError} retry={handleRetry} />
-        )}
-        {submitSuccess && (
-          <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-md text-green-800">
-            <p className="font-semibold">Message sent successfully!</p>
-            <p className="text-sm">We&apos;ll get back to you within a day.</p>
-          </div>
         )}
         {isLoading && (
           <div className="fixed inset-0 bg-white bg-opacity-75 z-50 flex items-center justify-center pointer-events-auto">
@@ -215,6 +216,21 @@ const ContactForm = () => {
           </Button>
         </div>
       </form>
+
+      {/* Success Modal */}
+      <Modal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        type="success"
+        title="Message Sent Successfully!"
+        primaryButton={{
+          label: "Close",
+          onClick: () => setShowSuccessModal(false),
+        }}
+      >
+        <p>Thank you for contacting us!</p>
+        <p className="text-sm">We&apos;ll get back to you within a day.</p>
+      </Modal>
     </div>
   );
 };

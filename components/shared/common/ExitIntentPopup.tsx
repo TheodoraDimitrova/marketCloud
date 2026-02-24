@@ -1,10 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { X, Gift, Truck, Sparkles } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/Button";
+import Modal from "@/components/ui/Modal";
 
 const EXIT_INTENT_STORAGE_KEY = "exit_intent_shown";
 const MIN_TIME_ON_PAGE = 2000; // 2 seconds minimum before showing popup
@@ -83,147 +80,57 @@ const ExitIntentPopup = () => {
     setIsOpen(false);
   };
 
+  const handleViewOffers = () => {
+    handleClose();
+    window.location.href = "/deals";
+  };
+
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4"
-          onClick={handleClose}
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ 
-              type: "spring", 
-              stiffness: 300, 
-              damping: 30,
-              duration: 0.4 
-            }}
-            onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-lg rounded-3xl bg-gradient-to-br from-white to-gray-50 p-8 sm:p-10 shadow-2xl border border-gray-100"
-          >
-            {/* Decorative elements */}
-            <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-accent to-accent rounded-full opacity-20 blur-2xl"></div>
-            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-br from-navy to-navy-dark rounded-full opacity-10 blur-3xl"></div>
-
-            <button
-              type="button"
-              aria-label="Close"
-              onClick={handleClose}
-              className="absolute right-4 top-4 rounded-full p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 hover:scale-110 z-10"
-            >
-              <X className="h-5 w-5" />
-            </button>
-
-            {/* Icon and badge */}
-            <div className="flex items-center justify-center mb-6">
-              <motion.div
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ 
-                  delay: 0.2, 
-                  type: "spring", 
-                  stiffness: 200 
-                }}
-                className="relative"
-              >
-                <div className="w-20 h-20 bg-gradient-to-br from-accent to-accent rounded-full flex items-center justify-center shadow-lg">
-                  <Gift className="h-10 w-10 text-white" />
-                </div>
-                <motion.div
-                  animate={{ 
-                    scale: [1, 1.1, 1],
-                    rotate: [0, 5, -5, 0]
-                  }}
-                  transition={{ 
-                    duration: 2, 
-                    repeat: Infinity,
-                    repeatDelay: 1
-                  }}
-                  className="absolute -top-2 -right-2"
-                >
-                  <Sparkles className="h-6 w-6 text-accent" />
-                </motion.div>
-              </motion.div>
-            </div>
-
-            <motion.h2
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-2xl sm:text-3xl mb-3 font-bold text-gray-900 text-center pr-8"
-            >
-              Wait! Before you go
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="text-base sm:text-lg text-gray-600 mb-8 leading-relaxed text-center"
-            >
-              Don&apos;t miss free shipping and -20% on your first order.
-            </motion.p>
-
-            {/* Benefits */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="flex flex-col sm:flex-row gap-4 mb-8"
-            >
-              <div className="flex items-center gap-3 bg-blue-50 rounded-xl p-4 flex-1">
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Truck className="h-5 w-5 text-navy" />
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900 text-sm">Free Shipping</p>
-                  <p className="text-xs text-gray-600">Over €60</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 bg-primary/10 rounded-xl p-4 flex-1">
-                <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Gift className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900 text-sm">-20% Off</p>
-                  <p className="text-xs text-gray-600">First Order</p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="flex flex-col gap-3 sm:flex-row sm:items-stretch"
-            >
-              <Button 
-                asChild 
-                variant="accent" 
-                className="w-full sm:flex-1 hover:scale-105 transition-transform duration-200 shadow-lg hover:shadow-xl"
-              >
-                <Link href="/deals" onClick={handleClose}>View current offers</Link>
-              </Button>
-              <Button
-                type="button"
-                variant="default"
-                className="w-full sm:flex-1 hover:scale-105 transition-transform duration-200"
-                onClick={handleClose}
-              >
-                Continue shopping
-              </Button>
-            </motion.div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <Modal
+      isOpen={isOpen}
+      onClose={handleClose}
+      type="warning"
+      title="Wait! Before you go"
+      primaryButton={{
+        label: "View current offers",
+        onClick: handleViewOffers,
+        variant: "accent",
+      }}
+      secondaryButton={{
+        label: "Continue shopping",
+        onClick: handleClose,
+        variant: "outline",
+      }}
+      className="max-w-lg"
+    >
+      <p className="text-base sm:text-lg mb-4">
+        Don&apos;t miss free shipping and -20% on your first order.
+      </p>
+      <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex items-center gap-3 bg-blue-50 rounded-xl p-4 flex-1">
+          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+            <svg className="h-5 w-5 text-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <div>
+            <p className="font-semibold text-gray-900 text-sm">Free Shipping</p>
+            <p className="text-xs text-gray-600">Over €60</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3 bg-primary/10 rounded-xl p-4 flex-1">
+          <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+            <svg className="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+            </svg>
+          </div>
+          <div>
+            <p className="font-semibold text-gray-900 text-sm">-20% Off</p>
+            <p className="text-xs text-gray-600">First Order</p>
+          </div>
+        </div>
+      </div>
+    </Modal>
   );
 };
 

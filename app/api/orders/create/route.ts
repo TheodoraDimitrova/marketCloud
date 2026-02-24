@@ -47,24 +47,65 @@ export async function POST(req: NextRequest) {
       totalSavings: orderData.totalSavings,
       totalAmount: orderData.totalAmount,
       shipping: orderData.shipping,
-      status: "confirm",
+      // If paid with card, automatically set status to Processing (pending)
+      // Otherwise, set to New (confirm)
+      status: orderData.paymentMethod === "card" ? "pending" : "confirm",
     });
 
     const contactStr = typeof orderData.contact === "string" ? orderData.contact.trim() : "";
     const isEmail = contactStr.includes("@");
     if (isEmail && createdOrder._id) {
+      const emailTrimmed = contactStr.toLowerCase();
       const name = [orderData.firstName, orderData.lastName].filter(Boolean).join(" ") || undefined;
       try {
-        await clientBackend.create({
-          _type: "contact",
-          source: "order",
-          email: contactStr,
-          name: name || undefined,
-          subscribed: Boolean(orderData.subscribed),
-          orderId: { _type: "reference", _ref: createdOrder._id },
-        });
+        const allContacts = await clientBackend.fetch<Array<{ _id: string; email: string; source?: string; subscribed?: boolean; orders?: Array<{ _ref: string }> }>>(
+          `*[_type == "contact"] { _id, email, source, subscribed, orders[] { _ref } }`
+        );
+        
+        const existing = allContacts.find(
+          (c) => c.email && c.email.trim().toLowerCase() === emailTrimmed
+        );
+
+        const orderRef = { 
+          _type: "reference" as const, 
+          _ref: createdOrder._id,
+          _key: `order-${createdOrder._id}`
+        };
+
+        if (existing) {
+          const updates: Record<string, unknown> = {};
+          if (orderData.subscribed && !existing.subscribed) {
+            updates.subscribed = true;
+          }
+          if (name && !existing.name) {
+            updates.name = name;
+          }
+          const existingOrderRefs = (existing.orders || []).map((o) => o._ref);
+          if (!existingOrderRefs.includes(createdOrder._id)) {
+            // Get existing order references with their keys
+            const existingOrderItems = (existing.orders || []).map((o: { _ref: string; _key?: string }) => ({
+              _type: "reference" as const,
+              _ref: o._ref,
+              _key: o._key || `order-${o._ref}`
+            }));
+            // Add the new order reference with key
+            updates.orders = [...existingOrderItems, orderRef];
+          }
+          if (Object.keys(updates).length > 0) {
+            await clientBackend.patch(existing._id).set(updates).commit();
+          }
+        } else {
+          await clientBackend.create({
+            _type: "contact",
+            source: "order",
+            email: emailTrimmed,
+            name: name || undefined,
+            subscribed: Boolean(orderData.subscribed),
+            orders: [orderRef],
+          });
+        }
       } catch (e) {
-        console.error("Failed to create contact from order:", e);
+        console.error("Failed to create/update contact from order:", e);
       }
     }
 

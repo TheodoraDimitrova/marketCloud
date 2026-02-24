@@ -137,9 +137,36 @@ const AdminDashboardPage = () => {
   const revenueThisMonth = orders
     .filter((o) => isThisLocalMonth(o.createdAt) && o.paymentStatus === "Paid")
     .reduce((sum, o) => sum + Number(o.total), 0);
-  const ordersNeedingAttention = orders.filter(
-    (o) => o.paymentStatus === "Pending" || o.fulfillmentStatus === "New"
-  );
+  // Orders needing attention:
+  // 1. Orders without tracking number (regardless of payment status) - priority - "Needs Tracking"
+  // 2. Unpaid orders with tracking number - "Needs Payment"
+  const ordersNeedingAttention = orders
+    .filter((o) => {
+      const hasNoTracking = !o.tracking || (typeof o.tracking === "string" && o.tracking.trim() === "");
+      const isUnpaid = o.paymentStatus === "Unpaid";
+      // Include: all orders without tracking OR unpaid orders with tracking
+      return hasNoTracking || isUnpaid;
+    })
+    .sort((a, b) => {
+      // Sort: tracking first, then payment
+      const aHasNoTracking = !a.tracking || (typeof a.tracking === "string" && a.tracking.trim() === "");
+      const bHasNoTracking = !b.tracking || (typeof b.tracking === "string" && b.tracking.trim() === "");
+      const aNeedsPayment = a.paymentStatus === "Unpaid" && !aHasNoTracking; // unpaid WITH tracking
+      const bNeedsPayment = b.paymentStatus === "Unpaid" && !bHasNoTracking; // unpaid WITH tracking
+      
+      // Orders without tracking come first (regardless of payment status)
+      if (aHasNoTracking && !bHasNoTracking) return -1;
+      if (!aHasNoTracking && bHasNoTracking) return 1;
+      
+      // Then unpaid orders with tracking (needs payment)
+      if (aNeedsPayment && !bNeedsPayment) return -1;
+      if (!aNeedsPayment && bNeedsPayment) return 1;
+      
+      // Otherwise sort by date (newest first)
+      const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+      return dateB - dateA;
+    });
 
   const alertCards = [
     {
@@ -206,29 +233,51 @@ const AdminDashboardPage = () => {
 
         <div className="bg-card rounded-lg border border-border">
           <div className="px-5 py-4 border-b border-border">
-            <h2 className="text-sm font-semibold text-foreground">Orders needing attention</h2>
+            <h2 className="text-sm font-semibold text-foreground">
+              Orders needing attention ({ordersNeedingAttention.length})
+            </h2>
+            <p className="text-xs text-muted-foreground mt-1">
+              Orders without tracking number or unpaid orders
+            </p>
           </div>
           <div className="divide-y divide-border">
             {ordersNeedingAttention.length === 0 ? (
               <p className="px-5 py-4 text-sm text-muted-foreground">No orders needing attention.</p>
             ) : (
-              ordersNeedingAttention.map((order) => (
-                <div
-                  key={order.id}
-                  onClick={() => router.push(`/admin/orders/${order.id}`)}
-                  className="px-5 py-3 flex items-center justify-between hover:bg-muted/50 cursor-pointer transition-colors"
-                >
-                  <div className="flex items-center gap-4">
-                    <span className="text-sm font-medium text-foreground">#{order.orderNumber}</span>
-                    <span className="text-sm text-muted-foreground">{order.customer}</span>
+              ordersNeedingAttention.map((order) => {
+                // Check tracking first (orders without tracking, regardless of payment status)
+                const needsTracking = !order.tracking || (typeof order.tracking === "string" && order.tracking.trim() === "");
+                // Then check payment (unpaid orders WITH tracking)
+                const needsPayment = order.paymentStatus === "Unpaid" && !needsTracking;
+                
+                return (
+                  <div
+                    key={order.id}
+                    onClick={() => router.push(`/admin/orders/${order.id}`)}
+                    className="px-5 py-3 flex items-center justify-between hover:bg-muted/50 cursor-pointer transition-colors"
+                  >
+                    <div className="flex items-center gap-4">
+                      <span className="text-sm font-medium text-foreground">#{order.orderNumber}</span>
+                      <span className="text-sm text-muted-foreground">{order.customer}</span>
+                      {needsTracking && (
+                        <span className="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-medium">
+                          Needs Tracking
+                        </span>
+                      )}
+                      {needsPayment && (
+                        <span className="text-xs bg-destructive/10 text-destructive px-2 py-0.5 rounded font-medium">
+                          Needs Payment
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <StatusBadge status={order.paymentStatus} />
+                      <StatusBadge status={order.fulfillmentStatus} />
+                      <span className="text-sm font-medium text-foreground">{order.total.toFixed(2)} EUR</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <StatusBadge status={order.paymentStatus} />
-                    <StatusBadge status={order.fulfillmentStatus} />
-                    <span className="text-sm font-medium text-foreground">{order.total.toFixed(2)} EUR</span>
-                  </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>

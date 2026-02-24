@@ -6,7 +6,8 @@ import cartItem from "./cartItem"
 import review from "./review"
 import adminAccess from './adminAccess'
 import contact from './contact'
+import message from './message'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [category, product, order, cartItem, review, adminAccess, contact],
+  types: [category, product, order, cartItem, review, adminAccess, contact, message],
 }

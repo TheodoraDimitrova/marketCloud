@@ -21,6 +21,7 @@ const AdminOrderDetailPage = () => {
   const [fulfillmentStatus, setFulfillmentStatus] = useState("");
   const [saving, setSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [trackingError, setTrackingError] = useState<string | null>(null);
 
   useEffect(() => {
     const orderId = typeof id === "string" ? id : undefined;
@@ -162,19 +163,95 @@ const AdminOrderDetailPage = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
-                  {order.items.map((item, i) => (
-                    <tr key={i}>
-                      <td className="px-5 py-3 font-medium text-foreground">{item.product}</td>
-                      <td className="px-5 py-3 text-muted-foreground">{item.variant}</td>
-                      <td className="px-5 py-3 text-center text-foreground">{item.qty}</td>
-                      <td className="px-5 py-3 text-right text-foreground">{item.price.toFixed(2)} EUR</td>
-                      <td className="px-5 py-3 text-right font-medium text-foreground">
-                        {(item.price * item.qty).toFixed(2)} EUR
-                      </td>
-                    </tr>
-                  ))}
+                  {order.items.map((item, i) => {
+                    const itemTotal = item.price * item.qty;
+                    const originalTotal = item.originalPrice ? item.originalPrice * item.qty : itemTotal;
+                    const hasDiscount = item.originalPrice && item.originalPrice > item.price;
+                    const discountLabel = item.discountAmount && item.discountType
+                      ? item.discountType === "percentage"
+                        ? `-${item.discountAmount}%`
+                        : `-${item.discountAmount}€`
+                      : null;
+                    
+                    return (
+                      <tr key={i}>
+                        <td className="px-5 py-3 font-medium text-foreground">
+                          <div className="flex flex-col">
+                            <span>{item.product}</span>
+                            {hasDiscount && discountLabel && (
+                              <span className="text-xs text-green-600 font-medium mt-0.5">
+                                {discountLabel} discount
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="px-5 py-3 text-muted-foreground">{item.variant}</td>
+                        <td className="px-5 py-3 text-center text-foreground">{item.qty}</td>
+                        <td className="px-5 py-3 text-right text-foreground">
+                          {hasDiscount ? (
+                            <div className="flex flex-col items-end">
+                              <span className="line-through text-muted-foreground text-xs">
+                                {item.originalPrice!.toFixed(2)} EUR
+                              </span>
+                              <span className="text-green-600 font-medium">
+                                {item.price.toFixed(2)} EUR
+                              </span>
+                            </div>
+                          ) : (
+                            <span>{item.price.toFixed(2)} EUR</span>
+                          )}
+                        </td>
+                        <td className="px-5 py-3 text-right font-medium text-foreground">
+                          {hasDiscount ? (
+                            <div className="flex flex-col items-end">
+                              <span className="line-through text-muted-foreground text-xs">
+                                {originalTotal.toFixed(2)} EUR
+                              </span>
+                              <span className="text-green-600">
+                                {itemTotal.toFixed(2)} EUR
+                              </span>
+                            </div>
+                          ) : (
+                            <span>{itemTotal.toFixed(2)} EUR</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
                 <tfoot>
+                  {order.subtotal !== undefined && order.subtotal !== order.total && (
+                    <>
+                      <tr>
+                        <td colSpan={4} className="px-5 py-2 text-right text-sm text-muted-foreground">
+                          Subtotal:
+                        </td>
+                        <td className="px-5 py-2 text-right text-sm text-muted-foreground">
+                          {order.subtotal.toFixed(2)} EUR
+                        </td>
+                      </tr>
+                      {order.totalSavings !== undefined && order.totalSavings > 0 && (
+                        <tr>
+                          <td colSpan={4} className="px-5 py-2 text-right text-sm text-green-600">
+                            Discount:
+                          </td>
+                          <td className="px-5 py-2 text-right text-sm text-green-600 font-medium">
+                            -{order.totalSavings.toFixed(2)} EUR
+                          </td>
+                        </tr>
+                      )}
+                      {order.shipping?.cost !== undefined && order.shipping.cost > 0 && (
+                        <tr>
+                          <td colSpan={4} className="px-5 py-2 text-right text-sm text-muted-foreground">
+                            Shipping:
+                          </td>
+                          <td className="px-5 py-2 text-right text-sm text-muted-foreground">
+                            {order.shipping.cost.toFixed(2)} EUR
+                          </td>
+                        </tr>
+                      )}
+                    </>
+                  )}
                   <tr className="border-t border-border">
                     <td colSpan={4} className="px-5 py-3 text-right font-semibold text-foreground">
                       Total:
@@ -202,7 +279,7 @@ const AdminOrderDetailPage = () => {
                   size="sm"
                   variant="outline"
                   className="mt-3 w-full sm:w-auto"
-                  disabled={saving}
+                  disabled={saving || order.fulfillmentStatus !== "Shipped"}
                   onClick={async () => {
                     if (!id || typeof id !== "string") return;
                     setSaving(true);
@@ -225,6 +302,11 @@ const AdminOrderDetailPage = () => {
                 >
                   {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Mark as paid"}
                 </Button>
+              )}
+              {order.paymentStatus === "Unpaid" && order.fulfillmentStatus !== "Shipped" && (
+                <p className="text-xs text-muted-foreground mt-2">
+                  Order must be shipped before marking as paid (cash on delivery).
+                </p>
               )}
             </div>
           </div>
@@ -256,11 +338,26 @@ const AdminOrderDetailPage = () => {
                   <div>
                     <label className="text-xs text-muted-foreground mb-1 block">Tracking number</label>
                     <Input
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
                       value={tracking}
-                      onChange={(e) => setTracking(e.target.value)}
-                      placeholder="Enter tracking number"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        // Only allow digits
+                        if (value === "" || /^\d+$/.test(value)) {
+                          setTracking(value);
+                          setTrackingError(null);
+                        } else {
+                          setTrackingError("Tracking number must contain only numbers");
+                        }
+                      }}
+                      placeholder="Enter tracking number (numbers only)"
                       className="bg-background"
                     />
+                    {trackingError && (
+                      <p className="text-xs text-destructive mt-1">{trackingError}</p>
+                    )}
                   </div>
                   <div>
                     <label className="text-xs text-muted-foreground mb-1 block">Courier</label>
@@ -273,7 +370,15 @@ const AdminOrderDetailPage = () => {
                   disabled={saving}
                   onClick={async () => {
                     if (!id || typeof id !== "string") return;
+                    
+                    // Validate tracking number before saving
+                    if (tracking && !/^\d+$/.test(tracking.trim())) {
+                      setTrackingError("Tracking number must contain only numbers");
+                      return;
+                    }
+                    
                     setSaveMessage(null);
+                    setTrackingError(null);
                     setSaving(true);
                     try {
                       const res = await fetch(`/api/admin/orders/${encodeURIComponent(id)}`, {
@@ -292,10 +397,14 @@ const AdminOrderDetailPage = () => {
                       setSaveMessage({ type: "success", text: "Saved." });
                       setTimeout(() => setSaveMessage(null), 3000);
                     } catch (e) {
+                      const errorMessage = e instanceof Error ? e.message : "Failed to save";
                       setSaveMessage({
                         type: "error",
-                        text: e instanceof Error ? e.message : "Failed to save",
+                        text: errorMessage,
                       });
+                      if (errorMessage.includes("numbers")) {
+                        setTrackingError(errorMessage);
+                      }
                     } finally {
                       setSaving(false);
                     }

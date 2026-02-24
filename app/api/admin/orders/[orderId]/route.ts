@@ -44,6 +44,16 @@ export async function PATCH(
       paymentStatus?: string;
     };
 
+    // Validate tracking number - must contain only digits
+    if (tracking !== undefined && tracking !== null && tracking !== "") {
+      if (!/^\d+$/.test(tracking.trim())) {
+        return NextResponse.json(
+          { message: "Tracking number must contain only numbers" },
+          { status: 400 }
+        );
+      }
+    }
+
     const existing = await clientBackend.fetch<{ _id: string; status?: string; paymentStatus?: string } | null>(
       ADMIN_ORDER_STATUS_QUERY,
       { id: orderId }
@@ -53,10 +63,21 @@ export async function PATCH(
     }
 
     const patch = clientBackend.patch(orderId);
-    if (tracking !== undefined) patch.set({ tracking: tracking ?? "" });
-    if (paymentStatus !== undefined && (paymentStatus === "paid" || paymentStatus === "unpaid")) {
-      patch.set({ paymentStatus });
+    if (tracking !== undefined) {
+      // Store trimmed tracking number, or empty string if null/empty
+      const trimmedTracking = tracking?.trim() ?? "";
+      patch.set({ tracking: trimmedTracking });
     }
+    
+    // Determine the new payment status
+    const newPaymentStatus = paymentStatus !== undefined 
+      ? (paymentStatus === "paid" || paymentStatus === "unpaid" ? paymentStatus : existing.paymentStatus)
+      : existing.paymentStatus;
+    
+    if (paymentStatus !== undefined && (paymentStatus === "paid" || paymentStatus === "unpaid")) {
+      patch.set({ paymentStatus: newPaymentStatus });
+    }
+    
     // When saving a tracking number, auto-set order to Shipped (fulfilled)
     const hasTracking = typeof tracking === "string" && tracking.trim() !== "";
     if (hasTracking) {
@@ -65,7 +86,14 @@ export async function PATCH(
       if (existing.status === "paid" && existing.paymentStatus === undefined) {
         patch.set({ paymentStatus: "paid" });
       }
+    } else if (paymentStatus === "paid" && existing.paymentStatus !== "paid") {
+      // When marking order as paid, automatically set status to Processing (pending)
+      // Only if it's not already Shipped (fulfilled)
+      if (existing.status !== "fulfilled") {
+        patch.set({ status: "pending" });
+      }
     } else if (fulfillmentStatus !== undefined) {
+      // Manual fulfillment status change (from dropdown)
       const status = fulfillmentToStatus[fulfillmentStatus] ?? fulfillmentStatus;
       patch.set({ status });
     }

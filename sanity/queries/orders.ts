@@ -26,7 +26,7 @@ export const ADMIN_ORDERS_LIST_QUERY = `*[_type == "order"] | order(_createdAt d
   paymentStatus,
   totalAmount,
   status,
-  cart[] { name, quantity, price, discountedPrice, subtotalSingleProduct }
+  cart[] { name, quantity, price, discountedPrice, subtotalSingleProduct, discount }
 }`;
 
 /** Admin: single order full detail */
@@ -50,7 +50,7 @@ export const ADMIN_ORDER_DETAIL_QUERY = `*[_type == "order" && _id == $id][0] {
   totalSavings,
   status,
   shipping,
-  cart[] { name, quantity, price, discountedPrice, subtotalSingleProduct }
+  cart[] { name, quantity, price, discountedPrice, subtotalSingleProduct, discount }
 }`;
 
 /** Admin: order status fields only (for PATCH) */

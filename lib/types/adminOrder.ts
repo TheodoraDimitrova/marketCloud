@@ -21,6 +21,8 @@ export interface AdminOrderListItem {
 export interface AdminOrderDetail extends AdminOrderListItem {
   paymentMethod: string;
   transactionId?: string;
+  subtotal?: number;
+  totalSavings?: number;
   shippingAddress: {
     address: string;
     city: string;
@@ -37,6 +39,10 @@ export interface AdminOrderDetail extends AdminOrderListItem {
     variant: string;
     qty: number;
     price: number;
+    originalPrice?: number;
+    discount?: number;
+    discountAmount?: number;
+    discountType?: string;
   }>;
   notes: string[];
 }
@@ -68,5 +74,10 @@ export interface SanityOrder {
     price?: number;
     discountedPrice?: number;
     subtotalSingleProduct?: number;
+    discount?: {
+      amount?: number;
+      type?: string;
+      isActive?: boolean;
+    };
   }>;
 }

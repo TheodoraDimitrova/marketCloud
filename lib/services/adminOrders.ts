@@ -46,15 +46,42 @@ export function sanityOrderToListItem(order: SanityOrder): AdminOrderListItem {
 
 export function sanityOrderToDetail(order: SanityOrder): AdminOrderDetail {
   const list = sanityOrderToListItem(order);
-  const items = (order.cart || []).map((item) => ({
-    product: item.name || "—",
-    variant: "",
-    qty: item.quantity ?? 1,
-    price: item.discountedPrice ?? item.price ?? 0,
-  }));
+  const items = (order.cart || []).map((item) => {
+    const originalPrice = item.price ?? 0;
+    const discountedPrice = item.discountedPrice ?? originalPrice;
+    const hasDiscount = discountedPrice < originalPrice;
+    
+    // Calculate discount info
+    let discountAmount: number | undefined;
+    let discountType: string | undefined;
+    
+    if (item.discount?.isActive && item.discount.amount) {
+      discountAmount = item.discount.amount;
+      discountType = item.discount.type;
+    } else if (hasDiscount) {
+      // Calculate percentage if discount object not available
+      const discountValue = originalPrice - discountedPrice;
+      const discountPercent = (discountValue / originalPrice) * 100;
+      discountAmount = Math.round(discountPercent * 100) / 100; // Round to 2 decimals
+      discountType = "percentage";
+    }
+    
+    return {
+      product: item.name || "—",
+      variant: "",
+      qty: item.quantity ?? 1,
+      price: discountedPrice,
+      originalPrice: hasDiscount ? originalPrice : undefined,
+      discount: hasDiscount ? originalPrice - discountedPrice : undefined,
+      discountAmount,
+      discountType,
+    };
+  });
   return {
     ...list,
     paymentMethod: order.paymentMethod || "—",
+    subtotal: order.subtotal,
+    totalSavings: order.totalSavings,
     shippingAddress: {
       address: order.address || "",
       city: order.city || "",
