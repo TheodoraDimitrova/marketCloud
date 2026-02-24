@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
       phone: orderData.phone,
       paymentMethod: orderData.paymentMethod,
       paymentStatus: orderData.paymentMethod === "card" ? "paid" : "unpaid",
-      cart: orderData.cart.map((item: CartItem, index: number) => ({
+      cart: orderData.cart.map((item: CartItem & { _id?: string }, index: number) => ({
         name: item.name,
         _key: `cartItem-${Date.now()}-${index}`,
         _type: "cartItem",
@@ -52,14 +52,37 @@ export async function POST(req: NextRequest) {
       status: orderData.paymentMethod === "card" ? "pending" : "confirm",
     });
 
+    // Decrement product stock for each cart item (product has "stock" and "quantity"; we use "stock")
+    const cartItems = orderData.cart as Array<{ _id?: string; quantity: number }>;
+    const productIds = [...new Set(cartItems.map((item) => item._id).filter(Boolean))] as string[];
+    if (productIds.length > 0) {
+      try {
+        const stocks = await clientBackend.fetch<{ _id: string; stock?: number }[]>(
+          `*[_type == "product" && _id in $ids]{ _id, stock }`,
+          { ids: productIds }
+        );
+        const stockByKey = Object.fromEntries((stocks || []).map((p) => [p._id, p.stock ?? 0]));
+        for (const item of cartItems) {
+          const id = item._id;
+          if (!id) continue;
+          const current = stockByKey[id];
+          if (typeof current !== "number") continue;
+          const next = Math.max(0, current - item.quantity);
+          await clientBackend.patch(id).set({ stock: next }).commit();
+        }
+      } catch (e) {
+        console.error("Failed to decrement product stock:", e);
+      }
+    }
+
     const contactStr = typeof orderData.contact === "string" ? orderData.contact.trim() : "";
     const isEmail = contactStr.includes("@");
     if (isEmail && createdOrder._id) {
       const emailTrimmed = contactStr.toLowerCase();
       const name = [orderData.firstName, orderData.lastName].filter(Boolean).join(" ") || undefined;
       try {
-        const allContacts = await clientBackend.fetch<Array<{ _id: string; email: string; source?: string; subscribed?: boolean; orders?: Array<{ _ref: string }> }>>(
-          `*[_type == "contact"] { _id, email, source, subscribed, orders[] { _ref } }`
+        const allContacts = await clientBackend.fetch<Array<{ _id: string; email: string; name?: string; source?: string; subscribed?: boolean; orders?: Array<{ _ref: string }> }>>(
+          `*[_type == "contact"] { _id, email, name, source, subscribed, orders[] { _ref } }`
         );
         
         const existing = allContacts.find(

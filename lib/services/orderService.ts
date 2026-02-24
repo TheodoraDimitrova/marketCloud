@@ -14,6 +14,7 @@ export const prepareOrderData = (data: FormValues, cart: CartState): Order => {
     cart: cart.items.map((item: CartItem, index: number) => ({
       _key: `cartItem-${Date.now()}-${index}`,
       _type: "cartItem",
+      _id: item._id,
       images: [item.images[0]],
       name: item.name,
       quantity: item.quantity,
