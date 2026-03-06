@@ -130,7 +130,7 @@ const ProductDetails = ({
 
         {/* right side */}
         <div className="flex flex-col justify-start w-full p-4 md:p-4 lg:p-6">
-          <div className="flex items-center justify-between gap-4 mb-3">
+          <div className="flex-between gap-4 mb-3">
             <h1 >
               {product.name}
             </h1>

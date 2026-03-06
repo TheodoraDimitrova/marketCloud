@@ -52,7 +52,7 @@ const OrderSummary = () => {
       {/* Pricing Summary */}
       <div className="px-6 py-4 border-t border-gray-200 space-y-3">
         {/* Subtotal */}
-        <div className="flex justify-between items-center">
+        <div className="flex-between">
           <span className="text-base font-semibold text-gray-900">Subtotal:</span>
           <PriceDisplay
             price={subtotal}
@@ -61,7 +61,7 @@ const OrderSummary = () => {
         </div>
 
         {/* Shipping Fee */}
-        <div className="flex justify-between items-center">
+        <div className="flex-between">
           <span className="text-base font-semibold text-gray-900">Shipping:</span>
           {subtotal >= FREE_SHIPPING_THRESHOLD ? (
             <span className="text-base font-semibold text-green-600">Free</span>
@@ -75,7 +75,7 @@ const OrderSummary = () => {
 
         {/* Total Savings */}
         {totalSavings > 0 && (
-          <div className="flex items-center justify-between py-2 px-3 bg-brand/5 rounded-md border border-brand/20">
+          <div className="flex-between py-2 px-3 bg-brand/5 rounded-md border border-brand/20">
             <div className="flex items-center gap-2">
               <Tags className="text-brand w-4 h-4" />
               <span className="text-xs uppercase font-semibold text-brand">
@@ -89,7 +89,7 @@ const OrderSummary = () => {
         {/* Divider */}
         <div className="border-t border-gray-200 pt-3 mt-2">
           {/* Total Amount */}
-          <div className="flex justify-between items-center">
+          <div className="flex-between">
             <span className="text-base font-semibold text-gray-900">Total:</span>
             <PriceDisplay
               price={totalAmount}

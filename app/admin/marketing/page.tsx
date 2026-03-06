@@ -81,7 +81,7 @@ const AdminMarketingPage = () => {
     return (
       <>
         <TopBar title="Marketing" />
-        <main className="flex-1 p-6 flex items-center justify-center">
+        <main className="flex-1 p-6 flex-center">
           <Loading />
         </main>
       </>
@@ -105,7 +105,7 @@ const AdminMarketingPage = () => {
     <>
       <TopBar title="Marketing" />
       <main className="flex-1 p-6 space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex-between">
           <div className="flex items-center gap-2">
             <Mail className="h-5 w-5 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">

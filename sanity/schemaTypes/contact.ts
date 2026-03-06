@@ -1,3 +1,5 @@
+import { Rule } from "sanity";
+
 /**
  * Unified contact/lead from any channel: newsletter, contact form, or order.
  * One document per submission; optional fields depending on source.
@@ -19,13 +21,13 @@ const contactSchema = {
         ],
         layout: 'radio',
       },
-      validation: (Rule: { required: () => unknown }) => Rule.required(),
+      validation: (Rule: Rule) => Rule.required(),
     },
     {
       name: 'email',
       title: 'Email',
       type: 'string',
-      validation: (Rule: { required: () => unknown }) => Rule.required().email(),
+      validation: (Rule: Rule) => Rule.required().email(),
     },
     {
       name: 'name',

@@ -49,12 +49,12 @@ const ProductReviews = ({ reviews }: ProductReviewsProps) => {
             className="border-b border-gray-100 pb-6 last:border-b-0"
           >
             <div className="mb-3">
-              <p className="text-base font-semibold text-gray-900 mb-2">
+              <p className="p-value font-semibold mb-2">
                 {review.author}
               </p>
               <div className="mb-2">{renderStars(review.rating)}</div>
             </div>
-            <p className="text-base text-gray-700 leading-relaxed">
+            <p className="p-muted !text-base leading-relaxed">
               {review.comment}
             </p>
           </div>

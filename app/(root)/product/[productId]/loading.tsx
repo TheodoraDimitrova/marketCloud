@@ -19,7 +19,7 @@ const ProductPageSkeleton = () => {
         {/* Right side - Product Details Skeleton */}
         <div className="flex flex-col justify-start max-w-md p-2 md:p-6">
           {/* Title and Wishlist Button */}
-          <div className="flex items-center justify-between gap-4 mb-1">
+          <div className="flex-between gap-4 mb-1">
             <div className="h-7 w-3/4 bg-gray-200 rounded"></div>
             <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
           </div>

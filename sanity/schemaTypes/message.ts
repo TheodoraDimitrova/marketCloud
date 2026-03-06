@@ -1,3 +1,5 @@
+import { Rule } from "sanity";
+
 /**
  * Contact form message - separate document like reviews
  */
@@ -11,7 +13,7 @@ const messageSchema = {
       title: 'Contact',
       type: 'reference',
       to: [{ type: 'contact' }],
-      validation: (Rule: { required: () => unknown }) => Rule.required(),
+      validation: (Rule: Rule) => Rule.required(),
       description: 'The contact who sent this message.',
     },
     {
@@ -24,14 +26,14 @@ const messageSchema = {
       name: 'email',
       title: 'Email',
       type: 'string',
-      validation: (Rule: { required: () => unknown }) => Rule.required().email(),
+      validation: (Rule: Rule) => Rule.required().email(),
       description: 'Email from the contact form.',
     },
     {
       name: 'message',
       title: 'Message',
       type: 'text',
-      validation: (Rule: { required: () => unknown }) => Rule.required(),
+      validation: (Rule: Rule) => Rule.required(),
       description: 'The message content.',
     },
     {

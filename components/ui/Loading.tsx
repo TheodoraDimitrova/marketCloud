@@ -5,7 +5,7 @@ interface LoadingProps {
 
 export const Loading = ({ height = "h-64", className = "" }: LoadingProps) => {
   return (
-    <div className={`flex justify-center items-center ${height} ${className}`}>
+    <div className={`flex-center ${height} ${className}`}>
       <svg
         version="1.1"
         id="Layer_1"

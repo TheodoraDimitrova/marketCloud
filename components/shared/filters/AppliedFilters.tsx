@@ -27,7 +27,7 @@ const AppliedFilters = ({
 
   return (
     <div>
-      <h3 className="mb-3">Applied Filters</h3>
+      <h3>Applied Filters</h3>
       <div className="flex flex-wrap gap-2">
         {Object.entries(initialFilters).flatMap(([type, filters]) =>
           (filters as string[]).map((filter) => (
@@ -48,7 +48,7 @@ const AppliedFilters = ({
       </div>
       <button
         onClick={clearFilters}
-        className="text-red-600 mt-3 hover:underline text-sm"
+        className="text-red-600 mt-3 text-sm"
       >
         Clear all
       </button>

@@ -20,7 +20,7 @@ const buttonVariants = cva(
           "border-2 bg-transparent text-foreground hover:bg-accent/10 hover:border-accent hover:text-accent border-[hsl(var(--border-outline))]",
         /* Secondary – Learn more, View details; бордо */
         secondary:
-          "text-lg font-normal uppercase px-4 py-2 bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded shadow-sm transition-all duration-200",
+          "text-lg font-normal uppercase px-4 py-2 bg-secondary text-white hover:bg-secondary/90 rounded shadow-sm transition-all duration-200",
         ghost:
           "bg-transparent hover:bg-muted hover:text-muted-foreground text-foreground",
         /* Link – за hero върху тъмно */

@@ -57,7 +57,7 @@ const DealsPage = () => {
               {/* Info Section */}
               <div className="p-6">
                 <h3>{offer.title}</h3>
-                <p className="mt-2 text-lg text-gray-600">
+                <p className="p-muted mt-2 text-lg !mb-0">
                   {offer.description}
                 </p>
 
@@ -78,7 +78,7 @@ const DealsPage = () => {
         {/* Footer with limited time offers */}
         <div className="mt-12 text-center">
           <h3>Hurry, These Offers Won&apos;t Last!</h3>
-          <p className="mt-2 text-lg text-gray-600">
+          <p className="p-muted mt-2 text-lg !mb-0">
             Act fast, the clock is ticking!
           </p>
         </div>

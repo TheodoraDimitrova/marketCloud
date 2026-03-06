@@ -35,13 +35,15 @@ const ShopDropdown = () => {
     <div className="container flex flex-col md:flex-row justify-around items-center p-4 md:p-8 mx-auto overflow-auto h-auto md:h-auto space-y-4 md:space-y-0 pb-4 md:pb-8 md:space-x-8">
       {shopItems.map(({ src, alt, href, text }) => (
         <div key={alt} className="text-center w-full md:w-auto group">
-          <Link href={href} className="flex flex-col md:block items-center md:items-start">
-            {/* Images - Hidden on mobile */}
-            <div className="hidden md:block relative overflow-hidden rounded-lg transition-transform duration-300 group-hover:scale-105">
+          <Link
+            href={href}
+            className="flex flex-col md:block items-center md:items-start"
+          >
+            <div className="block relative overflow-hidden rounded-lg transition-transform duration-300 group-hover:scale-105 w-full max-w-[140px] mx-auto md:max-w-none md:mx-0">
               <Image
                 src={src}
                 alt={alt}
-                className="rounded-lg shadow-md transition-opacity duration-300 group-hover:opacity-90"
+                className="rounded-lg shadow-md w-full h-auto object-cover"
                 width={120}
                 height={180}
                 style={{ height: "auto", width: "auto" }}
@@ -49,7 +51,6 @@ const ShopDropdown = () => {
               />
             </div>
 
-            {/* Text - Always visible, styled differently on mobile */}
             <h3 className="block mt-0 md:mt-3  hover:text-brand transition-colors duration-300 py-2 md:py-0">
               {text}
             </h3>

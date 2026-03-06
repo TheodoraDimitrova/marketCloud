@@ -40,7 +40,7 @@ const CheckoutPage = () => {
   return (
     <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-6 py-6 my-10 md:my-24">
       {showLoading && (
-        <div className="fixed inset-0 bg-white bg-opacity-75 backdrop-blur-sm z-50 flex items-center justify-center pointer-events-auto">
+        <div className="fixed inset-0 bg-white bg-opacity-75 z-50 flex-center pointer-events-auto">
           <Loading />
         </div>
       )}

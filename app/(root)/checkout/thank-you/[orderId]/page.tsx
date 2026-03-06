@@ -121,25 +121,25 @@ const ThankYouPage = () => {
         <div className="flex-1 md:mr-5 min-w-0 text-gray-700 space-y-6">
           {/* Success Header with Icon */}
           <div className="text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
-              <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+            <div className="flex-center md:justify-start gap-3 mb-4">
+              <div className="w-14 h-14 rounded-full bg-green-100 flex-center flex-shrink-0">
                 <CheckCircle2 className="w-8 h-8 text-green-600" />
               </div>
               <div>
                 <h1>
                   Thank You, {order.firstName}!
                 </h1>
-                <p className="text-sm text-gray-500 mt-1">Your order has been confirmed</p>
+                <p className="p-muted mt-1">Your order has been confirmed</p>
               </div>
             </div>
-            <p className="mt-2 text-gray-600">
+            <p className="p-muted mt-2 mb-0">
               Your order <strong className="text-gray-900">{displayOrderNumber()}</strong> has been successfully placed.
             </p>
           </div>
 
           {/* Next Steps */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 md:p-5">
-            <h3 className="mb-3 flex items-center gap-2">
+            <h3 className="flex items-center gap-2">
               <Mail className="w-4 h-4 text-blue-600" />
               What&apos;s Next?
             </h3>
@@ -167,16 +167,16 @@ const ThankYouPage = () => {
 
           {/* Order Status */}
           <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-5">
-            <div className="flex items-center justify-between flex-wrap gap-4">
+            <div className="flex-between flex-wrap gap-4">
               <div>
-                <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Order Status</p>
-                <p className="text-base font-semibold text-gray-900 capitalize">
+                <p className="p-caption">Order Status</p>
+                <p className="p-value font-semibold capitalize">
                   {order.status}
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Expected Delivery</p>
-                <p className="text-sm font-medium text-gray-900 flex items-center gap-1.5">
+                <p className="p-caption">Expected Delivery</p>
+                <p className="p-value text-sm flex items-center gap-1.5">
                   <Clock className="w-4 h-4" />
                   {calculateExpectedDelivery()}
                 </p>
@@ -193,15 +193,15 @@ const ThankYouPage = () => {
               {/* Name */}
               <div className="flex items-start gap-3">
                 <div className="flex-shrink-0 mt-0.5">
-                  <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full bg-gray-100 flex-center">
                     <span className="text-sm font-semibold text-gray-600">
                       {order.firstName?.[0]?.toUpperCase() || ""}
                     </span>
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Full Name</p>
-                  <p className="text-base font-medium text-gray-900">
+                  <p className="p-caption">Full Name</p>
+                  <p className="p-value">
                     {order.firstName} {order.lastName}
                   </p>
                 </div>
@@ -211,11 +211,11 @@ const ThankYouPage = () => {
               <div className="flex items-start gap-3 pt-3 border-t border-gray-100">
                 <MapPin className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Delivery Address</p>
+                  <p className="p-caption">Delivery Address</p>
                   <div className="text-sm text-gray-900 space-y-0.5">
-                    <p className="font-medium">{order.address}</p>
-                    <p>{order.city}, {order.postalCode}</p>
-                    <p className="text-gray-600">{order.country.toUpperCase()}</p>
+                    <p className="p-value text-sm">{order.address}</p>
+                    <p className="p-value text-sm mb-0">{order.city}, {order.postalCode}</p>
+                    <p className="p-muted-sm">{order.country.toUpperCase()}</p>
                   </div>
                 </div>
               </div>
@@ -224,8 +224,8 @@ const ThankYouPage = () => {
               <div className="flex items-start gap-3 pt-3 border-t border-gray-100">
                 <Phone className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Phone Number</p>
-                  <p className="text-sm font-medium text-gray-900">{order.phone}</p>
+                  <p className="p-caption">Phone Number</p>
+                  <p className="p-value text-sm">{order.phone}</p>
                 </div>
               </div>
 
@@ -233,8 +233,8 @@ const ThankYouPage = () => {
               <div className="flex items-start gap-3 pt-3 border-t border-gray-100">
                 <Truck className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Delivery Method</p>
-                  <p className="text-sm font-semibold text-gray-900">{order.shipping.label}</p>
+                  <p className="p-caption">Delivery Method</p>
+                  <p className="p-value text-sm font-semibold">{order.shipping.label}</p>
                 </div>
               </div>
 
@@ -242,8 +242,8 @@ const ThankYouPage = () => {
               <div className="flex items-start gap-3 pt-3 border-t border-gray-100">
                 <CreditCard className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Payment Method</p>
-                  <p className="text-sm font-semibold text-gray-900 capitalize">
+                  <p className="p-caption">Payment Method</p>
+                  <p className="p-value text-sm font-semibold capitalize">
                     {order.paymentMethod === "cod" ? "Cash on Delivery" : order.paymentMethod}
                   </p>
                 </div>
@@ -253,27 +253,27 @@ const ThankYouPage = () => {
 
           {/* Trust Signals */}
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 md:p-5">
-            <h3 className="mb-3 uppercase tracking-wide text-xs">Your Purchase is Protected</h3>
+            <h3>Your Purchase is Protected</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
               <div className="flex items-start gap-2.5">
                 <Shield className="w-4 h-4 text-gray-600 flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm font-medium text-gray-900">Secure Payment</p>
-                  <p className="text-xs text-gray-600">Your payment information is encrypted</p>
+                  <p className="p-value text-sm">Secure Payment</p>
+                  <p className="p-muted-sm">Your payment information is encrypted</p>
                 </div>
               </div>
               <div className="flex items-start gap-2.5">
                 <RefreshCw className="w-4 h-4 text-gray-600 flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm font-medium text-gray-900">30-Day Returns</p>
-                  <p className="text-xs text-gray-600">Easy returns within 30 days</p>
+                  <p className="p-value text-sm">30-Day Returns</p>
+                  <p className="p-muted-sm">Easy returns within 30 days</p>
                 </div>
               </div>
               <div className="flex items-start gap-2.5">
                 <Truck className="w-4 h-4 text-gray-600 flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm font-medium text-gray-900">Free Shipping</p>
-                  <p className="text-xs text-gray-600">On orders over €60</p>
+                  <p className="p-value text-sm">Free Shipping</p>
+                  <p className="p-muted-sm">On orders over €60</p>
                 </div>
               </div>
             </div>

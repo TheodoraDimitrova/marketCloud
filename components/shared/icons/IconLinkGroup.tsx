@@ -51,10 +51,9 @@ const IconLinkGroup = ({ links, size = "md" }: IconLinkGroupProps) => {
           rel="noopener noreferrer"
           className="group"
         >
-          <div className={`flex items-center justify-center ${currentSize.container} rounded-full bg-white/10 hover:bg-brand transition-all duration-300 group-hover:scale-110`}>
+          <div className={`flex-center ${currentSize.container} rounded-full bg-white/10 hover:bg-brand transition-all duration-300 group-hover:scale-110`}>
             <Icon
-              className={`${currentSize.icon} group-hover:scale-110 transition-transform duration-300 ${extraClasses}`}
-              style={{ color: "#FFFFFF" }}
+              className={`${currentSize.icon} text-white group-hover:scale-110 transition-transform duration-300 ${extraClasses}`}
             />
           </div>
         </Link>

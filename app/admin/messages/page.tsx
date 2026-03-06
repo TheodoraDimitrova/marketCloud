@@ -69,7 +69,7 @@ const AdminMessagesPage = () => {
     return (
       <>
         <TopBar title="Messages" />
-        <main className="flex-1 p-6 flex items-center justify-center">
+        <main className="flex-1 p-6 flex-center">
           <Loading />
         </main>
       </>
@@ -140,7 +140,7 @@ const AdminMessagesPage = () => {
                     <td className="px-4 py-3">
                       <Link
                         href={`/admin/messages/${msg._id}`}
-                        className="font-medium text-foreground hover:underline block"
+                        className="font-medium text-foreground block"
                       >
                         {msg.name || "—"}
                       </Link>

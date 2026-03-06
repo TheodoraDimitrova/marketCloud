@@ -86,7 +86,7 @@ const AdminCustomerDetailPage = () => {
     return (
       <>
         <TopBar title="Customer Details" />
-        <main className="flex-1 p-6 flex items-center justify-center">
+        <main className="flex-1 p-6 flex-center">
           <Loading />
         </main>
       </>

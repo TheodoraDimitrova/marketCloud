@@ -104,7 +104,7 @@ const ReviewForm = ({ productId, onSubmitSuccess }: ReviewFormProps) => {
       )}
       {submitSuccess && (
         <div className="mb-2 p-2 bg-green-50 border border-green-200 rounded text-green-800 text-base">
-          <p className="font-medium text-base">Review submitted successfully!</p>
+          <p className="p-value">Review submitted successfully!</p>
         </div>
       )}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-2.5">

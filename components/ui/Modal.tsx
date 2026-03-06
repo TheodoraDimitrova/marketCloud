@@ -1,7 +1,13 @@
 "use client";
 
 import React from "react";
-import { X, CheckCircle2, AlertCircle, Info, AlertTriangle } from "lucide-react";
+import {
+  X,
+  CheckCircle2,
+  AlertCircle,
+  Info,
+  AlertTriangle,
+} from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
@@ -27,7 +33,10 @@ interface ModalProps {
   className?: string;
 }
 
-const iconMap: Record<ModalType, React.ComponentType<{ className?: string }>> = {
+const iconMap: Record<
+  ModalType,
+  React.ComponentType<{ className?: string }>
+> = {
   success: CheckCircle2,
   error: AlertCircle,
   info: Info,
@@ -58,19 +67,19 @@ const Modal: React.FC<ModalProps> = ({
   const iconColor = iconColorMap[type];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex-center p-4">
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/50"
         onClick={onClose}
         aria-hidden="true"
       />
-      
+
       {/* Modal */}
       <div
         className={cn(
           "relative bg-white rounded-lg shadow-xl max-w-md w-full p-6 space-y-4",
-          className
+          className,
         )}
         role="dialog"
         aria-modal="true"
@@ -90,9 +99,7 @@ const Modal: React.FC<ModalProps> = ({
         {/* Header with icon */}
         <div className="flex items-center gap-3">
           <Icon className={cn("h-8 w-8 flex-shrink-0", iconColor)} />
-          <h3 id="modal-title" className="text-xl font-semibold text-gray-900">
-            {title}
-          </h3>
+          <h3 id="modal-title">{title}</h3>
         </div>
 
         {/* Content */}

@@ -5,7 +5,13 @@ import { useRouter } from "next/navigation";
 import TopBar from "@/components/admin/layout/TopBar";
 import { Button } from "@/components/admin/ui/button";
 import { Input } from "@/components/admin/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/admin/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/admin/ui/select";
 import { ArrowLeft, Plus, X, Loader2, Search } from "lucide-react";
 import type { Product } from "@/lib/types/product";
 import type { CartItem } from "@/lib/types/cart";
@@ -60,7 +66,7 @@ const CreateOrderPage = () => {
   }, []);
 
   const filteredProducts = products.filter((p) =>
-    p.name.toLowerCase().includes(searchQuery.toLowerCase())
+    p.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   /** Build CartItem from Product (same shape as root cart) */
@@ -130,8 +136,8 @@ const CreateOrderPage = () => {
                 subtotalSingleProduct: discountedPrice * quantity,
                 totalPrice: discountedPrice * quantity,
               }
-            : i
-        )
+            : i,
+        ),
       );
     }
   };
@@ -202,7 +208,10 @@ const CreateOrderPage = () => {
 
   return (
     <>
-      <TopBar title="Create New Order" breadcrumbs={[{ label: "Orders", href: "/admin/orders" }]} />
+      <TopBar
+        title="Create New Order"
+        breadcrumbs={[{ label: "Orders", href: "/admin/orders" }]}
+      />
       <main className="flex-1 p-6">
         <button
           onClick={() => router.push("/admin/orders")}
@@ -217,10 +226,14 @@ const CreateOrderPage = () => {
             <div className="lg:col-span-2 space-y-6">
               {/* Customer Information */}
               <div className="bg-card rounded-lg border border-border p-5">
-                <h3 className="text-sm font-semibold text-foreground mb-4">Customer Information</h3>
+                <h3 className="text-sm font-semibold text-foreground mb-4">
+                  Customer Information
+                </h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs text-muted-foreground mb-1 block">First Name *</label>
+                    <label className="text-xs text-muted-foreground mb-1 block">
+                      First Name *
+                    </label>
                     <Input
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
@@ -229,7 +242,9 @@ const CreateOrderPage = () => {
                     />
                   </div>
                   <div>
-                    <label className="text-xs text-muted-foreground mb-1 block">Last Name *</label>
+                    <label className="text-xs text-muted-foreground mb-1 block">
+                      Last Name *
+                    </label>
                     <Input
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
@@ -238,7 +253,9 @@ const CreateOrderPage = () => {
                     />
                   </div>
                   <div>
-                    <label className="text-xs text-muted-foreground mb-1 block">Email *</label>
+                    <label className="text-xs text-muted-foreground mb-1 block">
+                      Email *
+                    </label>
                     <Input
                       type="email"
                       value={email}
@@ -248,7 +265,9 @@ const CreateOrderPage = () => {
                     />
                   </div>
                   <div>
-                    <label className="text-xs text-muted-foreground mb-1 block">Phone *</label>
+                    <label className="text-xs text-muted-foreground mb-1 block">
+                      Phone *
+                    </label>
                     <Input
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
@@ -264,7 +283,9 @@ const CreateOrderPage = () => {
                         onChange={(e) => setSubscribed(e.target.checked)}
                         className="rounded"
                       />
-                      <span className="text-xs text-muted-foreground">Subscribe to newsletter</span>
+                      <span className="text-xs text-muted-foreground">
+                        Subscribe to newsletter
+                      </span>
                     </label>
                   </div>
                 </div>
@@ -272,10 +293,14 @@ const CreateOrderPage = () => {
 
               {/* Shipping Address */}
               <div className="bg-card rounded-lg border border-border p-5">
-                <h3 className="text-sm font-semibold text-foreground mb-4">Shipping Address</h3>
+                <h3 className="text-sm font-semibold text-foreground mb-4">
+                  Shipping Address
+                </h3>
                 <div className="space-y-4">
                   <div>
-                    <label className="text-xs text-muted-foreground mb-1 block">Address *</label>
+                    <label className="text-xs text-muted-foreground mb-1 block">
+                      Address *
+                    </label>
                     <Input
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
@@ -285,7 +310,9 @@ const CreateOrderPage = () => {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-xs text-muted-foreground mb-1 block">City *</label>
+                      <label className="text-xs text-muted-foreground mb-1 block">
+                        City *
+                      </label>
                       <Input
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
@@ -294,7 +321,9 @@ const CreateOrderPage = () => {
                       />
                     </div>
                     <div>
-                      <label className="text-xs text-muted-foreground mb-1 block">Postal Code *</label>
+                      <label className="text-xs text-muted-foreground mb-1 block">
+                        Postal Code *
+                      </label>
                       <Input
                         value={postalCode}
                         onChange={(e) => setPostalCode(e.target.value)}
@@ -304,7 +333,9 @@ const CreateOrderPage = () => {
                     </div>
                   </div>
                   <div>
-                    <label className="text-xs text-muted-foreground mb-1 block">Country *</label>
+                    <label className="text-xs text-muted-foreground mb-1 block">
+                      Country *
+                    </label>
                     <Input
                       value={country}
                       onChange={(e) => setCountry(e.target.value)}
@@ -317,7 +348,9 @@ const CreateOrderPage = () => {
 
               {/* Products */}
               <div className="bg-card rounded-lg border border-border p-5">
-                <h3 className="text-sm font-semibold text-foreground mb-4">Add Products</h3>
+                <h3 className="text-sm font-semibold text-foreground mb-4">
+                  Add Products
+                </h3>
                 <div className="relative mb-4">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -329,10 +362,12 @@ const CreateOrderPage = () => {
                 </div>
                 <div className="max-h-60 overflow-y-auto space-y-2">
                   {filteredProducts.slice(0, 20).map((product) => {
-                    const hasDiscount = product.discount?.isActive && product.discount?.amount;
+                    const hasDiscount =
+                      product.discount?.isActive && product.discount?.amount;
                     const discountedPrice = hasDiscount
                       ? product.discount!.type === "percentage"
-                        ? product.price - (product.price * product.discount!.amount) / 100
+                        ? product.price -
+                          (product.price * product.discount!.amount) / 100
                         : product.price - product.discount!.amount
                       : product.price;
                     const discountLabel = hasDiscount
@@ -343,10 +378,12 @@ const CreateOrderPage = () => {
                     return (
                       <div
                         key={product._id}
-                        className="flex items-center justify-between p-2 hover:bg-muted/50 rounded"
+                        className="flex-between p-2 hover:bg-muted/50 rounded"
                       >
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium truncate">{product.name}</p>
+                          <p className="text-sm font-medium truncate">
+                            {product.name}
+                          </p>
                           <div className="flex items-center gap-2 flex-wrap mt-0.5">
                             {hasDiscount ? (
                               <>
@@ -385,53 +422,65 @@ const CreateOrderPage = () => {
               {/* Cart */}
               {cart.length > 0 && (
                 <div className="bg-card rounded-lg border border-border p-5">
-                  <h3 className="text-sm font-semibold text-foreground mb-4">Order Items</h3>
+                  <h3 className="text-sm font-semibold text-foreground mb-4">
+                    Order Items
+                  </h3>
                   <div className="space-y-3">
                     {cart.map((item) => {
                       const price = item.discountedPrice ?? item.price;
                       const lineTotal = price * item.quantity;
                       return (
-                      <div
-                        key={item._id}
-                        className="flex items-center justify-between p-3 border border-border rounded"
-                      >
-                        <div className="flex-1">
-                          <p className="text-sm font-medium">{item.name}</p>
-                          <p className="text-xs text-muted-foreground">
-                            {price.toFixed(2)} EUR × {item.quantity} ={" "}
-                            {lineTotal.toFixed(2)} EUR
-                          </p>
+                        <div
+                          key={item._id}
+                          className="flex-between p-3 border border-border rounded"
+                        >
+                          <div className="flex-1">
+                            <p className="text-sm font-medium">{item.name}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {price.toFixed(2)} EUR × {item.quantity} ={" "}
+                              {lineTotal.toFixed(2)} EUR
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="outline"
+                              onClick={() =>
+                                item._id &&
+                                updateQuantity(item._id, item.quantity - 1)
+                              }
+                            >
+                              -
+                            </Button>
+                            <span className="w-8 text-center text-sm">
+                              {item.quantity}
+                            </span>
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="outline"
+                              onClick={() =>
+                                item._id &&
+                                updateQuantity(item._id, item.quantity + 1)
+                              }
+                            >
+                              +
+                            </Button>
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="outline"
+                              onClick={() =>
+                                item._id && removeFromCart(item._id)
+                              }
+                              className="text-destructive"
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <Button
-                            type="button"
-                            size="sm"
-                            variant="outline"
-                            onClick={() => item._id && updateQuantity(item._id, item.quantity - 1)}
-                          >
-                            -
-                          </Button>
-                          <span className="w-8 text-center text-sm">{item.quantity}</span>
-                          <Button
-                            type="button"
-                            size="sm"
-                            variant="outline"
-                            onClick={() => item._id && updateQuantity(item._id, item.quantity + 1)}
-                          >
-                            +
-                          </Button>
-                          <Button
-                            type="button"
-                            size="sm"
-                            variant="outline"
-                            onClick={() => item._id && removeFromCart(item._id)}
-                            className="text-destructive"
-                          >
-                            <X className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    );
+                      );
                     })}
                   </div>
                 </div>
@@ -441,10 +490,17 @@ const CreateOrderPage = () => {
             {/* Right column - Payment & Summary */}
             <div className="space-y-6">
               <div className="bg-card rounded-lg border border-border p-5 space-y-4">
-                <h3 className="text-sm font-semibold text-foreground">Payment & Shipping</h3>
+                <h3 className="text-sm font-semibold text-foreground">
+                  Payment & Shipping
+                </h3>
                 <div>
-                  <label className="text-xs text-muted-foreground mb-1 block">Payment Status *</label>
-                  <Select value={paymentStatus} onValueChange={setPaymentStatus}>
+                  <label className="text-xs text-muted-foreground mb-1 block">
+                    Payment Status *
+                  </label>
+                  <Select
+                    value={paymentStatus}
+                    onValueChange={setPaymentStatus}
+                  >
                     <SelectTrigger className="bg-background">
                       <SelectValue />
                     </SelectTrigger>
@@ -455,7 +511,9 @@ const CreateOrderPage = () => {
                   </Select>
                 </div>
                 <div>
-                  <label className="text-xs text-muted-foreground mb-1 block">Shipping Method</label>
+                  <label className="text-xs text-muted-foreground mb-1 block">
+                    Shipping Method
+                  </label>
                   <Input
                     value={shippingMethod}
                     onChange={(e) => setShippingMethod(e.target.value)}
@@ -464,17 +522,23 @@ const CreateOrderPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-muted-foreground mb-1 block">Shipping Cost (EUR)</label>
+                  <label className="text-xs text-muted-foreground mb-1 block">
+                    Shipping Cost (EUR)
+                  </label>
                   <Input
                     type="number"
                     step="0.01"
                     value={shippingCost}
-                    onChange={(e) => setShippingCost(parseFloat(e.target.value) || 0)}
+                    onChange={(e) =>
+                      setShippingCost(parseFloat(e.target.value) || 0)
+                    }
                     className="bg-background"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-muted-foreground mb-1 block">Shipping Label</label>
+                  <label className="text-xs text-muted-foreground mb-1 block">
+                    Shipping Label
+                  </label>
                   <Input
                     value={shippingLabel}
                     onChange={(e) => setShippingLabel(e.target.value)}
@@ -486,11 +550,13 @@ const CreateOrderPage = () => {
 
               {/* Order Summary */}
               <div className="bg-card rounded-lg border border-border p-5 space-y-3">
-                <h3 className="text-sm font-semibold text-foreground">Order Summary</h3>
+                <h3>Order Summary</h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Subtotal:</span>
-                    <span className="text-foreground">{subtotal.toFixed(2)} EUR</span>
+                    <span className="text-foreground">
+                      {subtotal.toFixed(2)} EUR
+                    </span>
                   </div>
                   {totalSavings > 0 && (
                     <div className="flex justify-between text-green-600">
@@ -500,7 +566,9 @@ const CreateOrderPage = () => {
                   )}
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Shipping:</span>
-                    <span className="text-foreground">{shippingCost.toFixed(2)} EUR</span>
+                    <span className="text-foreground">
+                      {shippingCost.toFixed(2)} EUR
+                    </span>
                   </div>
                   <div className="border-t border-border pt-2 flex justify-between font-semibold">
                     <span>Total:</span>

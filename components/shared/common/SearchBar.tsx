@@ -188,7 +188,7 @@ const SearchBar = ({ onSearch, products, searchTerm: externalSearchTerm }: Searc
                               }}
                             />
                           ) : (
-                            <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                            <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex-center">
                               <span className="text-xs text-gray-400 font-medium">No img</span>
                             </div>
                           )}
@@ -209,10 +209,10 @@ const SearchBar = ({ onSearch, products, searchTerm: externalSearchTerm }: Searc
                     </div>
                   ) : (
                     <div className="px-6 py-8 text-center">
-                      <p className="text-gray-800 font-semibold mb-2 text-base">
+                      <p className="p-value font-semibold mb-2">
                         No results found
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="p-muted">
                         Try searching with different keywords or check your spelling
                       </p>
                     </div>

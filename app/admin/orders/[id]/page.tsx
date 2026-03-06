@@ -59,7 +59,7 @@ const AdminOrderDetailPage = () => {
     return (
       <>
         <TopBar title="Order" />
-        <main className="flex-1 p-6 flex items-center justify-center">
+        <main className="flex-1 p-6 flex-center">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </main>
       </>

@@ -41,7 +41,7 @@ const UtilityBar = ({
     onSortChange(value as SortOption);
   };
   return (
-    <div className="container flex items-center justify-between mx-auto m-3 px-4">
+    <div className="container flex-between mx-auto m-3 px-4">
       {/* Left Section */}
       <button
         type="button"
@@ -64,7 +64,7 @@ const UtilityBar = ({
       </button>
 
       {/* Middle Section */}
-      <div className="bar-middle flex items-center justify-center text-gray-700">
+      <div className="bar-middle flex-center text-gray-700">
         <p>{totalProducts} products</p>
       </div>
 

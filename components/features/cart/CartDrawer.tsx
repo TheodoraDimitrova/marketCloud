@@ -68,7 +68,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
         } transition-transform duration-300 ease-in-out text-gray-600 z-20 overflow-y-auto`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200">
+        <div className="flex-between p-4 border-b border-gray-200">
           <h2>
             {isMounted && cartItems.length > 0
               ? `Your cart (${cartItems.length})`
@@ -114,7 +114,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
                       </h4>
 
                       {/* Price and Quantity Row */}
-                      <div className="flex items-center justify-between mt-2 gap-3">
+                      <div className="flex-between mt-2 gap-3">
                         <QuantitySelector
                           updateQuantity={(change) =>
                             updateQuantity(item._id, change)
@@ -141,13 +141,13 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
 
             {/* Footer */}
             <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4 mt-4">
-              <div className="flex justify-between items-center mb-3">
+              <div className="flex-between mb-3">
                 <span className="text-base font-semibold text-gray-900">
                   Subtotal:
                 </span>
                 <PriceDisplay price={subtotal} className="text-lg font-bold text-gray-900" />
               </div>
-              <p className="text-xs text-gray-500 mb-4">
+              <p className="p-muted-sm mb-4">
                 Tax included, shipping and discounts calculated at checkout.
               </p>
               <Button asChild className="w-full" onClick={onClose}>

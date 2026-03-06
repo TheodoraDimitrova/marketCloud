@@ -14,7 +14,7 @@ export default function RootError({
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex-center min-h-screen">
       <ErrorMessage
         message="Failed to load page. Please try again."
         retry={handleRetry}

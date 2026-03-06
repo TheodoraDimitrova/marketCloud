@@ -8,7 +8,7 @@ const StoreInfo = () => {
       <p>Mon-Fri 9:00am – 5:00pm </p>
       <p>*Excludes Holidays</p>
       <p className="mt-3">Looking for more info on products?</p>
-      <Link href="/customer-help" className="text-gray-400 underline ">
+      <Link href="/customer-help" className="text-gray-400">
         View FAQs
       </Link>
     </div>

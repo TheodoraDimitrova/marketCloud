@@ -125,10 +125,10 @@ const FilteredProductList = ({ products }: FilteredProductListProps) => {
               ))
             ) : products.length > 0 ? (
               <div className="col-span-full flex-center flex-col space-y-4 py-12 px-4">
-                <p className="text-xl font-semibold text-gray-900 mb-2">
+                <p className="p-value text-xl font-semibold mb-2">
                   No products found
                 </p>
-                <p className="text-base text-gray-600 text-center max-w-md">
+                <p className="p-muted text-center max-w-md !text-base">
                   No products match your search or filters. Try adjusting your
                   search terms, clearing filters, or browsing different
                   categories.
@@ -136,10 +136,10 @@ const FilteredProductList = ({ products }: FilteredProductListProps) => {
               </div>
             ) : (
               <div className="col-span-full flex-center flex-col space-y-4 py-12 px-4">
-                <p className="text-xl font-semibold text-gray-900 mb-2">
+                <p className="p-value text-xl font-semibold mb-2">
                   No products available for that search
                 </p>
-                <p className="text-base text-gray-600 text-center max-w-md">
+                <p className="p-muted text-center max-w-md !text-base">
                   Try adjusting your search terms or filters to find what
                   you&apos;re looking for.
                 </p>

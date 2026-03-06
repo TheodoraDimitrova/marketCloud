@@ -37,9 +37,9 @@ const ProductCard = ({ product }: { product: Product }) => {
     >
       <Link
         href={`/product/${product.slug.current}`}
-        className="relative w-full"
+        className="relative w-full hover:opacity-100"
       >
-        <div className="relative w-full aspect-[5/7]">
+        <div className="relative w-full aspect-[5/7] blur-none">
           <Image
             src={
               hovered
@@ -50,7 +50,7 @@ const ProductCard = ({ product }: { product: Product }) => {
             }
             alt={product.name}
             fill
-            className="object-cover"
+            className="object-cover blur-none"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
 

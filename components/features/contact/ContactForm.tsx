@@ -101,10 +101,10 @@ const ContactForm = () => {
           <ErrorMessage message={submitError} retry={handleRetry} />
         )}
         {isLoading && (
-          <div className="fixed inset-0 bg-white bg-opacity-75 z-50 flex items-center justify-center pointer-events-auto">
+          <div className="fixed inset-0 bg-white bg-opacity-75 z-50 flex-center pointer-events-auto">
             <div className="text-center">
               <Loading />
-              <p className="mt-2 text-gray-700">Sending your message...</p>
+              <p className="p-muted mt-2">Sending your message...</p>
             </div>
           </div>
         )}
@@ -229,7 +229,7 @@ const ContactForm = () => {
         }}
       >
         <p>Thank you for contacting us!</p>
-        <p className="text-sm">We&apos;ll get back to you within a day.</p>
+        <p className="p-muted">We&apos;ll get back to you within a day.</p>
       </Modal>
     </div>
   );

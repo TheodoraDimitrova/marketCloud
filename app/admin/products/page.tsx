@@ -111,7 +111,7 @@ const AdminProductsPage = () => {
     return (
       <>
         <TopBar title="Products" />
-        <main className="flex-1 p-6 flex items-center justify-center">
+        <main className="flex-1 p-6 flex-center">
           <p className="text-muted-foreground">Loading products...</p>
         </main>
       </>
@@ -184,7 +184,7 @@ const AdminProductsPage = () => {
                           className="rounded object-cover"
                         />
                       ) : (
-                        <div className="w-20 h-20 bg-muted rounded flex items-center justify-center text-muted-foreground text-2xl">
+                        <div className="w-20 h-20 bg-muted rounded flex-center text-muted-foreground text-2xl">
                           📦
                         </div>
                       )}

@@ -36,7 +36,7 @@ const faqData: Array<{
               We want to speak to you too!{" "}
               <Link
                 href="/contact-us"
-                className="font-medium text-brand underline underline-offset-4"
+                className="font-medium text-brand"
               >
                 Contact us
               </Link>{" "}
@@ -196,7 +196,7 @@ const CustomerHelpPage = () => {
           <aside className="hidden md:block md:col-span-4 lg:col-span-3">
             <div className="sticky top-24 space-y-6">
               <div>
-                <h3 className="mb-3">
+                <h3>
                   Browse topics
                 </h3>
                 <nav className="space-y-1">
@@ -222,10 +222,10 @@ const CustomerHelpPage = () => {
               </div>
 
               <div className="rounded-xl border border-gray-200 bg-white p-4">
-                <p className="text-sm font-medium text-gray-800">
+                <p className="p-value text-sm">
                   Need 1:1 help?
                 </p>
-                <p className="mt-1 text-sm text-gray-600">
+                <p className="p-muted mt-1">
                   We reply within 48 hours (usually faster).
                 </p>
                 <Button asChild className="mt-4 w-full">
@@ -238,7 +238,7 @@ const CustomerHelpPage = () => {
           {/* Main content */}
           <div className="md:col-span-8 lg:col-span-9">
             <header className="mb-6 md:mb-8">
-              <p className="text-base text-gray-600">
+              <p className="p-muted !text-base">
                 Search by keyword or browse by topic. If you can’t find the
                 answer, we’re here to help.
               </p>
@@ -267,7 +267,7 @@ const CustomerHelpPage = () => {
                   )}
                 </div>
 
-                <div className="mt-2 flex items-center justify-between text-sm text-gray-500">
+                <div className="mt-2 flex-between text-sm text-gray-500">
                   <span>
                     {normalizedQuery
                       ? `${totalResults} result${totalResults === 1 ? "" : "s"}`
@@ -275,7 +275,7 @@ const CustomerHelpPage = () => {
                   </span>
                   <Link
                     href="/contact-us"
-                    className="font-medium text-brand hover:underline underline-offset-4"
+                    className="font-medium text-brand"
                   >
                     Contact us
                   </Link>
@@ -285,10 +285,10 @@ const CustomerHelpPage = () => {
 
             {filteredFaqData.length === 0 ? (
               <div className="rounded-xl border border-gray-200 bg-white p-6">
-                <p className="text-base font-medium text-gray-900">
+                <p className="p-value">
                   No results found.
                 </p>
-                <p className="mt-1 text-sm text-gray-600">
+                <p className="p-muted mt-1">
                   Try a different keyword or reach out to our team.
                 </p>
                 <div className="mt-4 flex flex-col sm:flex-row gap-3">

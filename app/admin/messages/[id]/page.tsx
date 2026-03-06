@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Link from "next/link";
 import TopBar from "@/components/admin/layout/TopBar";
 import StatusBadge from "@/components/admin/StatusBadge";
@@ -40,7 +40,6 @@ interface Message {
 
 const MessageDetailPage = () => {
   const params = useParams();
-  const router = useRouter();
   const [message, setMessage] = useState<Message | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -115,7 +114,7 @@ const MessageDetailPage = () => {
     return (
       <>
         <TopBar title="Message Details" />
-        <main className="flex-1 p-6 flex items-center justify-center">
+        <main className="flex-1 p-6 flex-center">
           <Loading />
         </main>
       </>

@@ -50,20 +50,11 @@ const AdminCustomersPage = () => {
     }
   };
 
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  };
-
   if (loading) {
     return (
       <>
         <TopBar title="Customers" />
-        <main className="flex-1 p-6 flex items-center justify-center">
+        <main className="flex-1 p-6 flex-center">
           <Loading />
         </main>
       </>
@@ -112,7 +103,7 @@ const AdminCustomersPage = () => {
                     <td className="px-4 py-3">
                       <Link
                         href={`/admin/customers/${c._id}`}
-                        className="font-medium text-foreground hover:underline block"
+                        className="font-medium text-foreground block"
                       >
                         {c.name}
                       </Link>

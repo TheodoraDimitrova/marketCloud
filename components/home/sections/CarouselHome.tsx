@@ -25,7 +25,7 @@ const CarouselHome = ({ categories }: CarouselHomeProps) => {
     ));
 
   return (
-    <div className="container m-auto flex items-center justify-between y-12 p-5">
+    <div className="container m-auto flex-between y-12 p-5">
       <Carousel
         items={arrayCategories}
         slidesPerView={3}

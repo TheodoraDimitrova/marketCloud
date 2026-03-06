@@ -28,7 +28,7 @@ const AdminReportsPage = () => {
     <>
       <TopBar title="Reports" />
       <main className="flex-1 p-6 space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex-between">
           <h2 className="text-sm font-semibold text-foreground">February 2026</h2>
           <Button size="sm" variant="outline" className="gap-2">
             <Download className="h-4 w-4" /> Export PDF
@@ -55,7 +55,7 @@ const AdminReportsPage = () => {
           </div>
           <div className="divide-y divide-border">
             {bestSellers.map(([name, qty], i) => (
-              <div key={name} className="px-5 py-3 flex items-center justify-between">
+              <div key={name} className="px-5 py-3 flex-between">
                 <div className="flex items-center gap-3">
                   <span className="text-xs text-muted-foreground w-5">{i + 1}.</span>
                   <span className="text-sm font-medium text-foreground">{name}</span>

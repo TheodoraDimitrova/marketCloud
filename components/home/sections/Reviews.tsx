@@ -131,7 +131,7 @@ const Reviews = () => {
               />
               <Link
                 href={reviews[currentReview].productLink}
-                className="underline"
+                className=""
               >
                 <p className="text-lg font-medium">
                   {reviews[currentReview].product}

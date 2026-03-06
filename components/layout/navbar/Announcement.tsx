@@ -126,7 +126,7 @@ const Announcement = () => {
           ref={containerRef}
           className="announcement-bar hidden md:block sticky top-0 z-30 py-2.5 px-4 text-center text-sm font-medium tracking-wide"
         >
-          <div className="flex items-center justify-center px-4 md:px-6 lg:px-10 relative">
+          <div className="flex-center px-4 md:px-6 lg:px-10 relative">
             <div className="absolute left-4 md:left-6 lg:left-10 py-1 flex items-center">
               <SocialIcons size="sm" />
             </div>
@@ -155,14 +155,14 @@ const Announcement = () => {
                             });
                           }
                         }}
-                        className="font-bold underline hover:no-underline transition-all cursor-pointer text-sm whitespace-nowrap text-inherit"
+                        className="font-bold transition-all cursor-pointer text-sm whitespace-nowrap text-inherit"
                       >
                         {currentAnnouncement.linkText}
                       </button>
                     ) : (
                       <Link
                         href={currentAnnouncement.linkHref}
-                        className="font-bold text-inherit underline hover:no-underline transition-all text-sm whitespace-nowrap"
+                        className="font-bold text-inherit transition-all text-sm whitespace-nowrap"
                       >
                         {currentAnnouncement.linkText}
                       </Link>
@@ -187,7 +187,7 @@ const Announcement = () => {
       {!isDismissedMobile && (
         <div
           ref={mobileContainerRef}
-          className="announcement-bar md:hidden sticky top-0 z-30 flex items-center justify-center py-2.5 px-4 text-center text-sm font-medium tracking-wide min-h-[44px]"
+          className="announcement-bar md:hidden sticky top-0 z-30 flex-center py-2.5 px-4 text-center text-sm font-medium tracking-wide min-h-[44px]"
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -209,14 +209,14 @@ const Announcement = () => {
                       });
                     }
                   }}
-                  className="text-sm font-medium text-inherit hover:underline"
+                  className="text-sm font-medium text-inherit"
                 >
                   {currentAnnouncement.text}
                 </button>
               ) : (
                 <Link
                   href={currentAnnouncement.linkHref}
-                  className="text-sm font-medium text-inherit hover:underline"
+                  className="text-sm font-medium text-inherit"
                 >
                   {currentAnnouncement.text}
                 </Link>

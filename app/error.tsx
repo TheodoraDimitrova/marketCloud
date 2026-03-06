@@ -12,7 +12,7 @@ export default function GlobalError({
   console.error("Global error:", error);
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex-center min-h-screen">
       <ErrorMessage
         message="Something went wrong. Please try again."
         retry={reset}

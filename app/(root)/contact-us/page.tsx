@@ -25,13 +25,13 @@ const ContactPage = () => {
         <div className="flex flex-1 flex-col md:flex-row md:w-1/2">
           <div className="flex-center flex-col w-full md:w-1/2 h-[300px] md:h-[350px] m-auto text-left space-y-3 lg:p-8 bg-slate-200">
             <h1>Our store</h1>
-            <p className="mb-3 text-lg">
+            <p className="mb-3 text-lg text-gray-700">
               123 Fake St. <br />
               Toronto, Canada
             </p>
-            <p className="text-md">Mon - Fri, 10am - 9pm</p>
-            <p className="text-md">Saturday, 11am - 9pm</p>
-            <p className="text-md">Sunday, 11am - 5pm</p>
+            <p>Mon - Fri, 10am - 9pm</p>
+            <p>Saturday, 11am - 9pm</p>
+            <p>Sunday, 11am - 5pm</p>
           </div>
           <div className="w-full md:w-1/2 h-[300px] md:h-[350px] relative">
             <Image

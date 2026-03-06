@@ -20,7 +20,7 @@ const CategoriesCarousel = ({ categories }: CategoriesCarouselProps) => {
 
   return (
     <div>
-      <div className="container mx-auto flex items-center justify-center mb-10">
+      <div className="container mx-auto flex-center mb-10">
         <button
           className="mr-2"
           onClick={() => swiperRef.current && swiperRef.current.slidePrev()}

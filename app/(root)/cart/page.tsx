@@ -56,7 +56,7 @@ const CartPage = () => {
 
   if (!isHydrated) {
     return (
-      <div className="container max-w-3xl m-auto p-4 my-20 flex items-center justify-center min-h-[400px]">
+      <div className="container max-w-3xl m-auto p-4 my-20 flex-center min-h-[400px]">
         <Loading />
       </div>
     );
@@ -127,7 +127,7 @@ const CartPage = () => {
                   </div>
 
                   {/* Quantity Section */}
-                  <div className="flex items-center justify-between">
+                  <div className="flex-between">
                     <span className="text-sm text-gray-600">Quantity:</span>
                     <QuantitySelector
                       updateQuantity={(change) =>
@@ -227,7 +227,7 @@ const CartPage = () => {
               />
             </div>
 
-            <p className="pt-4 text-sm text-gray-500 flex w-full justify-end">
+            <p className="p-muted pt-4 flex w-full justify-end">
               Tax included, shipping and discounts calculated at checkout.
             </p>
 

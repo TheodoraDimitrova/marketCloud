@@ -65,20 +65,20 @@ export async function POST(req: NextRequest) {
         }
       } else {
         // Create new contact for this review
-        const doc: Record<string, unknown> = {
+        const doc = {
           _type: "contact",
-          source: "order", // Using "order" as default, could be "review" if we add it
+          source: "order",
           email: emailTrimmed,
           name: String(name).trim(),
           reviews: [
             {
-              _type: "reference",
+              _type: "reference" as const,
               _ref: createdReview._id,
               _key: `review-${createdReview._id}`,
             },
           ],
         };
-        await clientBackend.create(doc);
+        await clientBackend.create(doc as { _type: string; source: string; email: string; name: string; reviews: Array<{ _type: "reference"; _ref: string; _key: string }> });
       }
     } catch (contactError) {
       console.error("Error linking review to contact:", contactError);

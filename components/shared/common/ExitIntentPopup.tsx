@@ -103,30 +103,30 @@ const ExitIntentPopup = () => {
       }}
       className="max-w-lg"
     >
-      <p className="text-base sm:text-lg mb-4">
+      <p className="text-base sm:text-lg text-gray-700 mb-4">
         Don&apos;t miss free shipping and -20% on your first order.
       </p>
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex items-center gap-3 bg-blue-50 rounded-xl p-4 flex-1">
-          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+          <div className="w-10 h-10 bg-blue-100 rounded-full flex-center flex-shrink-0">
             <svg className="h-5 w-5 text-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
           <div>
-            <p className="font-semibold text-gray-900 text-sm">Free Shipping</p>
-            <p className="text-xs text-gray-600">Over €60</p>
+<p className="p-value text-sm">Free Shipping</p>
+                <p className="p-muted-sm">Over €60</p>
           </div>
         </div>
         <div className="flex items-center gap-3 bg-primary/10 rounded-xl p-4 flex-1">
-          <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+          <div className="w-10 h-10 bg-primary/20 rounded-full flex-center flex-shrink-0">
             <svg className="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
             </svg>
           </div>
           <div>
-            <p className="font-semibold text-gray-900 text-sm">-20% Off</p>
-            <p className="text-xs text-gray-600">First Order</p>
+<p className="p-value text-sm">-20% Off</p>
+                <p className="p-muted-sm">First Order</p>
           </div>
         </div>
       </div>

@@ -44,7 +44,7 @@ const HeroSlider = () => {
             quality={85}
           />
 
-          <div className="absolute inset-0 flex items-center justify-center">
+          <div className="absolute inset-0 flex-center">
             {activeIndex === 0 && (
               <div className="flex flex-grow flex-col items-end text-white space-y-4 p-5 m-5">
                 <AnimatePresence>
@@ -158,7 +158,7 @@ const HeroSlider = () => {
             className="object-cover"
           />
           {activeIndex === 1 && (
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div className="absolute inset-0 flex-center">
               {/* Content */}
               <div className="flex flex-grow flex-col  text-white space-y-4  p-5 m-5">
                 <AnimatePresence>
@@ -230,7 +230,7 @@ const HeroSlider = () => {
             className="object-cover"
           />
           {activeIndex === 2 && (
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div className="absolute inset-0 flex-center">
               {/* Content */}
               <div className="flex flex-grow flex-col  text-white space-y-4  p-5 m-5">
                 <AnimatePresence>

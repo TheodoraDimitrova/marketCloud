@@ -61,13 +61,13 @@ export async function POST(req: NextRequest) {
         }
       }
       // Create new newsletter subscription if no existing contact
-      const doc: Record<string, unknown> = {
+      const doc = {
         _type: "contact",
         source: "newsletter",
         email: emailTrimmed,
         subscribed: true,
       };
-      await clientBackend.create(doc);
+      await clientBackend.create(doc as { _type: string; source: string; email: string; subscribed: boolean });
       return NextResponse.json({ message: "Subscribed successfully" });
     }
 
@@ -106,12 +106,11 @@ export async function POST(req: NextRequest) {
           _type: "contact",
           source: "contact",
           email: emailTrimmed,
+          subscribed: Boolean(subscribed),
         };
-        
         if (name !== undefined && name.trim()) contactDoc.name = String(name).trim();
-        contactDoc.subscribed = Boolean(subscribed);
-        
-        const createdContact = await clientBackend.create(contactDoc);
+
+        const createdContact = await clientBackend.create(contactDoc as { _type: string; source: string; email: string; subscribed: boolean; name?: string });
         contactId = createdContact._id;
         console.log("Contact API - Created new contact:", contactId);
       }
@@ -138,7 +137,7 @@ export async function POST(req: NextRequest) {
         messageDoc.orderNumber = String(orderNumber).trim();
       }
 
-      const createdMessage = await clientBackend.create(messageDoc);
+      const createdMessage = await clientBackend.create(messageDoc as Parameters<typeof clientBackend.create>[0]);
       console.log("Contact API - Created message:", createdMessage._id);
 
       // Add message reference to contact's messages array

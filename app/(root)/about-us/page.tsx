@@ -12,14 +12,14 @@ const AboutPage = () => {
 
       <section className="mx-auto my-5 md:my-20 md:mt-10 max-w-3xl px-4">
         <div className="flex flex-col space-y-6">
-          <p className="text-lg leading-relaxed text-gray-700">
+          <p className="text-lg leading-relaxed text-gray-700 mb-4">
             We were created with one mission in mind: to bring you the best of
             the beauty and skincare world, so you can feel confident and special
             every day.
           </p>
 
           <h3>Our Vision</h3>
-          <p className="text-lg leading-relaxed text-gray-700">
+          <p className="text-lg leading-relaxed text-gray-700 mb-4">
             At <strong>Adora</strong>, we believe that every woman deserves to
             feel beautiful and have access to the best products available.
             That’s why we offer not only products from established brands but
@@ -28,7 +28,7 @@ const AboutPage = () => {
           </p>
 
           <h3>What We Offer</h3>
-          <p className="text-lg leading-relaxed text-gray-700">
+          <p className="text-lg leading-relaxed text-gray-700 mb-4">
             Our selection includes a variety of{" "}
             <strong>skincare, body care, and hair care products</strong>{" "}
             designed for your convenience and effectiveness. Each product is
@@ -57,7 +57,7 @@ const AboutPage = () => {
           </ul>
 
           <h3>Our Commitment to You</h3>
-          <p className="text-lg leading-relaxed text-gray-700">
+          <p className="text-lg leading-relaxed text-gray-700 mb-4">
             At <strong>Adora</strong>, we strive to offer not only high-quality
             products but also exceptional customer service. Your satisfaction is
             our top priority, and we work hard to ensure you have the best

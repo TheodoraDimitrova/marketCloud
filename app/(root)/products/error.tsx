@@ -8,7 +8,7 @@ export default function ProductsError() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex-center min-h-screen">
       <ErrorMessage
         message="Failed to load products. Please try again."
         retry={handleRetry}

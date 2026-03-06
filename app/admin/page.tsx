@@ -203,7 +203,7 @@ const AdminDashboardPage = () => {
     return (
       <>
         <TopBar title="Dashboard" />
-        <main className="flex-1 p-6 flex items-center justify-center">
+        <main className="flex-1 p-6 flex-center">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </main>
       </>
@@ -254,7 +254,7 @@ const AdminDashboardPage = () => {
                   <div
                     key={order.id}
                     onClick={() => router.push(`/admin/orders/${order.id}`)}
-                    className="px-5 py-3 flex items-center justify-between hover:bg-muted/50 cursor-pointer transition-colors"
+                    className="px-5 py-3 flex-between hover:bg-muted/50 cursor-pointer transition-colors"
                   >
                     <div className="flex items-center gap-4">
                       <span className="text-sm font-medium text-foreground">#{order.orderNumber}</span>
@@ -291,7 +291,7 @@ const AdminDashboardPage = () => {
               {lowStock.map((item) => (
                 <div
                   key={item.id}
-                  className="px-5 py-3 flex items-center justify-between"
+                  className="px-5 py-3 flex-between"
                 >
                   <div>
                     <span className="text-sm font-medium text-foreground">{item.name}</span>

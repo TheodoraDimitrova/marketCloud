@@ -25,7 +25,7 @@ const RichText = ({
       <div className="flex-center flex-col max-w-3xl  mx-auto">
         {Icon && <Icon size={40} className="mb-2" />}
         <h2>{title}</h2>
-        <p className="text-center">{text}</p>
+        <p className="text-center mb-4">{text}</p>
 
         {buttonText && buttonLink && (
           <Button asChild className="w-60 mt-4">

@@ -203,7 +203,7 @@ const CheckoutForm = () => {
       <h1>Checkout</h1>
 
       {orderError && (
-        <div className="fixed inset-0 bg-white bg-opacity-75 backdrop-blur-sm z-50 flex items-center justify-center pointer-events-auto">
+        <div className="fixed inset-0 bg-white bg-opacity-75 z-50 flex-center pointer-events-auto">
           <div className="animate-in fade-in slide-in-from-top-2 duration-500 max-w-md mx-4">
             <ErrorMessage message={orderError} retry={handleRetry} />
           </div>
@@ -351,7 +351,7 @@ const CheckoutForm = () => {
         <h3>Shipping Information</h3>
 
         {!hasAddressInfo && (
-          <p className="text-sm">
+          <p className="p-muted">
             Enter your address to see the shipping methods
           </p>
         )}
@@ -400,12 +400,12 @@ const CheckoutForm = () => {
 
             {/* Payment Icons */}
             <div className="flex items-center gap-2">
-              <div className="text-xs font-bold text-[#1A1F71]">VISA</div>
+              <div className="text-xs font-bold text-[var(--card-visa)]">VISA</div>
               <div className="flex items-center gap-0.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-[#EB001B]"></div>
-                <div className="w-2.5 h-2.5 rounded-full bg-[#F79E1B] -ml-1"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-[var(--card-mastercard-red)]" />
+                <div className="w-2.5 h-2.5 rounded-full bg-[var(--card-mastercard-orange)] -ml-1" />
               </div>
-              <div className="text-xs font-bold text-[#006FCF]">AMEX</div>
+              <div className="text-xs font-bold text-[var(--card-amex)]">AMEX</div>
             </div>
 
             {/* SSL Badge */}

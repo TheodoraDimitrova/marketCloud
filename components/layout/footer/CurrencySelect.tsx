@@ -14,22 +14,12 @@ const CurrencySelect = () => {
       <label className="text-white text-sm">Currency</label>
       <Select>
         <SelectTrigger
-          className="w-[100px] py-2 px-3 rounded-md transition-all"
-          style={{
-            backgroundColor: '#111',
-            border: '1px solid #333',
-            color: '#fff'
-          }}
+          className="w-[100px] py-2 px-3 rounded-md transition-all bg-footer-bg border border-gray-custom-333 text-white"
         >
           <SelectValue placeholder="EUR" />
         </SelectTrigger>
         <SelectContent 
-          className="rounded-md"
-          style={{
-            backgroundColor: '#111',
-            border: '1px solid #333',
-            color: '#fff'
-          }}
+          className="rounded-md bg-footer-bg border border-gray-custom-333 text-white"
         >
           <SelectGroup>
             <SelectItem value="USD">USD</SelectItem>

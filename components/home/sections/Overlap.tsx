@@ -38,13 +38,13 @@ const Overlap = () => {
       <div className="w-full md:w-1/2 text-center md:text-left mt-8 md:mt-0 flex text-wrap md:p-20 ">
         <div className="lg:w-[600px] md:w-[300px]">
           <h2>Techniques & Styles</h2>
-          <p className="text-gray-600 leading-relaxed mb-4">
+          <p className="p-muted !text-base leading-relaxed">
             Explore the art of makeup with expert techniques and stunning
             styles. Whether you’re looking for a natural daytime glow or
             glamorous evening elegance, we’ve got you covered.
           </p>
           <div className="flex flex-col space-y-4 md:items-start items-center">
-            <Link href="/our-blog" className="link underline">
+            <Link href="/our-blog" className="link">
               Learn more
             </Link>
             <Button asChild className="w-60">
