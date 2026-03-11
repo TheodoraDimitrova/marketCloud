@@ -1,9 +1,8 @@
-import clientBackend from "@/sanity/lib/clientBackend";
-import { sanityOrderToDetail } from "@/lib/services/adminOrders";
 import { NextRequest, NextResponse } from "next/server";
-import { ADMIN_ORDER_DETAIL_QUERY, ADMIN_ORDER_STATUS_QUERY } from "@/sanity/queries";
+import { supabaseServer } from "@/lib/supabase/server";
+import type { AdminOrderDetail } from "@/lib/types/adminOrder";
 
-/** Map admin fulfillment label to Sanity order status */
+/** Map admin fulfillment label to DB order status */
 const fulfillmentToStatus: Record<string, string> = {
   New: "confirm",
   Processing: "pending",
@@ -16,11 +15,130 @@ export async function GET(
 ) {
   try {
     const { orderId } = await params;
-    const order = await clientBackend.fetch<unknown>(ADMIN_ORDER_DETAIL_QUERY, { id: orderId });
-    if (!order) {
-      return NextResponse.json({ message: "Order not found" }, { status: 404 });
+    const { data: orderRow, error: orderError } = await supabaseServer
+      .from("orders")
+      .select(
+        "id, order_number, created_at, first_name, last_name, contact, phone, total_amount, payment_status, status, payment_method, tracking, subtotal, total_savings, address, city, postal_code, country, shipping_method, shipping_cost, shipping_label"
+      )
+      .eq("id", orderId)
+      .single();
+
+    if (orderError || !orderRow) {
+      if (orderError?.code === "PGRST116") {
+        return NextResponse.json({ message: "Order not found" }, { status: 404 });
+      }
+      console.error("Supabase admin order detail error:", orderError);
+      return NextResponse.json(
+        { message: "Error fetching order" },
+        { status: 500 }
+      );
     }
-    const detail = sanityOrderToDetail(order as Parameters<typeof sanityOrderToDetail>[0]);
+
+    const { data: items, error: itemsError } = await supabaseServer
+      .from("order_items")
+      .select("product_name, quantity, price, discounted_price, discount")
+      .eq("order_id", orderRow.id);
+
+    if (itemsError) {
+      console.error("Supabase admin order items error:", itemsError);
+      return NextResponse.json(
+        { message: "Error fetching order items" },
+        { status: 500 }
+      );
+    }
+
+    const customer =
+      [orderRow.first_name, orderRow.last_name].filter(Boolean).join(" ") || "—";
+    const createdAt: string | undefined = orderRow.created_at ?? undefined;
+    const date =
+      createdAt != null
+        ? new Date(createdAt).toISOString().slice(0, 10)
+        : "—";
+
+    const paymentStatusLabel =
+      (orderRow.payment_status ?? "unpaid") === "paid" ? "Paid" : "Unpaid";
+
+    const fulfillmentStatusLabel = (() => {
+      switch (orderRow.status) {
+        case "confirm":
+          return "New";
+        case "pending":
+          return "Processing";
+        case "fulfilled":
+          return "Shipped";
+        case "cancelled":
+          return "Cancelled";
+        default:
+          return orderRow.status || "New";
+      }
+    })();
+
+    const mappedItems: AdminOrderDetail["items"] = (items || []).map((item) => {
+      const originalPrice = Number(item.price ?? 0);
+      const discountedPrice = Number(item.discounted_price ?? originalPrice);
+      const hasDiscount = discountedPrice < originalPrice;
+
+      let discountAmount: number | undefined;
+      let discountType: string | undefined;
+
+      const discountObj = item.discount as
+        | { amount?: number; type?: string; isActive?: boolean }
+        | null
+        | undefined;
+
+      if (discountObj?.isActive && discountObj.amount) {
+        discountAmount = discountObj.amount;
+        discountType = discountObj.type;
+      } else if (hasDiscount && originalPrice > 0) {
+        const value = originalPrice - discountedPrice;
+        const percent = (value / originalPrice) * 100;
+        discountAmount = Math.round(percent * 100) / 100;
+        discountType = "percentage";
+      }
+
+      return {
+        product: item.product_name || "—",
+        variant: "",
+        qty: item.quantity ?? 1,
+        price: discountedPrice,
+        originalPrice: hasDiscount ? originalPrice : undefined,
+        discount: hasDiscount ? originalPrice - discountedPrice : undefined,
+        discountAmount,
+        discountType,
+      };
+    });
+
+    const detail: AdminOrderDetail = {
+      id: orderRow.id as string,
+      orderNumber:
+        orderRow.order_number || (orderRow.id as string).slice(-8).toUpperCase(),
+      date,
+      createdAt,
+      customer,
+      email: orderRow.contact || "",
+      phone: orderRow.phone || "",
+      total: Number(orderRow.total_amount ?? 0),
+      paymentStatus: paymentStatusLabel,
+      fulfillmentStatus: fulfillmentStatusLabel,
+      paymentMethod: orderRow.payment_method || "—",
+      tracking: orderRow.tracking || "",
+      subtotal: orderRow.subtotal ?? undefined,
+      totalSavings: orderRow.total_savings ?? undefined,
+      shippingAddress: {
+        address: orderRow.address || "",
+        city: orderRow.city || "",
+        zip: orderRow.postal_code || "",
+        country: orderRow.country || "",
+      },
+      shipping: {
+        method: orderRow.shipping_method ?? null,
+        cost: orderRow.shipping_cost ?? 0,
+        label: orderRow.shipping_label ?? "",
+      },
+      items: mappedItems,
+      notes: [],
+    };
+
     return NextResponse.json(detail);
   } catch (error) {
     console.error("Error fetching order for admin:", error);
@@ -54,58 +172,69 @@ export async function PATCH(
       }
     }
 
-    const existing = await clientBackend.fetch<{ _id: string; status?: string; paymentStatus?: string } | null>(
-      ADMIN_ORDER_STATUS_QUERY,
-      { id: orderId }
-    );
-    if (!existing) {
-      return NextResponse.json({ message: "Order not found" }, { status: 404 });
+    const { data: existing, error: existingError } = await supabaseServer
+      .from("orders")
+      .select("status, payment_status")
+      .eq("id", orderId)
+      .single();
+
+    if (existingError || !existing) {
+      if (existingError?.code === "PGRST116") {
+        return NextResponse.json({ message: "Order not found" }, { status: 404 });
+      }
+      console.error("Supabase admin order status fetch error:", existingError);
+      return NextResponse.json(
+        { message: "Error fetching order" },
+        { status: 500 }
+      );
     }
 
-    const patch = clientBackend.patch(orderId);
+    const updates: Record<string, unknown> = {};
+
     if (tracking !== undefined) {
-      // Store trimmed tracking number, or empty string if null/empty
       const trimmedTracking = tracking?.trim() ?? "";
-      patch.set({ tracking: trimmedTracking });
-    }
-    
-    // Determine the new payment status
-    const newPaymentStatus = paymentStatus !== undefined 
-      ? (paymentStatus === "paid" || paymentStatus === "unpaid" ? paymentStatus : existing.paymentStatus)
-      : existing.paymentStatus;
-    
-    if (paymentStatus !== undefined && (paymentStatus === "paid" || paymentStatus === "unpaid")) {
-      patch.set({ paymentStatus: newPaymentStatus });
-    }
-    
-    // When saving a tracking number, auto-set order to Shipped (fulfilled)
-    const hasTracking = typeof tracking === "string" && tracking.trim() !== "";
-    if (hasTracking) {
-      patch.set({ status: "fulfilled" });
-      // Preserve payment status for old docs that only had status "paid"
-      if (existing.status === "paid" && existing.paymentStatus === undefined) {
-        patch.set({ paymentStatus: "paid" });
+      updates.tracking = trimmedTracking;
+      const hasTracking = trimmedTracking !== "";
+      if (hasTracking) {
+        updates.status = "fulfilled";
       }
-    } else if (paymentStatus === "paid" && existing.paymentStatus !== "paid") {
-      // When marking order as paid, automatically set status to Processing (pending)
-      // Only if it's not already Shipped (fulfilled)
-      if (existing.status !== "fulfilled") {
-        patch.set({ status: "pending" });
-      }
-    } else if (fulfillmentStatus !== undefined) {
-      // Manual fulfillment status change (from dropdown)
-      const status = fulfillmentToStatus[fulfillmentStatus] ?? fulfillmentStatus;
-      patch.set({ status });
     }
-    await patch.commit();
 
-    const updated = await clientBackend.fetch<unknown>(ADMIN_ORDER_DETAIL_QUERY, {
-      id: orderId,
-    });
-    const detail = sanityOrderToDetail(
-      updated as Parameters<typeof sanityOrderToDetail>[0]
-    );
-    return NextResponse.json(detail);
+    if (
+      paymentStatus !== undefined &&
+      (paymentStatus === "paid" || paymentStatus === "unpaid")
+    ) {
+      updates.payment_status = paymentStatus;
+      if (
+        paymentStatus === "paid" &&
+        existing.status !== "fulfilled" &&
+        !updates.status
+      ) {
+        updates.status = "pending";
+      }
+    }
+
+    if (fulfillmentStatus !== undefined && !updates.status) {
+      const mappedStatus =
+        fulfillmentToStatus[fulfillmentStatus] ?? fulfillmentStatus;
+      updates.status = mappedStatus;
+    }
+
+    const { error: updateError } = await supabaseServer
+      .from("orders")
+      .update(updates)
+      .eq("id", orderId);
+
+    if (updateError) {
+      console.error("Supabase admin order update error:", updateError);
+      return NextResponse.json(
+        { message: "Error updating order" },
+        { status: 500 }
+      );
+    }
+
+    const fakeReq = new NextRequest(req.url, { method: "GET" });
+    return await GET(fakeReq, { params: Promise.resolve({ orderId }) });
   } catch (error) {
     console.error("Error updating order for admin:", error);
     return NextResponse.json(
