@@ -1,6 +1,7 @@
-import clientBackend from "@/sanity/lib/clientBackend";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
+import clientBackend from "@/sanity/lib/clientBackend";
+import { supabaseServer } from "@/lib/supabase/server";
 
 const ADMIN_ACCESS_QUERY = `*[_type == "adminAccess"][0].emails`;
 
@@ -27,51 +28,36 @@ export async function GET(_req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const messages = await clientBackend.fetch<Array<{
-      _id: string;
-      _createdAt: string;
-      name?: string;
-      email: string;
-      message: string;
-      enquiryType?: string;
-      orderNumber?: string;
-      status?: string;
-      adminReply?: string;
-      repliedAt?: string;
-      contact?: {
-        _ref: string;
-      };
-    }>>(
-      `*[_type == "message"] | order(_createdAt desc) {
-        _id,
-        _createdAt,
-        name,
-        email,
-        message,
-        enquiryType,
-        orderNumber,
-        status,
-        adminReply,
-        repliedAt,
-        contact {
-          _ref
-        }
-      }`
-    );
+    const { data: messages, error } = await supabaseServer
+      .from("messages")
+      .select(
+        "id, created_at, contact_id, name, email, message, enquiry_type, order_number, status, admin_reply, replied_at"
+      )
+      .order("created_at", { ascending: false });
 
-    return NextResponse.json(messages.map((msg) => ({
-      _id: msg._id,
-      contactId: msg.contact?._ref,
-      _createdAt: msg._createdAt,
-      name: msg.name,
-      email: msg.email,
-      message: msg.message,
-      enquiryType: msg.enquiryType,
-      status: msg.status || "new",
-      orderNumber: msg.orderNumber,
-      adminReply: msg.adminReply,
-      repliedAt: msg.repliedAt,
-    })));
+    if (error) {
+      console.error("Error fetching messages from Supabase:", error);
+      return NextResponse.json(
+        { message: "Error fetching messages" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json(
+      (messages || []).map((msg) => ({
+        _id: msg.id as string,
+        contactId: msg.contact_id ?? null,
+        _createdAt: msg.created_at as string,
+        name: msg.name,
+        email: msg.email,
+        message: msg.message,
+        enquiryType: msg.enquiry_type ?? undefined,
+        status: msg.status || "new",
+        orderNumber: msg.order_number ?? undefined,
+        adminReply: msg.admin_reply ?? undefined,
+        repliedAt: msg.replied_at ?? undefined,
+      }))
+    );
   } catch (error) {
     console.error("Error fetching messages:", error);
     return NextResponse.json(

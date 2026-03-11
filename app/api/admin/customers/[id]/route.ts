@@ -1,6 +1,7 @@
-import clientBackend from "@/sanity/lib/clientBackend";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
+import clientBackend from "@/sanity/lib/clientBackend";
+import { supabaseServer } from "@/lib/supabase/server";
 
 const ADMIN_ACCESS_QUERY = `*[_type == "adminAccess"][0].emails`;
 
@@ -20,7 +21,7 @@ export async function GET(
   try {
     const session = await auth();
     const email = session?.user?.email;
-    
+
     if (!email) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
@@ -31,100 +32,76 @@ export async function GET(
     }
 
     const { id } = await params;
-    
-    const contact = await clientBackend.fetch<{
-      _id: string;
-      _createdAt: string;
-      name?: string;
-      email: string;
-      source?: string;
-      subscribed?: boolean;
-      orders?: Array<{ _ref: string }>;
-      messages?: Array<{ _ref: string }>;
-      reviews?: Array<{ _ref: string }>;
-    }>(
-      `*[_type == "contact" && _id == $id][0] {
-        _id,
-        _createdAt,
-        name,
-        email,
-        source,
-        subscribed,
-        orders[] { _ref },
-        messages[] { _ref },
-        reviews[] { _ref }
-      }`,
-      { id }
-    );
 
-    if (!contact) {
-      return NextResponse.json({ message: "Customer not found" }, { status: 404 });
+    const { data: contact, error: contactError } = await supabaseServer
+      .from("contacts")
+      .select("id, created_at, name, email, source, subscribed, phone")
+      .eq("id", id)
+      .single();
+
+    if (contactError || !contact) {
+      if (contactError?.code === "PGRST116") {
+        return NextResponse.json({ message: "Customer not found" }, { status: 404 });
+      }
+      console.error("Error fetching customer from Supabase:", contactError);
+      return NextResponse.json(
+        { message: "Error fetching customer" },
+        { status: 500 }
+      );
     }
 
-    // Fetch orders
-    const orders = contact.orders && contact.orders.length > 0
-      ? await clientBackend.fetch<Array<{
-          _id: string;
-          orderNumber: string;
-          _createdAt: string;
-          totalAmount?: number;
-          paymentStatus?: string;
-          status?: string;
-        }>>(
-          `*[_type == "order" && _id in $ids] | order(_createdAt desc) {
-            _id,
-            orderNumber,
-            _createdAt,
-            totalAmount,
-            paymentStatus,
-            status
-          }`,
-          { ids: contact.orders.map((o) => o._ref) }
-        )
-      : [];
+    // Fetch orders by email
+    const { data: ordersRows, error: ordersError } = await supabaseServer
+      .from("orders")
+      .select("id, order_number, created_at, total_amount, payment_status, status")
+      .eq("contact", contact.email)
+      .order("created_at", { ascending: false });
 
-    // Fetch messages
-    const messages = contact.messages && contact.messages.length > 0
-      ? await clientBackend.fetch<Array<{
-          _id: string;
-          _createdAt: string;
-          message: string;
-          enquiryType?: string;
-          status?: string;
-        }>>(
-          `*[_type == "message" && _id in $ids] | order(_createdAt desc) {
-            _id,
-            _createdAt,
-            message,
-            enquiryType,
-            status
-          }`,
-          { ids: contact.messages.map((m) => m._ref) }
-        )
-      : [];
+    if (ordersError) {
+      console.error("Error fetching orders for customer:", ordersError);
+    }
 
-    // Fetch reviews
-    const reviews = contact.reviews && contact.reviews.length > 0
-      ? await clientBackend.fetch<Array<{
-          _id: string;
-          _createdAt: string;
-          rating: number;
-          comment: string;
-          product?: { _ref: string };
-        }>>(
-          `*[_type == "review" && _id in $ids] | order(_createdAt desc) {
-            _id,
-            _createdAt,
-            rating,
-            comment,
-            product { _ref }
-          }`,
-          { ids: contact.reviews.map((r) => r._ref) }
-        )
-      : [];
+    const orders =
+      ordersRows?.map((o) => ({
+        _id: o.id as string,
+        orderNumber:
+          o.order_number || (o.id as string).slice(-8).toUpperCase(),
+        _createdAt: o.created_at as string,
+        totalAmount: o.total_amount,
+        paymentStatus: o.payment_status,
+        status: o.status,
+      })) ?? [];
+
+    // Fetch messages by email
+    const { data: messagesRows, error: messagesError } = await supabaseServer
+      .from("messages")
+      .select("id, created_at, message, enquiry_type, status")
+      .eq("email", contact.email)
+      .order("created_at", { ascending: false });
+
+    if (messagesError) {
+      console.error("Error fetching messages for customer:", messagesError);
+    }
+
+    const messages =
+      messagesRows?.map((m) => ({
+        _id: m.id as string,
+        _createdAt: m.created_at as string,
+        message: m.message,
+        enquiryType: m.enquiry_type ?? undefined,
+        status: m.status ?? undefined,
+      })) ?? [];
+
+    // Reviews are still in Sanity – for now return empty array
+    const reviews: unknown[] = [];
 
     return NextResponse.json({
-      ...contact,
+      _id: contact.id,
+      _createdAt: contact.created_at,
+      name: contact.name,
+      email: contact.email,
+      source: contact.source,
+      subscribed: contact.subscribed,
       orders,
       messages,
       reviews,

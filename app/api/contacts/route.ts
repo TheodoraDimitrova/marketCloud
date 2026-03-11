@@ -1,27 +1,28 @@
-import clientBackend from "@/sanity/lib/clientBackend";
 import { NextRequest, NextResponse } from "next/server";
-
-type ContactSource = "newsletter" | "contact";
-
-type ContactBody = {
-  source: ContactSource;
-  email: string;
-  name?: string;
-  message?: string;
-  enquiryType?: string;
-  subscribed?: boolean;
-  orderNumber?: string;
-};
-
-const EXISTING_CONTACTS_QUERY = `*[_type == "contact"] { _id, email, source, subscribed }`;
+import { supabaseServer } from "@/lib/supabase/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const body = (await req.json()) as ContactBody;
-    const { source, email, name, message, enquiryType, subscribed, orderNumber } = body;
+    const body = (await req.json()) as {
+      source: "newsletter" | "contact";
+      email: string;
+      name?: string;
+      message?: string;
+      enquiryType?: string;
+      subscribed?: boolean;
+      orderNumber?: string;
+    };
+
+    const { source, email, name, message, enquiryType, subscribed, orderNumber } =
+      body;
     const emailTrimmed = typeof email === "string" ? email.trim().toLowerCase() : "";
 
-    console.log("Contact API - Received data:", { source, email: emailTrimmed, name, hasMessage: !!message });
+    console.log("Contact API - Received data:", {
+      source,
+      email: emailTrimmed,
+      name,
+      hasMessage: !!message,
+    });
 
     if (!source || !emailTrimmed || !emailTrimmed.includes("@")) {
       console.error("Contact API - Invalid request:", { source, email: emailTrimmed });
@@ -38,36 +39,58 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check for existing contact by email
-    const allContacts = await clientBackend.fetch<Array<{ _id: string; email: string; source?: string; subscribed?: boolean }>>(
-      EXISTING_CONTACTS_QUERY
-    );
-    
-    const existing = allContacts.find(
-      (c) => c.email && c.email.trim().toLowerCase() === emailTrimmed
-    );
+    // Check for existing contact by email in Supabase
+    const { data: existing, error: existingError } = await supabaseServer
+      .from("contacts")
+      .select("id, email, source, subscribed, name, phone")
+      .eq("email", emailTrimmed)
+      .maybeSingle();
+
+    if (existingError && existingError.code !== "PGRST116") {
+      console.error("Contact API - Supabase contacts fetch error:", existingError);
+      return NextResponse.json(
+        { message: "Error checking existing contact" },
+        { status: 500 }
+      );
+    }
 
     if (source === "newsletter") {
       if (existing) {
-        if (existing.source === "newsletter") {
-          if (!existing.subscribed) {
-            await clientBackend.patch(existing._id).set({ subscribed: true }).commit();
-          }
+        if (existing.source === "newsletter" && existing.subscribed) {
           return NextResponse.json({ message: "Already subscribed" });
         }
-        if (existing.source === "order" || existing.source === "contact") {
-          await clientBackend.patch(existing._id).set({ subscribed: true, source: "newsletter" }).commit();
-          return NextResponse.json({ message: "Subscribed successfully" });
+
+        const { error: updateError } = await supabaseServer
+          .from("contacts")
+          .update({ subscribed: true, source: "newsletter" })
+          .eq("id", existing.id);
+
+        if (updateError) {
+          console.error("Contact API - Supabase newsletter update error:", updateError);
+          return NextResponse.json(
+            { message: "Error updating subscription" },
+            { status: 500 }
+          );
         }
+
+        return NextResponse.json({ message: "Subscribed successfully" });
       }
-      // Create new newsletter subscription if no existing contact
-      const doc = {
-        _type: "contact",
-        source: "newsletter",
+
+      const { error: insertError } = await supabaseServer.from("contacts").insert({
         email: emailTrimmed,
+        name: name && name.trim() ? name.trim() : null,
+        source: "newsletter",
         subscribed: true,
-      };
-      await clientBackend.create(doc as { _type: string; source: string; email: string; subscribed: boolean });
+      });
+
+      if (insertError) {
+        console.error("Contact API - Supabase newsletter insert error:", insertError);
+        return NextResponse.json(
+          { message: "Error subscribing" },
+          { status: 500 }
+        );
+      }
+
       return NextResponse.json({ message: "Subscribed successfully" });
     }
 
@@ -83,82 +106,82 @@ export async function POST(req: NextRequest) {
       let contactId: string;
 
       if (existing) {
-        contactId = existing._id;
-        
-        // Update name if not already set
-        if (name !== undefined && name.trim()) {
-          const currentName = await clientBackend.fetch<string | undefined>(
-            `*[_type == "contact" && _id == $id][0].name`,
-            { id: existing._id }
-          );
-          if (!currentName || !currentName.trim()) {
-            await clientBackend.patch(existing._id).set({ name: String(name).trim() }).commit();
+        contactId = existing.id as string;
+
+        const updates: Record<string, unknown> = {};
+
+        if (name !== undefined && name.trim() && !existing.name) {
+          updates.name = String(name).trim();
+        }
+        if (subscribed !== undefined) {
+          updates.subscribed = Boolean(subscribed);
+        }
+
+        if (Object.keys(updates).length > 0) {
+          const { error: contactUpdateError } = await supabaseServer
+            .from("contacts")
+            .update(updates)
+            .eq("id", existing.id);
+
+          if (contactUpdateError) {
+            console.error(
+              "Contact API - Supabase contact update error:",
+              contactUpdateError
+            );
           }
         }
-        
-        // Update subscribed status
-        if (subscribed !== undefined) {
-          await clientBackend.patch(existing._id).set({ subscribed: Boolean(subscribed) }).commit();
-        }
       } else {
-        // Create new contact for contact form submission
-        const contactDoc: Record<string, unknown> = {
-          _type: "contact",
-          source: "contact",
-          email: emailTrimmed,
-          subscribed: Boolean(subscribed),
-        };
-        if (name !== undefined && name.trim()) contactDoc.name = String(name).trim();
+        const { data: newContact, error: contactInsertError } = await supabaseServer
+          .from("contacts")
+          .insert({
+            email: emailTrimmed,
+            name: name && name.trim() ? name.trim() : null,
+            phone: undefined,
+            source: "contact",
+            subscribed: Boolean(subscribed),
+          })
+          .select("id")
+          .single();
 
-        const createdContact = await clientBackend.create(contactDoc as { _type: string; source: string; email: string; subscribed: boolean; name?: string });
-        contactId = createdContact._id;
+        if (contactInsertError || !newContact) {
+          console.error(
+            "Contact API - Supabase contact create error:",
+            contactInsertError
+          );
+          return NextResponse.json(
+            { message: "Error saving contact" },
+            { status: 500 }
+          );
+        }
+
+        contactId = newContact.id as string;
         console.log("Contact API - Created new contact:", contactId);
       }
 
-      // Create message document
-      const messageDoc: Record<string, unknown> = {
-        _type: "message",
-        contact: {
-          _type: "reference",
-          _ref: contactId,
-        },
-        email: emailTrimmed,
-        message: String(message).trim(),
-        status: "new",
-      };
+      // Create message row in Supabase
+      const { error: messageInsertError } = await supabaseServer
+        .from("messages")
+        .insert({
+          contact_id: contactId,
+          email: emailTrimmed,
+          name: name && name.trim() ? name.trim() : null,
+          message: String(message).trim(),
+          enquiry_type: enquiryType && enquiryType.trim() ? enquiryType.trim() : null,
+          order_number:
+            orderNumber && orderNumber.trim() ? orderNumber.trim() : null,
+          status: "new",
+        });
 
-      if (name !== undefined && name.trim()) {
-        messageDoc.name = String(name).trim();
+      if (messageInsertError) {
+        console.error(
+          "Contact API - Supabase message insert error:",
+          messageInsertError
+        );
+        return NextResponse.json(
+          { message: "Error saving message" },
+          { status: 500 }
+        );
       }
-      if (enquiryType !== undefined && enquiryType.trim()) {
-        messageDoc.enquiryType = String(enquiryType).trim();
-      }
-      if (orderNumber !== undefined && orderNumber.trim()) {
-        messageDoc.orderNumber = String(orderNumber).trim();
-      }
-
-      const createdMessage = await clientBackend.create(messageDoc as Parameters<typeof clientBackend.create>[0]);
-      console.log("Contact API - Created message:", createdMessage._id);
-
-      // Add message reference to contact's messages array
-      const existingMessages = await clientBackend.fetch<Array<{ _ref: string }>>(
-        `*[_type == "contact" && _id == $id][0].messages[] { _ref }`,
-        { id: contactId }
-      );
-      
-      const messageRefs = (existingMessages || []).map((m) => ({
-        _type: "reference" as const,
-        _ref: m._ref,
-        _key: `message-${m._ref}`,
-      }));
-      
-      messageRefs.push({
-        _type: "reference" as const,
-        _ref: createdMessage._id,
-        _key: `message-${createdMessage._id}`,
-      });
-
-      await clientBackend.patch(contactId).set({ messages: messageRefs }).commit();
 
       return NextResponse.json({ message: "Message saved successfully" });
     }

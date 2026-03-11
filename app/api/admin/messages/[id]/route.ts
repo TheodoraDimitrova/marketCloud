@@ -1,6 +1,7 @@
-import clientBackend from "@/sanity/lib/clientBackend";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
+import clientBackend from "@/sanity/lib/clientBackend";
+import { supabaseServer } from "@/lib/supabase/server";
 
 const ADMIN_ACCESS_QUERY = `*[_type == "adminAccess"][0].emails`;
 
@@ -31,90 +32,70 @@ export async function GET(
     }
 
     const { id } = await params;
-    
-    // Fetch message document directly
-    const message = await clientBackend.fetch<{
-      _id: string;
-      _createdAt: string;
-      name?: string;
-      email: string;
-      message: string;
-      enquiryType?: string;
-      orderNumber?: string;
-      status?: string;
-      adminReply?: string;
-      repliedAt?: string;
-      contact?: {
-        _ref: string;
-      };
-    }>(
-      `*[_type == "message" && _id == $id][0] {
-        _id,
-        _createdAt,
-        name,
-        email,
-        message,
-        enquiryType,
-        orderNumber,
-        status,
-        adminReply,
-        repliedAt,
-        contact {
-          _ref
-        }
-      }`,
-      { id }
-    );
 
-    if (!message) {
-      return NextResponse.json({ message: "Message not found" }, { status: 404 });
+    const { data: message, error } = await supabaseServer
+      .from("messages")
+      .select(
+        "id, created_at, contact_id, name, email, message, enquiry_type, order_number, status, admin_reply, replied_at"
+      )
+      .eq("id", id)
+      .single();
+
+    if (error || !message) {
+      if (error?.code === "PGRST116") {
+        return NextResponse.json({ message: "Message not found" }, { status: 404 });
+      }
+      console.error("Error fetching message from Supabase:", error);
+      return NextResponse.json(
+        { message: "Error fetching message" },
+        { status: 500 }
+      );
     }
 
-    // Fetch contact to get subscribed status and all messages
-    const contactId = message.contact?._ref;
-    let contactData = null;
+    const contactId = message.contact_id;
+    let subscribed = false;
     let allMessages: Array<{ _id: string; _createdAt: string; message: string }> = [];
 
     if (contactId) {
-      contactData = await clientBackend.fetch<{
-        subscribed?: boolean;
-        messages?: Array<{ _ref: string }>;
-      }>(
-        `*[_type == "contact" && _id == $id][0] {
-          subscribed,
-          messages[] { _ref }
-        }`,
-        { id: contactId }
-      );
+      const { data: contact, error: contactError } = await supabaseServer
+        .from("contacts")
+        .select("subscribed, email")
+        .eq("id", contactId)
+        .single();
 
-      // Fetch all messages from this contact
-      if (contactData?.messages && contactData.messages.length > 0) {
-        const messageIds = contactData.messages.map((m) => m._ref);
-        allMessages = await clientBackend.fetch<Array<{ _id: string; _createdAt: string; message: string }>>(
-          `*[_type == "message" && _id in $ids] | order(_createdAt desc) {
-            _id,
-            _createdAt,
-            message
-          }`,
-          { ids: messageIds }
-        );
+      if (!contactError && contact) {
+        subscribed = Boolean(contact.subscribed);
+
+        const { data: msgs, error: msgsError } = await supabaseServer
+          .from("messages")
+          .select("id, created_at, message")
+          .eq("email", contact.email)
+          .order("created_at", { ascending: false });
+
+        if (!msgsError && msgs) {
+          allMessages = msgs.map((m) => ({
+            _id: m.id as string,
+            _createdAt: m.created_at as string,
+            message: m.message,
+          }));
+        }
       }
     }
 
     return NextResponse.json({
-      _id: message._id,
-      contactId: contactId,
-      _createdAt: message._createdAt,
+      _id: message.id as string,
+      contactId,
+      _createdAt: message.created_at as string,
       name: message.name,
       email: message.email,
       message: message.message,
-      enquiryType: message.enquiryType,
+      enquiryType: message.enquiry_type ?? undefined,
       status: message.status || "new",
-      orderNumber: message.orderNumber,
-      adminReply: message.adminReply,
-      repliedAt: message.repliedAt,
-      subscribed: contactData?.subscribed || false,
-      allMessages: allMessages, // Include all messages for context
+      orderNumber: message.order_number ?? undefined,
+      adminReply: message.admin_reply ?? undefined,
+      repliedAt: message.replied_at ?? undefined,
+      subscribed,
+      allMessages,
     });
   } catch (error) {
     console.error("Error fetching message:", error);
@@ -144,18 +125,22 @@ export async function PATCH(
 
     const { id } = await params;
     const body = await req.json();
-    const { status, adminReply } = body;
+    const { status, adminReply } = body as {
+      status?: string;
+      adminReply?: string;
+    };
 
     const updates: Record<string, unknown> = {};
-    
+
     if (status !== undefined) {
       updates.status = status;
     }
-    
+
     if (adminReply !== undefined) {
-      updates.adminReply = String(adminReply).trim();
-      if (adminReply && adminReply.trim()) {
-        updates.repliedAt = new Date().toISOString();
+      const trimmed = String(adminReply).trim();
+      updates.admin_reply = trimmed;
+      if (trimmed) {
+        updates.replied_at = new Date().toISOString();
         if (!status || status === "new" || status === "read") {
           updates.status = "replied";
         }
@@ -163,10 +148,24 @@ export async function PATCH(
     }
 
     if (Object.keys(updates).length === 0) {
-      return NextResponse.json({ message: "No updates provided" }, { status: 400 });
+      return NextResponse.json(
+        { message: "No updates provided" },
+        { status: 400 }
+      );
     }
 
-    await clientBackend.patch(id).set(updates).commit();
+    const { error: updateError } = await supabaseServer
+      .from("messages")
+      .update(updates)
+      .eq("id", id);
+
+    if (updateError) {
+      console.error("Error updating message in Supabase:", updateError);
+      return NextResponse.json(
+        { message: "Error updating message" },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json({ message: "Message updated successfully" });
   } catch (error) {

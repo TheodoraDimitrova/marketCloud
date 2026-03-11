@@ -1,6 +1,7 @@
-import clientBackend from "@/sanity/lib/clientBackend";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
+import clientBackend from "@/sanity/lib/clientBackend";
+import { supabaseServer } from "@/lib/supabase/server";
 
 const ADMIN_ACCESS_QUERY = `*[_type == "adminAccess"][0].emails`;
 
@@ -49,66 +50,95 @@ export async function GET(_req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    console.log("Customers API - Fetching contacts...");
-    const contacts = await clientBackend.fetch<Array<{
-      _id: string;
-      _createdAt: string;
-      name?: string;
-      email: string;
-      source?: string;
-      subscribed?: boolean;
-      orders?: Array<{ _ref: string }>;
-      messages?: Array<{ _ref: string }>;
-      reviews?: Array<{ _ref: string }>;
-    }>>(
-      `*[_type == "contact"] | order(_createdAt desc) {
-        _id,
-        _createdAt,
-        name,
-        email,
-        source,
-        subscribed,
-        orders[] { _ref },
-        messages[] { _ref },
-        reviews[] { _ref }
-      }`
+    console.log("Customers API - Fetching contacts from Supabase...");
+    const { data: contacts, error: contactsError } = await supabaseServer
+      .from("contacts")
+      .select("id, created_at, email, name, source, subscribed")
+      .order("created_at", { ascending: false });
+
+    if (contactsError) {
+      console.error("Customers API - Supabase contacts error:", contactsError);
+      return NextResponse.json(
+        { message: "Error fetching customers" },
+        { status: 500 }
+      );
+    }
+
+    console.log(
+      "Customers API - Found contacts in Supabase:",
+      contacts?.length || 0
     );
 
-    console.log("Customers API - Found contacts:", contacts.length);
-
-    // Fetch order totals for each contact
+    // Fetch order totals and message counts for each contact
     const contactsWithStats = await Promise.all(
-      contacts.map(async (contact) => {
+      (contacts || []).map(async (contact) => {
         let ordersCount = 0;
         let totalSpent = 0;
+        let messagesCount = 0;
 
-        if (contact.orders && contact.orders.length > 0) {
+        // Aggregate orders by email (if present)
+        if (contact.email) {
           try {
-            const orderIds = contact.orders.map((o) => o._ref);
-            const orders = await clientBackend.fetch<Array<{ totalAmount?: number }>>(
-              `*[_type == "order" && _id in $ids] {
-                totalAmount
-              }`,
-              { ids: orderIds }
-            );
-            ordersCount = orders.length;
-            totalSpent = orders.reduce((sum, o) => sum + (Number(o.totalAmount) || 0), 0);
+            const { data: orders, error: ordersError } = await supabaseServer
+              .from("orders")
+              .select("total_amount")
+              .eq("contact", contact.email);
+
+            if (ordersError) {
+              console.error(
+                `Error fetching orders for contact ${contact.id}:`,
+                ordersError
+              );
+            } else if (orders) {
+              ordersCount = orders.length;
+              totalSpent = orders.reduce(
+                (sum, o) => sum + (Number(o.total_amount) || 0),
+                0
+              );
+            }
           } catch (orderError) {
-            console.error(`Error fetching orders for contact ${contact._id}:`, orderError);
+            console.error(
+              `Error fetching orders for contact ${contact.id}:`,
+              orderError
+            );
+          }
+        }
+
+        // Count messages by email (if present)
+        if (contact.email) {
+          try {
+            const { data: msgs, error: msgsError } = await supabaseServer
+              .from("messages")
+              .select("id")
+              .eq("email", contact.email);
+
+            if (msgsError) {
+              console.error(
+                `Error fetching messages for contact ${contact.id}:`,
+                msgsError
+              );
+            } else if (msgs) {
+              messagesCount = msgs.length;
+            }
+          } catch (msgError) {
+            console.error(
+              `Error fetching messages for contact ${contact.id}:`,
+              msgError
+            );
           }
         }
 
         return {
-          _id: contact._id,
+          _id: contact.id as string,
           name: contact.name || "—",
           email: contact.email,
           source: contact.source,
           subscribed: contact.subscribed || false,
           ordersCount,
-          messagesCount: contact.messages?.length || 0,
-          reviewsCount: contact.reviews?.length || 0,
+          messagesCount,
+          reviewsCount: 0,
           totalSpent,
-          createdAt: contact._createdAt,
+          createdAt: contact.created_at,
         };
       })
     );
