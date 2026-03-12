@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import TopBar from "@/components/admin/layout/TopBar";
@@ -48,13 +48,8 @@ const MessageDetailPage = () => {
   const [adminReply, setAdminReply] = useState<string>("");
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (params.id) {
-      fetchMessage();
-    }
-  }, [params.id]);
-
-  const fetchMessage = async () => {
+  const fetchMessage = useCallback(async () => {
+    if (!params.id) return;
     try {
       setLoading(true);
       const res = await fetch(`/api/admin/messages/${params.id}`);
@@ -68,7 +63,11 @@ const MessageDetailPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [params.id]);
+
+  useEffect(() => {
+    fetchMessage();
+  }, [fetchMessage]);
 
   const handleSave = async () => {
     try {

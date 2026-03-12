@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import TopBar from "@/components/admin/layout/TopBar";
@@ -54,13 +54,8 @@ const AdminCustomerDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (params.id) {
-      fetchCustomer();
-    }
-  }, [params.id]);
-
-  const fetchCustomer = async () => {
+  const fetchCustomer = useCallback(async () => {
+    if (!params.id) return;
     try {
       setLoading(true);
       const res = await fetch(`/api/admin/customers/${params.id}`);
@@ -72,7 +67,11 @@ const AdminCustomerDetailPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [params.id]);
+
+  useEffect(() => {
+    fetchCustomer();
+  }, [fetchCustomer]);
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
