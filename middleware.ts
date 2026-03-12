@@ -1,6 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { getAllowedAdminEmails } from "@/lib/adminAccess";
+
+/** Edge-safe: fetch admin emails via Supabase REST API (no server-only client in middleware). */
+async function getAllowedAdminEmailsEdge(): Promise<string[]> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) return [];
+
+  try {
+    const res = await fetch(`${url}/rest/v1/admin_access?select=email`, {
+      headers: {
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) return [];
+    const data = (await res.json()) as { email: string | null }[];
+    return (data ?? [])
+      .map((row) => row?.email)
+      .filter((e): e is string => typeof e === "string" && e.includes("@"));
+  } catch {
+    return [];
+  }
+}
 
 function isAdminLogin(pathname: string): boolean {
   return pathname === "/admin/login" || pathname.startsWith("/admin/login/");
@@ -15,7 +38,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // NextAuth routes – do not protect
   if (pathname.startsWith("/api/auth/")) {
     return NextResponse.next();
   }
@@ -23,9 +45,8 @@ export async function middleware(request: NextRequest) {
   const session = await auth();
   const email = session?.user?.email ?? null;
 
-  // Admin API (orders, etc.): require allowed session
   if (isAdminApi) {
-    const allowed = await getAllowedAdminEmails();
+    const allowed = await getAllowedAdminEmailsEdge();
     const isAllowed = email && allowed.length > 0 && allowed.includes(email);
     if (!isAllowed) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -33,9 +54,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Admin UI login page
   if (isAdminLogin(pathname)) {
-    const allowed = await getAllowedAdminEmails();
+    const allowed = await getAllowedAdminEmailsEdge();
     const isAllowed = email && allowed.length > 0 && allowed.includes(email);
     if (isAllowed) {
       const url = request.nextUrl.clone();
@@ -45,8 +65,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // All other /admin/* – require allowed session
-  const allowed = await getAllowedAdminEmails();
+  const allowed = await getAllowedAdminEmailsEdge();
   const isAllowed = email && allowed.length > 0 && allowed.includes(email);
   if (!isAllowed) {
     const url = request.nextUrl.clone();
