@@ -30,6 +30,9 @@ interface Review {
   _createdAt: string;
   rating: number;
   comment: string;
+  productId?: string;
+  productName?: string;
+  productSlug?: string;
 }
 
 interface Customer {
@@ -235,7 +238,7 @@ const AdminCustomerDetailPage = () => {
                 <div className="divide-y divide-border">
                   {customer.reviews.map((review) => (
                     <div key={review._id} className="px-5 py-4">
-                      <div className="flex items-center gap-2 mb-2">
+                      <div className="flex items-center gap-2 mb-2 flex-wrap">
                         <div className="flex items-center gap-1">
                           {[...Array(5)].map((_, i) => (
                             <Star
@@ -249,6 +252,20 @@ const AdminCustomerDetailPage = () => {
                           ))}
                         </div>
                         <span className="text-xs text-muted-foreground">{formatDate(review._createdAt)}</span>
+                        {(review.productName ?? review.productId) && (
+                          <span className="text-xs text-muted-foreground">
+                            {review.productSlug ? (
+                              <Link
+                                href={`/product/${review.productSlug}`}
+                                className="text-primary hover:underline"
+                              >
+                                {review.productName || review.productId}
+                              </Link>
+                            ) : (
+                              <span>Продукт: {review.productName || review.productId}</span>
+                            )}
+                          </span>
+                        )}
                       </div>
                       <p className="text-sm text-foreground">{review.comment}</p>
                     </div>

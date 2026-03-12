@@ -75,6 +75,7 @@ export async function GET(_req: NextRequest) {
         let ordersCount = 0;
         let totalSpent = 0;
         let messagesCount = 0;
+        let reviewsCount = 0;
 
         // Aggregate orders by email (if present)
         if (contact.email) {
@@ -128,6 +129,30 @@ export async function GET(_req: NextRequest) {
           }
         }
 
+        // Count reviews by email (if present)
+        if (contact.email) {
+          try {
+            const { data: reviews, error: reviewsError } = await supabaseServer
+              .from("product_reviews")
+              .select("id")
+              .eq("email", contact.email);
+
+            if (reviewsError) {
+              console.error(
+                `Error fetching reviews for contact ${contact.id}:`,
+                reviewsError
+              );
+            } else if (reviews) {
+              reviewsCount = reviews.length;
+            }
+          } catch (revError) {
+            console.error(
+              `Error fetching reviews for contact ${contact.id}:`,
+              revError
+            );
+          }
+        }
+
         return {
           _id: contact.id as string,
           name: contact.name || "—",
@@ -136,7 +161,7 @@ export async function GET(_req: NextRequest) {
           subscribed: contact.subscribed || false,
           ordersCount,
           messagesCount,
-          reviewsCount: 0,
+          reviewsCount,
           totalSpent,
           createdAt: contact.created_at,
         };

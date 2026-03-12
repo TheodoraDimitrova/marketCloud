@@ -10,4 +10,5 @@ export interface Review {
   comment: string;
   _createdAt?: string;
   _updatedAt?: string;
+  status?: string;
 }

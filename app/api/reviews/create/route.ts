@@ -1,5 +1,5 @@
-import clientBackend from "@/sanity/lib/clientBackend";
 import { NextRequest, NextResponse } from "next/server";
+import { supabaseServer } from "@/lib/supabase/server";
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,81 +13,72 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const emailTrimmed = typeof email === "string" ? email.trim().toLowerCase() : "";
+    const emailTrimmed =
+      typeof email === "string" ? email.trim().toLowerCase() : "";
 
-    const createdReview = await clientBackend.create({
-      _type: "review",
-      product: {
-        _type: "reference",
-        _ref: productId,
-      },
-      author: name,
-      email: emailTrimmed,
-      rating: Number(rating),
-      comment: comment,
-    });
+    // Try to find existing contact in Supabase
+    const { data: existingContact, error: contactError } = await supabaseServer
+      .from("contacts")
+      .select("id, name")
+      .eq("email", emailTrimmed)
+      .maybeSingle();
 
-    // Link review to contact if contact exists
-    try {
-      const allContacts = await clientBackend.fetch<Array<{ _id: string; email: string; reviews?: Array<{ _ref: string }> }>>(
-        `*[_type == "contact" && email == $email] { _id, email, reviews[] { _ref } }`,
-        { email: emailTrimmed }
+    if (contactError && contactError.code !== "PGRST116") {
+      console.error("Error fetching contact for review:", contactError);
+    }
+
+    const contactId = existingContact?.id ?? null;
+
+    const { data: inserted, error: insertError } = await supabaseServer
+      .from("product_reviews")
+      .insert({
+        product_id: productId,
+        contact_id: contactId,
+        author: name,
+        email: emailTrimmed,
+        rating: Number(rating),
+        comment: comment,
+        status: "published",
+      })
+      .select("*")
+      .limit(1);
+
+    if (insertError || !inserted || inserted.length === 0) {
+      console.error("Error creating review in Supabase:", insertError);
+      return NextResponse.json(
+        { message: "Error creating review" },
+        { status: 500 }
       );
-      
-      const existingContact = allContacts.find(
-        (c) => c.email && c.email.trim().toLowerCase() === emailTrimmed
-      );
+    }
 
-      if (existingContact) {
-        const existingReviewRefs = (existingContact.reviews || []).map((r) => r._ref);
-        if (!existingReviewRefs.includes(createdReview._id)) {
-          const reviewRefs = existingReviewRefs.map((ref) => ({
-            _type: "reference" as const,
-            _ref: ref,
-            _key: `review-${ref}`,
-          }));
-          reviewRefs.push({
-            _type: "reference" as const,
-            _ref: createdReview._id,
-            _key: `review-${createdReview._id}`,
+    const created = inserted[0];
+
+    // Optionally create contact if not existing
+    if (!existingContact) {
+      try {
+        const { error: contactInsertError } = await supabaseServer
+          .from("contacts")
+          .insert({
+            email: emailTrimmed,
+            name: String(name).trim(),
+            source: "review",
+            subscribed: false,
           });
-          
-          await clientBackend.patch(existingContact._id).set({ reviews: reviewRefs }).commit();
-          
-          // Update name if not already set
-          const currentName = await clientBackend.fetch<string | undefined>(
-            `*[_type == "contact" && _id == $id][0].name`,
-            { id: existingContact._id }
+
+        if (contactInsertError) {
+          console.error(
+            "Error creating contact from review:",
+            contactInsertError
           );
-          if ((!currentName || !currentName.trim()) && name && name.trim()) {
-            await clientBackend.patch(existingContact._id).set({ name: String(name).trim() }).commit();
-          }
         }
-      } else {
-        // Create new contact for this review
-        const doc = {
-          _type: "contact",
-          source: "order",
-          email: emailTrimmed,
-          name: String(name).trim(),
-          reviews: [
-            {
-              _type: "reference" as const,
-              _ref: createdReview._id,
-              _key: `review-${createdReview._id}`,
-            },
-          ],
-        };
-        await clientBackend.create(doc as { _type: string; source: string; email: string; name: string; reviews: Array<{ _type: "reference"; _ref: string; _key: string }> });
+      } catch (e) {
+        console.error("Error creating contact from review:", e);
       }
-    } catch (contactError) {
-      console.error("Error linking review to contact:", contactError);
-      // Don't fail the review creation if contact linking fails
     }
 
     return NextResponse.json({
       message: "Review created successfully",
-      review: createdReview,
+      review: created,
     });
   } catch (error) {
     console.error("Error creating review:", error);

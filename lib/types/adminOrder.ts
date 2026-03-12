@@ -1,7 +1,3 @@
-/**
- * Admin panel order types. Mapped from Sanity order documents.
- */
-
 export interface AdminOrderListItem {
   id: string;
   orderNumber: string;
@@ -47,7 +43,6 @@ export interface AdminOrderDetail extends AdminOrderListItem {
   notes: string[];
 }
 
-/** Raw order as returned from Sanity GROQ */
 export interface SanityOrder {
   _id: string;
   _createdAt?: string;

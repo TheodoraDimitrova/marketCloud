@@ -92,8 +92,60 @@ export async function GET(
         status: m.status ?? undefined,
       })) ?? [];
 
-    // Reviews are still in Sanity – for now return empty array
-    const reviews: unknown[] = [];
+    // Fetch reviews from Supabase by email (include product_id)
+    const { data: reviewsRows, error: reviewsError } = await supabaseServer
+      .from("product_reviews")
+      .select("id, created_at, rating, comment, product_id")
+      .eq("email", contact.email)
+      .order("created_at", { ascending: false });
+
+    if (reviewsError) {
+      console.error("Error fetching reviews for customer:", reviewsError);
+    }
+
+    const productIds = [
+      ...new Set(
+        (reviewsRows ?? [])
+          .map((r) => r.product_id as string | null)
+          .filter((id): id is string => Boolean(id))
+      ),
+    ];
+
+    let productMap: Record<string, { name: string; slug: string }> = {};
+    if (productIds.length > 0) {
+      try {
+        const products = await clientBackend.fetch<
+          { _id: string; name: string; slug: string }[]
+        >(
+          `*[_type == "product" && _id in $ids]{ _id, name, "slug": slug.current }`,
+          { ids: productIds }
+        );
+        productMap = (products ?? []).reduce(
+          (acc, p) => {
+            acc[p._id] = { name: p.name ?? "Unknown", slug: p.slug ?? "" };
+            return acc;
+          },
+          {} as Record<string, { name: string; slug: string }>
+        );
+      } catch (e) {
+        console.error("Error fetching product names for reviews:", e);
+      }
+    }
+
+    const reviews =
+      reviewsRows?.map((r) => {
+        const productId = (r.product_id as string) ?? "";
+        const product = productMap[productId];
+        return {
+          _id: r.id as string,
+          _createdAt: r.created_at as string,
+          rating: r.rating,
+          comment: r.comment,
+          productId: productId || undefined,
+          productName: product?.name,
+          productSlug: product?.slug,
+        };
+      }) ?? [];
 
     return NextResponse.json({
       _id: contact.id,

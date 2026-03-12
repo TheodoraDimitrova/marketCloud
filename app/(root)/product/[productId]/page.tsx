@@ -6,7 +6,8 @@ import ReviewsSection from "@/components/features/products/ReviewsSection";
 import { Product } from "@/lib/types/product";
 import { Review } from "@/lib/types/review";
 import { urlFor } from "@/sanity/lib/image";
-import { PRODUCT_BY_SLUG_QUERY, RELATED_PRODUCTS_QUERY, REVIEWS_BY_PRODUCT_QUERY } from "@/sanity/queries";
+import { supabaseServer } from "@/lib/supabase/server";
+import { PRODUCT_BY_SLUG_QUERY, RELATED_PRODUCTS_QUERY } from "@/sanity/queries";
 
 const getProduct = async (slug: string): Promise<Product | null> => {
   try {
@@ -38,7 +39,35 @@ const getRelatedProducts = async (
 
 const getReviews = async (productId: string): Promise<Review[]> => {
   try {
-    const reviews = await client.fetch<Review[]>(REVIEWS_BY_PRODUCT_QUERY, { productId });
+    const { data, error } = await supabaseServer
+      .from("product_reviews")
+      .select(
+        "id, product_id, author, email, rating, comment, status, created_at, updated_at"
+      )
+      .eq("product_id", productId)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Error fetching reviews from Supabase:", error);
+      return [];
+    }
+
+    const reviews: Review[] =
+      data?.map((row) => ({
+        _id: row.id as string,
+        product: {
+          _ref: row.product_id,
+          _type: "reference",
+        },
+        author: row.author,
+        email: row.email,
+        rating: row.rating,
+        comment: row.comment,
+        status: row.status ?? undefined,
+        _createdAt: row.created_at as string,
+        _updatedAt: row.updated_at as string,
+      })) ?? [];
+
     return reviews;
   } catch (error) {
     console.error("Error fetching reviews:", error);
