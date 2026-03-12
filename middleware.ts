@@ -1,31 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-
-const ADMIN_ACCESS_QUERY = "*[_type == \"adminAccess\"][0].emails";
-
-/** Fetch allowed admin emails from Sanity (Edge-safe) */
-async function getAllowedAdminEmails(): Promise<string[]> {
-  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-  const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
-  const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2024-12-11";
-  const token = process.env.SANITY_API_TOKEN;
-
-  if (!projectId || !dataset) return [];
-
-  const url = `https://${projectId}.api.sanity.io/v${apiVersion}/data/query/${dataset}?query=${encodeURIComponent(ADMIN_ACCESS_QUERY)}`;
-  const headers: HeadersInit = {};
-  if (token) headers.Authorization = `Bearer ${token}`;
-
-  try {
-    const res = await fetch(url, { headers, next: { revalidate: 60 } });
-    if (!res.ok) return [];
-    const json = await res.json();
-    const emails = json?.result;
-    return Array.isArray(emails) ? emails.filter((e: unknown) => typeof e === "string" && e.includes("@")) : [];
-  } catch {
-    return [];
-  }
-}
+import { getAllowedAdminEmails } from "@/lib/adminAccess";
 
 function isAdminLogin(pathname: string): boolean {
   return pathname === "/admin/login" || pathname.startsWith("/admin/login/");

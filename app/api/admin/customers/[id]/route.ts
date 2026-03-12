@@ -1,18 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import clientBackend from "@/sanity/lib/clientBackend";
 import { supabaseServer } from "@/lib/supabase/server";
-
-const ADMIN_ACCESS_QUERY = `*[_type == "adminAccess"][0].emails`;
-
-async function getAllowedAdminEmails(): Promise<string[]> {
-  try {
-    const emails = await clientBackend.fetch<string[]>(ADMIN_ACCESS_QUERY);
-    return Array.isArray(emails) ? emails.filter((e) => typeof e === "string" && e.includes("@")) : [];
-  } catch {
-    return [];
-  }
-}
+import clientBackend from "@/sanity/lib/clientBackend";
+import { getAllowedAdminEmails } from "@/lib/adminAccess";
 
 export async function GET(
   _req: NextRequest,
@@ -120,12 +110,12 @@ export async function GET(
           `*[_type == "product" && _id in $ids]{ _id, name, "slug": slug.current }`,
           { ids: productIds }
         );
-        productMap = (products ?? []).reduce(
+        productMap = (products ?? []).reduce<Record<string, { name: string; slug: string }>>(
           (acc, p) => {
             acc[p._id] = { name: p.name ?? "Unknown", slug: p.slug ?? "" };
             return acc;
           },
-          {} as Record<string, { name: string; slug: string }>
+          {}
         );
       } catch (e) {
         console.error("Error fetching product names for reviews:", e);

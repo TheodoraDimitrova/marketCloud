@@ -1,25 +1,7 @@
-import clientBackend from "@/sanity/lib/clientBackend";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { supabaseServer } from "@/lib/supabase/server";
-
-const ADMIN_ACCESS_QUERY = `*[_type == "adminAccess"][0].emails`;
-
-async function getAllowedAdminEmails(): Promise<string[]> {
-  try {
-    const result = await clientBackend.fetch<{ emails?: string[] } | string[] | null>(ADMIN_ACCESS_QUERY);
-    let emails: string[] = [];
-    if (Array.isArray(result)) {
-      emails = result;
-    } else if (result && typeof result === "object" && "emails" in result) {
-      emails = result.emails || [];
-    }
-    return Array.isArray(emails) ? emails.filter((e) => typeof e === "string" && e.includes("@")) : [];
-  } catch (error) {
-    console.error("Error fetching admin emails:", error);
-    return [];
-  }
-}
+import { getAllowedAdminEmails } from "@/lib/adminAccess";
 
 export async function GET(_req: NextRequest) {
   try {
