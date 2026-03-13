@@ -236,10 +236,7 @@
   /* Линкове (Next.js Link рендва като <a>); компоненти с className презаписват цвят/декор */
   a {
     color: hsl(var(--navy));
-    @apply focus:outline-none focus:ring-2 focus:ring-offset-1;
-  }
-  a:focus-visible {
-    --tw-ring-color: hsl(var(--navy));
+    text-decoration: none;
   }
 }
 
