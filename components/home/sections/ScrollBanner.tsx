@@ -15,37 +15,35 @@ const ScrollBanner = () => {
     { src: "/images/Lancome.png", alt: "Lancôme", width: 250, height: 100 },
   ];
 
-  const extendedArray = [...imageArray, ...imageArray, ...imageArray];
+  // Repeat more times so the row stays filled on large viewports.
+  const extendedArray = [...imageArray, ...imageArray, ...imageArray, ...imageArray];
 
   return (
-    <div className="block overflow-hidden bg-white pt-8 md:pt-12 lg:pt-16">
+    <div className="overflow-hidden bg-white py-6 sm:py-8 md:py-10 lg:py-12">
       <motion.div
-        className="flex space-x-[120px] items-center"
-        animate={{ x: ["0%", "-100%"] }}
+        className="flex items-center gap-6 sm:gap-8 md:gap-10 lg:gap-12"
+        animate={{ x: ["0%", "-25%"] }}
         initial={{ x: "0%" }}
         transition={{
           x: {
             repeat: Infinity,
-            repeatType: "mirror",
-            duration: 22,
+            repeatType: "loop",
+            duration: 24,
             ease: "linear",
           },
         }}
-        style={{ width: "100%" }}
       >
         {extendedArray.map((image, index) => (
           <div
-            key={index}
-            className="flex-shrink-0 "
-            style={{ flexBasis: "auto" }}
+            key={`${image.alt}-${index}`}
+            className="flex h-10 w-24 flex-shrink-0 items-center justify-center sm:h-12 sm:w-28 md:h-14 md:w-32 lg:h-16 lg:w-40"
           >
             <Image
               src={image.src}
               alt={image.alt}
               width={image.width}
               height={image.height}
-              className=" object-contain"
-              style={{ width: "auto", height: "auto" }}
+              className="h-full w-full object-contain"
             />
           </div>
         ))}
