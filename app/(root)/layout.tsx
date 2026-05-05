@@ -7,6 +7,7 @@ import Announcement from "@/components/layout/navbar/Announcement";
 import NavBar from "@/components/layout/navbar/NavBar";
 import PageTransition from "@/components/shared/common/PageTransition";
 import ExitIntentPopup from "@/components/shared/common/ExitIntentPopup";
+import { ChatWidget } from "@/components/features/chat/ChatWidget";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { clearCart } from "@/store/slices/cartSlice";
@@ -44,7 +45,8 @@ export default function RootLayout({
         <main className="flex-1">
           <PageTransition>{children}</PageTransition>
         </main>
-        {!isCheckout && <Footer />}{" "}
+        {!isCheckout && <Footer />}
+        {!isCheckout && <ChatWidget />}
       </div>
     </>
   );

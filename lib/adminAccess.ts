@@ -13,7 +13,8 @@ export async function getAllowedAdminEmails(): Promise<string[]> {
 
     return data
       .map((row) => row.email as string | null)
-      .filter((e): e is string => typeof e === "string" && e.includes("@"));
+      .filter((e): e is string => typeof e === "string" && e.includes("@"))
+      .map((e) => e.trim().toLowerCase());
   } catch (error) {
     console.error(
       "Unexpected error fetching admin emails from Supabase:",

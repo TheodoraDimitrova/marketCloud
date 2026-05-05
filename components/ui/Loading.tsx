@@ -1,3 +1,6 @@
+import Image from "next/image";
+import loaderGif from "@/assets/loader.gif";
+
 interface LoadingProps {
   height?: string;
   className?: string;
@@ -6,70 +9,12 @@ interface LoadingProps {
 export const Loading = ({ height = "h-64", className = "" }: LoadingProps) => {
   return (
     <div className={`flex-center ${height} ${className}`}>
-      <svg
-        version="1.1"
-        id="Layer_1"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
-        className="w-16 h-20 text-orange-500"
-        viewBox="0 0 24 30"
-        xmlSpace="preserve"
-      >
-        <rect x="0" y="13" width="4" height="5" fill="currentColor">
-          <animate
-            attributeName="height"
-            attributeType="XML"
-            values="5;21;5"
-            begin="0s"
-            dur="0.4s"
-            repeatCount="indefinite"
-          />
-          <animate
-            attributeName="y"
-            attributeType="XML"
-            values="13; 5; 13"
-            begin="0s"
-            dur="0.4s"
-            repeatCount="indefinite"
-          />
-        </rect>
-        <rect x="10" y="13" width="4" height="5" fill="currentColor">
-          <animate
-            attributeName="height"
-            attributeType="XML"
-            values="5;21;5"
-            begin="0.1s"
-            dur="0.4s"
-            repeatCount="indefinite"
-          />
-          <animate
-            attributeName="y"
-            attributeType="XML"
-            values="13; 5; 13"
-            begin="0.1s"
-            dur="0.4s"
-            repeatCount="indefinite"
-          />
-        </rect>
-        <rect x="20" y="13" width="4" height="5" fill="currentColor">
-          <animate
-            attributeName="height"
-            attributeType="XML"
-            values="5;21;5"
-            begin="0.2s"
-            dur="0.4s"
-            repeatCount="indefinite"
-          />
-          <animate
-            attributeName="y"
-            attributeType="XML"
-            values="13; 5; 13"
-            begin="0.2s"
-            dur="0.4s"
-            repeatCount="indefinite"
-          />
-        </rect>
-      </svg>
+      <Image
+        src={loaderGif}
+        alt="Loading"
+        className="h-20 w-auto object-contain"
+        priority
+      />
     </div>
   );
 };

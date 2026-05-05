@@ -20,7 +20,8 @@ export async function middleware(request: NextRequest) {
   }
 
   const session = await auth();
-  const email = session?.user?.email ?? null;
+  const email =
+    session?.user?.email?.trim().toLowerCase() ?? null;
 
   if (isAdminApi) {
     const allowed = await getAllowedAdminEmails();

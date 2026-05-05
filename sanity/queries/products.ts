@@ -23,6 +23,24 @@ export const PRODUCT_BY_SLUG_QUERY = `*[_type == "product" && !(_id in path("dra
   }
 }`;
 
+// Products for AI chat (name, description, brand, category, productDetails for search)
+export const PRODUCTS_FOR_CHAT_QUERY = `*[_type == "product" && !(_id in path("drafts.**"))]{
+  _id,
+  name,
+  slug,
+  price,
+  description,
+  brand,
+  productDetails,
+  tags,
+  discount{
+    amount,
+    type,
+    isActive
+  },
+  category->{name, slug}
+}`;
+
 // Related products by category, excluding current (published only)
 export const RELATED_PRODUCTS_QUERY = `*[_type == "product" && !(_id in path("drafts.**")) && references($categoryId) && _id != $currentProductId][0...4]{
   ...,

@@ -64,7 +64,10 @@ export default {
         footer: {
           bg: "hsl(var(--bg-footer))",
         },
-        // Gray utilities –CurrencySelect
+        // Gray utilities
+        gray: {
+          light: "hsl(var(--gray-light))",
+        },
         "gray-custom": {
           333: "hsl(var(--gray-333))",
         },
